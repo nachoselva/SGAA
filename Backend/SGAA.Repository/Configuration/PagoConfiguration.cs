@@ -35,7 +35,7 @@
                 .HasOne(p => p.Contrato)
                 .WithMany(c => c.Pagos)
                 .HasPrincipalKey(r => r.Id)
-                .HasForeignKey(ur => ur.Contrato)
+                .HasForeignKey(ur => ur.ContratoId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
