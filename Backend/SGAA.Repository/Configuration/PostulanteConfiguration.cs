@@ -13,21 +13,21 @@
             base.Configure(builder);
             builder.Property(postulante => postulante.Nombre)
                 .IsRequired()
-                .HasMaxLength(DataTypes.TEXT_NAME_LENGTH);
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L3);
             builder.Property(postulante => postulante.Apellido)
                 .IsRequired()
-                .HasMaxLength(DataTypes.TEXT_NAME_LENGTH);
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L3);
             builder.Property(postulante => postulante.TipoIdentificacion)
                 .IsRequired();
             builder.Property(postulante => postulante.NumeroIdentificacion)
                 .IsRequired()
-                .HasMaxLength(DataTypes.TEXT_SHORTEST_NAME_LENGTH);
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
             builder.Property(postulante => postulante.FechaNacimiento)
                 .IsRequired()
                 .HasColumnType(DataTypes.TYPE_DATE);
             builder.Property(postulante => postulante.Domicilio)
                 .IsRequired()
-                .HasMaxLength(DataTypes.TEXT_LONG_NAME_LENGTH);
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L4);
             builder.Property(postulante => postulante.FrenteIdentificacionArchivo)
                 .IsRequired()
                 .HasColumnType(DataTypes.TYPE_FILE);
@@ -39,7 +39,7 @@
                 .HasColumnType(DataTypes.TYPE_DATE);
             builder.Property(postulante => postulante.NombreEmpresa)
                 .IsRequired()
-                .HasMaxLength(DataTypes.TEXT_NAME_LENGTH);
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L3);
             builder.Property(postulante => postulante.IngresoMensual)
                 .IsRequired()
                 .HasColumnType(DataTypes.TYPE_DECIMAL);

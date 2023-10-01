@@ -10,10 +10,10 @@
         public const int TYPE_DECIMAL_PRECISION = 14;
         public const int TYPE_DECIMAL_SCALE = 2;
 
-        public const int TEXT_PARAGRAPGH_LENGTH = 500;
-        public const int TEXT_LONG_NAME_LENGTH = 200;
-        public const int TEXT_NAME_LENGTH = 100;
-        public const int TEXT_SHORT_NAME_LENGTH = 50;
-        public const int TEXT_SHORTEST_NAME_LENGTH = 20;
+        public const int TEXT_LENGTH_L5 = 500;
+        public const int TEXT_LENGTH_L4 = 200;
+        public const int TEXT_LENGTH_L3 = 100;
+        public const int TEXT_LENGTH_L2 = 50;
+        public const int TEXT_LENGTH_L1 = 20;
     }
 }

@@ -13,7 +13,7 @@
 
             builder.Property(comentario => comentario.Comentario)
                 .IsRequired()
-                .HasMaxLength(DataTypes.TEXT_PARAGRAPGH_LENGTH);
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L5);
 
             builder.Property(comentario => comentario.Fecha)
                 .IsRequired()

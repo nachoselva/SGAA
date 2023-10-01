@@ -14,7 +14,7 @@
 
             builder.Property(postulacion => postulacion.Status)
                 .IsRequired()
-                .HasMaxLength(DataTypes.TEXT_SHORTEST_NAME_LENGTH);
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
             builder.Property(postulacion => postulacion.FechaOferta)
                 .IsRequired(false)
                 .HasColumnType(DataTypes.TYPE_DATETIME);
@@ -32,6 +32,12 @@
                 .HasPrincipalKey(aplicacion => aplicacion.Id)
                 .HasForeignKey(postulacion => postulacion.AplicacionId)
                 .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+            builder
+                .HasOne(postulacion => postulacion.Contrato)
+                .WithOne(contrato => contrato.Postulacion)
+                .HasPrincipalKey<Contrato>(contrato => contrato.Id)
+                .HasForeignKey<Postulacion>(postulacion => postulacion.ContratoId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.ToTable(tableBuilder =>

@@ -14,7 +14,7 @@
 
             builder.Property(propiedad => propiedad.Calle)
                 .IsRequired()
-                .HasMaxLength(DataTypes.TEXT_NAME_LENGTH);
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L3);
 
             builder.Property(propiedad => propiedad.Altura)
                 .IsRequired();

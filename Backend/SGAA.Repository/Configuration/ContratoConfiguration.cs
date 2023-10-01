@@ -20,9 +20,15 @@
                 .IsRequired()
                 .HasColumnType(DataTypes.TYPE_DATE);
 
+            builder.Property(contrato => contrato.FechaCancelacion)
+                .HasColumnType(DataTypes.TYPE_DATE);
+
             builder.Property(contrato => contrato.MontoAlquiler)
                .IsRequired()
                .DecimalColumn();
+
+            builder.Property(contrato => contrato.OrdenRenovacion)
+                .IsRequired();
         }
     }
 }

@@ -13,10 +13,10 @@
             base.Configure(builder);
             builder.Property(unidad => unidad.Piso)
                 .IsRequired()
-                .HasMaxLength(DataTypes.TEXT_SHORTEST_NAME_LENGTH);
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
             builder.Property(unidad => unidad.Departamento)
                 .IsRequired()
-                .HasMaxLength(DataTypes.TEXT_SHORTEST_NAME_LENGTH);
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
             builder.Property(unidad => unidad.FechaAdquisicion)
                 .IsRequired()
                 .HasColumnType(DataTypes.TYPE_DATE);
@@ -25,7 +25,7 @@
                 .HasColumnType(DataTypes.TYPE_FILE);
             builder.Property(unidad => unidad.Status)
                 .IsRequired()
-                .HasMaxLength(DataTypes.TEXT_SHORTEST_NAME_LENGTH);
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
 
             builder
                 .HasOne(unidad => unidad.Propiedad)

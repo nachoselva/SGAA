@@ -17,6 +17,6 @@
         public string Descripcion { get; private set; }
         public byte[] Archivo { get; private set; }
 
-        public UnidadDetalle UnidadDetalle { get; private set; } = default!;
+        public UnidadDetalle Detalle { get; private set; } = default!;
     }
 }

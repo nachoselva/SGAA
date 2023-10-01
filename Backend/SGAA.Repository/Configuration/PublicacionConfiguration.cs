@@ -20,10 +20,10 @@
                 .HasColumnType(DataTypes.TYPE_DATE);
             builder.Property(publicacion => publicacion.Codigo)
                 .IsRequired()
-                .HasMaxLength(DataTypes.TEXT_SHORT_NAME_LENGTH);
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L2);
             builder.Property(publicacion => publicacion.Status)
                 .IsRequired()
-                .HasMaxLength(DataTypes.TEXT_SHORTEST_NAME_LENGTH);
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
 
             builder
                 .HasOne(publicacion => publicacion.Unidad)

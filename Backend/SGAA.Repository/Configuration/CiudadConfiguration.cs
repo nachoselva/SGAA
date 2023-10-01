@@ -17,16 +17,15 @@
                 .ValueGeneratedNever();
             builder.Property(h => h.Nombre)
                 .IsRequired()
-                .HasMaxLength(DataTypes.TEXT_NAME_LENGTH);
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L3);
             builder.Property(h => h.NombreCompleto)
                 .IsRequired()
-                .HasMaxLength(DataTypes.TEXT_LONG_NAME_LENGTH);
-            builder.Property(h => h.ProvinciaId)
-                .IsRequired();
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L4);
 
             builder
                 .HasOne(r => r.Provincia)
                 .WithMany(mr => mr.Ciudades)
+                .HasPrincipalKey(r => r.Id)
                 .HasForeignKey(ur => ur.ProvinciaId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);

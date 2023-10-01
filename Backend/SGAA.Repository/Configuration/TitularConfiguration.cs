@@ -12,21 +12,21 @@
             base.Configure(builder);
             builder.Property(titular => titular.Nombre)
                 .IsRequired()
-                .HasMaxLength(DataTypes.TEXT_NAME_LENGTH);
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L3);
             builder.Property(titular => titular.Apellido)
                 .IsRequired()
-                .HasMaxLength(DataTypes.TEXT_NAME_LENGTH);
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L3);
             builder.Property(titular => titular.TipoIdentificacion)
                 .IsRequired();
             builder.Property(titular => titular.NumeroIdentificacion)
                 .IsRequired()
-                .HasMaxLength(DataTypes.TEXT_SHORTEST_NAME_LENGTH);
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
             builder.Property(titular => titular.FechaNacimiento)
                 .IsRequired()
                 .HasColumnType(DataTypes.TYPE_DATE);
             builder.Property(titular => titular.Domicilio)
                 .IsRequired()
-                .HasMaxLength(DataTypes.TEXT_LONG_NAME_LENGTH);
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L4);
             builder.Property(titular => titular.FrenteIdentificacionArchivo)
                 .IsRequired()
                 .HasColumnType(DataTypes.TYPE_FILE);

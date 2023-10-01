@@ -18,7 +18,7 @@
 
             builder.Property(aplicacion => aplicacion.Status)
                 .IsRequired()
-                .HasMaxLength(DataTypes.TEXT_SHORTEST_NAME_LENGTH);
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
 
             builder
                 .HasOne(unidad => unidad.InquilinoUsuario)
