@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{6D88A4D3-8E53-4396-9963-62C24EF82883}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGAA.Domain", "Backend\SGA.Domain\SGAA.Domain.csproj", "{D49CB1ED-9813-4A71-BCB9-EE313CD39512}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGAA.Api", "Backend\SGAA.Api\SGAA.Api.csproj", "{45BA5C17-B128-446C-A4BE-CA269C49BEFA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGAA.Repository", "Backend\SGAA.Repository\SGAA.Repository.csproj", "{8661962B-1770-4670-B4C8-49EAD431B44B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGAA.Service", "Backend\SGAA.Service\SGAA.Service.csproj", "{B402016F-101F-4238-B91D-F66A998BB063}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGAA.Utils", "Backend\SGAA.Utils\SGAA.Utils.csproj", "{3A876E7D-CE88-4DEF-B025-E364A7FEDBCC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{D6B366D4-8450-4EDC-8B46-8777BF377E48}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{995CD151-43CD-49C6-B9DC-7977EB0E87EC}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D49CB1ED-9813-4A71-BCB9-EE313CD39512}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D49CB1ED-9813-4A71-BCB9-EE313CD39512}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D49CB1ED-9813-4A71-BCB9-EE313CD39512}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D49CB1ED-9813-4A71-BCB9-EE313CD39512}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45BA5C17-B128-446C-A4BE-CA269C49BEFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45BA5C17-B128-446C-A4BE-CA269C49BEFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45BA5C17-B128-446C-A4BE-CA269C49BEFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45BA5C17-B128-446C-A4BE-CA269C49BEFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8661962B-1770-4670-B4C8-49EAD431B44B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8661962B-1770-4670-B4C8-49EAD431B44B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8661962B-1770-4670-B4C8-49EAD431B44B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8661962B-1770-4670-B4C8-49EAD431B44B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B402016F-101F-4238-B91D-F66A998BB063}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B402016F-101F-4238-B91D-F66A998BB063}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B402016F-101F-4238-B91D-F66A998BB063}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B402016F-101F-4238-B91D-F66A998BB063}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A876E7D-CE88-4DEF-B025-E364A7FEDBCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A876E7D-CE88-4DEF-B025-E364A7FEDBCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A876E7D-CE88-4DEF-B025-E364A7FEDBCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A876E7D-CE88-4DEF-B025-E364A7FEDBCC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D49CB1ED-9813-4A71-BCB9-EE313CD39512} = {6D88A4D3-8E53-4396-9963-62C24EF82883}
+		{45BA5C17-B128-446C-A4BE-CA269C49BEFA} = {6D88A4D3-8E53-4396-9963-62C24EF82883}
+		{8661962B-1770-4670-B4C8-49EAD431B44B} = {6D88A4D3-8E53-4396-9963-62C24EF82883}
+		{B402016F-101F-4238-B91D-F66A998BB063} = {6D88A4D3-8E53-4396-9963-62C24EF82883}
+		{3A876E7D-CE88-4DEF-B025-E364A7FEDBCC} = {6D88A4D3-8E53-4396-9963-62C24EF82883}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {16EE327D-1093-42A8-9C03-518A0B7AEE6F}
+	EndGlobalSection
+EndGlobal
