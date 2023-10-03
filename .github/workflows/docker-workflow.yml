@@ -25,7 +25,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::417268992578:role/GitHubAction-AssumeRoleWithAction #change to reflect your IAM role’s ARN
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
-          aws-region: aws-region-1
+          aws-region: aws-region-2
       - name: Build, tag, and push docker image to Amazon ECR Public
         env:
           REGISTRY: q5f0m1z6
