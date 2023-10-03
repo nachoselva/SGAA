@@ -35,7 +35,7 @@ jobs:
           REGISTRY: q5f0m1z6
           REGISTRY_ALIAS: sgaa
           REPOSITORY: 417268992578.dkr.ecr.us-east-2.amazonaws.com/sgaa
-          IMAGE_TAG: sgaa_1
+          IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -f Backend/SGAA.Api/Dockerfile -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
