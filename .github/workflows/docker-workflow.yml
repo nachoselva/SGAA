@@ -34,7 +34,7 @@ jobs:
         env:
           REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
           REGISTRY_ALIAS: q5f0m1z6
-          REPOSITORY: sgaa
+          REPOSITORY: 417268992578.dkr.ecr.us-east-2.amazonaws.com/sgaa
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
