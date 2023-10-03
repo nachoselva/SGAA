@@ -37,5 +37,5 @@ jobs:
           REPOSITORY: 417268992578.dkr.ecr.us-east-2.amazonaws.com/sgaa
           IMAGE_TAG: sgaa_1
         run: |
-          docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
+          docker build -f Backend/SGAA.Api/Dockerfile -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
