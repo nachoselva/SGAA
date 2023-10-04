@@ -32,5 +32,6 @@ jobs:
           REPOSITORY: sgaa
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -f Backend/SGAA.Api/Dockerfile -t test .
-          docker push test
+          docker build -t sgaa .
+          docker tag sgaa:latest 417268992578.dkr.ecr.us-east-2.amazonaws.com/sgaa:latest
+          docker push 417268992578.dkr.ecr.us-east-2.amazonaws.com/sgaa:latest
