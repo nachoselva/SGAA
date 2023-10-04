@@ -32,6 +32,7 @@ jobs:
           REPOSITORY: sgaa
           IMAGE_TAG: ${{ github.sha }}
         run: |
+          aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 417268992578.dkr.ecr.us-east-2.amazonaws.com
           docker build -f Backend/SGAA.Api/Dockerfile -t sgaa .
           docker tag sgaa:latest 417268992578.dkr.ecr.us-east-2.amazonaws.com/sgaa:latest
           docker push 417268992578.dkr.ecr.us-east-2.amazonaws.com/sgaa:latest
