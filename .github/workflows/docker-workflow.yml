@@ -14,7 +14,7 @@ permissions:
       id-token: write   # This is required for requesting the JWT
       contents: read    # This is required for actions/checkout
 jobs:
-  AssumeRoleAndCallIdentity:
+  BuildAndPush:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -26,11 +26,6 @@ jobs:
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ env.AWS_REGION }}
       - name: Build, tag, and push docker image to Amazon ECR Public
-        env:
-          REGISTRY: q5f0m1z6
-          REGISTRY_ALIAS: sgaa
-          REPOSITORY: sgaa
-          IMAGE_TAG: ${{ github.sha }}
         run: |
           aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 417268992578.dkr.ecr.us-east-2.amazonaws.com
           docker build -f Backend/SGAA.Api/Dockerfile -t sgaa .
