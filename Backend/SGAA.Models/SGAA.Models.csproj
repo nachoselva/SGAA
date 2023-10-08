@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SGA.Domain\SGAA.Domain.csproj" />
     <ProjectReference Include="..\SGAA.Domain\SGAA.Domain.csproj" />
   </ItemGroup>
 
