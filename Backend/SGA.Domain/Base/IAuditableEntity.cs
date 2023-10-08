@@ -2,6 +2,6 @@
 {
     public interface IAuditableEntity
     {
-        Audit Audit { get; }
+        Audit Audit { get; set; }
     }
 }

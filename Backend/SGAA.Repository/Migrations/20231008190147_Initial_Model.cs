@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SGAA.Repository.Migrations
 {
     /// <inheritdoc />
-    public partial class Migracion : Migration
+    public partial class Initial_Model : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,11 +24,10 @@ namespace SGAA.Repository.Migrations
                     FechaCancelacion = table.Column<DateOnly>(type: "date", nullable: true),
                     MontoAlquiler = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: false),
                     OrdenRenovacion = table.Column<int>(type: "int", nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -42,11 +41,9 @@ namespace SGAA.Repository.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<int>(type: "int", nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -55,21 +52,19 @@ namespace SGAA.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Provincia",
+                name: "Provincias",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NombreCompleto = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Provincia", x => x.Id);
+                    table.PrimaryKey("PK_Provincias", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -79,11 +74,9 @@ namespace SGAA.Repository.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RolType = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -104,11 +97,9 @@ namespace SGAA.Repository.Migrations
                     LastName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     RefreshToken = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     RefreshTokenExpiryTime = table.Column<DateTime>(type: "smalldatetime", nullable: true),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
@@ -141,11 +132,9 @@ namespace SGAA.Repository.Migrations
                     FechaVencimiento = table.Column<DateOnly>(type: "date", nullable: false),
                     Status = table.Column<int>(type: "int", maxLength: 20, nullable: false),
                     FechaPago = table.Column<DateTime>(type: "datetime2(3)", nullable: true),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -168,11 +157,9 @@ namespace SGAA.Repository.Migrations
                     IndiceId = table.Column<int>(type: "int", nullable: false),
                     FechaDesde = table.Column<DateTime>(type: "date", nullable: false),
                     Valor = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -186,26 +173,24 @@ namespace SGAA.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Ciudad",
+                name: "Ciudades",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
                     ProvinciaId = table.Column<int>(type: "int", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     NombreCompleto = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ciudad", x => x.Id);
+                    table.PrimaryKey("PK_Ciudades", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Ciudad_Provincia_ProvinciaId",
+                        name: "FK_Ciudades_Provincias_ProvinciaId",
                         column: x => x.ProvinciaId,
-                        principalTable: "Provincia",
+                        principalTable: "Provincias",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -216,11 +201,9 @@ namespace SGAA.Repository.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     RoleId = table.Column<int>(type: "int", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -245,11 +228,9 @@ namespace SGAA.Repository.Migrations
                     InquilinoUsuarioId = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", maxLength: 20, nullable: false),
                     PuntuacionTotal = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -276,11 +257,9 @@ namespace SGAA.Repository.Migrations
                     Rol = table.Column<int>(type: "int", maxLength: 20, nullable: false),
                     TipoIdentificacion = table.Column<int>(type: "int", maxLength: 20, nullable: false),
                     NumeroIdentificacion = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -307,11 +286,9 @@ namespace SGAA.Repository.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -333,11 +310,9 @@ namespace SGAA.Repository.Migrations
                 {
                     LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -358,11 +333,9 @@ namespace SGAA.Repository.Migrations
                 {
                     UserId = table.Column<int>(type: "int", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -388,11 +361,9 @@ namespace SGAA.Repository.Migrations
                     UserId = table.Column<int>(type: "int", nullable: false),
                     LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -415,19 +386,17 @@ namespace SGAA.Repository.Migrations
                     CiudadId = table.Column<int>(type: "int", nullable: false),
                     Calle = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Altura = table.Column<int>(type: "int", nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Propiedad", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Propiedad_Ciudad_CiudadId",
+                        name: "FK_Propiedad_Ciudades_CiudadId",
                         column: x => x.CiudadId,
-                        principalTable: "Ciudad",
+                        principalTable: "Ciudades",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -441,11 +410,9 @@ namespace SGAA.Repository.Migrations
                     AplicacionId = table.Column<int>(type: "int", nullable: false),
                     Comentario = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Fecha = table.Column<DateTime>(type: "datetime2(3)", nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -467,11 +434,9 @@ namespace SGAA.Repository.Migrations
                     AplicacionId = table.Column<int>(type: "int", nullable: false),
                     Monto = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
                     Archivo = table.Column<byte[]>(type: "varbinary", nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -495,11 +460,9 @@ namespace SGAA.Repository.Migrations
                     NombreEmpresa = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     IngresoMensual = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
                     ReciboDeSueldoArchivo = table.Column<byte[]>(type: "varbinary", nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Apellido = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     TipoIdentificacion = table.Column<int>(type: "int", nullable: false),
@@ -533,11 +496,9 @@ namespace SGAA.Repository.Migrations
                     FechaAdquisicion = table.Column<DateTime>(type: "date", nullable: false),
                     TituloPropiedadArchivo = table.Column<byte[]>(type: "varbinary", nullable: false),
                     Status = table.Column<int>(type: "int", maxLength: 20, nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -568,11 +529,9 @@ namespace SGAA.Repository.Migrations
                     InicioAlquiler = table.Column<DateOnly>(type: "date", nullable: false),
                     Codigo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Status = table.Column<int>(type: "int", maxLength: 20, nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -593,11 +552,9 @@ namespace SGAA.Repository.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UnidadId = table.Column<int>(type: "int", nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Apellido = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     TipoIdentificacion = table.Column<int>(type: "int", nullable: false),
@@ -627,11 +584,9 @@ namespace SGAA.Repository.Migrations
                     UnidadId = table.Column<int>(type: "int", nullable: false),
                     Comentario = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Fecha = table.Column<DateTime>(type: "datetime2(3)", nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -657,11 +612,9 @@ namespace SGAA.Repository.Migrations
                     Banios = table.Column<int>(type: "int", nullable: false),
                     Dormitorios = table.Column<int>(type: "int", nullable: false),
                     Cocheras = table.Column<int>(type: "int", nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -685,11 +638,9 @@ namespace SGAA.Repository.Migrations
                     ContratoId = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", maxLength: 20, nullable: false),
                     FechaOferta = table.Column<DateTime>(type: "datetime2(3)", nullable: true),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -725,11 +676,9 @@ namespace SGAA.Repository.Migrations
                     Titulo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Descripcion = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Archivo = table.Column<byte[]>(type: "varbinary", nullable: false),
-                    Audit_CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    Audit_LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Audit_LastModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -743,7 +692,7 @@ namespace SGAA.Repository.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Provincia",
+                table: "Provincias",
                 columns: new[] { "Id", "Nombre", "NombreCompleto" },
                 values: new object[,]
                 {
@@ -784,7 +733,7 @@ namespace SGAA.Repository.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Ciudad",
+                table: "Ciudades",
                 columns: new[] { "Id", "Nombre", "NombreCompleto", "ProvinciaId" },
                 values: new object[,]
                 {
@@ -2615,8 +2564,8 @@ namespace SGAA.Repository.Migrations
                 column: "AplicacionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ciudad_ProvinciaId",
-                table: "Ciudad",
+                name: "IX_Ciudades_ProvinciaId",
+                table: "Ciudades",
                 column: "ProvinciaId");
 
             migrationBuilder.CreateIndex(
@@ -2829,10 +2778,10 @@ namespace SGAA.Repository.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Ciudad");
+                name: "Ciudades");
 
             migrationBuilder.DropTable(
-                name: "Provincia");
+                name: "Provincias");
         }
     }
 }

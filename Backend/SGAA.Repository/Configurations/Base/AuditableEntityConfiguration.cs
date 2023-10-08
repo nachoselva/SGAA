@@ -13,11 +13,9 @@ namespace SGAA.Repository.Configuration.Base
 
             builder.OwnsOne(entity => entity.Audit, auditProp =>
             {
-                auditProp.Property("_isDeleted").HasColumnName("IsDeleted");
-                auditProp.Property(p => p.CreatedOn);
-                auditProp.Property(p => p.CreatedBy);
-                auditProp.Property(p => p.LastModifiedOn);
-                auditProp.Property(p => p.LastModifiedBy);
+                auditProp.Property("_isDeleted").HasColumnName("IsDeleted").HasDefaultValue(false);
+                auditProp.Property(p => p.CreatedOn).HasColumnName(nameof(Audit.CreatedOn)).HasDefaultValueSql("GETUTCDATE()");
+                auditProp.Property(p => p.LastModifiedOn).HasColumnName(nameof(Audit.LastModifiedOn));
             });
         }
     }

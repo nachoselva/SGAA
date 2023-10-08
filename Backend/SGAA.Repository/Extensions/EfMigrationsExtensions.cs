@@ -4,6 +4,7 @@ namespace SGAA.Repository.Extensions
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Infrastructure;
+    using SGAA.Domain.Base;
     using SGAA.Repository.Configuration.Base;
     using SGAA.Utils;
     using System;
@@ -34,7 +35,7 @@ namespace SGAA.Repository.Extensions
         }
 
         public static DataBuilder<TEntity> HasDataFromEnum<TEntity, TProperty>(this EntityTypeBuilder<TEntity> builder, Expression<Func<TEntity, TProperty>> propertyExpression, Expression<Func<EnumOption<TProperty>, TEntity>> mapping)
-             where TEntity : class
+             where TEntity : class, IEntity
              where TProperty : struct, Enum
         {
             string tableName = builder.Metadata.GetTableName()!;
