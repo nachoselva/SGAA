@@ -3,6 +3,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using SGAA.Repository.Contexts;
+    using SGAA.Repository.Contracts;
 
     public static class DependencyInjection
     {

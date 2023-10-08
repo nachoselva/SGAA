@@ -1,4 +1,4 @@
-﻿namespace SGAA.Repository
+﻿namespace SGAA.Repository.Contracts
 {
     using SGAA.Domain.Core;
 

@@ -27,7 +27,7 @@
             builder.Property(u => u.FirstName).IsRequired().HasMaxLength(256);
             builder.Property(u => u.LastName).IsRequired().HasMaxLength(256);
             builder.Property(u => u.RefreshToken).HasMaxLength(100);
-            builder.Property(u => u.RefreshTokenExpiryTime).IsRequired(false).HasColumnType("smalldatetime");
+            builder.Property(u => u.RefreshTokenExpiryTime).HasColumnType("smalldatetime");
 
             // The relationships between User and other entity types
             // Note that these relationships are configured with no navigation properties
