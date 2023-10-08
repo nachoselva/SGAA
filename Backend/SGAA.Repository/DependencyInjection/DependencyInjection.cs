@@ -9,6 +9,8 @@
         public static IServiceCollection AddRepository(this IServiceCollection services)
         {
             services.AddDbContext<SGAADbContext>();
+            services.AddScoped<ICiudadRepository, CiudadRepository>();
+            services.AddScoped<IProvinciaRepository, ProvinciaRepository>();
             return services;
         }
 
