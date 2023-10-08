@@ -1,0 +1,422 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SGAA.Domain.Core.Aplicacion" BaseTypeListCollapsed="true">
+    <Position X="9.5" Y="11" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAIhAAEAAAIAAAAAAABAAgAAAAAA=</HashCode>
+      <FileName>Core\Aplicacion.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+      <Property Name="InquilinoUsuario" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Postulaciones" />
+      <Property Name="Postulantes" />
+      <Property Name="Garantias" />
+      <Property Name="Comentarios" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Core.AplicacionComentario" BaseTypeListCollapsed="true">
+    <Position X="15.25" Y="17" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAQAEAAAAAAAAAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>Core\AplicacionComentario.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Aplicacion" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Core.Ciudad" BaseTypeListCollapsed="true">
+    <Position X="4" Y="1" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAABAAAAAAAAgABACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Ciudad.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Provincia" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Propiedades" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.467" />
+  </Class>
+  <Class Name="SGAA.Domain.Core.Contrato" BaseTypeListCollapsed="true">
+    <Position X="9.75" Y="14.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AACEAAAEEAAIAAgAAAAACAAAAAAAAAAAAAAAAACAAAg=</HashCode>
+      <FileName>Core\Contrato.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Postulacion" />
+      <Property Name="Status" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Pagos" />
+      <Property Name="Firmas" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Core.Firma" BaseTypeListCollapsed="true">
+    <Position X="15.25" Y="13.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAECAAAAAAAIAAAIAAAgAAAAAEAAQAAAI=</HashCode>
+      <FileName>Core\Firma.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Rol" />
+      <Property Name="TipoIdentificacion" />
+      <Property Name="Contrato" />
+      <Property Name="Usuario" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Core.Garantia" BaseTypeListCollapsed="true">
+    <Position X="12.5" Y="17" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAQAAAAAAAAgAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Garantia.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Aplicacion" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Core.Indice" BaseTypeListCollapsed="true">
+    <Position X="20.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Indice.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Nombre" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Valores" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Core.IndiceValor" BaseTypeListCollapsed="true">
+    <Position X="23.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAACAAAAAEAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Core\IndiceValor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Indice" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Core.Pago" BaseTypeListCollapsed="true">
+    <Position X="6.75" Y="14.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAACAAAAIAAIAJAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Pago.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+      <Property Name="Contrato" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Core.Persona">
+    <Position X="13.25" Y="7.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>EIAAAAAAAAAAAAAEEAAAgAAAAAAAAAAAABAAAAAAACI=</HashCode>
+      <FileName>Core\Persona.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="TipoIdentificacion" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SGAA.Domain.Core.Postulacion" BaseTypeListCollapsed="true">
+    <Position X="4.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAgAQCAAAAAAAKAAAAAAAAAAAEAAAAAAgAA=</HashCode>
+      <FileName>Core\Postulacion.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+      <Property Name="Publicacion" />
+      <Property Name="Aplicacion" />
+      <Property Name="Contrato" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Core.Postulante">
+    <Position X="12.25" Y="10.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAgAQAAAAAAAAAAAAAAAAAABAABAAAAAAgA=</HashCode>
+      <FileName>Core\Postulante.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Aplicacion" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SGAA.Domain.Core.Propiedad" BaseTypeListCollapsed="true">
+    <Position X="4.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAgEAAAAAAAAAAAgAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Propiedad.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Ciudad" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Unidades" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Core.Provincia" BaseTypeListCollapsed="true">
+    <Position X="1" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAgABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Provincia.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Ciudades" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Core.Publicacion" BaseTypeListCollapsed="true">
+    <Position X="6.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAEAQQIAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Publicacion.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+      <Property Name="Unidad" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Postulaciones" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Core.Titular">
+    <Position X="15" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Titular.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Unidad" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SGAA.Domain.Core.Unidad" BaseTypeListCollapsed="true">
+    <Position X="9.5" Y="7.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAEAgAAEAgAAAAAEAABAEEAAAAAAAAAAAAAgAAABAiA=</HashCode>
+      <FileName>Core\Unidad.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+      <Property Name="Propiedad" />
+      <Property Name="PropietarioUsuario" />
+      <Property Name="Detalle" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Comentarios" />
+      <Property Name="Publicaciones" />
+      <Property Name="Titulares" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Core.UnidadComentario" BaseTypeListCollapsed="true">
+    <Position X="12" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQIAAEAAAAAAAAAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>Core\UnidadComentario.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Unidad" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Core.UnidadDetalle" BaseTypeListCollapsed="true">
+    <Position X="9.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAQIAACAIAAAABAFAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\UnidadDetalle.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Unidad" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Imagenes" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Core.UnidadImagen" BaseTypeListCollapsed="true">
+    <Position X="9.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAQAAAAgABAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Core\UnidadImagen.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Detalle" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Auth.Rol" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAACAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Auth\Rol.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="RolType" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="UsuarioRoles" />
+      <Property Name="Permisos" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Auth.RolPermiso" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Auth\RolPermiso.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Auth.Usuario" BaseTypeListCollapsed="true">
+    <Position X="6.25" Y="10.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AIAAAEAAQIAAQAAAAIAAAAQAAAAAQAgAAAAAAACAAgg=</HashCode>
+      <FileName>Auth\Usuario.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="UsuarioPermisos" />
+      <Property Name="UsuarioLogins" />
+      <Property Name="UsuarioTokens" />
+      <Property Name="UsuarioRoles" />
+      <Property Name="Aplicaciones" />
+      <Property Name="Unidades" />
+      <Property Name="Firmas" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Auth.UsuarioLogin" BaseTypeListCollapsed="true">
+    <Position X="1" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Auth\UsuarioLogin.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Usuario" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Auth.UsuarioPermiso" BaseTypeListCollapsed="true">
+    <Position X="1" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Auth\UsuarioPermiso.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Usuario" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Auth.UsuarioRol" BaseTypeListCollapsed="true">
+    <Position X="3.5" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAgAAAAAEAAAAAAA=</HashCode>
+      <FileName>Auth\UsuarioRol.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Rol" />
+      <Property Name="Usuario" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SGAA.Domain.Auth.UsuarioToken" BaseTypeListCollapsed="true">
+    <Position X="4" Y="16.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Auth\UsuarioToken.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Usuario" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Enum Name="SGAA.Domain.Core.AplicacionStatus">
+    <Position X="9.5" Y="18.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAKAAAAAAAAAAAAAAAAAAAAEQAAAIAAAAAAA=</HashCode>
+      <FileName>Core\AplicacionStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SGAA.Domain.Core.ContratoStatus" Collapsed="true">
+    <Position X="12.75" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Core\ContratoStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SGAA.Domain.Core.FirmaRol" Collapsed="true">
+    <Position X="17.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\FirmaRol.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SGAA.Domain.Core.IndiceTipo" Collapsed="true">
+    <Position X="20.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\IndiceTipo.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SGAA.Domain.Core.PagoStatus" Collapsed="true">
+    <Position X="3.75" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAQA=</HashCode>
+      <FileName>Core\PagoStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SGAA.Domain.Core.PostulacionStatus" Collapsed="true">
+    <Position X="1.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAIAABAAAAAQAAAAAAACAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\PostulacionStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SGAA.Domain.Core.PublicacionStatus">
+    <Position X="6.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAIAAAAAACAAAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\PublicacionStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SGAA.Domain.Core.TipoIdentificacion">
+    <Position X="16.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\TipoIdentificacion.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SGAA.Domain.Core.UnidadStatus">
+    <Position X="15" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Core\UnidadStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SGAA.Domain.Auth.RolType" Collapsed="true">
+    <Position X="0.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAAAAAAAUAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Auth\Rol.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

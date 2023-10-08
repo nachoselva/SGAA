@@ -53,7 +53,7 @@ builder.Services.AddSwaggerGen(option =>
 
 builder.Services
     .AddServices()
-    .AddRepository(configuration);
+    .AddRepository();
 
 var app = builder.Build();
 

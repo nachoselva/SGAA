@@ -1,11 +1,10 @@
 ﻿namespace SGAA.Repository
 {
-    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
     public static class DependencyInjection
     {
-        public static IServiceCollection AddRepository(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddRepository(this IServiceCollection services)
         {
             services.AddDbContext<SGAADbContext>();
             return services;
