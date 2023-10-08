@@ -6,6 +6,6 @@
     public class UsuarioToken : IdentityUserToken<int>, IAuditableEntity
     {
         public Usuario Usuario { get; set; } = default!;
-        public Audit Audit { get; } = default!;
+        public Audit Audit { get; set; } = default!;
     }
 }

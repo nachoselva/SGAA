@@ -1,4 +1,4 @@
-﻿namespace SGAA.Service
+﻿namespace SGAA.Service.DependencyInjection
 {
     using Microsoft.Extensions.DependencyInjection;
 

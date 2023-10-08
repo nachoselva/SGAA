@@ -18,7 +18,7 @@
 
         public IReadOnlyCollection<UsuarioRol> UsuarioRoles { get; } = Array.Empty<UsuarioRol>();
         public IReadOnlyCollection<RolPermiso> Permisos { get; } = Array.Empty<RolPermiso>();
-        public Audit Audit { get; } = default!;
+        public Audit Audit { get; set; } = default!;
     }
 
     public enum RolType
