@@ -3,16 +3,16 @@
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.ChangeTracking;
-    using Microsoft.Extensions.Configuration;
     using SGAA.Domain.Auth;
     using SGAA.Domain.Base;
     using SGAA.Domain.Core;
+    using SGAA.Utils.Configuration;
 
     public class SGAADbContext : IdentityDbContext<Usuario, Rol, int, UsuarioPermiso, UsuarioRol, UsuarioLogin, RolPermiso, UsuarioToken>
     {
-        IConfiguration _configuration;
+        private readonly ISGAAConfiguration _configuration;
 
-        public SGAADbContext(DbContextOptions<SGAADbContext> options, IConfiguration configuration)
+        public SGAADbContext(DbContextOptions<SGAADbContext> options, ISGAAConfiguration configuration)
         : base(options)
         {
             _configuration = configuration;
@@ -32,7 +32,7 @@
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"), x => x.UseDateOnlyTimeOnly());
+            optionsBuilder.UseSqlServer(_configuration.GetDatabaseConnectionString(), x => x.UseDateOnlyTimeOnly());
         }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -48,7 +48,7 @@
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
             OnBeforeSaving();
             var task = base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
@@ -66,68 +66,35 @@
         {
             DateTime now = DateTime.UtcNow;
 
-            foreach (EntityEntry entry in ChangeTracker.Entries().Where(e => !e.Metadata.IsOwned()))
+            foreach (EntityEntry entry in ChangeTracker.Entries()
+                .Where(e => !e.Metadata.IsOwned())
+                .Where(e => e.Entity is IAuditableEntity))
+            {
+                IAuditableEntity entity = (IAuditableEntity)entry.Entity;
+                entity.Audit ??= new Audit();
+                var auditReference = entry.Reference(nameof(entity.Audit))!;
+                var property = entry.Reference(nameof(entity.Audit)).TargetEntry!.Property("_isDeleted");
 
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        if (entry.Entity is IEntity addedEntity)
-                        {
-                            //this is required to attach audit details for entities inserted as child /navigation properties.
-                            if (addedEntity.Audit == null)
-                                addedEntity.Audit = new Audit
-                                {
-                                    CreatedOn = now
-                                };
-                            else
-                            {
-                                addedEntity.Audit.CreatedOn = now;
-                            }
-
-                            entry.Property("_isDeleted").CurrentValue = false;
-                        }
+                        entity.Audit.CreatedOn = now;
+                        property.CurrentValue = false;
                         break;
                     case EntityState.Modified:
-                        if (entry.Entity is IEntity modifiedEntity)
-                        {
-                            if (modifiedEntity.Audit == null)
-                                modifiedEntity.Audit = new Audit();
-
-                            modifiedEntity.Audit.LastModifiedOn = now;
-
-                            entry.Property("_isDeleted").CurrentValue = false;
-                        }
+                        entity.Audit.LastModifiedOn = now;
+                        property.CurrentValue = false;
                         break;
                     case EntityState.Deleted:
-                        // *** Logical Delete ***
-                        // Making an entity state Modified is like updating all the Properties.
-                        // With Unchanged when we change a property value the entity is mark as modified
-                        // but only that property/es is/are updated.
-                        // In this case we want to update only the IsDeleted property and AuditDetails
                         entry.State = EntityState.Unchanged;
-
-                        // AuditDetails are marked as deleted and this add all the properties to the update query
-                        // when setting LastModifiedOn and LastModifiedBy values.
-                        ReferenceEntry auditEntry = entry.References
-                            .FirstOrDefault(x => x.Metadata.ClrType == typeof(Audit))!;
-
-                        if (auditEntry != null)
-                            auditEntry.TargetEntry!.State = EntityState.Unchanged;
-
-                        if (entry.Entity is IEntity deletedEntity)
-                        {
-                            if (entry.Property("_isDeleted").CurrentValue is bool value && value)
-                                break;
-
-                            if (deletedEntity.Audit == null)
-                                deletedEntity.Audit = new Audit();
-
-                            deletedEntity.Audit.LastModifiedOn = now;
-
-                            entry.Property("_isDeleted").CurrentValue = true;
-                        }
+                        auditReference.TargetEntry!.State = EntityState.Unchanged;
+                        if ((bool)property.CurrentValue! == true)
+                            break;
+                        entity.Audit.LastModifiedOn = now;
+                        property.CurrentValue = true;
                         break;
                 }
+            }
         }
     }
 }

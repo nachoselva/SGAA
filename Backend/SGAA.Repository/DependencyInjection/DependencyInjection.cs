@@ -3,6 +3,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using SGAA.Repository.Contexts;
+    using SGAA.Repository.Contracts;
 
     public static class DependencyInjection
     {
@@ -11,6 +12,7 @@
             services.AddDbContext<SGAADbContext>();
             services.AddScoped<ICiudadRepository, CiudadRepository>();
             services.AddScoped<IProvinciaRepository, ProvinciaRepository>();
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             return services;
         }
 

@@ -15,9 +15,9 @@
 
         public IJwtConfiguration Jwt { get; }
 
-        public string GetConnectionString(string name)
+        public string GetDatabaseConnectionString()
         {
-            return _configuration.GetConnectionString(name) ?? string.Empty;
+            return _configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
         }
     }
 

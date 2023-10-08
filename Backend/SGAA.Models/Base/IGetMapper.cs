@@ -6,6 +6,6 @@
         where T : IEntity
         where U : IGetModel<T>
     {
-        public U MapFromEntity(T entity);
+        public U ToGetModel(T entity);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace SGAA.Service
+﻿namespace SGAA.Service.Contracts
 {
     using SGAA.Models;
 

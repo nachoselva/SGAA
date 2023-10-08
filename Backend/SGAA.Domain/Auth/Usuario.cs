@@ -7,17 +7,19 @@
 
     public class Usuario : IdentityUser<int>, IEntity
     {
-        public Usuario(string firstName, string lastName, string refreshToken, DateTime? refreshTokenExpiryTime)
+        public Usuario(string email, string nombre, string apellido, string? securityStamp, string? refreshToken, DateTime? refreshTokenExpiryTime)
         {
-            FirstName = firstName;
-            LastName = lastName;
+            Email = email;
+            Nombre = nombre;
+            Apellido = apellido;
+            SecurityStamp = securityStamp;
             RefreshToken = refreshToken;
             RefreshTokenExpiryTime = refreshTokenExpiryTime;
         }
 
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string RefreshToken { get; set; }
+        public string Nombre { get; set; }
+        public string Apellido { get; set; }
+        public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
 
         public Audit Audit { get; set; } = default!;

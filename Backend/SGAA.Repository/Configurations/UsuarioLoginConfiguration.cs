@@ -1,5 +1,6 @@
 ﻿namespace SGAA.Repository.Configuration
 {
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using SGAA.Domain.Auth;
     using SGAA.Repository.Configuration.Base;
@@ -9,6 +10,8 @@
         public override void Configure(EntityTypeBuilder<UsuarioLogin> builder)
         {
             base.Configure(builder);
+            builder.ToTable(nameof(UsuarioLogin));
+
             // Composite primary key consisting of the LoginProvider and the key to use
             // with that provider
             builder.HasKey(l => new { l.LoginProvider, l.ProviderKey });

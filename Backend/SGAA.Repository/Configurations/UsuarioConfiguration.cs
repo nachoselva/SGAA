@@ -10,6 +10,7 @@
         public override void Configure(EntityTypeBuilder<Usuario> builder)
         {
             base.Configure(builder);
+            builder.ToTable(nameof(Usuario));
 
             // Indexes for "normalized" username and email, to allow efficient lookups
             builder.HasIndex(u => u.NormalizedUserName, "UserNameIndex").IsUnique();
@@ -24,10 +25,10 @@
             builder.Property(u => u.Email).IsRequired().HasMaxLength(256);
             builder.Property(u => u.NormalizedEmail).IsRequired().HasMaxLength(256);
 
-            builder.Property(u => u.FirstName).IsRequired().HasMaxLength(256);
-            builder.Property(u => u.LastName).IsRequired().HasMaxLength(256);
+            builder.Property(u => u.Nombre).IsRequired().HasMaxLength(256);
+            builder.Property(u => u.Apellido).IsRequired().HasMaxLength(256);
             builder.Property(u => u.RefreshToken).HasMaxLength(100);
-            builder.Property(u => u.RefreshTokenExpiryTime).IsRequired(false).HasColumnType("smalldatetime");
+            builder.Property(u => u.RefreshTokenExpiryTime).HasColumnType("smalldatetime");
 
             // The relationships between User and other entity types
             // Note that these relationships are configured with no navigation properties
