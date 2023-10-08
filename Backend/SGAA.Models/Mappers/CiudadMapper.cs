@@ -4,7 +4,7 @@
 
     public class CiudadMapper : ICiudadMapper
     {
-        public CiudadGetModel MapFromEntity(Ciudad entity)
+        public CiudadGetModel ToGetModel(Ciudad entity)
         {
             return new CiudadGetModel();
         }

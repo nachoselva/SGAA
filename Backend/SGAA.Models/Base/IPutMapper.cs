@@ -2,9 +2,9 @@
 {
     using SGAA.Domain.Base;
 
-    public interface IAddMapper<T>
+    public interface IPutMapper<T>
        where T : IEntity
     {
-        public T FromAddModel(IAddModel<T> entity);
+        public T FromUpdateModel(IPutModel<T> entity);
     }
 }

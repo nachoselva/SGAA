@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using SGAA.Api.DependencyInjection;
 using SGAA.Api.Extensions;
 using SGAA.Models.DependencyInjection;
 using SGAA.Repository.DependencyInjection;
@@ -84,6 +85,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 builder.Services
+    .AddApi()
     .AddServices()
     .AddModel()
     .AddRepository();

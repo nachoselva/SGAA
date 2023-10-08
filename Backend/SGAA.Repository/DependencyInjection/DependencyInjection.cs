@@ -12,6 +12,7 @@
             services.AddDbContext<SGAADbContext>();
             services.AddScoped<ICiudadRepository, CiudadRepository>();
             services.AddScoped<IProvinciaRepository, ProvinciaRepository>();
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             return services;
         }
 

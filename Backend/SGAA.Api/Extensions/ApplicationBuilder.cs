@@ -1,5 +1,6 @@
 ﻿namespace SGAA.Api.Extensions
 {
+    using SGAA.Api.Middleware;
     using SGAA.Repository.DependencyInjection;
 
     public static class ApplicationBuilder
@@ -8,6 +9,7 @@
             this WebApplication app)
         {
             await DependencyInjection.MigrateDbContext(app.Services);
+            app.UseMiddleware<ExceptionMiddleware>();
             return app;
         }
     }

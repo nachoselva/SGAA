@@ -2,9 +2,9 @@
 {
     using SGAA.Domain.Base;
 
-    public interface IAddModel<T>
+    public interface IPutModel<T>
         where T : IEntity
     {
-        public T MapToEntity();
+        public T MapToEntity(T entity);
     }
 }

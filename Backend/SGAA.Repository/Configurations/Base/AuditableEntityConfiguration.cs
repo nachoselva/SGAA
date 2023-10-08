@@ -9,7 +9,7 @@ namespace SGAA.Repository.Configuration.Base
     {
         public virtual void Configure(EntityTypeBuilder<T> builder)
         {
-            builder.HasQueryFilter(app => EF.Property<bool>(app, "_isDeleted") == false);
+            //builder.HasQueryFilter(app => EF.Property<bool>(app, "_isDeleted") == false);
 
             builder.OwnsOne(entity => entity.Audit, auditProp =>
             {

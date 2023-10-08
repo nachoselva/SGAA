@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SGAA.Repository.Contexts;
 
@@ -11,9 +12,11 @@ using SGAA.Repository.Contexts;
 namespace SGAA.Repository.Migrations
 {
     [DbContext(typeof(SGAADbContext))]
-    partial class SGAADbContextModelSnapshot : ModelSnapshot
+    [Migration("20231008203044_rename_Nombre_Apellido")]
+    partial class rename_Nombre_Apellido
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,16 +52,16 @@ namespace SGAA.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "RolType" }, "IX_Rol_RolType")
+                    b.HasIndex(new[] { "RolType" }, "IX_Roles_RolType")
                         .IsUnique();
 
                     b.HasIndex(new[] { "NormalizedName" }, "RoleNameIndex")
                         .IsUnique()
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("Rol", null, t =>
+                    b.ToTable("Roles", t =>
                         {
-                            t.HasCheckConstraint("CHK_Rol_RolType", "[RolType] IN ('Administrator', 'Resident', 'Homeowner')");
+                            t.HasCheckConstraint("CHK_Roles_RolType", "[RolType] IN ('Administrator', 'Resident', 'Homeowner')");
                         });
 
                     b.HasData(
@@ -106,7 +109,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RolPermiso", (string)null);
+                    b.ToTable("RoleClaims");
                 });
 
             modelBuilder.Entity("SGAA.Domain.Auth.Usuario", b =>
@@ -192,7 +195,7 @@ namespace SGAA.Repository.Migrations
                     b.HasIndex(new[] { "NormalizedUserName" }, "UserNameIndex")
                         .IsUnique();
 
-                    b.ToTable("Usuario", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("SGAA.Domain.Auth.UsuarioLogin", b =>
@@ -218,7 +221,7 @@ namespace SGAA.Repository.Migrations
                     b.HasIndex(new[] { "LoginProvider", "ProviderKey" }, "MemberLoginCompositeKey")
                         .IsUnique();
 
-                    b.ToTable("UsuarioLogin", (string)null);
+                    b.ToTable("UserLogins");
                 });
 
             modelBuilder.Entity("SGAA.Domain.Auth.UsuarioPermiso", b =>
@@ -242,7 +245,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UsuarioPermiso", (string)null);
+                    b.ToTable("UserClaims");
                 });
 
             modelBuilder.Entity("SGAA.Domain.Auth.UsuarioRol", b =>
@@ -257,7 +260,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UsuarioRol", (string)null);
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("SGAA.Domain.Auth.UsuarioToken", b =>
@@ -281,7 +284,7 @@ namespace SGAA.Repository.Migrations
                     b.HasIndex(new[] { "UserId", "LoginProvider", "Name" }, "MemberTokenCompositeKey")
                         .IsUnique();
 
-                    b.ToTable("UsuarioToken", (string)null);
+                    b.ToTable("UserTokens");
                 });
 
             modelBuilder.Entity("SGAA.Domain.Core.Aplicacion", b =>
@@ -13804,7 +13807,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("RolId");
 
-                            b1.ToTable("Rol");
+                            b1.ToTable("Roles");
 
                             b1.WithOwner()
                                 .HasForeignKey("RolId");
@@ -13845,7 +13848,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("RolPermisoId");
 
-                            b1.ToTable("RolPermiso");
+                            b1.ToTable("RoleClaims");
 
                             b1.WithOwner()
                                 .HasForeignKey("RolPermisoId");
@@ -13882,7 +13885,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("UsuarioId");
 
-                            b1.ToTable("Usuario");
+                            b1.ToTable("Users");
 
                             b1.WithOwner()
                                 .HasForeignKey("UsuarioId");
@@ -13926,7 +13929,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("UsuarioLoginLoginProvider", "UsuarioLoginProviderKey");
 
-                            b1.ToTable("UsuarioLogin");
+                            b1.ToTable("UserLogins");
 
                             b1.WithOwner()
                                 .HasForeignKey("UsuarioLoginLoginProvider", "UsuarioLoginProviderKey");
@@ -13969,7 +13972,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("UsuarioPermisoId");
 
-                            b1.ToTable("UsuarioPermiso");
+                            b1.ToTable("UserClaims");
 
                             b1.WithOwner()
                                 .HasForeignKey("UsuarioPermisoId");
@@ -14021,7 +14024,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("UsuarioRolUserId", "UsuarioRolRoleId");
 
-                            b1.ToTable("UsuarioRol");
+                            b1.ToTable("UserRoles");
 
                             b1.WithOwner()
                                 .HasForeignKey("UsuarioRolUserId", "UsuarioRolRoleId");
@@ -14072,7 +14075,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("UsuarioTokenUserId", "UsuarioTokenLoginProvider", "UsuarioTokenName");
 
-                            b1.ToTable("UsuarioToken");
+                            b1.ToTable("UserTokens");
 
                             b1.WithOwner()
                                 .HasForeignKey("UsuarioTokenUserId", "UsuarioTokenLoginProvider", "UsuarioTokenName");

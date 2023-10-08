@@ -2,9 +2,9 @@
 {
     using SGAA.Domain.Base;
 
-    public interface IUpdateModel<T>
+    public interface IPostModel<T>
         where T : IEntity
     {
-        public T MapToEntity(T entity);
+
     }
 }

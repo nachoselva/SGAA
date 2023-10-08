@@ -3,7 +3,7 @@
     public interface ISGAAConfiguration
     {
         IJwtConfiguration Jwt { get; }
-        string GetConnectionString(string name);
+        string GetDatabaseConnectionString();
     }
     public interface IJwtConfiguration
     {
