@@ -9,7 +9,7 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["Backend/SGAA.Api/SGAA.Api.csproj", "Backend/SGAA.Api/"]
 COPY ["Backend/SGAA.Repository/SGAA.Repository.csproj", "Backend/SGAA.Repository/"]
-COPY ["Backend/SGA.Domain/SGAA.Domain.csproj", "Backend/SGA.Domain/"]
+COPY ["Backend/SGAA.Domain/SGAA.Domain.csproj", "Backend/SGAA.Domain/"]
 COPY ["Backend/SGAA.Utils/SGAA.Utils.csproj", "Backend/SGAA.Utils/"]
 COPY ["Backend/SGAA.Service/SGAA.Service.csproj", "Backend/SGAA.Service/"]
 RUN dotnet restore "Backend/SGAA.Api/SGAA.Api.csproj"
