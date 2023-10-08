@@ -19,6 +19,7 @@
         public DateOnly? FechaCancelacion { get; private set; }
         public decimal MontoAlquiler { get; private set; }
         public int OrdenRenovacion { get; private set; }
+        public ContratoStatus Status { get; set; }
 
         public Postulacion Postulacion { get; private set; } = default!;
         public IReadOnlyCollection<Firma> Firmas { get; private set; } = Array.Empty<Firma>();
