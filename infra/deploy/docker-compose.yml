@@ -1,0 +1,23 @@
+version: "3.4"
+services:
+
+  sgaa-api:
+    container_name: sgaa-api
+    env_file:
+      - .env
+    working_dir: /app
+    image: 417268992578.dkr.ecr.us-east-2.amazonaws.com/sgaa-api:latest
+    depends_on:
+      - sql-server-database
+    ports:
+      - "80:80"
+
+  sql-server-database:
+    container_name: sql-server-database
+    # The following image supports AMD64 and also ARM64 chips (M1 and M2)
+    image: mcr.microsoft.com/azure-sql-edge
+    user: root
+    env_file:
+      - .env
+    ports:
+      - "1433:1433"
