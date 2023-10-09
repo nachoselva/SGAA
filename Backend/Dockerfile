@@ -7,14 +7,14 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["Backend/SGAA.Api/SGAA.Api.csproj", "Backend/SGAA.Api/"]
-COPY ["Backend/SGAA.Repository/SGAA.Repository.csproj", "Backend/SGAA.Repository/"]
-COPY ["Backend/SGAA.Domain/SGAA.Domain.csproj", "Backend/SGAA.Domain/"]
-COPY ["Backend/SGAA.Utils/SGAA.Utils.csproj", "Backend/SGAA.Utils/"]
-COPY ["Backend/SGAA.Service/SGAA.Service.csproj", "Backend/SGAA.Service/"]
-RUN dotnet restore "Backend/SGAA.Api/SGAA.Api.csproj"
+COPY ["SGAA.Api/SGAA.Api.csproj", "SGAA.Api/"]
+COPY ["SGAA.Repository/SGAA.Repository.csproj", "SGAA.Repository/"]
+COPY ["SGAA.Domain/SGAA.Domain.csproj", "SGAA.Domain/"]
+COPY ["SGAA.Utils/SGAA.Utils.csproj", "SGAA.Utils/"]
+COPY ["SGAA.Service/SGAA.Service.csproj", "SGAA.Service/"]
+RUN dotnet restore "SGAA.Api/SGAA.Api.csproj"
 COPY . .
-WORKDIR "/src/Backend/SGAA.Api"
+WORKDIR "/src/SGAA.Api"
 RUN dotnet build "SGAA.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish

@@ -6,7 +6,7 @@ services:
     env_file:
       - .env
     working_dir: /app
-    image: 417268992578.dkr.ecr.us-east-2.amazonaws.com/sgaa-api:latest
+    image: 417268992578.dkr.ecr.us-east-2.amazonaws.com/sgaa:latest
     depends_on:
       - sql-server-database
     ports:
