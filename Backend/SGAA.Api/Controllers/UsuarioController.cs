@@ -10,6 +10,7 @@ namespace SGAA.Api.Controllers
 
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class UsuarioController : ControllerBase
     {
         private readonly IUsuarioProvider _userProvider;
@@ -22,7 +23,7 @@ namespace SGAA.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Route("current")]
         public async Task<UsuarioGetModel> GetUsuario()
         {
             var currentUser = await _userProvider.GetUser();
@@ -49,7 +50,6 @@ namespace SGAA.Api.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         public async Task<UsuarioGetModel> UpdateUsuario(UsuarioPutModel model)
         {
             var currentUser = await _userProvider.GetUser();

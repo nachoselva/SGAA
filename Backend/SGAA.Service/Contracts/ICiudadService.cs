@@ -4,6 +4,6 @@
 
     public interface ICiudadService
     {
-        public Task<IReadOnlyCollection<CiudadGetModel>> GetCiudades(int provinciaId);
+        Task<IReadOnlyCollection<CiudadGetModel>> GetCiudades(int provinciaId);
     }
 }
