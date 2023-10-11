@@ -12,6 +12,6 @@
 
         public IndiceTipo Nombre { get; private set; }
 
-        public IReadOnlyCollection<IndiceValor> Valores { get; private set; } = Array.Empty<IndiceValor>();
+        public IReadOnlyCollection<IndiceValor> Valores { get; private set; } = new List<IndiceValor>();
     }
 }

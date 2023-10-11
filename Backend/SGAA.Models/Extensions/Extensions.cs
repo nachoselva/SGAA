@@ -13,7 +13,8 @@
             where T : IEntity
             where U : IPostModel<T> => mapper.ToEntity(addModel);
 
-        public static T ToEntity<T>(this IPutModel<T> updateModel, T entity)
-            where T : IEntity => updateModel.MapToEntity(entity);
+        public static T ToEntity<T, U>(this U updateModel, IPutMapper<T, U> mapper, T entity)
+            where T : IEntity
+            where U : IPutModel<T> => mapper.ToEntity(updateModel, entity);
     }
 }

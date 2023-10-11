@@ -9,6 +9,7 @@
         {
             services.AddScoped<ICiudadService, CiudadService>();
             services.AddScoped<IProvinciaService, ProvinciaService>();
+            services.AddScoped<ISecurityService, UsuarioService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
             return services;
         }

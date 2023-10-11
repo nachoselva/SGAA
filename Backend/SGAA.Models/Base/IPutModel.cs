@@ -5,6 +5,6 @@
     public interface IPutModel<T>
         where T : IEntity
     {
-        public T MapToEntity(T entity);
+
     }
 }

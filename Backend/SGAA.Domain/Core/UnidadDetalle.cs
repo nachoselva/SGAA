@@ -24,6 +24,6 @@
         public int Cocheras { get; private set; }
 
         public Unidad Unidad { get; set; } = default!;
-        public IReadOnlyCollection<UnidadImagen> Imagenes { get; private set; } = Array.Empty<UnidadImagen>();
+        public IReadOnlyCollection<UnidadImagen> Imagenes { get; private set; } = new List<UnidadImagen>();
     }
 }

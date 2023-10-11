@@ -23,12 +23,12 @@
         public DateTime? RefreshTokenExpiryTime { get; set; }
 
         public Audit Audit { get; set; } = default!;
-        public IReadOnlyCollection<UsuarioPermiso> UsuarioPermisos { get; set; } = Array.Empty<UsuarioPermiso>();
-        public IReadOnlyCollection<UsuarioLogin> UsuarioLogins { get; set; } = Array.Empty<UsuarioLogin>();
-        public IReadOnlyCollection<UsuarioToken> UsuarioTokens { get; set; } = Array.Empty<UsuarioToken>();
-        public IReadOnlyCollection<UsuarioRol> UsuarioRoles { get; set; } = Array.Empty<UsuarioRol>();
-        public IReadOnlyCollection<Aplicacion> Aplicaciones { get; set; } = Array.Empty<Aplicacion>();
-        public IReadOnlyCollection<Unidad> Unidades { get; set; } = Array.Empty<Unidad>();
-        public IReadOnlyCollection<Firma> Firmas { get; private set; } = Array.Empty<Firma>();
+        public IReadOnlyCollection<UsuarioPermiso> UsuarioPermisos { get; set; } = new List<UsuarioPermiso>();
+        public IReadOnlyCollection<UsuarioLogin> UsuarioLogins { get; set; } = new List<UsuarioLogin>();
+        public IReadOnlyCollection<UsuarioToken> UsuarioTokens { get; set; } = new List<UsuarioToken>();
+        public IReadOnlyCollection<UsuarioRol> UsuarioRoles { get; set; } = new List<UsuarioRol>();
+        public IReadOnlyCollection<Aplicacion> Aplicaciones { get; set; } = new List<Aplicacion>();
+        public IReadOnlyCollection<Unidad> Unidades { get; set; } = new List<Unidad>();
+        public IReadOnlyCollection<Firma> Firmas { get; private set; } = new List<Firma>();
     }
 }

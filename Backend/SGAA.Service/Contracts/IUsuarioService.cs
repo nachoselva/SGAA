@@ -4,11 +4,10 @@
 
     public interface IUsuarioService
     {
-        Task<UsuarioGetModel> FirstMember(UsuarioPostModel model);
-
-        Task<TokenGetModel> GetToken(UsuarioLoginPostModel model);
-        Task<RefreshTokenGetModel> RefreshToken(RefreshTokenPostModel tokenModel);
-        Task Revoke(RevokeTokenPostModel model);
-        Task RevokeAll();
+        Task<UsuarioGetModel?> GetByEmail(string email);
+        Task<UsuarioGetModel> AddUsuario(UsuarioPostModel model);
+        Task<UsuarioGetModel> AddUsuarioPublic(UsuarioPostModel model);
+        Task<UsuarioGetModel> Update(int id, UsuarioPutModel model);
+        Task Delete(int id);
     }
 }

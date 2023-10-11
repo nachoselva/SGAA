@@ -2,17 +2,12 @@
 {
     using SGAA.Domain.Auth;
     using SGAA.Models.Base;
-    using System.ComponentModel.DataAnnotations;
 
     public class UsuarioGetModel : IGetModel<Usuario>
     {
-        [Required]
         public required int Id { get; set; }
-        [Required]
-        public required string FirstName { get; set; }
-        [Required]
-        public required string LastName { get; set; }
-        [Required]
+        public required string Nombre { get; set; }
+        public required string Apellido { get; set; }
         public required string Email { get; set; }
     }
 }

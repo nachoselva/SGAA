@@ -9,9 +9,9 @@ namespace SGAA.Api.Controllers
     [Route("[controller]")]
     public class SecurityController : ControllerBase
     {
-        private readonly IUsuarioService _usuarioService;
+        private readonly ISecurityService _usuarioService;
 
-        public SecurityController(IUsuarioService usuarioService)
+        public SecurityController(ISecurityService usuarioService)
         {
             _usuarioService = usuarioService;
         }
@@ -27,9 +27,9 @@ namespace SGAA.Api.Controllers
         [HttpPost]
         [Route("first-member")]
         [AllowAnonymous]
-        public async Task<IActionResult> FirstMember([FromBody] UsuarioPostModel model)
+        public async Task<IActionResult> AddFirstUsuario([FromBody] UsuarioPostModel model)
         {
-            return Ok(await _usuarioService.FirstMember(model));
+            return Ok(await _usuarioService.AddFirstUsuario(model));
         }
 
         [HttpPost]

@@ -16,6 +16,6 @@
         public string NombreCompleto { get; private set; }
 
         public Provincia Provincia { get; } = default!;
-        public IReadOnlyCollection<Propiedad> Propiedades { get; } = Array.Empty<Propiedad>();
+        public IReadOnlyCollection<Propiedad> Propiedades { get; } = new List<Propiedad>();
     }
 }
