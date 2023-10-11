@@ -17,7 +17,7 @@
     using System.Security.Cryptography;
     using System.Text;
 
-    public class UsuarioService : UserManager<Usuario>, IUsuarioService
+    public class UsuarioService : UserManager<Usuario>, ISecurityService, IUsuarioService
     {
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly ISGAAConfiguration _configuration;
@@ -96,8 +96,64 @@
             }
             return badRequestException;
         }
+        public async Task<UsuarioGetModel> AddUsuario(UsuarioPostModel model)
+        {
+            Usuario? sameEmailUsusario = await FindByNameAsync(model.Email);
+            if (sameEmailUsusario is not null)
+                throw new BadRequestException(nameof(model.Email), "El email está en uso");
 
-        public async Task<UsuarioGetModel> FirstMember(UsuarioPostModel model)
+            Usuario usuario = model.ToEntity(_usuarioMapper);
+
+            IdentityResult addUserResult = await CreateAsync(usuario, model.Password);
+            if (!addUserResult.Succeeded)
+            {
+                throw MapIdentityErrorToBadRequest(addUserResult.Errors);
+            }
+            IdentityResult addToRoleResult = await AddToRoleAsync(usuario, model.Rol.ToString());
+            if (!addToRoleResult.Succeeded)
+            {
+                throw MapIdentityErrorToBadRequest(addToRoleResult.Errors);
+            }
+
+            return _usuarioMapper.ToGetModel(usuario);
+        }
+
+        public async Task<UsuarioGetModel> AddUsuarioPublic(UsuarioPostModel model)
+        {
+            if (model.Rol == RolType.Administrador)
+            {
+                throw new UnauthorizedException();
+            }
+            return await AddUsuario(model);
+        }
+
+        public async Task<UsuarioGetModel> Update(int usuarioId, UsuarioPutModel model)
+        {
+            Usuario? usuario = await FindByIdAsync(usuarioId.ToString());
+            if (usuario == null)
+                throw new NotFoundException();
+            usuario = _usuarioMapper.ToEntity(model, usuario!);
+            IdentityResult result = await UpdateAsync(usuario);
+            if (!result.Succeeded)
+            {
+                throw MapIdentityErrorToBadRequest(result.Errors);
+            }
+            return _usuarioMapper.ToGetModel(usuario);
+        }
+
+        public async Task Delete(int usuarioId)
+        {
+            Usuario? usuario = await FindByIdAsync(usuarioId.ToString());
+            if (usuario == null)
+                throw new NotFoundException();
+            IdentityResult result = await DeleteAsync(usuario);
+            if (!result.Succeeded)
+            {
+                throw MapIdentityErrorToBadRequest(result.Errors);
+            }
+        }
+
+        public async Task<UsuarioGetModel> AddFirstUsuario(UsuarioPostModel model)
         {
             IReadOnlyCollection<Usuario> members = await _usuarioRepository.GetAllUsuarios();
             if (members.Any())
@@ -108,21 +164,6 @@
             {
                 return await AddUsuario(model);
             }
-        }
-
-        public async Task<UsuarioGetModel> AddUsuario(UsuarioPostModel model)
-        {
-            Usuario? sameEmailUsusario = await FindByNameAsync(model.Email);
-            if (sameEmailUsusario is not null)
-                throw new BadRequestException(nameof(model.Email), "El email está en uso");
-
-            Usuario usuario = model.ToEntity(_usuarioMapper);
-            IdentityResult result = await CreateAsync(model.ToEntity(_usuarioMapper), model.Password);
-            if (!result.Succeeded)
-            {
-                throw MapIdentityErrorToBadRequest(result.Errors);
-            }
-            return _usuarioMapper.ToGetModel(usuario);
         }
 
         public async Task<TokenGetModel> GetToken(UsuarioLoginPostModel model)
@@ -138,7 +179,7 @@
                     new Claim("Id", Guid.NewGuid().ToString()),
                     new Claim("MemberId", member.Id.ToString()),
                     new Claim(JwtRegisteredClaimNames.Sub, email ),
-                    new Claim("Email", email ),
+                    new Claim(JwtRegisteredClaimNames.Email, email ),
                     new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
                 };
 
@@ -212,6 +253,14 @@
                 user.RefreshToken = null;
                 await UpdateAsync(user);
             }
+        }
+
+        public async Task<UsuarioGetModel?> GetByEmail(string email)
+        {
+            Usuario? usuario = await FindByNameAsync(email);
+            if (usuario == null)
+                return null;
+            return _usuarioMapper.ToGetModel(usuario);
         }
     }
 }

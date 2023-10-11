@@ -16,15 +16,15 @@
 
         public RolType RolType { get; private set; }
 
-        public IReadOnlyCollection<UsuarioRol> UsuarioRoles { get; } = Array.Empty<UsuarioRol>();
-        public IReadOnlyCollection<RolPermiso> Permisos { get; } = Array.Empty<RolPermiso>();
+        public IReadOnlyCollection<UsuarioRol> UsuarioRoles { get; } = new List<UsuarioRol>();
+        public IReadOnlyCollection<RolPermiso> Permisos { get; } = new List<RolPermiso>();
         public Audit Audit { get; set; } = default!;
     }
 
     public enum RolType
     {
-        Administrator = 1,
-        Resident,
-        Homeowner
+        Administrador = 1,
+        Inquilino,
+        Propietario
     }
 }

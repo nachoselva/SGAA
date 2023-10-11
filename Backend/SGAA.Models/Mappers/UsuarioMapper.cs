@@ -12,14 +12,21 @@
             };
         }
 
+        public Usuario ToEntity(UsuarioPutModel putModel, Usuario usuario)
+        {
+            usuario.Nombre = putModel.Nombre;
+            usuario.Apellido = putModel.Apellido;
+            return usuario;
+        }
+
         public UsuarioGetModel ToGetModel(Usuario entity)
         {
             return new UsuarioGetModel()
             {
                 Id = entity.Id,
                 Email = entity.Email!,
-                FirstName = entity.Nombre,
-                LastName = entity.Nombre
+                Nombre = entity.Nombre,
+                Apellido = entity.Apellido
             };
         }
     }

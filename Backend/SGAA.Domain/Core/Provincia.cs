@@ -14,6 +14,6 @@
         public string Nombre { get; private set; }
         public string NombreCompleto { get; private set; }
 
-        public IReadOnlyCollection<Ciudad> Ciudades { get; private set; } = Array.Empty<Ciudad>();
+        public IReadOnlyCollection<Ciudad> Ciudades { get; private set; } = new List<Ciudad>();
     }
 }

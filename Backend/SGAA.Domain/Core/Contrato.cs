@@ -22,7 +22,7 @@
         public ContratoStatus Status { get; set; }
 
         public Postulacion Postulacion { get; private set; } = default!;
-        public IReadOnlyCollection<Firma> Firmas { get; private set; } = Array.Empty<Firma>();
-        public IReadOnlyCollection<Pago> Pagos { get; private set; } = Array.Empty<Pago>();
+        public IReadOnlyCollection<Firma> Firmas { get; private set; } = new List<Firma>();
+        public IReadOnlyCollection<Pago> Pagos { get; private set; } = new List<Pago>();
     }
 }

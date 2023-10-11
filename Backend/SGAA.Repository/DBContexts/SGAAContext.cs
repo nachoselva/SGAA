@@ -17,8 +17,6 @@
         {
             _configuration = configuration;
         }
-
-        public override DbSet<Rol> Roles { get; set; }
         //public DbSet<Usuario> Members { get; set; }
         //public DbSet<Unidad> Homes { get; set; }
         //public DbSet<Ciudad> Cities { get; set; }

@@ -3,7 +3,7 @@
     using SGAA.Api.Middleware;
     using SGAA.Repository.DependencyInjection;
 
-    public static class ApplicationBuilder
+    public static class ApplicationBuilderExtensions
     {
         public static async Task<WebApplication> MigrateDbContext(
             this WebApplication app)

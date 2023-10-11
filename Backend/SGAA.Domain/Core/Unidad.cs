@@ -27,8 +27,8 @@
         public Propiedad Propiedad { get; private set; } = default!;
         public Usuario PropietarioUsuario { get; private set; } = default!;
         public UnidadDetalle Detalle { get; private set; } = default!;
-        public IReadOnlyCollection<UnidadComentario> Comentarios { get; private set; } = Array.Empty<UnidadComentario>();
-        public IReadOnlyCollection<Publicacion> Publicaciones { get; private set; } = Array.Empty<Publicacion>();
-        public IReadOnlyCollection<Titular> Titulares { get; private set; } = Array.Empty<Titular>();
+        public IReadOnlyCollection<UnidadComentario> Comentarios { get; private set; } = new List<UnidadComentario>();
+        public IReadOnlyCollection<Publicacion> Publicaciones { get; private set; } = new List<Publicacion>();
+        public IReadOnlyCollection<Titular> Titulares { get; private set; } = new List<Titular>();
     }
 }
