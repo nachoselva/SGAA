@@ -6,7 +6,12 @@
     {
         public ProvinciaGetModel ToGetModel(Provincia entity)
         {
-            return new ProvinciaGetModel();
+            return new ProvinciaGetModel
+            {
+                Id = entity.Id,
+                Nombre = entity.Nombre,
+                NombreCompleto = entity.NombreCompleto
+            };
         }
     }
 }

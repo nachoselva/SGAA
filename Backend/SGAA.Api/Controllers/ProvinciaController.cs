@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using SGAA.Models;
     using SGAA.Service.Contracts;
 
     [ApiController]
@@ -16,7 +17,9 @@
             _provinciaService = provinciaService;
         }
 
-
+        [HttpGet]
+        public Task<IReadOnlyCollection<ProvinciaGetModel>> GetCiudades()
+            => _provinciaService.GetProvincias();
 
     }
 }
