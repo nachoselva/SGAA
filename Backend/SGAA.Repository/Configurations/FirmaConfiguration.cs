@@ -22,6 +22,7 @@
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
             builder.Property(unidad => unidad.TipoIdentificacion)
                 .IsRequired()
+                .HasConversion<string>()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
             builder.Property(firma => firma.NumeroIdentificacion)
                 .IsRequired()

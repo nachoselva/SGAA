@@ -12,8 +12,8 @@ using SGAA.Repository.Contexts;
 namespace SGAA.Repository.Migrations
 {
     [DbContext(typeof(SGAADbContext))]
-    [Migration("20231011212702_Change_Rol_Types_Names")]
-    partial class Change_Rol_Types_Names
+    [Migration("20231012021432_Varbinary_Max")]
+    partial class Varbinary_Max
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -301,9 +301,10 @@ namespace SGAA.Repository.Migrations
                     b.Property<decimal>("PuntuacionTotal")
                         .HasColumnType("decimal");
 
-                    b.Property<int>("Status")
+                    b.Property<string>("Status")
+                        .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -363,7 +364,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("ProvinciaId");
 
-                    b.ToTable("Ciudades");
+                    b.ToTable("Ciudad", (string)null);
 
                     b.HasData(
                         new
@@ -13126,9 +13127,10 @@ namespace SGAA.Repository.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("int");
 
-                    b.Property<int>("TipoIdentificacion")
+                    b.Property<string>("TipoIdentificacion")
+                        .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("UsuarioId")
                         .HasColumnType("int");
@@ -13158,7 +13160,7 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<byte[]>("Archivo")
                         .IsRequired()
-                        .HasColumnType("varbinary");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<decimal>("Monto")
                         .HasColumnType("decimal");
@@ -13178,8 +13180,10 @@ namespace SGAA.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Nombre")
-                        .HasColumnType("int");
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -13239,9 +13243,10 @@ namespace SGAA.Repository.Migrations
                         .HasPrecision(14, 2)
                         .HasColumnType("decimal");
 
-                    b.Property<int>("Status")
+                    b.Property<string>("Status")
+                        .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -13274,9 +13279,10 @@ namespace SGAA.Repository.Migrations
                     b.Property<int>("PublicacionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status")
+                    b.Property<string>("Status")
+                        .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -13316,7 +13322,7 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<byte[]>("DorsoIdentificacionArchivo")
                         .IsRequired()
-                        .HasColumnType("varbinary");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<DateTime>("FechaEmpleadoDesde")
                         .HasColumnType("date");
@@ -13326,7 +13332,7 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<byte[]>("FrenteIdentificacionArchivo")
                         .IsRequired()
-                        .HasColumnType("varbinary");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<decimal>("IngresoMensual")
                         .HasColumnType("decimal");
@@ -13348,10 +13354,12 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<byte[]>("ReciboDeSueldoArchivo")
                         .IsRequired()
-                        .HasColumnType("varbinary");
+                        .HasColumnType("varbinary(max)");
 
-                    b.Property<int>("TipoIdentificacion")
-                        .HasColumnType("int");
+                    b.Property<string>("TipoIdentificacion")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -13383,7 +13391,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("CiudadId");
 
-                    b.ToTable("Propiedad");
+                    b.ToTable("Propiedades");
                 });
 
             modelBuilder.Entity("SGAA.Domain.Core.Provincia", b =>
@@ -13401,7 +13409,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Provincias");
+                    b.ToTable("Provincia", (string)null);
 
                     b.HasData(
                         new
@@ -13570,9 +13578,10 @@ namespace SGAA.Repository.Migrations
                         .HasPrecision(14, 2)
                         .HasColumnType("decimal");
 
-                    b.Property<int>("Status")
+                    b.Property<string>("Status")
+                        .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("UnidadId")
                         .HasColumnType("int");
@@ -13607,14 +13616,14 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<byte[]>("DorsoIdentificacionArchivo")
                         .IsRequired()
-                        .HasColumnType("varbinary");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("date");
 
                     b.Property<byte[]>("FrenteIdentificacionArchivo")
                         .IsRequired()
-                        .HasColumnType("varbinary");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -13626,8 +13635,10 @@ namespace SGAA.Repository.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("TipoIdentificacion")
-                        .HasColumnType("int");
+                    b.Property<string>("TipoIdentificacion")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("UnidadId")
                         .HasColumnType("int");
@@ -13666,19 +13677,20 @@ namespace SGAA.Repository.Migrations
                     b.Property<int>("PropietarioUsuarioId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status")
+                    b.Property<string>("Status")
+                        .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<byte[]>("TituloPropiedadArchivo")
                         .IsRequired()
-                        .HasColumnType("varbinary");
+                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PropiedadId");
 
-                    b.ToTable("Unidad", t =>
+                    b.ToTable("Unidad", null, t =>
                         {
                             t.HasCheckConstraint("CHK_Unidad_Status", "[Status] IN ('AprobacionPendiente', 'DocumentacionAprobada')");
                         });
@@ -13760,7 +13772,7 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<byte[]>("Archivo")
                         .IsRequired()
-                        .HasColumnType("varbinary");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
@@ -14204,7 +14216,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("CiudadId");
 
-                            b1.ToTable("Ciudades");
+                            b1.ToTable("Ciudad");
 
                             b1.WithOwner()
                                 .HasForeignKey("CiudadId");
@@ -14599,7 +14611,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("PropiedadId");
 
-                            b1.ToTable("Propiedad");
+                            b1.ToTable("Propiedades");
 
                             b1.WithOwner()
                                 .HasForeignKey("PropiedadId");
@@ -14636,7 +14648,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("ProvinciaId");
 
-                            b1.ToTable("Provincias");
+                            b1.ToTable("Provincia");
 
                             b1.WithOwner()
                                 .HasForeignKey("ProvinciaId");

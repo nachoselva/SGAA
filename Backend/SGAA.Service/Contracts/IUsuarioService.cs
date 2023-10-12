@@ -4,6 +4,7 @@
 
     public interface IUsuarioService
     {
+        Task<UsuarioGetModel?> GetById(int email);
         Task<UsuarioGetModel?> GetByEmail(string email);
         Task<UsuarioGetModel> AddUsuario(UsuarioPostModel model);
         Task<UsuarioGetModel> AddUsuarioPublic(UsuarioPostModel model);

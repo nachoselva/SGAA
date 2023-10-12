@@ -18,6 +18,8 @@
                 .IsRequired()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L3);
             builder.Property(postulante => postulante.TipoIdentificacion)
+                .HasConversion<string>()
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L1)
                 .IsRequired();
             builder.Property(postulante => postulante.NumeroIdentificacion)
                 .IsRequired()

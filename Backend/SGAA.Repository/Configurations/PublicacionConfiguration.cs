@@ -23,6 +23,7 @@
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L2);
             builder.Property(publicacion => publicacion.Status)
                 .IsRequired()
+                .HasConversion<string>()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
 
             builder

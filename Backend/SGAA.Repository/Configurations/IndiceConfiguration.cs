@@ -13,6 +13,11 @@
         {
             base.Configure(builder);
 
+            builder.Property(i => i.Nombre)
+                .HasConversion<string>()
+                .IsRequired()
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
+
             builder.ToTable(tableBuilder =>
                 tableBuilder
                 .HasCheckConstraintWithEnum(indice => indice.Nombre)

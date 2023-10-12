@@ -1,5 +1,6 @@
 ﻿namespace SGAA.Repository.Configuration
 {
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using SGAA.Domain.Core;
     using SGAA.Repository.Configuration.Base;
@@ -26,6 +27,8 @@
                 .Select(p => new Provincia(int.Parse(p.Id), p.Nombre, p.NombreCompleto));
 
             builder.HasData(provincias);
+
+            builder.ToTable(nameof(Provincia));
         }
 
         private class ProvinceJson

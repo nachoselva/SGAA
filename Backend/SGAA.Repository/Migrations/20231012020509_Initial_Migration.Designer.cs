@@ -12,8 +12,8 @@ using SGAA.Repository.Contexts;
 namespace SGAA.Repository.Migrations
 {
     [DbContext(typeof(SGAADbContext))]
-    [Migration("20231008201254_RefreshToken_NULL")]
-    partial class RefreshToken_NULL
+    [Migration("20231012020509_Initial_Migration")]
+    partial class Initial_Migration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,39 +52,39 @@ namespace SGAA.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "RolType" }, "IX_Roles_RolType")
+                    b.HasIndex(new[] { "RolType" }, "IX_Rol_RolType")
                         .IsUnique();
 
                     b.HasIndex(new[] { "NormalizedName" }, "RoleNameIndex")
                         .IsUnique()
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("Roles", t =>
+                    b.ToTable("Rol", null, t =>
                         {
-                            t.HasCheckConstraint("CHK_Roles_RolType", "[RolType] IN ('Administrator', 'Resident', 'Homeowner')");
+                            t.HasCheckConstraint("CHK_Rol_RolType", "[RolType] IN ('Administrador', 'Inquilino', 'Propietario')");
                         });
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR",
-                            RolType = "Administrator"
+                            Name = "Administrador",
+                            NormalizedName = "ADMINISTRADOR",
+                            RolType = "Administrador"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Resident",
-                            NormalizedName = "RESIDENT",
-                            RolType = "Resident"
+                            Name = "Inquilino",
+                            NormalizedName = "INQUILINO",
+                            RolType = "Inquilino"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Homeowner",
-                            NormalizedName = "HOMEOWNER",
-                            RolType = "Homeowner"
+                            Name = "Propietario",
+                            NormalizedName = "PROPIETARIO",
+                            RolType = "Propietario"
                         });
                 });
 
@@ -109,7 +109,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RoleClaims");
+                    b.ToTable("RolPermiso", (string)null);
                 });
 
             modelBuilder.Entity("SGAA.Domain.Auth.Usuario", b =>
@@ -123,6 +123,11 @@ namespace SGAA.Repository.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Apellido")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -135,21 +140,16 @@ namespace SGAA.Repository.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedEmail")
                         .IsRequired()
@@ -195,7 +195,7 @@ namespace SGAA.Repository.Migrations
                     b.HasIndex(new[] { "NormalizedUserName" }, "UserNameIndex")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Usuario", (string)null);
                 });
 
             modelBuilder.Entity("SGAA.Domain.Auth.UsuarioLogin", b =>
@@ -221,7 +221,7 @@ namespace SGAA.Repository.Migrations
                     b.HasIndex(new[] { "LoginProvider", "ProviderKey" }, "MemberLoginCompositeKey")
                         .IsUnique();
 
-                    b.ToTable("UserLogins");
+                    b.ToTable("UsuarioLogin", (string)null);
                 });
 
             modelBuilder.Entity("SGAA.Domain.Auth.UsuarioPermiso", b =>
@@ -245,7 +245,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserClaims");
+                    b.ToTable("UsuarioPermiso", (string)null);
                 });
 
             modelBuilder.Entity("SGAA.Domain.Auth.UsuarioRol", b =>
@@ -260,7 +260,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UsuarioRol", (string)null);
                 });
 
             modelBuilder.Entity("SGAA.Domain.Auth.UsuarioToken", b =>
@@ -284,7 +284,7 @@ namespace SGAA.Repository.Migrations
                     b.HasIndex(new[] { "UserId", "LoginProvider", "Name" }, "MemberTokenCompositeKey")
                         .IsUnique();
 
-                    b.ToTable("UserTokens");
+                    b.ToTable("UsuarioToken", (string)null);
                 });
 
             modelBuilder.Entity("SGAA.Domain.Core.Aplicacion", b =>
@@ -301,9 +301,10 @@ namespace SGAA.Repository.Migrations
                     b.Property<decimal>("PuntuacionTotal")
                         .HasColumnType("decimal");
 
-                    b.Property<int>("Status")
+                    b.Property<string>("Status")
+                        .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -363,7 +364,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("ProvinciaId");
 
-                    b.ToTable("Ciudades");
+                    b.ToTable("Ciudad", (string)null);
 
                     b.HasData(
                         new
@@ -13126,9 +13127,10 @@ namespace SGAA.Repository.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("int");
 
-                    b.Property<int>("TipoIdentificacion")
+                    b.Property<string>("TipoIdentificacion")
+                        .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("UsuarioId")
                         .HasColumnType("int");
@@ -13178,8 +13180,10 @@ namespace SGAA.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Nombre")
-                        .HasColumnType("int");
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -13239,9 +13243,10 @@ namespace SGAA.Repository.Migrations
                         .HasPrecision(14, 2)
                         .HasColumnType("decimal");
 
-                    b.Property<int>("Status")
+                    b.Property<string>("Status")
+                        .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -13274,9 +13279,10 @@ namespace SGAA.Repository.Migrations
                     b.Property<int>("PublicacionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status")
+                    b.Property<string>("Status")
+                        .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -13350,8 +13356,10 @@ namespace SGAA.Repository.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary");
 
-                    b.Property<int>("TipoIdentificacion")
-                        .HasColumnType("int");
+                    b.Property<string>("TipoIdentificacion")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -13383,7 +13391,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("CiudadId");
 
-                    b.ToTable("Propiedad");
+                    b.ToTable("Propiedades");
                 });
 
             modelBuilder.Entity("SGAA.Domain.Core.Provincia", b =>
@@ -13401,7 +13409,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Provincias");
+                    b.ToTable("Provincia", (string)null);
 
                     b.HasData(
                         new
@@ -13570,9 +13578,10 @@ namespace SGAA.Repository.Migrations
                         .HasPrecision(14, 2)
                         .HasColumnType("decimal");
 
-                    b.Property<int>("Status")
+                    b.Property<string>("Status")
+                        .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("UnidadId")
                         .HasColumnType("int");
@@ -13626,8 +13635,10 @@ namespace SGAA.Repository.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("TipoIdentificacion")
-                        .HasColumnType("int");
+                    b.Property<string>("TipoIdentificacion")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("UnidadId")
                         .HasColumnType("int");
@@ -13666,9 +13677,10 @@ namespace SGAA.Repository.Migrations
                     b.Property<int>("PropietarioUsuarioId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status")
+                    b.Property<string>("Status")
+                        .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<byte[]>("TituloPropiedadArchivo")
                         .IsRequired()
@@ -13678,7 +13690,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("PropiedadId");
 
-                    b.ToTable("Unidad", t =>
+                    b.ToTable("Unidad", null, t =>
                         {
                             t.HasCheckConstraint("CHK_Unidad_Status", "[Status] IN ('AprobacionPendiente', 'DocumentacionAprobada')");
                         });
@@ -13807,7 +13819,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("RolId");
 
-                            b1.ToTable("Roles");
+                            b1.ToTable("Rol");
 
                             b1.WithOwner()
                                 .HasForeignKey("RolId");
@@ -13848,7 +13860,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("RolPermisoId");
 
-                            b1.ToTable("RoleClaims");
+                            b1.ToTable("RolPermiso");
 
                             b1.WithOwner()
                                 .HasForeignKey("RolPermisoId");
@@ -13885,7 +13897,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("UsuarioId");
 
-                            b1.ToTable("Users");
+                            b1.ToTable("Usuario");
 
                             b1.WithOwner()
                                 .HasForeignKey("UsuarioId");
@@ -13929,7 +13941,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("UsuarioLoginLoginProvider", "UsuarioLoginProviderKey");
 
-                            b1.ToTable("UserLogins");
+                            b1.ToTable("UsuarioLogin");
 
                             b1.WithOwner()
                                 .HasForeignKey("UsuarioLoginLoginProvider", "UsuarioLoginProviderKey");
@@ -13972,7 +13984,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("UsuarioPermisoId");
 
-                            b1.ToTable("UserClaims");
+                            b1.ToTable("UsuarioPermiso");
 
                             b1.WithOwner()
                                 .HasForeignKey("UsuarioPermisoId");
@@ -14024,7 +14036,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("UsuarioRolUserId", "UsuarioRolRoleId");
 
-                            b1.ToTable("UserRoles");
+                            b1.ToTable("UsuarioRol");
 
                             b1.WithOwner()
                                 .HasForeignKey("UsuarioRolUserId", "UsuarioRolRoleId");
@@ -14075,7 +14087,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("UsuarioTokenUserId", "UsuarioTokenLoginProvider", "UsuarioTokenName");
 
-                            b1.ToTable("UserTokens");
+                            b1.ToTable("UsuarioToken");
 
                             b1.WithOwner()
                                 .HasForeignKey("UsuarioTokenUserId", "UsuarioTokenLoginProvider", "UsuarioTokenName");
@@ -14204,7 +14216,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("CiudadId");
 
-                            b1.ToTable("Ciudades");
+                            b1.ToTable("Ciudad");
 
                             b1.WithOwner()
                                 .HasForeignKey("CiudadId");
@@ -14599,7 +14611,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("PropiedadId");
 
-                            b1.ToTable("Propiedad");
+                            b1.ToTable("Propiedades");
 
                             b1.WithOwner()
                                 .HasForeignKey("PropiedadId");
@@ -14636,7 +14648,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("ProvinciaId");
 
-                            b1.ToTable("Provincias");
+                            b1.ToTable("Provincia");
 
                             b1.WithOwner()
                                 .HasForeignKey("ProvinciaId");

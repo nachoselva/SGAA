@@ -25,6 +25,7 @@
                 .HasColumnType(DataTypes.TYPE_FILE);
             builder.Property(unidad => unidad.Status)
                 .IsRequired()
+                .HasConversion<string>()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
 
             builder
@@ -42,7 +43,7 @@
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.ToTable(tableBuilder =>
+            builder.ToTable(nameof(Unidad), tableBuilder =>
                 tableBuilder
                 .HasCheckConstraintWithEnum(unidad => unidad.Status)
             );

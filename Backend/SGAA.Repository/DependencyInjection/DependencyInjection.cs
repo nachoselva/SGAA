@@ -13,6 +13,7 @@
             services.AddScoped<ICiudadRepository, CiudadRepository>();
             services.AddScoped<IProvinciaRepository, ProvinciaRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<IUnidadRepository, UnidadRepository>();
             return services;
         }
 

@@ -14,7 +14,9 @@
 
             builder.Property(postulacion => postulacion.Status)
                 .IsRequired()
+                .HasConversion<string>()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
+
             builder.Property(postulacion => postulacion.FechaOferta)
                 .HasColumnType(DataTypes.TYPE_DATETIME);
 
