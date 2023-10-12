@@ -21,6 +21,9 @@
 
         public async Task<UnidadGetModel> AddUnidad(UnidadPostModel model)
         {
+            Unidad? unidadExistente = await _unidadRepository.GetUnidadByDireccion(model.CiudadId, model.Calle, model.Altura, model.Piso, model.Departamento);
+            if (unidadExistente != null)
+                throw new BadRequestException("Unidad", "Existe una unidad registrada en el mismo domicilio.");
             Propiedad? propiedad = await _unidadRepository.GetPropiedadByDireccion(model.CiudadId, model.Calle, model.Altura);
             if (propiedad != null)
                 model.PropiedadId = propiedad.Id;

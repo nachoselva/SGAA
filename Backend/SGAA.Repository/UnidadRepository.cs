@@ -23,7 +23,16 @@
 
         public Task<Propiedad?> GetPropiedadByDireccion(int ciudadId, string calle, int altura)
         {
-            return _dbContext.Propiedades.FirstOrDefaultAsync(p => p.CiudadId == ciudadId && p.Altura == altura && EF.Functions.Like(calle, p.Calle));
+            return _dbContext.Propiedades
+                .FirstOrDefaultAsync(p => p.CiudadId == ciudadId && p.Altura == altura && EF.Functions.Like(calle, p.Calle));
+        }
+
+        public Task<Unidad?> GetUnidadByDireccion(int ciudadId, string calle, int altura, string piso, string departamento)
+        {
+            return _dbContext.Unidades
+                .Where(u => u.Propiedad.CiudadId == ciudadId && u.Propiedad.Altura == altura && EF.Functions.Like(calle, u.Propiedad.Calle))
+                .Where(u => EF.Functions.Like(piso, u.Piso) && EF.Functions.Like(piso, u.Departamento))
+                .FirstOrDefaultAsync();
         }
 
         public Task<Unidad?> GetUnidadById(int unidadId)

@@ -28,6 +28,9 @@
                 .HasConversion<string>()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
 
+            builder.HasIndex(unidad => new { unidad.PropiedadId, unidad.Piso, unidad.Departamento })
+                .IsUnique();
+
             builder
                 .HasOne(unidad => unidad.Propiedad)
                 .WithMany(propiedad => propiedad.Unidades)
