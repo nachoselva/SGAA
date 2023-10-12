@@ -24,9 +24,9 @@
         public byte[] TituloPropiedadArchivo { get; private set; }
         public UnidadStatus Status { get; private set; }
 
-        public Propiedad Propiedad { get; private set; } = default!;
+        public Propiedad Propiedad { get; set; } = default!;
         public Usuario PropietarioUsuario { get; private set; } = default!;
-        public UnidadDetalle Detalle { get; private set; } = default!;
+        public UnidadDetalle Detalle { get; set; } = default!;
         public IReadOnlyCollection<UnidadComentario> Comentarios { get; private set; } = new List<UnidadComentario>();
         public IReadOnlyCollection<Publicacion> Publicaciones { get; private set; } = new List<Publicacion>();
         public IReadOnlyCollection<Titular> Titulares { get; private set; } = new List<Titular>();

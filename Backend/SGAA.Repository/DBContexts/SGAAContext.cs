@@ -22,6 +22,8 @@
         //public DbSet<Ciudad> Cities { get; set; }
         public DbSet<Provincia> Provincias { get; set; }
         public DbSet<Ciudad> Ciudades { get; set; }
+        public DbSet<Unidad> Unidades { get; set; }
+        public DbSet<Propiedad> Propiedades { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

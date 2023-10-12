@@ -4,6 +4,8 @@
 
     public class UnidadDetalle : BaseEntity, IEntity
     {
+        private List<UnidadImagen> _imagenes;
+
         public UnidadDetalle(int unidadId, string descripcion, decimal superficie, int ambientes, int banios, int dormitorios, int cocheras)
         {
             UnidadId = unidadId;
@@ -13,6 +15,7 @@
             Banios = banios;
             Dormitorios = dormitorios;
             Cocheras = cocheras;
+            _imagenes = new List<UnidadImagen>();
         }
 
         public int UnidadId { get; set; }
@@ -24,6 +27,11 @@
         public int Cocheras { get; private set; }
 
         public Unidad Unidad { get; set; } = default!;
-        public IReadOnlyCollection<UnidadImagen> Imagenes { get; private set; } = new List<UnidadImagen>();
+        public IReadOnlyCollection<UnidadImagen> Imagenes => _imagenes.AsReadOnly();
+
+        public void AddImagenes(IEnumerable<UnidadImagen> imagen)
+        {
+            _imagenes.AddRange(imagen);
+        }
     }
 }

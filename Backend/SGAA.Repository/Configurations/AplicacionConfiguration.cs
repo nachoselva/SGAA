@@ -18,6 +18,7 @@
 
             builder.Property(aplicacion => aplicacion.Status)
                 .IsRequired()
+                .HasConversion<string>()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
 
             builder

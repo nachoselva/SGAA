@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SGAA.Repository.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial_Model : Migration
+    public partial class Initial_Migration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -40,7 +40,7 @@ namespace SGAA.Repository.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<int>(type: "int", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
@@ -52,7 +52,7 @@ namespace SGAA.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Provincias",
+                name: "Provincia",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
@@ -64,11 +64,11 @@ namespace SGAA.Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Provincias", x => x.Id);
+                    table.PrimaryKey("PK_Provincia", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Roles",
+                name: "Rol",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -83,19 +83,19 @@ namespace SGAA.Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
-                    table.CheckConstraint("CHK_Roles_RolType", "[RolType] IN ('Administrator', 'Resident', 'Homeowner')");
+                    table.PrimaryKey("PK_Rol", x => x.Id);
+                    table.CheckConstraint("CHK_Rol_RolType", "[RolType] IN ('Administrador', 'Inquilino', 'Propietario')");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "Usuario",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    RefreshToken = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Apellido = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    RefreshToken = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     RefreshTokenExpiryTime = table.Column<DateTime>(type: "smalldatetime", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -117,7 +117,7 @@ namespace SGAA.Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_Usuario", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -130,7 +130,7 @@ namespace SGAA.Repository.Migrations
                     Descripcion = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Monto = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: false),
                     FechaVencimiento = table.Column<DateOnly>(type: "date", nullable: false),
-                    Status = table.Column<int>(type: "int", maxLength: 20, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     FechaPago = table.Column<DateTime>(type: "datetime2(3)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -173,7 +173,7 @@ namespace SGAA.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Ciudades",
+                name: "Ciudad",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
@@ -186,17 +186,17 @@ namespace SGAA.Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ciudades", x => x.Id);
+                    table.PrimaryKey("PK_Ciudad", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Ciudades_Provincias_ProvinciaId",
+                        name: "FK_Ciudad_Provincia_ProvinciaId",
                         column: x => x.ProvinciaId,
-                        principalTable: "Provincias",
+                        principalTable: "Provincia",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "RoleClaims",
+                name: "RolPermiso",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -210,11 +210,11 @@ namespace SGAA.Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleClaims", x => x.Id);
+                    table.PrimaryKey("PK_RolPermiso", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RoleClaims_Roles_RoleId",
+                        name: "FK_RolPermiso_Rol_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "Roles",
+                        principalTable: "Rol",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -226,7 +226,7 @@ namespace SGAA.Repository.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     InquilinoUsuarioId = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<int>(type: "int", maxLength: 20, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     PuntuacionTotal = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -237,9 +237,9 @@ namespace SGAA.Repository.Migrations
                     table.PrimaryKey("PK_Aplicacion", x => x.Id);
                     table.CheckConstraint("CHK_Aplicacion_Status", "[Status] IN ('AprobacionPendiente', 'Aprobada', 'Expirada', 'Ofrecida', 'Reservada')");
                     table.ForeignKey(
-                        name: "FK_Aplicacion_Users_InquilinoUsuarioId",
+                        name: "FK_Aplicacion_Usuario_InquilinoUsuarioId",
                         column: x => x.InquilinoUsuarioId,
-                        principalTable: "Users",
+                        principalTable: "Usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -255,7 +255,7 @@ namespace SGAA.Repository.Migrations
                     FechaFirma = table.Column<DateTime>(type: "datetime2(3)", nullable: true),
                     DireccionIp = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Rol = table.Column<int>(type: "int", maxLength: 20, nullable: false),
-                    TipoIdentificacion = table.Column<int>(type: "int", maxLength: 20, nullable: false),
+                    TipoIdentificacion = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     NumeroIdentificacion = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -273,15 +273,38 @@ namespace SGAA.Repository.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Firma_Users_ContratoId",
+                        name: "FK_Firma_Usuario_ContratoId",
                         column: x => x.ContratoId,
-                        principalTable: "Users",
+                        principalTable: "Usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserClaims",
+                name: "UsuarioLogin",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UsuarioLogin", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_UsuarioLogin_Usuario_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Usuario",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UsuarioPermiso",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -295,40 +318,17 @@ namespace SGAA.Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserClaims", x => x.Id);
+                    table.PrimaryKey("PK_UsuarioPermiso", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserClaims_Users_UserId",
+                        name: "FK_UsuarioPermiso_Usuario_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "Usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserLogins",
-                columns: table => new
-                {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
-                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserLogins", x => new { x.LoginProvider, x.ProviderKey });
-                    table.ForeignKey(
-                        name: "FK_UserLogins_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserRoles",
+                name: "UsuarioRol",
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false),
@@ -339,23 +339,23 @@ namespace SGAA.Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
+                    table.PrimaryKey("PK_UsuarioRol", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
-                        name: "FK_UserRoles_Roles_RoleId",
+                        name: "FK_UsuarioRol_Rol_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "Roles",
+                        principalTable: "Rol",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserRoles_Users_UserId",
+                        name: "FK_UsuarioRol_Usuario_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "Usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserTokens",
+                name: "UsuarioToken",
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false),
@@ -368,17 +368,17 @@ namespace SGAA.Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.PrimaryKey("PK_UsuarioToken", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
-                        name: "FK_UserTokens_Users_UserId",
+                        name: "FK_UsuarioToken_Usuario_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "Usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Propiedad",
+                name: "Propiedades",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -392,11 +392,11 @@ namespace SGAA.Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Propiedad", x => x.Id);
+                    table.PrimaryKey("PK_Propiedades", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Propiedad_Ciudades_CiudadId",
+                        name: "FK_Propiedades_Ciudad_CiudadId",
                         column: x => x.CiudadId,
-                        principalTable: "Ciudades",
+                        principalTable: "Ciudad",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -465,7 +465,7 @@ namespace SGAA.Repository.Migrations
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Apellido = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    TipoIdentificacion = table.Column<int>(type: "int", nullable: false),
+                    TipoIdentificacion = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     NumeroIdentificacion = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     FechaNacimiento = table.Column<DateTime>(type: "date", nullable: false),
                     Domicilio = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
@@ -495,7 +495,7 @@ namespace SGAA.Repository.Migrations
                     Departamento = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     FechaAdquisicion = table.Column<DateTime>(type: "date", nullable: false),
                     TituloPropiedadArchivo = table.Column<byte[]>(type: "varbinary", nullable: false),
-                    Status = table.Column<int>(type: "int", maxLength: 20, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
@@ -505,15 +505,15 @@ namespace SGAA.Repository.Migrations
                     table.PrimaryKey("PK_Unidad", x => x.Id);
                     table.CheckConstraint("CHK_Unidad_Status", "[Status] IN ('AprobacionPendiente', 'DocumentacionAprobada')");
                     table.ForeignKey(
-                        name: "FK_Unidad_Propiedad_PropiedadId",
+                        name: "FK_Unidad_Propiedades_PropiedadId",
                         column: x => x.PropiedadId,
-                        principalTable: "Propiedad",
+                        principalTable: "Propiedades",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Unidad_Users_PropiedadId",
+                        name: "FK_Unidad_Usuario_PropiedadId",
                         column: x => x.PropiedadId,
-                        principalTable: "Users",
+                        principalTable: "Usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -528,7 +528,7 @@ namespace SGAA.Repository.Migrations
                     MontoAlquiler = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: false),
                     InicioAlquiler = table.Column<DateOnly>(type: "date", nullable: false),
                     Codigo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Status = table.Column<int>(type: "int", maxLength: 20, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
@@ -557,7 +557,7 @@ namespace SGAA.Repository.Migrations
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Apellido = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    TipoIdentificacion = table.Column<int>(type: "int", nullable: false),
+                    TipoIdentificacion = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     NumeroIdentificacion = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     FechaNacimiento = table.Column<DateTime>(type: "date", nullable: false),
                     Domicilio = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
@@ -636,7 +636,7 @@ namespace SGAA.Repository.Migrations
                     PublicacionId = table.Column<int>(type: "int", nullable: false),
                     AplicacionId = table.Column<int>(type: "int", nullable: false),
                     ContratoId = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<int>(type: "int", maxLength: 20, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     FechaOferta = table.Column<DateTime>(type: "datetime2(3)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -692,7 +692,7 @@ namespace SGAA.Repository.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Provincias",
+                table: "Provincia",
                 columns: new[] { "Id", "Nombre", "NombreCompleto" },
                 values: new object[,]
                 {
@@ -723,17 +723,17 @@ namespace SGAA.Repository.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Roles",
+                table: "Rol",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName", "RolType" },
                 values: new object[,]
                 {
-                    { 1, null, "Administrator", "ADMINISTRATOR", "Administrator" },
-                    { 2, null, "Resident", "RESIDENT", "Resident" },
-                    { 3, null, "Homeowner", "HOMEOWNER", "Homeowner" }
+                    { 1, null, "Administrador", "ADMINISTRADOR", "Administrador" },
+                    { 2, null, "Inquilino", "INQUILINO", "Inquilino" },
+                    { 3, null, "Propietario", "PROPIETARIO", "Propietario" }
                 });
 
             migrationBuilder.InsertData(
-                table: "Ciudades",
+                table: "Ciudad",
                 columns: new[] { "Id", "Nombre", "NombreCompleto", "ProvinciaId" },
                 values: new object[,]
                 {
@@ -2564,8 +2564,8 @@ namespace SGAA.Repository.Migrations
                 column: "AplicacionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ciudades_ProvinciaId",
-                table: "Ciudades",
+                name: "IX_Ciudad_ProvinciaId",
+                table: "Ciudad",
                 column: "ProvinciaId");
 
             migrationBuilder.CreateIndex(
@@ -2610,8 +2610,8 @@ namespace SGAA.Repository.Migrations
                 column: "AplicacionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Propiedad_CiudadId",
-                table: "Propiedad",
+                name: "IX_Propiedades_CiudadId",
+                table: "Propiedades",
                 column: "CiudadId");
 
             migrationBuilder.CreateIndex(
@@ -2620,22 +2620,22 @@ namespace SGAA.Repository.Migrations
                 column: "UnidadId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RoleClaims_RoleId",
-                table: "RoleClaims",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Roles_RolType",
-                table: "Roles",
+                name: "IX_Rol_RolType",
+                table: "Rol",
                 column: "RolType",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
-                table: "Roles",
+                table: "Rol",
                 column: "NormalizedName",
                 unique: true,
                 filter: "[NormalizedName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RolPermiso_RoleId",
+                table: "RolPermiso",
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Titular_UnidadId",
@@ -2664,40 +2664,40 @@ namespace SGAA.Repository.Migrations
                 column: "UnidadDetalleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserClaims_UserId",
-                table: "UserClaims",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserLogins_UserId",
-                table: "UserLogins",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "MemberLoginCompositeKey",
-                table: "UserLogins",
-                columns: new[] { "LoginProvider", "ProviderKey" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_RoleId",
-                table: "UserRoles",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
-                table: "Users",
+                table: "Usuario",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
-                table: "Users",
+                table: "Usuario",
                 column: "NormalizedUserName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_UsuarioLogin_UserId",
+                table: "UsuarioLogin",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "MemberLoginCompositeKey",
+                table: "UsuarioLogin",
+                columns: new[] { "LoginProvider", "ProviderKey" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsuarioPermiso_UserId",
+                table: "UsuarioPermiso",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsuarioRol_RoleId",
+                table: "UsuarioRol",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
                 name: "MemberTokenCompositeKey",
-                table: "UserTokens",
+                table: "UsuarioToken",
                 columns: new[] { "UserId", "LoginProvider", "Name" },
                 unique: true);
         }
@@ -2727,7 +2727,7 @@ namespace SGAA.Repository.Migrations
                 name: "Postulante");
 
             migrationBuilder.DropTable(
-                name: "RoleClaims");
+                name: "RolPermiso");
 
             migrationBuilder.DropTable(
                 name: "Titular");
@@ -2739,16 +2739,16 @@ namespace SGAA.Repository.Migrations
                 name: "UnidadImagen");
 
             migrationBuilder.DropTable(
-                name: "UserClaims");
+                name: "UsuarioLogin");
 
             migrationBuilder.DropTable(
-                name: "UserLogins");
+                name: "UsuarioPermiso");
 
             migrationBuilder.DropTable(
-                name: "UserRoles");
+                name: "UsuarioRol");
 
             migrationBuilder.DropTable(
-                name: "UserTokens");
+                name: "UsuarioToken");
 
             migrationBuilder.DropTable(
                 name: "Indice");
@@ -2766,22 +2766,22 @@ namespace SGAA.Repository.Migrations
                 name: "UnidadDetalle");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Rol");
 
             migrationBuilder.DropTable(
                 name: "Unidad");
 
             migrationBuilder.DropTable(
-                name: "Propiedad");
+                name: "Propiedades");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Usuario");
 
             migrationBuilder.DropTable(
-                name: "Ciudades");
+                name: "Ciudad");
 
             migrationBuilder.DropTable(
-                name: "Provincias");
+                name: "Provincia");
         }
     }
 }

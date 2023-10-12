@@ -11,6 +11,7 @@
             services.AddScoped<IProvinciaService, ProvinciaService>();
             services.AddScoped<ISecurityService, UsuarioService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
+            services.AddScoped<IUnidadService, UnidadService>();
             return services;
         }
     }

@@ -254,6 +254,13 @@
                 await UpdateAsync(user);
             }
         }
+        public async Task<UsuarioGetModel?> GetById(int id)
+        {
+            Usuario? usuario = await FindByIdAsync(id.ToString());
+            if (usuario == null)
+                return null;
+            return _usuarioMapper.ToGetModel(usuario);
+        }
 
         public async Task<UsuarioGetModel?> GetByEmail(string email)
         {

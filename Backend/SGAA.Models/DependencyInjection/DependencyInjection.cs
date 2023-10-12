@@ -10,6 +10,7 @@
             services.AddScoped<ICiudadMapper, CiudadMapper>();
             services.AddScoped<IProvinciaMapper, ProvinciaMapper>();
             services.AddScoped<IUsuarioMapper, UsuarioMapper>();
+            services.AddScoped<IUnidadMapper, UnidadMapper>();
             return services;
         }
     }

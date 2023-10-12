@@ -26,6 +26,7 @@
 
             builder.Property(firma => firma.Status)
                 .IsRequired()
+                .HasConversion<string>()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
 
             builder.Property(pago => pago.FechaPago)
