@@ -6,6 +6,8 @@
     using Microsoft.IdentityModel.Tokens;
     using SGAA.Domain.Auth;
     using SGAA.Domain.Errors;
+    using SGAA.Emails;
+    using SGAA.Emails.EmailModels;
     using SGAA.Models;
     using SGAA.Models.Mappers;
     using SGAA.Repository.Contracts;
@@ -16,15 +18,17 @@
     using System.Security.Claims;
     using System.Security.Cryptography;
     using System.Text;
+    using System.Web;
 
     public class UsuarioService : UserManager<Usuario>, ISecurityService, IUsuarioService
     {
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly ISGAAConfiguration _configuration;
         private readonly IUsuarioMapper _usuarioMapper;
+        private readonly IConfirmationEmailSender _emailSender;
 
         public UsuarioService(IUsuarioRepository usuarioRepository, ISGAAConfiguration configuration, IUsuarioMapper usuarioMapper,
-            IUserStore<Usuario> store, IOptions<IdentityOptions> optionsAccessor, IPasswordHasher<Usuario> passwordHasher,
+            IConfirmationEmailSender emailSender, IUserStore<Usuario> store, IOptions<IdentityOptions> optionsAccessor, IPasswordHasher<Usuario> passwordHasher,
             IEnumerable<IUserValidator<Usuario>> userValidators, IEnumerable<IPasswordValidator<Usuario>> passwordValidators,
             ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, IServiceProvider services,
             ILogger<UserManager<Usuario>> logger)
@@ -34,6 +38,7 @@
             _usuarioRepository = usuarioRepository;
             _configuration = configuration;
             _usuarioMapper = usuarioMapper;
+            _emailSender = emailSender;
         }
 
         private JwtSecurityToken CreateToken(IEnumerable<Claim> authClaims)
@@ -115,6 +120,14 @@
                 throw MapIdentityErrorToBadRequest(addToRoleResult.Errors);
             }
 
+            string userToken = await GenerateUserTokenAsync(usuario, TokenOptions.DefaultProvider, ConfirmEmailTokenPurpose);
+            string confirmationURL = $"{_configuration.Frontend.Url}/Usuario/Confirm?email={HttpUtility.UrlEncode(usuario.Email)}&token={HttpUtility.UrlEncode(userToken)}";
+
+            await _emailSender.SendEmail(usuario.Email!, new ConfirmationEmailModel()
+            {
+                ConfirmationURL = confirmationURL
+            });
+
             return _usuarioMapper.ToGetModel(usuario);
         }
 
@@ -127,7 +140,7 @@
             return await AddUsuario(model);
         }
 
-        public async Task<UsuarioGetModel> Update(int usuarioId, UsuarioPutModel model)
+        public async Task<UsuarioGetModel> UpdateUsuario(int usuarioId, UsuarioPutModel model)
         {
             Usuario? usuario = await FindByIdAsync(usuarioId.ToString()) ?? throw new NotFoundException();
             usuario = _usuarioMapper.ToEntity(model, usuario!);
@@ -139,7 +152,7 @@
             return _usuarioMapper.ToGetModel(usuario);
         }
 
-        public async Task Delete(int usuarioId)
+        public async Task DeleteUsuario(int usuarioId)
         {
             Usuario? usuario = await FindByIdAsync(usuarioId.ToString()) ?? throw new NotFoundException();
             IdentityResult result = await DeleteAsync(usuario);
@@ -166,7 +179,7 @@
         {
             string email = model.Email;
             Usuario? member = await FindByEmailAsync(email);
-            if (member != null && await CheckPasswordAsync(member, model.Password))
+            if (member != null && member.EmailConfirmed && await CheckPasswordAsync(member, model.Password))
             {
                 var userRoles = await GetRolesAsync(member);
 
@@ -264,6 +277,24 @@
             if (usuario == null)
                 return null;
             return _usuarioMapper.ToGetModel(usuario);
+        }
+
+        public async Task<string> ConfirmUsuario(string email, string token)
+        {
+            Usuario? usuario = await FindByNameAsync(email);
+            if (usuario != null && await VerifyUserTokenAsync(usuario, TokenOptions.DefaultProvider, ConfirmEmailTokenPurpose, token))
+            {
+                IdentityResult result = await ConfirmEmailAsync(usuario, token);
+                if (!result.Succeeded)
+                {
+                    throw MapIdentityErrorToBadRequest(result.Errors);
+                }
+                return "https://www.google.com.ar/";
+            }
+            else
+            {
+                throw new UnauthorizedException();
+            }
         }
     }
 }

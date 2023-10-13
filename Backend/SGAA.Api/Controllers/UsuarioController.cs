@@ -7,7 +7,6 @@ namespace SGAA.Api.Controllers
     using SGAA.Domain.Errors;
     using SGAA.Models;
     using SGAA.Service.Contracts;
-
     [ApiController]
     [Route("[controller]")]
     [Authorize]
@@ -58,7 +57,15 @@ namespace SGAA.Api.Controllers
         public async Task<UsuarioGetModel> UpdateUsuario([FromBody] UsuarioPutModel model)
         {
             var currentUser = await _userProvider.GetUser();
-            return currentUser != null ? await _usuarioService.Update(currentUser.Id, model) : throw new NotFoundException();
+            return currentUser != null ? await _usuarioService.UpdateUsuario(currentUser.Id, model) : throw new NotFoundException();
+        }
+
+        [HttpGet]
+        [Route("confirm")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmUsuario(string email, string token)
+        {
+            return Redirect(await _usuarioService.ConfirmUsuario(email, token));
         }
     }
 }

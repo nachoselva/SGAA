@@ -12,6 +12,7 @@ ISGAAConfiguration configuration = new SGAAConfiguration(builder.Configuration);
 builder.Services
     .AddApi(configuration)
     .AddServices()
+    .AddEmails()
     .AddModel()
     .AddRepository();
 

@@ -48,7 +48,7 @@
         {
             return _dbContext.Unidades
                 .Where(u => u.Propiedad.CiudadId == ciudadId && u.Propiedad.Altura == altura && EF.Functions.Like(calle, u.Propiedad.Calle))
-                .Where(u => EF.Functions.Like(piso, u.Piso) && EF.Functions.Like(piso, u.Departamento))
+                .Where(u => EF.Functions.Like(piso, u.Piso) && EF.Functions.Like(departamento, u.Departamento))
                 .FirstOrDefaultAsync();
         }
 
