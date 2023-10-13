@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        #header {
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        #logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        #content {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 5px;
+        }
+
+            #content h1 {
+                color: #333;
+            }
+
+            #content p {
+                color: #666;
+            }
+
+        #footer {
+            text-align: center;
+            margin: 20px;
+            color: #888;
+        }
+
+        .color-background {
+            background-color: #6366F1;
+        }
+    </style>
+</head>
+<body>
+    <div id="header" class="color-background">
+        <div id="logo">Sistemas de gestión de alquileres</div>
+    </div>
+    <div id="content">
+        {{{ partialBody }}}
+        <p style="margin-top: 20px; color: #888888;">Si no has registrado una cuenta en nuestro sitio, por favor ignora este correo electrónico.</p>
+    </div>
+    <div id="footer">
+        &copy; Sistemas de gestión de alquileres | 2023
+    </div>
+</body>
+</html>

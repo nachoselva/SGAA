@@ -25,7 +25,7 @@ namespace SGAA.Api.Controllers
         }
 
         [HttpPost]
-        [Route("first-member")]
+        [Route("first-usuario")]
         [AllowAnonymous]
         public async Task<IActionResult> AddFirstUsuario([FromBody] UsuarioPostModel model)
         {
