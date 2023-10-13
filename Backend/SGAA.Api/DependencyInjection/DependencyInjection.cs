@@ -1,6 +1,7 @@
 ﻿namespace SGAA.Api.DependencyInjection
 {
     using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
     using Microsoft.OpenApi.Models;
@@ -92,7 +93,17 @@
             services.AddTransient<IUsuarioProvider, UsuarioProvider>();
             services.AddTransient<ExceptionMiddleware>();
             services.AddSingleton<ISGAAConfiguration, SGAAConfiguration>();
-            services.AddIdentityCore<Usuario>()
+            services.AddIdentityCore<Usuario>(
+                options =>
+                    {
+                        options.Password.RequiredLength = 7;
+                        options.Password.RequireDigit = false;
+                        options.Password.RequireUppercase = false;
+                        options.User.RequireUniqueEmail = true;
+                        options.SignIn.RequireConfirmedAccount = true;
+                    }
+                )
+                .AddTokenProvider<DataProtectorTokenProvider<Usuario>>(TokenOptions.DefaultProvider)
                 .AddRoles<Rol>()
 
                 .AddEntityFrameworkStores<SGAADbContext>();
