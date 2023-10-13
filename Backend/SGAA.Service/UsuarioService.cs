@@ -142,9 +142,7 @@
 
         public async Task<UsuarioGetModel> UpdateUsuario(int usuarioId, UsuarioPutModel model)
         {
-            Usuario? usuario = await FindByIdAsync(usuarioId.ToString());
-            if (usuario == null)
-                throw new NotFoundException();
+            Usuario? usuario = await FindByIdAsync(usuarioId.ToString()) ?? throw new NotFoundException();
             usuario = _usuarioMapper.ToEntity(model, usuario!);
             IdentityResult result = await UpdateAsync(usuario);
             if (!result.Succeeded)
@@ -156,9 +154,7 @@
 
         public async Task DeleteUsuario(int usuarioId)
         {
-            Usuario? usuario = await FindByIdAsync(usuarioId.ToString());
-            if (usuario == null)
-                throw new NotFoundException();
+            Usuario? usuario = await FindByIdAsync(usuarioId.ToString()) ?? throw new NotFoundException();
             IdentityResult result = await DeleteAsync(usuario);
             if (!result.Succeeded)
             {

@@ -3,7 +3,7 @@
     using SGAA.Domain.Core;
     using SGAA.Models.Base;
 
-    public class UnidadPostModel : UnidadBaseModel, IPostModel<Unidad>
+    public class UnidadPutModel : UnidadBaseModel, IPutModel<Unidad>
     {
 
     }

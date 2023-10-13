@@ -1,5 +1,12 @@
 namespace SGAA.Api.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using SGAA.Api.Providers;
+    using SGAA.Domain.Auth;
+    using SGAA.Domain.Errors;
+    using SGAA.Models;
+    using SGAA.Service.Contracts;
     [ApiController]
     [Route("[controller]")]
     [Authorize]
@@ -18,10 +25,7 @@ namespace SGAA.Api.Controllers
         [Route("current")]
         public async Task<UsuarioGetModel> GetCurrentUsuario()
         {
-            var currentUser = await _userProvider.GetUser();
-            if (currentUser == null)
-                throw new NotFoundException();
-            return currentUser;
+            return await _userProvider.GetUser() ?? throw new NotFoundException();
         }
 
         [HttpGet]
@@ -29,10 +33,7 @@ namespace SGAA.Api.Controllers
         [Authorize(Roles = nameof(RolType.Administrador))]
         public async Task<UsuarioGetModel> GetUsuario([FromRoute] int usuarioId)
         {
-            var currentUser = await _usuarioService.GetById(usuarioId);
-            if (currentUser == null)
-                throw new NotFoundException();
-            return currentUser;
+            return await _usuarioService.GetById(usuarioId) ?? throw new NotFoundException();
         }
 
         [HttpPost]

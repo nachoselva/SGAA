@@ -3,8 +3,9 @@
     using SGAA.Domain.Core;
     using SGAA.Models.Base;
 
-    public class UnidadGetModel : IGetModel<Unidad>
+    public class UnidadGetModel : UnidadBaseModel, IGetModel<Unidad>
     {
         public required int Id { get; set; }
+        public required UnidadStatus Status { get; set; }
     }
 }

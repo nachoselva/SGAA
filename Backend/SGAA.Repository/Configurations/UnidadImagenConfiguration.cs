@@ -27,9 +27,9 @@
             .HasOne(i => i.Detalle)
             .WithMany(d => d.Imagenes)
             .HasPrincipalKey(d => d.Id)
-            .HasForeignKey(i => i.UnidadDetalleId)
-            .IsRequired()
-            .OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(i => i.UnidadDetalleId);
+
+            builder.ToTable(nameof(UnidadImagen));
         }
     }
 }
