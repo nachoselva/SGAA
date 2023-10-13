@@ -42,7 +42,7 @@
                 .HasOne(unidad => unidad.PropietarioUsuario)
                 .WithMany(usuario => usuario.Unidades)
                 .HasPrincipalKey(usuario => usuario.Id)
-                .HasForeignKey(unidad => unidad.PropiedadId)
+                .HasForeignKey(unidad => unidad.PropietarioUsuarioId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 

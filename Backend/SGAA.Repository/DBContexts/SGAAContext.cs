@@ -20,9 +20,11 @@
         //public DbSet<Usuario> Members { get; set; }
         //public DbSet<Unidad> Homes { get; set; }
         //public DbSet<Ciudad> Cities { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Provincia> Provincias { get; set; }
         public DbSet<Ciudad> Ciudades { get; set; }
         public DbSet<Unidad> Unidades { get; set; }
+        public DbSet<UnidadImagen> UnidadImagenes { get; set; }
         public DbSet<Propiedad> Propiedades { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -73,7 +75,7 @@
                 IAuditableEntity entity = (IAuditableEntity)entry.Entity;
                 entity.Audit ??= new Audit();
                 var auditReference = entry.Reference(nameof(entity.Audit))!;
-                var property = entry.Reference(nameof(entity.Audit)).TargetEntry!.Property("_isDeleted");
+                var property = entry.Reference(nameof(entity.Audit)).TargetEntry!.Property(nameof(entity.Audit.IsDeleted));
 
                 switch (entry.State)
                 {

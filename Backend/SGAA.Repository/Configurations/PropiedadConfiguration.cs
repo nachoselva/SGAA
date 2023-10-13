@@ -29,6 +29,8 @@
                 .HasForeignKey(propiedad => propiedad.CiudadId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.ToTable(nameof(Propiedad));
         }
     }
 }

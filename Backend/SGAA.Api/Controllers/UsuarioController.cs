@@ -26,10 +26,7 @@ namespace SGAA.Api.Controllers
         [Route("current")]
         public async Task<UsuarioGetModel> GetCurrentUsuario()
         {
-            var currentUser = await _userProvider.GetUser();
-            if (currentUser == null)
-                throw new NotFoundException();
-            return currentUser;
+            return await _userProvider.GetUser() ?? throw new NotFoundException();
         }
 
         [HttpGet]
@@ -37,10 +34,7 @@ namespace SGAA.Api.Controllers
         [Authorize(Roles = nameof(RolType.Administrador))]
         public async Task<UsuarioGetModel> GetUsuario([FromRoute] int usuarioId)
         {
-            var currentUser = await _usuarioService.GetById(usuarioId);
-            if (currentUser == null)
-                throw new NotFoundException();
-            return currentUser;
+            return await _usuarioService.GetById(usuarioId) ?? throw new NotFoundException();
         }
 
         [HttpPost]
@@ -64,9 +58,7 @@ namespace SGAA.Api.Controllers
         public async Task<UsuarioGetModel> UpdateUsuario([FromBody] UsuarioPutModel model)
         {
             var currentUser = await _userProvider.GetUser();
-            if (currentUser == null)
-                throw new NotFoundException();
-            return await _usuarioService.Update(currentUser.Id, model);
+            return currentUser != null ? await _usuarioService.Update(currentUser.Id, model) : throw new NotFoundException();
         }
     }
 }

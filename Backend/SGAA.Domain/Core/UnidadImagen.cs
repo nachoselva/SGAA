@@ -13,10 +13,10 @@
         }
 
         public int UnidadDetalleId { get; private set; }
-        public string Titulo { get; private set; }
-        public string Descripcion { get; private set; }
-        public byte[] Archivo { get; private set; }
+        public string Titulo { get; set; }
+        public string Descripcion { get; set; }
+        public byte[] Archivo { get; set; }
 
-        public UnidadDetalle Detalle { get; private set; } = default!;
+        public UnidadDetalle Detalle { get; set; } = default!;
     }
 }
