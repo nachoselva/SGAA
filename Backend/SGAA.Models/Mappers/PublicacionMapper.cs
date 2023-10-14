@@ -10,13 +10,19 @@
                 postModel.UnidadId,
                 postModel.MontoAlquiler,
                 postModel.InicioAlquiler,
-                postModel.Codigo,
+                postModel.Codigo!,
                 PublicacionStatus.Publicada);
         }
 
         public Publicacion ToEntity(PublicacionCancelPutModel putModel, Publicacion entity)
         {
             entity.Status = PublicacionStatus.Cancelada;
+            return entity;
+        }
+
+        public Postulacion ToEntity(PublicacionCancelPutModel putModel, Postulacion entity)
+        {
+            entity.Status = PostulacionStatus.PublicacionCancelada;
             return entity;
         }
 

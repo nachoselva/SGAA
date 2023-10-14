@@ -11,6 +11,7 @@
         public required int UnidadId { get; set; }
         public required decimal MontoAlquiler { get; set; }
         public required DateOnly InicioAlquiler { get; set; }
-        public required string Codigo { get; set; }
+        [JsonIgnore]
+        public string? Codigo { get; set; }
     }
 }
