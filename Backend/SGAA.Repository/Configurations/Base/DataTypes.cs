@@ -14,6 +14,6 @@
         public const int TEXT_LENGTH_L4 = 200;
         public const int TEXT_LENGTH_L3 = 100;
         public const int TEXT_LENGTH_L2 = 50;
-        public const int TEXT_LENGTH_L1 = 20;
+        public const int TEXT_LENGTH_L1 = 25;
     }
 }

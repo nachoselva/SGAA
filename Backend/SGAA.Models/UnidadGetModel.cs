@@ -7,5 +7,7 @@
     {
         public required int Id { get; set; }
         public required UnidadStatus Status { get; set; }
+
+        public ICollection<UnidadComentarioModel>? Comentarios { get; set; }
     }
 }

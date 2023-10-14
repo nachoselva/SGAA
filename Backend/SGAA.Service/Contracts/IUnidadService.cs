@@ -10,5 +10,7 @@
         Task<UnidadGetModel> GetUnidad(int unidadId);
         Task<UnidadGetModel> AddUnidad(UnidadPostModel model);
         Task<UnidadGetModel> UpdateUnidad(int unidadId, UnidadPutModel model);
+        Task<UnidadGetModel> AprobarUnidad(int unidadId, AprobarUnidadPutModel model);
+        Task<UnidadGetModel> RechazarUnidad(int unidadId, RechazarUnidadPutModel model);
     }
 }

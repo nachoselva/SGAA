@@ -7,6 +7,8 @@
         IGetMapper<Unidad, UnidadGetModel>,
         IPostMapper<Unidad, UnidadPostModel>,
         IPutMapper<Unidad, UnidadPutModel>,
+        IPutMapper<Unidad, AprobarUnidadPutModel>,
+        IPutMapper<Unidad, RechazarUnidadPutModel>,
         IPostMapper<UnidadDetalle, UnidadDetalleModel>,
         IPutMapper<UnidadDetalle, UnidadDetalleModel>,
         IPostMapper<UnidadImagen, UnidadImagenModel>,

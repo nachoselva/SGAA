@@ -2,6 +2,7 @@
 {
     public interface IEmailModel
     {
-
+        public string Nombre { get; }
+        public string Apellido { get; }
     }
 }

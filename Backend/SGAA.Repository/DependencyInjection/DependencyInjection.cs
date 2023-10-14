@@ -14,6 +14,7 @@
             services.AddScoped<IProvinciaRepository, ProvinciaRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IUnidadRepository, UnidadRepository>();
+            services.AddScoped<IPublicacionRepository, PublicacionRepository>();
             return services;
         }
 

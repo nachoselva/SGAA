@@ -55,5 +55,21 @@
         [Authorize(Roles = nameof(RolType.Propietario))]
         public async Task<IReadOnlyCollection<UnidadGetModel>> GetUnidades()
             => await _unidadService.GetUnidades((await _usuarioProvider.GetUser())!.Id);
+
+        [HttpPut]
+        [Route("{unidadId}/aprobar")]
+        [Authorize(Roles = nameof(RolType.Administrador))]
+        public async Task<ActionResult<UnidadGetModel>> AprobarUnidad([FromRoute] int unidadId, [FromBody] AprobarUnidadPutModel model)
+        {
+            return await _unidadService.AprobarUnidad(unidadId, model);
+        }
+
+        [HttpPut]
+        [Route("{unidadId}/rechazar")]
+        [Authorize(Roles = nameof(RolType.Administrador))]
+        public async Task<ActionResult<UnidadGetModel>> RechazarUnidad([FromRoute] int unidadId, [FromBody] RechazarUnidadPutModel model)
+        {
+            return await _unidadService.RechazarUnidad(unidadId, model);
+        }
     }
 }

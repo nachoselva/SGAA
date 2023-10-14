@@ -11,6 +11,7 @@
             services.AddScoped<IProvinciaMapper, ProvinciaMapper>();
             services.AddScoped<IUsuarioMapper, UsuarioMapper>();
             services.AddScoped<IUnidadMapper, UnidadMapper>();
+            services.AddScoped<IPublicacionMapper, PublicacionMapper>();
             return services;
         }
     }

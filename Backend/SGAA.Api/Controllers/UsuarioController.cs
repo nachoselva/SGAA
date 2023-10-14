@@ -63,7 +63,7 @@ namespace SGAA.Api.Controllers
         [HttpGet]
         [Route("confirm")]
         [AllowAnonymous]
-        public async Task<IActionResult> ConfirmUsuario(string email, string token)
+        public async Task<IActionResult> ConfirmUsuario([FromQuery] string email, [FromQuery] string token)
         {
             return Redirect(await _usuarioService.ConfirmUsuario(email, token));
         }
