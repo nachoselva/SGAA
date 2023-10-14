@@ -7,11 +7,13 @@
     public static class DependencyInjection
     {
         public static IServiceCollection AddEmails(this IServiceCollection services)
-        {
-            services.AddScoped<IConfirmationEmailSender, ConfirmationEmailSender>();
-            services.AddScoped<IAprobarUnidadEmailSender, AprobarUnidadEmailSender>();
-            services.AddScoped<IRechazarUnidadEmailSender, RechazarUnidadEmailSender>();
-            return services;
-        }
+            => services
+               .AddScoped<IConfirmationEmailSender, ConfirmationEmailSender>()
+               .AddScoped<IAprobarUnidadEmailSender, AprobarUnidadEmailSender>()
+               .AddScoped<IRechazarUnidadEmailSender, RechazarUnidadEmailSender>()
+               .AddScoped<IAprobarUnidadEmailSender, AprobarUnidadEmailSender>()
+               .AddScoped<IPublicarUnidadEmailSender, PublicarUnidadEmailSender>()
+               .AddScoped<ICancelarPostulacionEmailSender, CancelarPostulacionEmailSender>()
+               .AddScoped<IPostulacionCreadaEmailSender, PostulacionCreadaEmailSender>();
     }
 }

@@ -41,7 +41,7 @@
                 .HasForeignKey<Postulacion>(postulacion => postulacion.ContratoId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.ToTable(tableBuilder =>
+            builder.ToTable(nameof(Postulacion), tableBuilder =>
                 tableBuilder
                 .HasCheckConstraintWithEnum(postulacion => postulacion.Status)
             );

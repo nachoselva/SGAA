@@ -28,6 +28,8 @@
         public DbSet<Propiedad> Propiedades { get; set; }
         public DbSet<Publicacion> Publicaciones { get; set; }
         public DbSet<Titular> Titulares { get; set; }
+        public DbSet<Aplicacion> Aplicaciones { get; set; }
+        public DbSet<Postulacion> Postulaciones { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

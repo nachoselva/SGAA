@@ -1,26 +1,38 @@
 ﻿namespace SGAA.Service
 {
+    using SGAA.Domain.Auth;
     using SGAA.Domain.Core;
     using SGAA.Domain.Errors;
+    using SGAA.Emails.Contracts;
+    using SGAA.Emails.EmailModels;
     using SGAA.Models;
     using SGAA.Models.Mappers;
     using SGAA.Repository.Contracts;
     using SGAA.Service.Contracts;
     using SGAA.Utils;
+    using SGAA.Utils.Configuration;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public class PublicacionService : IPublicacionService
     {
+        private readonly ISGAAConfiguration _configuration;
         private readonly IPublicacionRepository _publicacionRepository;
         private readonly IPublicacionMapper _publicacionMapper;
         private readonly IUnidadRepository _unidadRepository;
+        private readonly IPublicarUnidadEmailSender _publicarUnidadEmailSender;
+        private readonly ICancelarPostulacionEmailSender _cancelarPostulacionEmailSender;
 
-        public PublicacionService(IPublicacionRepository publicacionRepository, IPublicacionMapper publicacionMapper, IUnidadRepository unidadRepository)
+        public PublicacionService(ISGAAConfiguration configuration, IPublicacionRepository publicacionRepository,
+            IPublicacionMapper publicacionMapper, IUnidadRepository unidadRepository, IPublicarUnidadEmailSender publicarUnidadEmailSender,
+            ICancelarPostulacionEmailSender cancelarPostulacionEmailSender)
         {
+            _configuration = configuration;
             _publicacionRepository = publicacionRepository;
             _publicacionMapper = publicacionMapper;
             _unidadRepository = unidadRepository;
+            _publicarUnidadEmailSender = publicarUnidadEmailSender;
+            _cancelarPostulacionEmailSender = cancelarPostulacionEmailSender;
         }
 
         public async Task<PublicacionGetModel> AddPublicacion(PublicacionPostModel model)
@@ -35,6 +47,20 @@
             model.Codigo = StringExtensions.GenerateRandomString(30);
             Publicacion publicacion = model.ToEntity(_publicacionMapper);
             publicacion = await _publicacionRepository.AddPublicacion(publicacion);
+
+            string publicacionURL = $"{_configuration.Frontend.Url}/Publicacion/{publicacion.Codigo}";
+
+            await _publicarUnidadEmailSender.SendEmail(unidad.PropietarioUsuario.Email!,
+                 new PublicarUnidadEmailModel
+                 {
+                     Nombre = unidad.PropietarioUsuario.Nombre,
+                     Apellido = unidad.PropietarioUsuario.Apellido,
+                     Domicilio = unidad.DomicilioCompleto,
+                     InicioAlquiler = publicacion.InicioAlquiler.ToShortDateString(),
+                     MontoAlquiler = publicacion.MontoAlquiler,
+                     PublicacionURL = publicacionURL
+                 });
+
             return publicacion.MapToGetModel(_publicacionMapper);
         }
 
@@ -50,7 +76,25 @@
             {
                 model.ToEntity(_publicacionMapper, postulacion);
             }
+            List<Usuario> usuariosToBeNotified = new List<Usuario>();
+            foreach (var postulacion in publicacion.Postulaciones
+                .Where(p => p.Status == PostulacionStatus.Postulada && p.Aplicacion.Status == AplicacionStatus.Aprobada))
+            {
+                postulacion.Status = PostulacionStatus.PublicacionCancelada;
+                usuariosToBeNotified.Add(postulacion.Aplicacion.InquilinoUsuario);
+            }
             publicacion = await _publicacionRepository.UpdatePublicacion(publicacion);
+            foreach (var usuario in usuariosToBeNotified)
+            {
+                await _cancelarPostulacionEmailSender.SendEmail(usuario.Email!,
+                    new CancelarPostulacionEmailModel()
+                    {
+                        Nombre = usuario.Nombre,
+                        Apellido = usuario.Apellido,
+                        Domicilio = publicacion.Unidad.DomicilioCompleto,
+                        IsPropietarioAction = true
+                    });
+            }
             return publicacion.MapToGetModel(_publicacionMapper);
         }
 
