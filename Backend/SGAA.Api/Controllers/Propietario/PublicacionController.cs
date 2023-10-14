@@ -22,24 +22,24 @@
         }
 
         [HttpPost]
-        public async Task<ActionResult<PublicacionGetModel>> AddPublicacion([FromBody] PublicacionPostModel model)
+        public async Task<PublicacionGetModel> AddPublicacion([FromBody] PublicacionPostModel model)
         {
             model.PropietarioUsuarioId = (await _usuarioProvider.GetUser())!.Id;
-            PublicacionGetModel Publicacion = await _publicacionService.AddPublicacion(model);
-            return CreatedAtAction(nameof(GetPublicacion), new { PublicacionId = Publicacion.Id }, model);
+            PublicacionGetModel publicacion = await _publicacionService.AddPublicacion(model);
+            return publicacion;
         }
 
         [HttpPut]
         [Route("{publicacionId}/cancel")]
-        public async Task<ActionResult<PublicacionGetModel>> CancelPublicacion([FromRoute] int publicacionId, [FromBody] PublicacionCancelPutModel model)
+        public async Task<PublicacionGetModel> CancelPublicacion([FromRoute] int publicacionId, [FromBody] PublicacionCancelPutModel model)
         {
-            PublicacionGetModel Publicacion = await _publicacionService.CancelPublicacion(publicacionId, model);
-            return CreatedAtAction(nameof(GetPublicacion), new { PublicacionId = Publicacion.Id }, model);
+            PublicacionGetModel publicacion = await _publicacionService.CancelPublicacion(publicacionId, model);
+            return publicacion;
         }
 
         [HttpGet]
         [Route("{PublicacionId}")]
-        public async Task<PublicacionGetModel> GetPublicacion([FromRoute] int PublicacionId)
-            => await _publicacionService.GetPublicacionByPublicacionId(PublicacionId);
+        public async Task<PublicacionGetModel> GetPublicacion([FromRoute] int publicacionId)
+            => await _publicacionService.GetPublicacionByPublicacionId(publicacionId);
     }
 }

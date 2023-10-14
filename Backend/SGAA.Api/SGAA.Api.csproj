@@ -27,8 +27,4 @@
     <ProjectReference Include="..\SGAA.Service\SGAA.Service.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\Inquilino\" />
-  </ItemGroup>
-
 </Project>

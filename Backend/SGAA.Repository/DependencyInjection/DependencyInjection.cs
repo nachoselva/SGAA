@@ -8,15 +8,15 @@
     public static class DependencyInjection
     {
         public static IServiceCollection AddRepository(this IServiceCollection services)
-        {
-            services.AddDbContext<SGAADbContext>();
-            services.AddScoped<ICiudadRepository, CiudadRepository>();
-            services.AddScoped<IProvinciaRepository, ProvinciaRepository>();
-            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-            services.AddScoped<IUnidadRepository, UnidadRepository>();
-            services.AddScoped<IPublicacionRepository, PublicacionRepository>();
-            return services;
-        }
+            => services
+                .AddDbContext<SGAADbContext>()
+                .AddScoped<ICiudadRepository, CiudadRepository>()
+                .AddScoped<IProvinciaRepository, ProvinciaRepository>()
+                .AddScoped<IUsuarioRepository, UsuarioRepository>()
+                .AddScoped<IUnidadRepository, UnidadRepository>()
+                .AddScoped<IPublicacionRepository, PublicacionRepository>()
+                .AddScoped<IPostulacionRepository, PostulacionRepository>()
+                .AddScoped<IAplicacionRepository, AplicacionRepository>();
 
         public static async Task MigrateDbContext(IServiceProvider services)
         {
