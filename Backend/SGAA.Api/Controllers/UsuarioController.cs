@@ -3,7 +3,6 @@ namespace SGAA.Api.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using SGAA.Api.Providers;
-    using SGAA.Domain.Auth;
     using SGAA.Domain.Errors;
     using SGAA.Models;
     using SGAA.Service.Contracts;
@@ -22,18 +21,9 @@ namespace SGAA.Api.Controllers
         }
 
         [HttpGet]
-        [Route("current")]
         public async Task<UsuarioGetModel> GetCurrentUsuario()
         {
             return await _userProvider.GetUser() ?? throw new NotFoundException();
-        }
-
-        [HttpGet]
-        [Route("{usuarioId}")]
-        [Authorize(Roles = nameof(RolType.Administrador))]
-        public async Task<UsuarioGetModel> GetUsuario([FromRoute] int usuarioId)
-        {
-            return await _usuarioService.GetById(usuarioId) ?? throw new NotFoundException();
         }
 
         [HttpPost]
@@ -41,16 +31,7 @@ namespace SGAA.Api.Controllers
         public async Task<ActionResult<UsuarioGetModel>> AddUsuarioPublic([FromBody] UsuarioPostModel model)
         {
             UsuarioGetModel usuario = await _usuarioService.AddUsuarioPublic(model);
-            return CreatedAtAction(nameof(GetUsuario), new { usuarioId = usuario.Id }, usuario);
-        }
-
-        [HttpPost]
-        [Route("admin")]
-        [Authorize(Roles = nameof(RolType.Administrador))]
-        public async Task<ActionResult<UsuarioGetModel>> AddUsuarioAdmin([FromBody] UsuarioPostModel model)
-        {
-            UsuarioGetModel usuario = await _usuarioService.AddUsuario(model);
-            return CreatedAtAction(nameof(GetUsuario), new { usuarioId = usuario.Id }, usuario);
+            return usuario;
         }
 
         [HttpPut]

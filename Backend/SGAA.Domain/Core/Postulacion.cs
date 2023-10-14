@@ -17,7 +17,7 @@
         public int PublicacionId { get; private set; }
         public int AplicacionId { get; private set; }
         public int? ContratoId { get; private set; }
-        public PostulacionStatus Status { get; private set; }
+        public PostulacionStatus Status { get; set; }
         public DateTime? FechaOferta { get; private set; }
 
         public Publicacion Publicacion { get; private set; } = default!;
