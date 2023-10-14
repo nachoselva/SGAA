@@ -14,6 +14,6 @@
         public required int Dormitorios { get; set; }
         public required int Cocheras { get; set; }
 
-        public ICollection<UnidadImagenModel>? Imagenes { get; set; }
+        public ICollection<UnidadImagenModel> Imagenes { get; set; } = default!;
     }
 }

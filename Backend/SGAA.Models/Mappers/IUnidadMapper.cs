@@ -12,7 +12,9 @@
         IPostMapper<UnidadDetalle, UnidadDetalleModel>,
         IPutMapper<UnidadDetalle, UnidadDetalleModel>,
         IPostMapper<UnidadImagen, UnidadImagenModel>,
-        IPutMapper<UnidadImagen, UnidadImagenModel>
+        IPutMapper<UnidadImagen, UnidadImagenModel>,
+        IPutMapper<Titular, TitularModel>,
+        IPostMapper<Titular, TitularModel>
     {
 
     }

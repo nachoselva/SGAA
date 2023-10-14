@@ -40,8 +40,9 @@
                 .HasOne(titular => titular.Unidad)
                 .WithMany(unidad => unidad.Titulares)
                 .HasPrincipalKey(unidad => unidad.Id)
-                .HasForeignKey(titular => titular.UnidadId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(titular => titular.UnidadId);
+
+            builder.ToTable(nameof(Titular));
         }
     }
 }

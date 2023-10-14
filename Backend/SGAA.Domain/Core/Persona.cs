@@ -17,13 +17,13 @@
             DorsoIdentificacionArchivo = dorsoIdentificacionArchivo;
         }
 
-        public string Nombre { get; protected set; }
-        public string Apellido { get; protected set; }
-        public TipoIdentificacion TipoIdentificacion { get; protected set; }
-        public string NumeroIdentificacion { get; protected set; }
-        public DateTime FechaNacimiento { get; protected set; }
-        public string Domicilio { get; protected set; }
-        public byte[] FrenteIdentificacionArchivo { get; protected set; }
-        public byte[] DorsoIdentificacionArchivo { get; protected set; }
+        public string Nombre { get; set; }
+        public string Apellido { get; set; }
+        public TipoIdentificacion TipoIdentificacion { get; set; }
+        public string NumeroIdentificacion { get; set; }
+        public DateTime FechaNacimiento { get; set; }
+        public string Domicilio { get; set; }
+        public byte[] FrenteIdentificacionArchivo { get; set; }
+        public byte[] DorsoIdentificacionArchivo { get; set; }
     }
 }

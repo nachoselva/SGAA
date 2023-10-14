@@ -14,5 +14,6 @@
         Task<Unidad> AddUnidad(Unidad unidad);
         Task<Unidad> UpdateUnidad(Unidad unidad);
         Task DeleteImagenes(IEnumerable<UnidadImagen> entitiesToDelete);
+        Task DeleteTitulares(IEnumerable<Titular> entitiesToDelete);
     }
 }

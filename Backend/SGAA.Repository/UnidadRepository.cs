@@ -26,7 +26,8 @@
             .ThenInclude(d => d.Imagenes)
             .Include(u => u.Publicaciones)
             .Include(u => u.PropietarioUsuario)
-            .Include(u => u.Comentarios);
+            .Include(u => u.Comentarios)
+            .Include(u => u.Titulares);
 
         public async Task<IReadOnlyCollection<Unidad>> GetUnidadesByPropietario(int propietarioUserId)
         {
@@ -76,6 +77,13 @@
         {
             IEnumerable<int> idsToDelete = entitiesToDelete.Select(e => e.Id);
             _dbContext.UnidadImagenes.RemoveRange(_dbContext.UnidadImagenes.Where(img => idsToDelete.Contains(img.Id)));
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteTitulares(IEnumerable<Titular> entitiesToDelete)
+        {
+            IEnumerable<int> idsToDelete = entitiesToDelete.Select(e => e.Id);
+            _dbContext.Titulares.RemoveRange(_dbContext.Titulares.Where(img => idsToDelete.Contains(img.Id)));
             await _dbContext.SaveChangesAsync();
         }
     }

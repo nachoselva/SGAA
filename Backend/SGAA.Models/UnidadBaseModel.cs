@@ -18,5 +18,6 @@
         public required string TituloPropiedadArchivo { get; set; }
 
         public required UnidadDetalleModel Detalle { get; set; }
+        public ICollection<TitularModel> Titulares { get; set; } = default!;
     }
 }

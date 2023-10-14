@@ -27,6 +27,7 @@
         public DbSet<UnidadImagen> UnidadImagenes { get; set; }
         public DbSet<Propiedad> Propiedades { get; set; }
         public DbSet<Publicacion> Publicaciones { get; set; }
+        public DbSet<Titular> Titulares { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
