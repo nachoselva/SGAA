@@ -45,7 +45,20 @@
                         Descripcion = imagen.Descripcion,
                         Archivo = Encoding.ASCII.GetString(imagen.Archivo)
                     }).ToList()
-                }
+                },
+                Titulares = entity.Titulares.Select(titular => new TitularModel
+                {
+                    Id = titular.Id,
+                    UnidadId = titular.UnidadId,
+                    Nombre = titular.Nombre,
+                    Apellido = titular.Apellido,
+                    TipoIdentificacion = titular.TipoIdentificacion,
+                    NumeroIdentificacion = titular.NumeroIdentificacion,
+                    FechaNacimiento = titular.FechaNacimiento,
+                    Domicilio = titular.Domicilio,
+                    FrenteIdentificacionArchivo = Encoding.ASCII.GetString(titular.FrenteIdentificacionArchivo),
+                    DorsoIdentificacionArchivo = Encoding.ASCII.GetString(titular.DorsoIdentificacionArchivo)
+                }).ToList()
             };
         }
 
@@ -141,6 +154,35 @@
         {
             entity.AddComentario(new UnidadComentario(entity.Id, putModel.Comentario, DateTime.Now));
             return entity;
+        }
+
+        public Titular ToEntity(TitularModel putModel, Titular entity)
+        {
+            entity.UnidadId = putModel.UnidadId ?? 0;
+            entity.Nombre = putModel.Nombre;
+            entity.Apellido = putModel.Apellido;
+            entity.TipoIdentificacion = putModel.TipoIdentificacion;
+            entity.NumeroIdentificacion = putModel.NumeroIdentificacion;
+            entity.FechaNacimiento = putModel.FechaNacimiento;
+            entity.Domicilio = putModel.Domicilio;
+            entity.FrenteIdentificacionArchivo = Encoding.ASCII.GetBytes(putModel.FrenteIdentificacionArchivo);
+            entity.DorsoIdentificacionArchivo = Encoding.ASCII.GetBytes(putModel.DorsoIdentificacionArchivo);
+            return entity;
+        }
+
+        public Titular ToEntity(TitularModel postModel)
+        {
+            return new Titular(
+                postModel.UnidadId ?? 0,
+                postModel.Nombre,
+                postModel.Apellido,
+                postModel.TipoIdentificacion,
+                postModel.NumeroIdentificacion,
+                postModel.FechaNacimiento,
+                postModel.Domicilio,
+                Encoding.ASCII.GetBytes(postModel.FrenteIdentificacionArchivo),
+                Encoding.ASCII.GetBytes(postModel.DorsoIdentificacionArchivo)
+                );
         }
     }
 }

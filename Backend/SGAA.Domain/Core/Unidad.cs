@@ -6,6 +6,7 @@
     public class Unidad : BaseEntity, IEntity
     {
         private List<UnidadComentario> _comentarios;
+        private List<Titular> _titulares;
 
         public Unidad(int propiedadId, int propietarioUsuarioId, string piso, string departamento, DateTime fechaAdquisicion, byte[] tituloPropiedadArchivo, UnidadStatus status)
         {
@@ -17,6 +18,7 @@
             TituloPropiedadArchivo = tituloPropiedadArchivo;
             Status = status;
             _comentarios = new List<UnidadComentario>();
+            _titulares = new List<Titular>();
         }
 
         public int PropiedadId { get; set; }
@@ -33,11 +35,22 @@
         public UnidadDetalle Detalle { get; set; } = default!;
         public IReadOnlyCollection<UnidadComentario> Comentarios => _comentarios;
         public IReadOnlyCollection<Publicacion> Publicaciones { get; private set; } = new List<Publicacion>();
-        public IReadOnlyCollection<Titular> Titulares { get; private set; } = new List<Titular>();
+        public IReadOnlyCollection<Titular> Titulares => _titulares;
 
         public void AddComentario(UnidadComentario comentario)
         {
             _comentarios.Add(comentario);
+        }
+
+        public void AddTitulares(IEnumerable<Titular> titulares)
+        {
+            _titulares.AddRange(titulares);
+        }
+
+        public void RemoveTitulares(Titular[] titulares)
+        {
+            IEnumerable<int> idsToDelete = titulares.Select(img => img.Id);
+            _titulares.RemoveAll(img => idsToDelete.Contains(img.Id));
         }
     }
 }
