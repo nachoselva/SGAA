@@ -6,7 +6,7 @@
     using Microsoft.IdentityModel.Tokens;
     using SGAA.Domain.Auth;
     using SGAA.Domain.Errors;
-    using SGAA.Emails;
+    using SGAA.Emails.Contracts;
     using SGAA.Emails.EmailModels;
     using SGAA.Models;
     using SGAA.Models.Mappers;
@@ -125,6 +125,8 @@
 
             await _emailSender.SendEmail(usuario.Email!, new ConfirmationEmailModel()
             {
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
                 ConfirmationURL = confirmationURL
             });
 

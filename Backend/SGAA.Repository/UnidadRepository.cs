@@ -8,7 +8,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    internal class UnidadRepository : IUnidadRepository
+    public class UnidadRepository : IUnidadRepository
     {
         private readonly SGAADbContext _dbContext;
         public UnidadRepository(SGAADbContext dbContext)
@@ -20,8 +20,13 @@
         =>
             _dbContext.Unidades
             .Include(u => u.Propiedad)
+            .ThenInclude(p => p.Ciudad)
+            .ThenInclude(c => c.Provincia)
             .Include(u => u.Detalle)
-            .ThenInclude(d => d.Imagenes);
+            .ThenInclude(d => d.Imagenes)
+            .Include(u => u.Publicaciones)
+            .Include(u => u.PropietarioUsuario)
+            .Include(u => u.Comentarios);
 
         public async Task<IReadOnlyCollection<Unidad>> GetUnidadesByPropietario(int propietarioUserId)
         {

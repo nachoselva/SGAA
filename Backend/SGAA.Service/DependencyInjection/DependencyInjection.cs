@@ -12,6 +12,7 @@
             services.AddScoped<ISecurityService, UsuarioService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
             services.AddScoped<IUnidadService, UnidadService>();
+            services.AddScoped<IPublicacionService, PublicacionService>();
             return services;
         }
     }

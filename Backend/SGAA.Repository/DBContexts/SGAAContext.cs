@@ -26,6 +26,7 @@
         public DbSet<Unidad> Unidades { get; set; }
         public DbSet<UnidadImagen> UnidadImagenes { get; set; }
         public DbSet<Propiedad> Propiedades { get; set; }
+        public DbSet<Publicacion> Publicaciones { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -66,7 +67,7 @@
 
         private void OnBeforeSaving()
         {
-            DateTime now = DateTime.UtcNow;
+            DateTime now = DateTime.Now;
 
             foreach (EntityEntry entry in ChangeTracker.Entries()
                 .Where(e => !e.Metadata.IsOwned())

@@ -1,4 +1,4 @@
-﻿namespace SGAA.Emails
+﻿namespace SGAA.Emails.Contracts
 {
     using SGAA.Emails.EmailModels;
 

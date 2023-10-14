@@ -3,16 +3,23 @@
 <head>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            color: #fff;
             margin: 0;
             padding: 0;
         }
 
+        #email-body {
+            color: rgb(17, 25, 39);
+            background-color: #1C2536;
+            border-radius: 15px;
+            margin: 10px;
+            padding: 20px;
+        }
+
         #header {
-            color: #fff;
             padding: 20px;
             text-align: center;
+            color: rgb(255, 255, 255);
+            background-color: #6366F1;
         }
 
         #logo {
@@ -21,41 +28,37 @@
         }
 
         #content {
-            background-color: #fff;
-            padding: 20px;
-            margin: 20px;
-            border-radius: 5px;
+            background-color: rgb(248, 249, 250);
         }
-
-            #content h1 {
-                color: #333;
-            }
-
-            #content p {
-                color: #666;
-            }
 
         #footer {
             text-align: center;
-            margin: 20px;
-            color: #888;
+            color: rgb(255, 255, 255);
         }
 
         .color-background {
             background-color: #6366F1;
         }
+
+        .email-box {
+            border-radius: 25px;
+            margin: 10px;
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
-    <div id="header" class="color-background">
-        <div id="logo">Sistemas de gestión de alquileres</div>
-    </div>
-    <div id="content">
-        {{{ partialBody }}}
-        <p style="margin-top: 20px; color: #888888;">Si no has registrado una cuenta en nuestro sitio, por favor ignora este correo electrónico.</p>
-    </div>
-    <div id="footer">
-        &copy; Sistemas de gestión de alquileres | 2023
+    <div id="email-body">
+        <div id="header" class="email-box">
+            <div id="logo">Sistemas de gestión de alquileres autónomos</div>
+        </div>
+        <div id="content" class="email-box">
+            {{{ partialBody }}}
+        </div>
+        <div id="footer" style="margin-top: 20px;">
+            <p>Si no has registrado una cuenta en nuestro sitio, por favor ignora este correo electrónico.</p>
+            <p>&copy; Sistemas de gestión de alquileres | 2023</p>
+        </div>
     </div>
 </body>
 </html>

@@ -20,6 +20,12 @@
                 FechaAdquisicion = entity.FechaAdquisicion,
                 TituloPropiedadArchivo = Encoding.ASCII.GetString(entity.TituloPropiedadArchivo),
                 Status = entity.Status,
+                Comentarios = entity.Comentarios.Select(c =>
+                new UnidadComentarioModel()
+                {
+                    Fecha = c.Fecha,
+                    Comentario = c.Comentario
+                }).ToList(),
                 Detalle = new UnidadDetalleModel
                 {
                     Id = entity.Detalle.Id,
@@ -125,5 +131,16 @@
             return entity;
         }
 
+        public Unidad ToEntity(AprobarUnidadPutModel putModel, Unidad entity)
+        {
+            entity.Status = UnidadStatus.DocumentacionAprobada;
+            return entity;
+        }
+
+        public Unidad ToEntity(RechazarUnidadPutModel putModel, Unidad entity)
+        {
+            entity.AddComentario(new UnidadComentario(entity.Id, putModel.Comentario, DateTime.Now));
+            return entity;
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace SGAA.Emails
+﻿namespace SGAA.Emails.Base
 {
     using HandlebarsDotNet;
     using SGAA.Emails.EmailModels;

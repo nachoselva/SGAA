@@ -7,11 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="EmailTemplates\AprobarUnidadEmailEmailTemplate.html" />
     <None Remove="EmailTemplates\ConfirmationEmailTemplate.html" />
     <None Remove="EmailTemplates\EmailLayout.html" />
+    <None Remove="EmailTemplates\RechazarUnidadEmailSender.html" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="EmailTemplates\RechazarUnidadEmailSender.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\AprobarUnidadEmailEmailTemplate.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="EmailTemplates\ConfirmationEmailTemplate.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

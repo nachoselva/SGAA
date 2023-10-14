@@ -34,7 +34,7 @@
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.ToTable(tableBuilder =>
+            builder.ToTable(nameof(Publicacion), tableBuilder =>
                 tableBuilder
                 .HasCheckConstraintWithEnum(publicacion => publicacion.Status)
             );
