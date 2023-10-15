@@ -18,6 +18,8 @@
                .AddScoped<IReservaOfrecidaInquilinoEmailSender, ReservaOfrecidaInquilinoEmailSender>()
                .AddScoped<IReservaOfrecidaPropietarioEmailSender, ReservaOfrecidaPropietarioEmailSender>()
                .AddScoped<IOfertaAceptadaEmailSender, OfertaAceptadaEmailSender>()
-               .AddScoped<IOfertaRechazadaEmailSender, OfertaRechazadaEmailSender>();
+               .AddScoped<IOfertaRechazadaEmailSender, OfertaRechazadaEmailSender>()
+               .AddScoped<IAprobarAplicacionEmailSender, AprobarAplicacionEmailSender>()
+               .AddScoped<IRechazarAplicacionEmailSender, RechazarAplicacionEmailSender>();
     }
 }
