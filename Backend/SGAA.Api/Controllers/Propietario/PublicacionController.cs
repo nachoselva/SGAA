@@ -21,6 +21,11 @@
             _usuarioProvider = usuarioProvider;
         }
 
+        [HttpGet]
+        [Route("{PublicacionId}")]
+        public async Task<PublicacionGetModel> GetPublicacion([FromRoute] int publicacionId)
+            => await _publicacionService.GetPublicacionByPublicacionId(publicacionId);
+
         [HttpPost]
         public async Task<PublicacionGetModel> AddPublicacion([FromBody] PublicacionPostModel model)
         {
@@ -30,16 +35,19 @@
         }
 
         [HttpPut]
-        [Route("{publicacionId}/cancel")]
-        public async Task<PublicacionGetModel> CancelPublicacion([FromRoute] int publicacionId, [FromBody] PublicacionCancelPutModel model)
+        [Route("{publicacionId}/cancelar")]
+        public async Task<PublicacionGetModel> CancelarPublicacion([FromRoute] int publicacionId, [FromBody] PublicacionCancelarPutModel model)
         {
             PublicacionGetModel publicacion = await _publicacionService.CancelPublicacion(publicacionId, model);
             return publicacion;
         }
 
-        [HttpGet]
-        [Route("{PublicacionId}")]
-        public async Task<PublicacionGetModel> GetPublicacion([FromRoute] int publicacionId)
-            => await _publicacionService.GetPublicacionByPublicacionId(publicacionId);
+        [HttpPut]
+        [Route("{publicacionId}/cerrar")]
+        public async Task<PublicacionGetModel> CerrarPublicacion([FromRoute] int publicacionId, [FromBody] PublicacionCerrarPutModel model)
+        {
+            PublicacionGetModel publicacion = await _publicacionService.CerrarPublicacion(publicacionId, model);
+            return publicacion;
+        }
     }
 }

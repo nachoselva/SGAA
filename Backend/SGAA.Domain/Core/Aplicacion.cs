@@ -1,8 +1,5 @@
 ﻿namespace SGAA.Domain.Core
 {
-    using SGAA.Domain.Auth;
-    using SGAA.Domain.Base;
-    using System;
     using System.Collections.Generic;
 
     public class Aplicacion : BaseEntity, IEntity
@@ -39,6 +36,10 @@
         public void AddPostulantes(IEnumerable<Postulante> postulantes)
         {
             _postulantes.AddRange(postulantes);
+        }
+        public void AddComentario(AplicacionComentario comentario)
+        {
+            _comentarios.Add(comentario);
         }
 
         public void RemoveGarantias(IEnumerable<Garantia> entitiesToDelete)

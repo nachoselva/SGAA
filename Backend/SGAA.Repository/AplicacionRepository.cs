@@ -18,17 +18,26 @@
         private IQueryable<Aplicacion> AplicacionQuery()
         =>
             _dbContext.Aplicaciones
+            .Include(a => a.Comentarios)
             .Include(a => a.Garantias)
             .Include(a => a.Postulantes)
             .Include(a => a.InquilinoUsuario)
             .Include(a => a.Postulaciones);
 
+        public Task<Aplicacion?> GetAplicacionAdminById(int aplicacionId)
+        => AplicacionQuery()
+            .Where(ap => ap.Id == aplicacionId)
+            .FirstOrDefaultAsync();
+
         public async Task<IReadOnlyCollection<Aplicacion>> GetAplicacionesByInquilinoUsuarioId(int usuarioId)
-        {
-            return await AplicacionQuery()
+        => await AplicacionQuery()
                 .Where(ap => ap.InquilinoUsuarioId == usuarioId)
                 .ToListAsync();
-        }
+
+        public async Task<IReadOnlyCollection<Aplicacion>> GetAplicacionesAdmin()
+         => await AplicacionQuery()
+            .ToListAsync();
+
         public async Task<Aplicacion> AddAplicacion(Aplicacion aplicacion)
         {
             var entityEntry = await _dbContext.Aplicaciones.AddAsync(aplicacion);

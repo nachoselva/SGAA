@@ -5,38 +5,46 @@
     public class PublicacionMapper : IPublicacionMapper
     {
         public Publicacion ToEntity(PublicacionPostModel postModel)
-        {
-            return new(
-                postModel.UnidadId,
-                postModel.MontoAlquiler,
-                postModel.InicioAlquiler,
-                postModel.Codigo!,
-                PublicacionStatus.Publicada);
-        }
+        => new(
+            postModel.UnidadId,
+            postModel.MontoAlquiler,
+            postModel.InicioAlquiler,
+            postModel.Codigo!,
+            PublicacionStatus.Publicada);
 
-        public Publicacion ToEntity(PublicacionCancelPutModel putModel, Publicacion entity)
+        public Publicacion ToEntity(PublicacionCancelarPutModel putModel, Publicacion entity)
         {
             entity.Status = PublicacionStatus.Cancelada;
             return entity;
         }
 
-        public Postulacion ToEntity(PublicacionCancelPutModel putModel, Postulacion entity)
+        public Postulacion ToEntity(PublicacionCancelarPutModel putModel, Postulacion entity)
         {
             entity.Status = PostulacionStatus.PublicacionCancelada;
             return entity;
         }
 
-        public PublicacionGetModel ToGetModel(Publicacion entity)
+        public Publicacion ToEntity(PublicacionCerrarPutModel putModel, Publicacion entity)
         {
-            return new()
-            {
-                Id = entity.Id,
-                UnidadId = entity.UnidadId,
-                Status = entity.Status,
-                Codigo = entity.Codigo,
-                InicioAlquiler = entity.InicioAlquiler,
-                MontoAlquiler = entity.MontoAlquiler
-            };
+            entity.Status = PublicacionStatus.Ofrecida;
+            return entity;
         }
+
+        public Postulacion ToEntity(PublicacionCerrarPutModel putModel, Postulacion entity)
+        {
+            entity.Status = PostulacionStatus.Ofrecida;
+            return entity;
+        }
+
+        public PublicacionGetModel ToGetModel(Publicacion entity)
+        => new()
+        {
+            Id = entity.Id,
+            UnidadId = entity.UnidadId,
+            Status = entity.Status,
+            Codigo = entity.Codigo,
+            InicioAlquiler = entity.InicioAlquiler,
+            MontoAlquiler = entity.MontoAlquiler
+        };
     }
 }

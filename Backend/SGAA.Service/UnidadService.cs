@@ -188,7 +188,7 @@
                      Domicilio = unidad.DomicilioCompleto,
                      Comentarios = unidad.Comentarios.OrderByDescending(c => c.Fecha)
                      .Select(c =>
-                     new RechazarUnidadComentarioEmailModel
+                     new ComentarioEmailModel
                      {
                          Fecha = $"{c.Fecha.ToShortDateString()} {c.Fecha.ToShortTimeString()}",
                          Comentario = c.Comentario

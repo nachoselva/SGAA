@@ -13,7 +13,9 @@
         IGetMapper<Garantia, GarantiaModel>,
         IPostMapper<Garantia, GarantiaModel>,
         IPutMapper<Garantia, GarantiaModel>,
-        IGetMapper<AplicacionComentario, ComentarioModel>
+        IGetMapper<AplicacionComentario, ComentarioModel>,
+        IPutMapper<Aplicacion, RechazarAplicacionPutModel>,
+        IPutMapper<Aplicacion, AprobarAplicacionPutModel>
     {
 
     }

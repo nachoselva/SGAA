@@ -93,5 +93,17 @@
             Fecha = entity.Fecha,
             Comentario = entity.Comentario
         };
+
+        public Aplicacion ToEntity(RechazarAplicacionPutModel putModel, Aplicacion entity)
+        {
+            entity.AddComentario(new AplicacionComentario(entity.Id, putModel.Comentario, DateTime.Now));
+            return entity;
+        }
+
+        public Aplicacion ToEntity(AprobarAplicacionPutModel putModel, Aplicacion entity)
+        {
+            entity.Status = AplicacionStatus.Aprobada;
+            return entity;
+        }
     }
 }

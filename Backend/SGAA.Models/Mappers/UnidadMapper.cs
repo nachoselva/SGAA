@@ -20,6 +20,9 @@
                 FechaAdquisicion = entity.FechaAdquisicion,
                 TituloPropiedadArchivo = Encoding.ASCII.GetString(entity.TituloPropiedadArchivo),
                 Status = entity.Status,
+                Ciudad = entity.Propiedad.Ciudad.Nombre,
+                Provincia = entity.Propiedad.Ciudad.Provincia.Nombre,
+                DomicilioCompleto = entity.DomicilioCompleto,
                 Comentarios = entity.Comentarios.Select(comentario => comentario.MapToGetModel<UnidadComentario, ComentarioModel>(this)).ToList(),
                 Detalle = entity.Detalle.MapToGetModel<UnidadDetalle, UnidadDetalleModel>(this),
                 Titulares = entity.Titulares.Select(titular => titular.MapToGetModel<Titular, TitularModel>(this)).ToList()

@@ -6,10 +6,11 @@
 
     public interface IPublicacionService
     {
-        Task<PublicacionGetModel> AddPublicacion(PublicacionPostModel model);
-        Task<PublicacionGetModel> CancelPublicacion(int publicacionId, PublicacionCancelPutModel model);
+        Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicacionesAdmin();
         Task<PublicacionGetModel> GetPublicacionActiveByCodigo(string codigo);
         Task<PublicacionGetModel> GetPublicacionByPublicacionId(int publicacionId);
-        Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicacionesAdmin();
+        Task<PublicacionGetModel> AddPublicacion(PublicacionPostModel model);
+        Task<PublicacionGetModel> CancelPublicacion(int publicacionId, PublicacionCancelarPutModel model);
+        Task<PublicacionGetModel> CerrarPublicacion(int publicacionId, PublicacionCerrarPutModel model);
     }
 }

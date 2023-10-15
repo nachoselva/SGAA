@@ -12,6 +12,6 @@
         }
 
         public override string Subject => "Documentación de unidad aprobada";
-        public override string TemplateName => "AprobarUnidadEmailEmailTemplate";
+        public override string TemplateName => "AprobarUnidadEmailTemplate";
     }
 }
