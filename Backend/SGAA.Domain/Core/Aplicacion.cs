@@ -1,8 +1,5 @@
 ﻿namespace SGAA.Domain.Core
 {
-    using SGAA.Domain.Auth;
-    using SGAA.Domain.Base;
-    using System;
     using System.Collections.Generic;
 
     public class Aplicacion : BaseEntity, IEntity
