@@ -20,45 +20,9 @@
                 FechaAdquisicion = entity.FechaAdquisicion,
                 TituloPropiedadArchivo = Encoding.ASCII.GetString(entity.TituloPropiedadArchivo),
                 Status = entity.Status,
-                Comentarios = entity.Comentarios.Select(c =>
-                new UnidadComentarioModel()
-                {
-                    Fecha = c.Fecha,
-                    Comentario = c.Comentario
-                }).ToList(),
-                Detalle = new UnidadDetalleModel
-                {
-                    Id = entity.Detalle.Id,
-                    UnidadId = entity.Id,
-                    Descripcion = entity.Detalle.Descripcion,
-                    Superficie = entity.Detalle.Superficie,
-                    Ambientes = entity.Detalle.Ambientes,
-                    Banios = entity.Detalle.Banios,
-                    Dormitorios = entity.Detalle.Dormitorios,
-                    Cocheras = entity.Detalle.Cocheras,
-                    Imagenes = entity.Detalle.Imagenes.Select(imagen =>
-                    new UnidadImagenModel()
-                    {
-                        Id = imagen.Id,
-                        UnidadDetalleId = imagen.UnidadDetalleId,
-                        Titulo = imagen.Titulo,
-                        Descripcion = imagen.Descripcion,
-                        Archivo = Encoding.ASCII.GetString(imagen.Archivo)
-                    }).ToList()
-                },
-                Titulares = entity.Titulares.Select(titular => new TitularModel
-                {
-                    Id = titular.Id,
-                    UnidadId = titular.UnidadId,
-                    Nombre = titular.Nombre,
-                    Apellido = titular.Apellido,
-                    TipoIdentificacion = titular.TipoIdentificacion,
-                    NumeroIdentificacion = titular.NumeroIdentificacion,
-                    FechaNacimiento = titular.FechaNacimiento,
-                    Domicilio = titular.Domicilio,
-                    FrenteIdentificacionArchivo = Encoding.ASCII.GetString(titular.FrenteIdentificacionArchivo),
-                    DorsoIdentificacionArchivo = Encoding.ASCII.GetString(titular.DorsoIdentificacionArchivo)
-                }).ToList()
+                Comentarios = entity.Comentarios.Select(comentario => comentario.MapToGetModel<UnidadComentario, ComentarioModel>(this)).ToList(),
+                Detalle = entity.Detalle.MapToGetModel<UnidadDetalle, UnidadDetalleModel>(this),
+                Titulares = entity.Titulares.Select(titular => titular.MapToGetModel<Titular, TitularModel>(this)).ToList()
             };
         }
 
@@ -184,5 +148,53 @@
                 Encoding.ASCII.GetBytes(postModel.DorsoIdentificacionArchivo)
                 );
         }
+
+        public TitularModel ToGetModel(Titular entity)
+        =>
+            new TitularModel
+            {
+                Id = entity.Id,
+                UnidadId = entity.UnidadId,
+                Nombre = entity.Nombre,
+                Apellido = entity.Apellido,
+                TipoIdentificacion = entity.TipoIdentificacion,
+                NumeroIdentificacion = entity.NumeroIdentificacion,
+                FechaNacimiento = entity.FechaNacimiento,
+                Domicilio = entity.Domicilio,
+                FrenteIdentificacionArchivo = Encoding.ASCII.GetString(entity.FrenteIdentificacionArchivo),
+                DorsoIdentificacionArchivo = Encoding.ASCII.GetString(entity.DorsoIdentificacionArchivo)
+            };
+
+        public ComentarioModel ToGetModel(UnidadComentario entity)
+        => new ComentarioModel()
+        {
+            Fecha = entity.Fecha,
+            Comentario = entity.Comentario
+        };
+
+        public UnidadDetalleModel ToGetModel(UnidadDetalle entity)
+        => new UnidadDetalleModel
+        {
+            Id = entity.Id,
+            UnidadId = entity.Id,
+            Descripcion = entity.Descripcion,
+            Superficie = entity.Superficie,
+            Ambientes = entity.Ambientes,
+            Banios = entity.Banios,
+            Dormitorios = entity.Dormitorios,
+            Cocheras = entity.Cocheras,
+            Imagenes = entity.Imagenes.Select(imagen => imagen.MapToGetModel<UnidadImagen, UnidadImagenModel>(this)).ToList()
+        };
+
+        public UnidadImagenModel ToGetModel(UnidadImagen entity)
+        =>
+            new UnidadImagenModel()
+            {
+                Id = entity.Id,
+                UnidadDetalleId = entity.UnidadDetalleId,
+                Titulo = entity.Titulo,
+                Descripcion = entity.Descripcion,
+                Archivo = Encoding.ASCII.GetString(entity.Archivo)
+            };
     }
 }

@@ -68,7 +68,7 @@
 
         public async Task<Unidad> UpdateUnidad(Unidad unidad)
         {
-            _dbContext.Update(unidad);
+            _dbContext.Unidades.Update(unidad);
             await _dbContext.SaveChangesAsync();
             return unidad;
         }

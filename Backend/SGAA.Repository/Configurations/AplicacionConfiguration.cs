@@ -29,7 +29,7 @@
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.ToTable(tableBuilder =>
+            builder.ToTable(nameof(Aplicacion), tableBuilder =>
                 tableBuilder
                 .HasCheckConstraintWithEnum(aplicacion => aplicacion.Status)
             );

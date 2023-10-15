@@ -3,7 +3,7 @@
     using SGAA.Domain.Core;
     using SGAA.Models.Base;
 
-    public class UnidadImagenModel : IPostModel<UnidadImagen>, IPutModel<UnidadImagen>
+    public class UnidadImagenModel : IGetModel<UnidadImagen>, IPostModel<UnidadImagen>, IPutModel<UnidadImagen>
     {
         public int? Id { get; set; }
         public int? UnidadDetalleId { get; set; }

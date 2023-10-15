@@ -3,10 +3,10 @@
     using SGAA.Domain.Core;
     using SGAA.Models.Base;
 
-    public class UnidadGetModel : UnidadBaseModel, IGetModel<Unidad>
+    public class AplicacionGetModel : AplicacionBaseModel, IGetModel<Aplicacion>
     {
         public required int Id { get; set; }
-        public required UnidadStatus Status { get; set; }
+        public required AplicacionStatus Status { get; set; }
 
         public ICollection<ComentarioModel> Comentarios { get; set; } = default!;
     }

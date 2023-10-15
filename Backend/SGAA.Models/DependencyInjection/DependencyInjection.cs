@@ -12,6 +12,7 @@
                 .AddScoped<IUsuarioMapper, UsuarioMapper>()
                 .AddScoped<IUnidadMapper, UnidadMapper>()
                 .AddScoped<IPublicacionMapper, PublicacionMapper>()
-                .AddScoped<IPostulacionMapper, PostulacionMapper>();
+                .AddScoped<IPostulacionMapper, PostulacionMapper>()
+                .AddScoped<IAplicacionMapper, AplicacionMapper>();
     }
 }

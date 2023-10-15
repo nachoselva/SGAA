@@ -15,11 +15,11 @@
             ReciboDeSueldoArchivo = reciboDeSueldoArchivo;
         }
 
-        public int AplicacionId { get; private set; }
-        public DateTime FechaEmpleadoDesde { get; private set; }
-        public string NombreEmpresa { get; private set; }
-        public decimal IngresoMensual { get; private set; }
-        public byte[] ReciboDeSueldoArchivo { get; private set; }
+        public int AplicacionId { get; set; }
+        public DateTime FechaEmpleadoDesde { get; set; }
+        public string NombreEmpresa { get; set; }
+        public decimal IngresoMensual { get; set; }
+        public byte[] ReciboDeSueldoArchivo { get; set; }
 
         public Aplicacion Aplicacion { get; private set; } = default!;
     }

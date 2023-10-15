@@ -13,6 +13,7 @@
                 .AddScoped<IUsuarioService, UsuarioService>()
                 .AddScoped<IUnidadService, UnidadService>()
                 .AddScoped<IPublicacionService, PublicacionService>()
-                .AddScoped<IPostulacionService, PostulacionService>();
+                .AddScoped<IPostulacionService, PostulacionService>()
+                .AddScoped<IAplicacionService, AplicacionService>();
     }
 }

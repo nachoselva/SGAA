@@ -98,19 +98,19 @@
         public async Task<IReadOnlyCollection<UnidadGetModel>> GetUnidades(int propietarioUserId)
         {
             IReadOnlyCollection<Unidad> unidades = await _unidadRepository.GetUnidadesByPropietario(propietarioUserId);
-            return unidades.Select(unidad => unidad.MapToGetModel(_unidadMapper)).ToList();
+            return unidades.Select(unidad => unidad.MapToGetModel<Unidad, UnidadGetModel>(_unidadMapper)).ToList();
         }
 
         public async Task<IReadOnlyCollection<UnidadGetModel>> GetUnidadesAdmin()
         {
             IReadOnlyCollection<Unidad> unidades = await _unidadRepository.GetUnidades();
-            return unidades.Select(unidad => unidad.MapToGetModel(_unidadMapper)).ToList();
+            return unidades.Select(unidad => unidad.MapToGetModel<Unidad, UnidadGetModel>(_unidadMapper)).ToList();
         }
 
         public async Task<UnidadGetModel> GetUnidad(int unidadId)
         {
             Unidad? unidad = await _unidadRepository.GetUnidadById(unidadId);
-            return unidad != null ? unidad.MapToGetModel(_unidadMapper) : throw new NotFoundException();
+            return unidad != null ? unidad.MapToGetModel<Unidad, UnidadGetModel>(_unidadMapper) : throw new NotFoundException();
         }
 
         public async Task<UnidadGetModel> AddUnidad(UnidadPostModel postModel)
@@ -128,7 +128,7 @@
             unidad.Detalle.AddImagenes(postModel.Detalle.Imagenes.Select(newmodel => newmodel.ToEntity<UnidadImagen, UnidadImagenModel>(_unidadMapper)));
             unidad.AddTitulares(postModel.Titulares.Select(newmodel => newmodel.ToEntity<Titular, TitularModel>(_unidadMapper)));
             unidad = await _unidadRepository.AddUnidad(unidad);
-            return unidad.MapToGetModel(_unidadMapper);
+            return unidad.MapToGetModel<Unidad, UnidadGetModel>(_unidadMapper);
         }
 
         public async Task<UnidadGetModel> UpdateUnidad(int unidadId, UnidadPutModel putModel)
@@ -150,7 +150,7 @@
             unidad = await UpsertTitulares(putModel, unidad);
 
             unidad = await _unidadRepository.UpdateUnidad(unidad);
-            return unidad.MapToGetModel(_unidadMapper);
+            return unidad.MapToGetModel<Unidad, UnidadGetModel>(_unidadMapper);
         }
 
         public async Task<UnidadGetModel> AprobarUnidad(int unidadId, AprobarUnidadPutModel model)
@@ -169,7 +169,7 @@
                      Domicilio = unidad.DomicilioCompleto
                  });
 
-            return unidad.MapToGetModel(_unidadMapper);
+            return unidad.MapToGetModel<Unidad, UnidadGetModel>(_unidadMapper);
         }
 
         public async Task<UnidadGetModel> RechazarUnidad(int unidadId, RechazarUnidadPutModel model)
@@ -195,7 +195,7 @@
                      }).ToList()
                  });
 
-            return unidad.MapToGetModel(_unidadMapper);
+            return unidad.MapToGetModel<Unidad, UnidadGetModel>(_unidadMapper);
         }
     }
 }

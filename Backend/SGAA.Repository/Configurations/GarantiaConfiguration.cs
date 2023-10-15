@@ -23,9 +23,9 @@
                 .HasOne(garantia => garantia.Aplicacion)
                 .WithMany(aplicacion => aplicacion.Garantias)
                 .HasPrincipalKey(aplicacion => aplicacion.Id)
-                .HasForeignKey(garantia => garantia.AplicacionId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(garantia => garantia.AplicacionId);
+
+            builder.ToTable(nameof(Garantia));
         }
     }
 }
