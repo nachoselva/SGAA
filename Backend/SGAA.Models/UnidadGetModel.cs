@@ -7,6 +7,9 @@
     {
         public required int Id { get; set; }
         public required UnidadStatus Status { get; set; }
+        public required string Provincia { get; set; }
+        public required string Ciudad { get; set; }
+        public required string DomicilioCompleto { get; set; }
 
         public ICollection<ComentarioModel> Comentarios { get; set; } = default!;
     }
