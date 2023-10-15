@@ -14,6 +14,10 @@
                .AddScoped<IAprobarUnidadEmailSender, AprobarUnidadEmailSender>()
                .AddScoped<IPublicarUnidadEmailSender, PublicarUnidadEmailSender>()
                .AddScoped<ICancelarPostulacionEmailSender, CancelarPostulacionEmailSender>()
-               .AddScoped<IPostulacionCreadaEmailSender, PostulacionCreadaEmailSender>();
+               .AddScoped<IPostulacionCreadaEmailSender, PostulacionCreadaEmailSender>()
+               .AddScoped<IReservaOfrecidaInquilinoEmailSender, ReservaOfrecidaInquilinoEmailSender>()
+               .AddScoped<IReservaOfrecidaPropietarioEmailSender, ReservaOfrecidaPropietarioEmailSender>()
+               .AddScoped<IOfertaAceptadaEmailSender, OfertaAceptadaEmailSender>()
+               .AddScoped<IOfertaRechazadaEmailSender, OfertaRechazadaEmailSender>();
     }
 }

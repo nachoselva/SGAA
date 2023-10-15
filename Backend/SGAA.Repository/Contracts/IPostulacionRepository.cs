@@ -5,6 +5,8 @@
 
     public interface IPostulacionRepository
     {
+        Task<Postulacion?> GetPostulacionById(int postulacionId);
         Task<Postulacion> AddPostulacion(Postulacion postulacion);
+        Task<Postulacion> UpdatePostulacion(Postulacion postulacion);
     }
 }

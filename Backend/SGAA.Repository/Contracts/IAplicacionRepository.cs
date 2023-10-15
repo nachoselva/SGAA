@@ -9,5 +9,7 @@
         Task<Aplicacion> UpdateAplicacion(Aplicacion aplicacion);
         Task DeleteGarantias(IEnumerable<Garantia> entitiesToDelete);
         Task DeletePostulantes(IEnumerable<Postulante> entitiesToDelete);
+        Task<Aplicacion?> GetAplicacionAdminById(int aplicacionId);
+        Task<IReadOnlyCollection<Aplicacion>> GetAplicacionesAdmin();
     }
 }

@@ -22,10 +22,13 @@
         private readonly IUnidadRepository _unidadRepository;
         private readonly IPublicarUnidadEmailSender _publicarUnidadEmailSender;
         private readonly ICancelarPostulacionEmailSender _cancelarPostulacionEmailSender;
+        private readonly IReservaOfrecidaInquilinoEmailSender _reservaOfrecidaInquilinoEmailSender;
+        private readonly IReservaOfrecidaPropietarioEmailSender _reservaOfrecidaPropietarioEmailSender;
 
         public PublicacionService(ISGAAConfiguration configuration, IPublicacionRepository publicacionRepository,
             IPublicacionMapper publicacionMapper, IUnidadRepository unidadRepository, IPublicarUnidadEmailSender publicarUnidadEmailSender,
-            ICancelarPostulacionEmailSender cancelarPostulacionEmailSender)
+            ICancelarPostulacionEmailSender cancelarPostulacionEmailSender, IReservaOfrecidaInquilinoEmailSender reservaOfrecidaInquilinoEmailSender,
+            IReservaOfrecidaPropietarioEmailSender reservaOfrecidaPropietarioEmailSender)
         {
             _configuration = configuration;
             _publicacionRepository = publicacionRepository;
@@ -33,6 +36,28 @@
             _unidadRepository = unidadRepository;
             _publicarUnidadEmailSender = publicarUnidadEmailSender;
             _cancelarPostulacionEmailSender = cancelarPostulacionEmailSender;
+            _reservaOfrecidaInquilinoEmailSender = reservaOfrecidaInquilinoEmailSender;
+            _reservaOfrecidaPropietarioEmailSender = reservaOfrecidaPropietarioEmailSender;
+        }
+
+        public async Task<PublicacionGetModel> GetPublicacionActiveByCodigo(string codigo)
+        {
+            Publicacion? publicacion = await _publicacionRepository.GetPublicacionByCodigo(codigo);
+            return publicacion != null && publicacion.Status.IsActive() ?
+                publicacion.MapToGetModel(_publicacionMapper) :
+                throw new NotFoundException();
+        }
+
+        public async Task<PublicacionGetModel> GetPublicacionByPublicacionId(int publicacionId)
+        {
+            Publicacion? publicacion = await _publicacionRepository.GetPublicacionById(publicacionId);
+            return publicacion != null ? publicacion.MapToGetModel(_publicacionMapper) : throw new NotFoundException();
+        }
+
+        public async Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicacionesAdmin()
+        {
+            IReadOnlyCollection<Publicacion> publicaciones = await _publicacionRepository.GetPublicaciones();
+            return publicaciones.Select(publicacion => publicacion.MapToGetModel(_publicacionMapper)).ToList();
         }
 
         public async Task<PublicacionGetModel> AddPublicacion(PublicacionPostModel model)
@@ -64,7 +89,7 @@
             return publicacion.MapToGetModel(_publicacionMapper);
         }
 
-        public async Task<PublicacionGetModel> CancelPublicacion(int publicacionId, PublicacionCancelPutModel model)
+        public async Task<PublicacionGetModel> CancelPublicacion(int publicacionId, PublicacionCancelarPutModel model)
         {
             Publicacion? publicacion = await _publicacionRepository.GetPublicacionById(publicacionId);
             if (publicacion == null || model.PropietarioUsuarioId != publicacion.Unidad.PropietarioUsuarioId)
@@ -98,24 +123,45 @@
             return publicacion.MapToGetModel(_publicacionMapper);
         }
 
-        public async Task<PublicacionGetModel> GetPublicacionActiveByCodigo(string codigo)
-        {
-            Publicacion? publicacion = await _publicacionRepository.GetPublicacionByCodigo(codigo);
-            return publicacion != null && publicacion.Status.IsActive() ?
-                publicacion.MapToGetModel(_publicacionMapper) :
-                throw new NotFoundException();
-        }
-
-        public async Task<PublicacionGetModel> GetPublicacionByPublicacionId(int publicacionId)
+        public async Task<PublicacionGetModel> CerrarPublicacion(int publicacionId, PublicacionCerrarPutModel model)
         {
             Publicacion? publicacion = await _publicacionRepository.GetPublicacionById(publicacionId);
-            return publicacion != null ? publicacion.MapToGetModel(_publicacionMapper) : throw new NotFoundException();
-        }
+            if (publicacion == null || model.PropietarioUsuarioId != publicacion.Unidad.PropietarioUsuarioId)
+                throw new NotFoundException();
+            if (publicacion.Status != PublicacionStatus.Publicada)
+                throw new BadRequestException(nameof(publicacion.Status), "La publicación no se encuentra en estado para cerrar");
+            var postulaciones = publicacion.Postulaciones
+                .Where(p => p.Status == PostulacionStatus.Postulada)
+                .Where(p => p.Aplicacion.Status == AplicacionStatus.Aprobada);
+            var postulacionSelected = postulaciones
+                .OrderByDescending(p => p.Aplicacion.PuntuacionTotal)
+                .FirstOrDefault();
+            if (postulacionSelected == null)
+                throw new BadRequestException(nameof(publicacion.Postulaciones), "La publicación no tiene postulaciones");
+            publicacion = model.ToEntity(_publicacionMapper, publicacion);
+            postulacionSelected = model.ToEntity(_publicacionMapper, postulacionSelected);
+            publicacion = await _publicacionRepository.UpdatePublicacion(publicacion);
 
-        public async Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicacionesAdmin()
-        {
-            IReadOnlyCollection<Publicacion> publicaciones = await _publicacionRepository.GetPublicaciones();
-            return publicaciones.Select(publicacion => publicacion.MapToGetModel(_publicacionMapper)).ToList();
+            Usuario propietario = publicacion.Unidad.PropietarioUsuario;
+            Usuario inquilino = postulacionSelected.Aplicacion.InquilinoUsuario;
+
+            await _reservaOfrecidaPropietarioEmailSender.SendEmail(propietario.Email!,
+                   new ReservaOfrecidaPropietarioEmailModel()
+                   {
+                       Nombre = propietario.Nombre,
+                       Apellido = propietario.Apellido,
+                       Domicilio = publicacion.Unidad.DomicilioCompleto
+                   });
+
+            await _reservaOfrecidaInquilinoEmailSender.SendEmail(inquilino.Email!,
+                    new ReservaOfrecidaInquilinoEmailModel()
+                    {
+                        Nombre = inquilino.Nombre,
+                        Apellido = inquilino.Apellido,
+                        Domicilio = publicacion.Unidad.DomicilioCompleto
+                    });
+
+            return publicacion.MapToGetModel(_publicacionMapper);
         }
     }
 }

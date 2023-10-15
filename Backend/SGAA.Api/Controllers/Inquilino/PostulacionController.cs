@@ -1,4 +1,4 @@
-﻿namespace SGAA.Api.Controllers.Administrador
+﻿namespace SGAA.Api.Controllers.Inquilino
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -26,6 +26,33 @@
         {
             model.InquilinoUsuarioId = (await _usuarioProvider.GetUser())!.Id;
             PostulacionGetModel postulacion = await _postulacionService.AddPostulacion(model);
+            return postulacion;
+        }
+
+        [HttpPut]
+        [Route("{postulacionId}/aceptar-oferta")]
+        public async Task<PostulacionGetModel> AceptarOferta([FromRoute] int postulacionId, [FromBody] AceptarOfertaPostulacionPutModel model)
+        {
+            model.InquilinoUsuarioId = (await _usuarioProvider.GetUser())!.Id;
+            PostulacionGetModel postulacion = await _postulacionService.AceptarOferta(postulacionId, model);
+            return postulacion;
+        }
+
+        [HttpPut]
+        [Route("{postulacionId}/rechazar-oferta")]
+        public async Task<PostulacionGetModel> RechazarOferta([FromRoute] int postulacionId, [FromBody] RechazarOfertaPostulacionPutModel model)
+        {
+            model.InquilinoUsuarioId = (await _usuarioProvider.GetUser())!.Id;
+            PostulacionGetModel postulacion = await _postulacionService.RechazarOferta(postulacionId, model);
+            return postulacion;
+        }
+
+        [HttpPut]
+        [Route("{postulacionId}/cancelar")]
+        public async Task<PostulacionGetModel> CancelarPostulacion([FromRoute] int postulacionId, [FromBody] CancelarPostulacionPutModel model)
+        {
+            model.InquilinoUsuarioId = (await _usuarioProvider.GetUser())!.Id;
+            PostulacionGetModel postulacion = await _postulacionService.CancelarPostulacion(postulacionId, model);
             return postulacion;
         }
     }

@@ -5,8 +5,10 @@
 
     public interface IPublicacionMapper : IGetMapper<Publicacion, PublicacionGetModel>,
         IPostMapper<Publicacion, PublicacionPostModel>,
-        IPutMapper<Publicacion, PublicacionCancelPutModel>,
-        IPutMapper<Postulacion, PublicacionCancelPutModel>
+        IPutMapper<Publicacion, PublicacionCancelarPutModel>,
+        IPutMapper<Publicacion, PublicacionCerrarPutModel>,
+        IPutMapper<Postulacion, PublicacionCancelarPutModel>,
+        IPutMapper<Postulacion, PublicacionCerrarPutModel>
     {
 
     }

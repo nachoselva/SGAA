@@ -123,7 +123,7 @@
             Aplicacion? aplicacion = aplicaciones
                 .FirstOrDefault(ap => ap.Status.IsActive());
             if (aplicacion == null)
-                throw new BadRequestException("Aplicacion", "No existe una aplicación active");
+                throw new NotFoundException();
             if (aplicacion.Status != AplicacionStatus.AprobacionPendiente)
                 throw new BadRequestException("Aplicacion", "La aplicación no se encuentra en estado editable");
 
@@ -131,6 +131,45 @@
             aplicacion = putModel.ToEntity(_aplicacionMapper, aplicacion);
             aplicacion = await UpsertPostulantes(putModel, aplicacion);
             aplicacion = await UpsertGarantias(putModel, aplicacion);
+            aplicacion = await _aplicacionRepository.UpdateAplicacion(aplicacion);
+
+            return aplicacion.MapToGetModel<Aplicacion, AplicacionGetModel>(_aplicacionMapper);
+        }
+
+        public async Task<AplicacionGetModel> GetAplicacionAdmin(int aplicacionId)
+        {
+            Aplicacion aplicacion = await _aplicacionRepository.GetAplicacionAdminById(aplicacionId) ?? throw new NotFoundException();
+            return aplicacion.MapToGetModel<Aplicacion, AplicacionGetModel>(_aplicacionMapper);
+        }
+
+        public async Task<IReadOnlyCollection<AplicacionGetModel>> GetAplicacionesAdmin()
+        => (await _aplicacionRepository.GetAplicacionesAdmin())
+                .Select(ap => ap.MapToGetModel<Aplicacion, AplicacionGetModel>(_aplicacionMapper))
+                .ToList();
+
+        public async Task<AplicacionGetModel> AprobarAplicacion(int aplicacionId, AprobarAplicacionPutModel model)
+        {
+            Aplicacion? aplicacion = await _aplicacionRepository.GetAplicacionAdminById(aplicacionId);
+            if (aplicacion == null)
+                throw new NotFoundException();
+            if (aplicacion.Status != AplicacionStatus.AprobacionPendiente)
+                throw new BadRequestException("Aplicacion", "La aplicación no se encuentra en estado para aprobar");
+
+            aplicacion = model.ToEntity(_aplicacionMapper, aplicacion);
+            aplicacion = await _aplicacionRepository.UpdateAplicacion(aplicacion);
+
+            return aplicacion.MapToGetModel<Aplicacion, AplicacionGetModel>(_aplicacionMapper);
+        }
+
+        public async Task<AplicacionGetModel> RechazarAplicacion(int aplicacionId, RechazarAplicacionPutModel model)
+        {
+            Aplicacion? aplicacion = await _aplicacionRepository.GetAplicacionAdminById(aplicacionId);
+            if (aplicacion == null)
+                throw new NotFoundException();
+            if (aplicacion.Status != AplicacionStatus.AprobacionPendiente)
+                throw new BadRequestException("Aplicacion", "La aplicación no se encuentra en estado para aprobar");
+
+            aplicacion = model.ToEntity(_aplicacionMapper, aplicacion);
             aplicacion = await _aplicacionRepository.UpdateAplicacion(aplicacion);
 
             return aplicacion.MapToGetModel<Aplicacion, AplicacionGetModel>(_aplicacionMapper);

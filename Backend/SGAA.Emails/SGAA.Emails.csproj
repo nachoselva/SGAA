@@ -7,16 +7,40 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="EmailTemplates\AprobarUnidadEmailEmailTemplate.html" />
+    <None Remove="EmailTemplates\AprobarAplicacionEmailTemplate.html" />
+    <None Remove="EmailTemplates\AprobarUnidadEmailTemplate.html" />
     <None Remove="EmailTemplates\CancelarPostulacionEmailTemplate.html" />
     <None Remove="EmailTemplates\ConfirmationEmailTemplate.html" />
     <None Remove="EmailTemplates\EmailLayout.html" />
+    <None Remove="EmailTemplates\OfertaAceptadaEmailTemplate.html" />
+    <None Remove="EmailTemplates\OfertaRechazadaEmailTemplate.html" />
     <None Remove="EmailTemplates\PostulacionCreadaEmailTemplate.html" />
     <None Remove="EmailTemplates\PublicarUnidadEmailEmailTemplate.html" />
-    <None Remove="EmailTemplates\RechazarUnidadEmailSender.html" />
+    <None Remove="EmailTemplates\RechazarAplicacionEmailTemplate.html" />
+    <None Remove="EmailTemplates\RechazarUnidadEmailTemplate.html" />
+    <None Remove="EmailTemplates\ReservaOfrecidaInquilinoEmailTemplate.html" />
+    <None Remove="EmailTemplates\ReservaOfrecidaPropietarioEmailTemplate.html" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="EmailTemplates\RechazarAplicacionEmailTemplate.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\AprobarAplicacionEmailTemplate.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\OfertaAceptadaEmailTemplate.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\ReservaOfrecidaInquilinoEmailTemplate.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\OfertaRechazadaEmailTemplate.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\ReservaOfrecidaPropietarioEmailTemplate.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="EmailTemplates\PostulacionCreadaEmailTemplate.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -26,10 +50,10 @@
     <Content Include="EmailTemplates\PublicarUnidadEmailEmailTemplate.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="EmailTemplates\RechazarUnidadEmailSender.html">
+    <Content Include="EmailTemplates\RechazarUnidadEmailTemplate.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="EmailTemplates\AprobarUnidadEmailEmailTemplate.html">
+    <Content Include="EmailTemplates\AprobarUnidadEmailTemplate.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="EmailTemplates\ConfirmationEmailTemplate.html">

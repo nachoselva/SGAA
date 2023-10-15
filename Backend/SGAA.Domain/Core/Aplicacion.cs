@@ -40,6 +40,10 @@
         {
             _postulantes.AddRange(postulantes);
         }
+        public void AddComentario(AplicacionComentario comentario)
+        {
+            _comentarios.Add(comentario);
+        }
 
         public void RemoveGarantias(IEnumerable<Garantia> entitiesToDelete)
         {

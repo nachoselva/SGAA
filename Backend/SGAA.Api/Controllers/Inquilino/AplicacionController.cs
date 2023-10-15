@@ -1,4 +1,4 @@
-﻿namespace SGAA.Api.Controllers.Administrador
+﻿namespace SGAA.Api.Controllers.Inquilino
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

@@ -1,4 +1,4 @@
-﻿namespace SGAA.Api.Controllers
+﻿namespace SGAA.Api.Controllers.Propietario
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

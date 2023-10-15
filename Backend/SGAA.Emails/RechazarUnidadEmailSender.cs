@@ -12,6 +12,6 @@
         }
 
         public override string Subject => "Documentación de unidad rechazada";
-        public override string TemplateName => "RechazarUnidadEmailSender";
+        public override string TemplateName => "RechazarUnidadEmailTemplate";
     }
 }
