@@ -47,7 +47,7 @@
             _titulares.AddRange(titulares);
         }
 
-        public void RemoveTitulares(Titular[] titulares)
+        public void RemoveTitulares(IEnumerable<Titular> titulares)
         {
             IEnumerable<int> idsToDelete = titulares.Select(img => img.Id);
             _titulares.RemoveAll(img => idsToDelete.Contains(img.Id));

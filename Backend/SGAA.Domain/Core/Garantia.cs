@@ -11,9 +11,9 @@
             Archivo = archivo;
         }
 
-        public int AplicacionId { get; private set; }
-        public decimal Monto { get; private set; }
-        public byte[] Archivo { get; private set; }
+        public int AplicacionId { get; set; }
+        public decimal Monto { get; set; }
+        public byte[] Archivo { get; set; }
 
         public Aplicacion Aplicacion { get; private set; } = default!;
     }

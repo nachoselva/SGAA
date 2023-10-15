@@ -13,8 +13,12 @@
         IPutMapper<UnidadDetalle, UnidadDetalleModel>,
         IPostMapper<UnidadImagen, UnidadImagenModel>,
         IPutMapper<UnidadImagen, UnidadImagenModel>,
+        IGetMapper<Titular, TitularModel>,
         IPutMapper<Titular, TitularModel>,
-        IPostMapper<Titular, TitularModel>
+        IPostMapper<Titular, TitularModel>,
+        IGetMapper<UnidadDetalle, UnidadDetalleModel>,
+        IGetMapper<UnidadComentario, ComentarioModel>,
+        IGetMapper<UnidadImagen, UnidadImagenModel>
     {
 
     }

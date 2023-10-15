@@ -17,9 +17,6 @@
         {
             _configuration = configuration;
         }
-        //public DbSet<Usuario> Members { get; set; }
-        //public DbSet<Unidad> Homes { get; set; }
-        //public DbSet<Ciudad> Cities { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Provincia> Provincias { get; set; }
         public DbSet<Ciudad> Ciudades { get; set; }
@@ -30,6 +27,8 @@
         public DbSet<Titular> Titulares { get; set; }
         public DbSet<Aplicacion> Aplicaciones { get; set; }
         public DbSet<Postulacion> Postulaciones { get; set; }
+        public DbSet<Garantia> Garantias { get; set; }
+        public DbSet<Postulante> Postulantes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

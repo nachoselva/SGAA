@@ -53,9 +53,9 @@
                 .HasOne(postulacion => postulacion.Aplicacion)
                 .WithMany(aplicacion => aplicacion.Postulantes)
                 .HasPrincipalKey(aplicacion => aplicacion.Id)
-                .HasForeignKey(postulante => postulante.AplicacionId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(postulante => postulante.AplicacionId);
+
+            builder.ToTable(nameof(Postulante));
 
         }
     }
