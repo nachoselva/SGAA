@@ -18,6 +18,7 @@
         private IQueryable<Aplicacion> AplicacionQuery()
         =>
             _dbContext.Aplicaciones
+            .Include(a => a.Comentarios)
             .Include(a => a.Garantias)
             .Include(a => a.Postulantes)
             .Include(a => a.InquilinoUsuario)

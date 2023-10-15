@@ -1,7 +1,10 @@
 ﻿namespace SGAA.Service
 {
+    using SGAA.Domain.Auth;
     using SGAA.Domain.Core;
     using SGAA.Domain.Errors;
+    using SGAA.Emails.Contracts;
+    using SGAA.Emails.EmailModels;
     using SGAA.Models;
     using SGAA.Models.Mappers;
     using SGAA.Repository.Contracts;
@@ -13,11 +16,16 @@
     {
         private readonly IAplicacionRepository _aplicacionRepository;
         private readonly IAplicacionMapper _aplicacionMapper;
+        private readonly IAprobarAplicacionEmailSender _aprobarAplicacionEmailSender;
+        private readonly IRechazarAplicacionEmailSender _rechazarAplicacionEmailSender;
 
-        public AplicacionService(IAplicacionRepository aplicacionRepository, IAplicacionMapper aplicacionMapper)
+        public AplicacionService(IAplicacionRepository aplicacionRepository, IAplicacionMapper aplicacionMapper,
+            IAprobarAplicacionEmailSender aprobarAplicacionEmailSender, IRechazarAplicacionEmailSender rechazarAplicacionEmailSender)
         {
             _aplicacionRepository = aplicacionRepository;
             _aplicacionMapper = aplicacionMapper;
+            _aprobarAplicacionEmailSender = aprobarAplicacionEmailSender;
+            _rechazarAplicacionEmailSender = rechazarAplicacionEmailSender;
         }
         private async Task<Aplicacion> UpsertGarantias(AplicacionPutModel putModel, Aplicacion aplicacion)
         {
@@ -157,6 +165,14 @@
 
             aplicacion = model.ToEntity(_aplicacionMapper, aplicacion);
             aplicacion = await _aplicacionRepository.UpdateAplicacion(aplicacion);
+            Usuario inquilinoUsuario = aplicacion.InquilinoUsuario;
+
+            await _aprobarAplicacionEmailSender.SendEmail(inquilinoUsuario.Email!,
+                 new AprobarAplicacionEmailModel
+                 {
+                     Nombre = inquilinoUsuario.Nombre,
+                     Apellido = inquilinoUsuario.Apellido
+                 });
 
             return aplicacion.MapToGetModel<Aplicacion, AplicacionGetModel>(_aplicacionMapper);
         }
@@ -171,6 +187,21 @@
 
             aplicacion = model.ToEntity(_aplicacionMapper, aplicacion);
             aplicacion = await _aplicacionRepository.UpdateAplicacion(aplicacion);
+            Usuario inquilinoUsuario = aplicacion.InquilinoUsuario;
+
+            await _rechazarAplicacionEmailSender.SendEmail(inquilinoUsuario.Email!,
+                 new RechazarAplicacionEmailModel
+                 {
+                     Nombre = inquilinoUsuario.Nombre,
+                     Apellido = inquilinoUsuario.Apellido,
+                     Comentarios = aplicacion.Comentarios.OrderByDescending(c => c.Fecha)
+                     .Select(c =>
+                     new ComentarioEmailModel
+                     {
+                         Fecha = $"{c.Fecha.ToShortDateString()} {c.Fecha.ToShortTimeString()}",
+                         Comentario = c.Comentario
+                     }).ToList()
+                 });
 
             return aplicacion.MapToGetModel<Aplicacion, AplicacionGetModel>(_aplicacionMapper);
         }
