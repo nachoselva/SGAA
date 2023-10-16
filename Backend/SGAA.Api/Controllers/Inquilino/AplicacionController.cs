@@ -1,5 +1,12 @@
 ﻿namespace SGAA.Api.Controllers.Inquilino
 {
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using SGAA.Api.Providers;
+    using SGAA.Domain.Auth;
+    using SGAA.Models;
+    using SGAA.Service.Contracts;
+
     [ApiController]
     [Route($"{nameof(RolType.Inquilino)}/[controller]")]
     [Authorize(Roles = nameof(RolType.Inquilino))]
