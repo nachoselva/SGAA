@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SGAA.Documents\SGAA.Documents.csproj" />
     <ProjectReference Include="..\SGAA.Models\SGAA.Models.csproj" />
     <ProjectReference Include="..\SGAA.Repository\SGAA.Repository.csproj" />
     <ProjectReference Include="..\SGAA.Service\SGAA.Service.csproj" />

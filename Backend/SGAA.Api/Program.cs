@@ -13,6 +13,7 @@ builder.Services
     .AddApi(configuration)
     .AddServices()
     .AddEmails()
+    .AddDocuments()
     .AddModel()
     .AddRepository();
 

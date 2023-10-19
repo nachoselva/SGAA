@@ -5,8 +5,8 @@
 
     public class Postulante : Persona, IEntity
     {
-
-        public Postulante(string nombre, string apellido, TipoIdentificacion tipoIdentificacion, string numeroIdentificacion, DateTime fechaNacimiento, string domicilio, byte[] frenteIdentificacionArchivo, byte[] dorsoIdentificacionArchivo, int aplicacionId, DateTime fechaEmpleadoDesde, string nombreEmpresa, decimal ingresoMensual, byte[] reciboDeSueldoArchivo) : base(nombre, apellido, tipoIdentificacion, numeroIdentificacion, fechaNacimiento, domicilio, frenteIdentificacionArchivo, dorsoIdentificacionArchivo)
+        public Postulante(string nombre, string apellido, string email, TipoIdentificacion tipoIdentificacion, string numeroIdentificacion, DateTime fechaNacimiento, string domicilio, byte[] frenteIdentificacionArchivo, byte[] dorsoIdentificacionArchivo, int aplicacionId, DateTime fechaEmpleadoDesde, string nombreEmpresa, decimal ingresoMensual, byte[] reciboDeSueldoArchivo) 
+            : base(nombre, apellido, email, tipoIdentificacion, numeroIdentificacion, fechaNacimiento, domicilio, frenteIdentificacionArchivo, dorsoIdentificacionArchivo)
         {
             AplicacionId = aplicacionId;
             FechaEmpleadoDesde = fechaEmpleadoDesde;

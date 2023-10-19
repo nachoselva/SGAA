@@ -6,7 +6,7 @@
     public class AplicacionMapper : IAplicacionMapper
     {
         public AplicacionGetModel ToGetModel(Aplicacion entity)
-         => new AplicacionGetModel
+         => new()
          {
              Id = entity.Id,
              InquilinoUsuarioId = entity.InquilinoUsuarioId,
@@ -26,11 +26,12 @@
         }
 
         public PostulanteModel ToGetModel(Postulante entity)
-        => new PostulanteModel
+        => new()
         {
             Id = entity.Id,
             Nombre = entity.Nombre,
             Apellido = entity.Apellido,
+            Email = entity.Email,
             TipoIdentificacion = entity.TipoIdentificacion,
             NumeroIdentificacion = entity.NumeroIdentificacion,
             FechaNacimiento = entity.FechaNacimiento,
@@ -44,7 +45,7 @@
             ReciboDeSueldoArchivo = Encoding.ASCII.GetString(entity.ReciboDeSueldoArchivo)
         };
         public Postulante ToEntity(PostulanteModel postModel)
-        => new(postModel.Nombre, postModel.Apellido, postModel.TipoIdentificacion, postModel.NumeroIdentificacion,
+        => new(postModel.Nombre, postModel.Apellido, postModel.Email, postModel.TipoIdentificacion, postModel.NumeroIdentificacion,
             postModel.FechaNacimiento, postModel.Domicilio,
             Encoding.ASCII.GetBytes(postModel.FrenteIdentificacionArchivo),
             Encoding.ASCII.GetBytes(postModel.DorsoIdentificacionArchivo),
@@ -54,6 +55,7 @@
         {
             entity.Nombre = putModel.Nombre;
             entity.Apellido = putModel.Apellido;
+            entity.Email = putModel.Email;
             entity.TipoIdentificacion = putModel.TipoIdentificacion;
             entity.NumeroIdentificacion = putModel.NumeroIdentificacion;
             entity.FechaNacimiento = putModel.FechaNacimiento;
@@ -69,7 +71,7 @@
         }
 
         public GarantiaModel ToGetModel(Garantia entity)
-        => new GarantiaModel
+        => new()
         {
             Id = entity.Id,
             AplicacionId = entity.AplicacionId,
@@ -77,7 +79,7 @@
             Monto = entity.Monto
         };
         public Garantia ToEntity(GarantiaModel postModel)
-        => new Garantia(postModel.AplicacionId ?? 0, postModel.Monto,
+        => new(postModel.AplicacionId ?? 0, postModel.Monto,
             Encoding.ASCII.GetBytes(postModel.Archivo));
         public Garantia ToEntity(GarantiaModel putModel, Garantia entity)
         {
@@ -88,7 +90,7 @@
         }
 
         public ComentarioModel ToGetModel(AplicacionComentario entity)
-        => new ComentarioModel()
+        => new()
         {
             Fecha = entity.Fecha,
             Comentario = entity.Comentario

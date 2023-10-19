@@ -12,8 +12,8 @@ using SGAA.Repository.Contexts;
 namespace SGAA.Repository.Migrations
 {
     [DbContext(typeof(SGAADbContext))]
-    [Migration("20231014034518_Increase_SQL_Field_Length")]
-    partial class Increase_SQL_Field_Length
+    [Migration("20231019015546_Usuario_firma")]
+    partial class Usuario_firma
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -310,7 +310,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("InquilinoUsuarioId");
 
-                    b.ToTable("Aplicacion", t =>
+                    b.ToTable("Aplicacion", null, t =>
                         {
                             t.HasCheckConstraint("CHK_Aplicacion_Status", "[Status] IN ('AprobacionPendiente', 'Aprobada', 'Expirada', 'Ofrecida', 'Reservada')");
                         });
@@ -354,8 +354,8 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<string>("NombreCompleto")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<int>("ProvinciaId")
                         .HasColumnType("int");
@@ -13075,6 +13075,9 @@ namespace SGAA.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<byte[]>("Archivo")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<DateOnly?>("FechaCancelacion")
                         .HasColumnType("date");
 
@@ -13091,12 +13094,17 @@ namespace SGAA.Repository.Migrations
                     b.Property<int>("OrdenRenovacion")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contrato");
+                    b.ToTable("Contrato", null, t =>
+                        {
+                            t.HasCheckConstraint("CHK_Contrato_Status", "[Status] IN ('FirmaPendiente', 'Ejecutado')");
+                        });
                 });
 
             modelBuilder.Entity("SGAA.Domain.Core.Firma", b =>
@@ -13111,9 +13119,12 @@ namespace SGAA.Repository.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("DireccionIp")
-                        .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("DomicilioCompleto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("FechaFirma")
                         .HasColumnType("datetime2(3)");
@@ -13123,9 +13134,10 @@ namespace SGAA.Repository.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.Property<int>("Rol")
+                    b.Property<string>("Rol")
+                        .IsRequired()
                         .HasMaxLength(25)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<string>("TipoIdentificacion")
                         .IsRequired()
@@ -13138,6 +13150,8 @@ namespace SGAA.Repository.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ContratoId");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Firma", t =>
                         {
@@ -13169,7 +13183,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("AplicacionId");
 
-                    b.ToTable("Garantia");
+                    b.ToTable("Garantia", (string)null);
                 });
 
             modelBuilder.Entity("SGAA.Domain.Core.Indice", b =>
@@ -13270,7 +13284,6 @@ namespace SGAA.Repository.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("ContratoId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("FechaOferta")
@@ -13289,11 +13302,12 @@ namespace SGAA.Repository.Migrations
                     b.HasIndex("AplicacionId");
 
                     b.HasIndex("ContratoId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[ContratoId] IS NOT NULL");
 
                     b.HasIndex("PublicacionId");
 
-                    b.ToTable("Postulacion", t =>
+                    b.ToTable("Postulacion", null, t =>
                         {
                             t.HasCheckConstraint("CHK_Postulacion_Status", "[Status] IN ('Postulada', 'Ofrecida', 'PublicacionCancelada', 'PostulacionCancelada', 'OfertaRechazada', 'Reservada')");
                         });
@@ -13317,12 +13331,17 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<string>("Domicilio")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<byte[]>("DorsoIdentificacionArchivo")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<DateTime>("FechaEmpleadoDesde")
                         .HasColumnType("date");
@@ -13365,7 +13384,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("AplicacionId");
 
-                    b.ToTable("Postulante");
+                    b.ToTable("Postulante", (string)null);
                 });
 
             modelBuilder.Entity("SGAA.Domain.Core.Propiedad", b =>
@@ -13614,12 +13633,17 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<string>("Domicilio")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<byte[]>("DorsoIdentificacionArchivo")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("date");
@@ -13650,7 +13674,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("UnidadId");
 
-                    b.ToTable("Titular");
+                    b.ToTable("Titular", (string)null);
                 });
 
             modelBuilder.Entity("SGAA.Domain.Core.Unidad", b =>
@@ -13747,8 +13771,8 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<int>("Dormitorios")
                         .HasColumnType("int");
@@ -14271,15 +14295,15 @@ namespace SGAA.Repository.Migrations
 
             modelBuilder.Entity("SGAA.Domain.Core.Firma", b =>
                 {
-                    b.HasOne("SGAA.Domain.Auth.Usuario", "Usuario")
+                    b.HasOne("SGAA.Domain.Core.Contrato", "Contrato")
                         .WithMany("Firmas")
                         .HasForeignKey("ContratoId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SGAA.Domain.Core.Contrato", "Contrato")
+                    b.HasOne("SGAA.Domain.Auth.Usuario", "Usuario")
                         .WithMany("Firmas")
-                        .HasForeignKey("ContratoId")
+                        .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -14325,7 +14349,7 @@ namespace SGAA.Repository.Migrations
                     b.HasOne("SGAA.Domain.Core.Aplicacion", "Aplicacion")
                         .WithMany("Garantias")
                         .HasForeignKey("AplicacionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.OwnsOne("SGAA.Domain.Base.Audit", "Audit", b1 =>
@@ -14494,9 +14518,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasOne("SGAA.Domain.Core.Contrato", "Contrato")
                         .WithOne("Postulacion")
-                        .HasForeignKey("SGAA.Domain.Core.Postulacion", "ContratoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("SGAA.Domain.Core.Postulacion", "ContratoId");
 
                     b.HasOne("SGAA.Domain.Core.Publicacion", "Publicacion")
                         .WithMany("Postulaciones")
@@ -14548,7 +14570,7 @@ namespace SGAA.Repository.Migrations
                     b.HasOne("SGAA.Domain.Core.Aplicacion", "Aplicacion")
                         .WithMany("Postulantes")
                         .HasForeignKey("AplicacionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.OwnsOne("SGAA.Domain.Base.Audit", "Audit", b1 =>
@@ -14712,7 +14734,7 @@ namespace SGAA.Repository.Migrations
                     b.HasOne("SGAA.Domain.Core.Unidad", "Unidad")
                         .WithMany("Titulares")
                         .HasForeignKey("UnidadId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.OwnsOne("SGAA.Domain.Base.Audit", "Audit", b1 =>

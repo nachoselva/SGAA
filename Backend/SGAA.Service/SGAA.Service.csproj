@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SGAA.Documents\SGAA.Documents.csproj" />
     <ProjectReference Include="..\SGAA.Domain\SGAA.Domain.csproj" />
     <ProjectReference Include="..\SGAA.Emails\SGAA.Emails.csproj" />
     <ProjectReference Include="..\SGAA.Models\SGAA.Models.csproj" />

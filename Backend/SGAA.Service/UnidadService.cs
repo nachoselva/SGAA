@@ -128,6 +128,7 @@
             unidad.Detalle.AddImagenes(postModel.Detalle.Imagenes.Select(newmodel => newmodel.ToEntity<UnidadImagen, UnidadImagenModel>(_unidadMapper)));
             unidad.AddTitulares(postModel.Titulares.Select(newmodel => newmodel.ToEntity<Titular, TitularModel>(_unidadMapper)));
             unidad = await _unidadRepository.AddUnidad(unidad);
+            unidad = (await _unidadRepository.GetUnidadById(unidad.Id))!;
             return unidad.MapToGetModel<Unidad, UnidadGetModel>(_unidadMapper);
         }
 

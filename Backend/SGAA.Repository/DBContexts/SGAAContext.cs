@@ -29,6 +29,7 @@
         public DbSet<Postulacion> Postulaciones { get; set; }
         public DbSet<Garantia> Garantias { get; set; }
         public DbSet<Postulante> Postulantes { get; set; }
+        public DbSet<Contrato> Contratos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

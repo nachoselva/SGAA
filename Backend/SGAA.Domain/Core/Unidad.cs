@@ -5,8 +5,8 @@
 
     public class Unidad : BaseEntity, IEntity
     {
-        private List<UnidadComentario> _comentarios;
-        private List<Titular> _titulares;
+        private readonly List<UnidadComentario> _comentarios;
+        private readonly List<Titular> _titulares;
 
         public Unidad(int propiedadId, int propietarioUsuarioId, string piso, string departamento, DateTime fechaAdquisicion, byte[] tituloPropiedadArchivo, UnidadStatus status)
         {

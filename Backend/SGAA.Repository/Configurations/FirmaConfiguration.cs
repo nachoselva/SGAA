@@ -15,7 +15,6 @@
             builder.Property(firma => firma.FechaFirma)
                 .HasColumnType(DataTypes.TYPE_DATETIME);
             builder.Property(firma => firma.DireccionIp)
-                .IsRequired()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
             builder.Property(unidad => unidad.Rol)
                 .IsRequired()
@@ -40,9 +39,19 @@
             .HasOne(f => f.Usuario)
             .WithMany(u => u.Firmas)
             .HasPrincipalKey(u => u.Id)
-            .HasForeignKey(f => f.ContratoId)
+            .HasForeignKey(f => f.UsuarioId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Property(firma => firma.Rol)
+                .IsRequired()
+                .HasConversion<string>()
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
+
+            builder.Property(firma => firma.TipoIdentificacion)
+                .IsRequired()
+                .HasConversion<string>()
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
 
             builder.ToTable(tableBuilder =>
             {

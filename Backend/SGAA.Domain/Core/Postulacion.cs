@@ -22,6 +22,6 @@
 
         public Publicacion Publicacion { get; private set; } = default!;
         public Aplicacion Aplicacion { get; private set; } = default!;
-        public Contrato Contrato { get; private set; } = default!;
+        public Contrato Contrato { get; set; } = default!;
     }
 }

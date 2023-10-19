@@ -46,6 +46,7 @@
         [Route("{publicacionId}/cerrar")]
         public async Task<PublicacionGetModel> CerrarPublicacion([FromRoute] int publicacionId, [FromBody] PublicacionCerrarPutModel model)
         {
+            model.PropietarioUsuarioId = (await _usuarioProvider.GetUser())!.Id;
             PublicacionGetModel publicacion = await _publicacionService.CerrarPublicacion(publicacionId, model);
             return publicacion;
         }
