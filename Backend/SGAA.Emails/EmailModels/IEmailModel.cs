@@ -4,5 +4,6 @@
     {
         public string Nombre { get; }
         public string Apellido { get; }
+        public string NombreCompleto { get; }
     }
 }
