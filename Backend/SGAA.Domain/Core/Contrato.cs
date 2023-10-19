@@ -7,7 +7,7 @@
     {
         private readonly List<Firma> _firmas;
 
-        public Contrato(DateOnly fechaDesde, DateOnly fechaHasta, DateOnly? fechaCancelacion, decimal montoAlquiler, int ordenRenovacion, byte[]? archivo, ContratoStatus status)
+        public Contrato(DateOnly fechaDesde, DateOnly fechaHasta, DateOnly? fechaCancelacion, decimal montoAlquiler, int ordenRenovacion, byte[] archivo, ContratoStatus status)
         {
             FechaDesde = fechaDesde;
             FechaHasta = fechaHasta;
@@ -25,7 +25,7 @@
         public decimal MontoAlquiler { get; private set; }
         public int OrdenRenovacion { get; private set; }
         public ContratoStatus Status { get; set; }
-        public byte[]? Archivo { get; set; }
+        public byte[] Archivo { get; set; }
 
         public Postulacion Postulacion { get; set; } = default!;
         public IReadOnlyCollection<Firma> Firmas => _firmas;

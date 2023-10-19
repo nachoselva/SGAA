@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contrato de Alquiler</title>
     <style>
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans|Rock+Salt|Shadows+Into+Light|Cedarville+Cursive');
+
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
@@ -32,6 +34,9 @@
             .firma p {
                 margin: 0;
             }
+        .cursiva {
+            font-family: 'Cedarville Cursive', cursive;
+        }
     </style>
 </head>
 <body>
@@ -40,15 +45,11 @@
     <p>
         En la ciudad de {{ ciudad }}, provincia de {{ provincia }}, a {{ fechaOferta }}, entre los propietarios
         {{#each firmasPropietarios}}
-        <div>
-            {{ this.nombreCompleto }} ({{ this.tipoIdentificacion }} {{ this.numeroIdentificacion }}, con domicilio en {{ domicilioCompleto }}),
-        </div>
+        {{ this.nombreCompleto }} ({{ this.tipoIdentificacion }} {{ this.numeroIdentificacion }}, con domicilio en {{ this.domicilio }}),
         {{/each}}
         en adelante el "Arrendador", y los inquilinos
         {{#each firmasInquilinos}}
-        <div>
-            {{ this.nombreCompleto }} ({{ this.tipoIdentificacion }} {{ this.numeroIdentificacion }}, con domicilio en {{ domicilioCompleto }}),
-        </div>
+        {{ this.nombreCompleto }} ({{ this.tipoIdentificacion }} {{ this.numeroIdentificacion }}, con domicilio en {{ this.domicilio }}),
         {{/each}}
         en adelante el "Inquilino", se acuerda el siguiente contrato de alquiler:
     </p>
@@ -91,8 +92,15 @@
         <p> {{this.rol}} </p>
         <p> {{this.nombreCompleto}} </p>
         <p> {{this.tipoIdentificacion}}: {{this.numeroIdentificacion}} </p>
+        {{#if this.fechaFirma}}
         <p> Fecha Firma: {{this.fechaFirma}} </p>
+        {{/if}}
+        {{#if this.direccionIP}}
         <p> Dirección IP: {{this.direccionIP}} </p>
+        {{/if}}
+        {{#if this.fechaFirma}}
+        <p class="cursiva"> {{this.nombreCompleto}} </p>
+        {{/if}}
     </div>
     {{/each}}
 
@@ -101,8 +109,15 @@
         <p> {{this.rol}} </p>
         <p> {{this.nombreCompleto}} </p>
         <p> {{this.tipoIdentificacion}}: {{this.numeroIdentificacion}} </p>
+        {{#if this.fechaFirma}}
         <p> Fecha Firma: {{this.fechaFirma}} </p>
+        {{/if}}
+        {{#if this.direccionIP}}
         <p> Dirección IP: {{this.direccionIP}} </p>
+        {{/if}}
+        {{#if this.fechaFirma}}
+        <p class="cursiva"> {{this.nombreCompleto}} </p>
+        {{/if}}
     </div>
     {{/each}}
 

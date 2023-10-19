@@ -1,6 +1,7 @@
 ﻿namespace SGAA.Models.Mappers
 {
     using SGAA.Domain.Core;
+    using System.Text;
 
     public class ContratoMapper : IContratoMapper
     {
@@ -8,7 +9,8 @@
         =>
             new()
             {
-                Id = entity.Id
+                Id = entity.Id,
+                Archivo = Encoding.ASCII.GetString(entity.Archivo)
             };
     }
 }

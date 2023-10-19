@@ -5,6 +5,7 @@ namespace SGAA.Api.Controllers
     using SGAA.Api.Providers;
     using SGAA.Domain.Errors;
     using SGAA.Models;
+    using SGAA.Service;
     using SGAA.Service.Contracts;
 
     [ApiController]
@@ -18,7 +19,5 @@ namespace SGAA.Api.Controllers
         {
             _contratoService = contratoService;
         }
-
-       
     }
 }

@@ -5,6 +5,7 @@
     public interface IContratoRepository
     {
         Task<Contrato> AddContrato(Contrato contrato);
+        Task<Contrato?> GetContratoAdmin(int contratoId);
         Task<IReadOnlyCollection<Contrato>> GetContratosAdmin();
         Task<IReadOnlyCollection<Contrato>> GetContratosByUsuarioId(int usuarioId);
         Task<Contrato> UpdateContrato(Contrato contrato);

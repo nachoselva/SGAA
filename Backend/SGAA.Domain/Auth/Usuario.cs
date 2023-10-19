@@ -30,5 +30,7 @@
         public IReadOnlyCollection<Aplicacion> Aplicaciones { get; set; } = new List<Aplicacion>();
         public IReadOnlyCollection<Unidad> Unidades { get; set; } = new List<Unidad>();
         public IReadOnlyCollection<Firma> Firmas { get; private set; } = new List<Firma>();
+
+        public string NombreCompleto => $"{Nombre} {Apellido}";
     }
 }

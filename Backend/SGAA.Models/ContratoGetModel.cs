@@ -6,5 +6,6 @@
     public class ContratoGetModel : IGetModel<Contrato>
     {
         public required int Id { get; set; }
+        public required string Archivo { get; set; }
     }
 }
