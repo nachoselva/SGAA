@@ -52,5 +52,12 @@
             await _dbContext.SaveChangesAsync();
             return entityEntry.Entity;
         }
+
+        public Task<Contrato?> GetContratoAdmin(int contratoId)
+        {
+            return ContratosQuery()
+                .Where(c => c.Id == contratoId)
+                .FirstOrDefaultAsync();
+        }
     }
 }

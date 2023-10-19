@@ -33,6 +33,7 @@
         public Postulacion ToEntity(PublicacionCerrarPutModel putModel, Postulacion entity)
         {
             entity.Status = PostulacionStatus.Ofrecida;
+            entity.FechaOferta = DateTime.Now;
             return entity;
         }
 
