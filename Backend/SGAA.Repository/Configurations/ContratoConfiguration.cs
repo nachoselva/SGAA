@@ -29,6 +29,19 @@
 
             builder.Property(contrato => contrato.OrdenRenovacion)
                 .IsRequired();
+
+            builder.Property(postulante => postulante.Archivo)
+                .HasColumnType(DataTypes.TYPE_FILE);
+
+            builder.Property(contrato => contrato.Status)
+                .IsRequired()
+                .HasConversion<string>()
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
+
+            builder.ToTable(nameof(Contrato), tableBuilder =>
+                tableBuilder
+                .HasCheckConstraintWithEnum(contrato => contrato.Status));
+
         }
     }
 }

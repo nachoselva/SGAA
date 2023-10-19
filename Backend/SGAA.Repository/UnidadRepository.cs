@@ -52,7 +52,7 @@
 
         public Task<Unidad?> GetUnidadByDireccion(int ciudadId, string calle, int altura, string piso, string departamento)
         {
-            return _dbContext.Unidades
+            return UnidadQuery()
                 .Where(u => u.Propiedad.CiudadId == ciudadId && u.Propiedad.Altura == altura && EF.Functions.Like(calle, u.Propiedad.Calle))
                 .Where(u => EF.Functions.Like(piso, u.Piso) && EF.Functions.Like(departamento, u.Departamento))
                 .FirstOrDefaultAsync();

@@ -128,6 +128,7 @@
             entity.UnidadId = putModel.UnidadId ?? 0;
             entity.Nombre = putModel.Nombre;
             entity.Apellido = putModel.Apellido;
+            entity.Email = putModel.Email;
             entity.TipoIdentificacion = putModel.TipoIdentificacion;
             entity.NumeroIdentificacion = putModel.NumeroIdentificacion;
             entity.FechaNacimiento = putModel.FechaNacimiento;
@@ -143,6 +144,7 @@
                 postModel.UnidadId ?? 0,
                 postModel.Nombre,
                 postModel.Apellido,
+                postModel.Email,
                 postModel.TipoIdentificacion,
                 postModel.NumeroIdentificacion,
                 postModel.FechaNacimiento,
@@ -154,12 +156,13 @@
 
         public TitularModel ToGetModel(Titular entity)
         =>
-            new TitularModel
+            new()
             {
                 Id = entity.Id,
                 UnidadId = entity.UnidadId,
                 Nombre = entity.Nombre,
                 Apellido = entity.Apellido,
+                Email = entity.Email,
                 TipoIdentificacion = entity.TipoIdentificacion,
                 NumeroIdentificacion = entity.NumeroIdentificacion,
                 FechaNacimiento = entity.FechaNacimiento,
@@ -169,14 +172,14 @@
             };
 
         public ComentarioModel ToGetModel(UnidadComentario entity)
-        => new ComentarioModel()
+        => new()
         {
             Fecha = entity.Fecha,
             Comentario = entity.Comentario
         };
 
         public UnidadDetalleModel ToGetModel(UnidadDetalle entity)
-        => new UnidadDetalleModel
+        => new()
         {
             Id = entity.Id,
             UnidadId = entity.Id,
@@ -191,7 +194,7 @@
 
         public UnidadImagenModel ToGetModel(UnidadImagen entity)
         =>
-            new UnidadImagenModel()
+            new()
             {
                 Id = entity.Id,
                 UnidadDetalleId = entity.UnidadDetalleId,

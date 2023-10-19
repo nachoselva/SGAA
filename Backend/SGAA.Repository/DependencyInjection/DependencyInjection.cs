@@ -16,7 +16,8 @@
                 .AddScoped<IUnidadRepository, UnidadRepository>()
                 .AddScoped<IPublicacionRepository, PublicacionRepository>()
                 .AddScoped<IPostulacionRepository, PostulacionRepository>()
-                .AddScoped<IAplicacionRepository, AplicacionRepository>();
+                .AddScoped<IAplicacionRepository, AplicacionRepository>()
+                .AddScoped<IContratoRepository, ContratoRepository>();
 
         public static async Task MigrateDbContext(IServiceProvider services)
         {

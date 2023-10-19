@@ -11,7 +11,7 @@
         public const int TYPE_DECIMAL_SCALE = 2;
 
         public const int TEXT_LENGTH_L5 = 500;
-        public const int TEXT_LENGTH_L4 = 200;
+        public const int TEXT_LENGTH_L4 = 256;
         public const int TEXT_LENGTH_L3 = 100;
         public const int TEXT_LENGTH_L2 = 50;
         public const int TEXT_LENGTH_L1 = 25;

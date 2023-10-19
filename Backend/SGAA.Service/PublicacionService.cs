@@ -65,7 +65,7 @@
             Unidad? unidad = await _unidadRepository.GetUnidadById(model.UnidadId);
             if (unidad == null || model.PropietarioUsuarioId != unidad.PropietarioUsuarioId)
                 throw new NotFoundException();
-            if (unidad.Status != UnidadStatus.AprobacionPendiente)
+            if (unidad.Status != UnidadStatus.DocumentacionAprobada)
                 throw new BadRequestException(nameof(unidad.Status), "La unidad no tiene su documentación aprobada");
             if (unidad.Publicaciones.Any(p => p.Status.IsActive()))
                 throw new BadRequestException(nameof(Publicacion.Status), "La unidad ya tiene una publicación activa");
@@ -101,7 +101,7 @@
             {
                 model.ToEntity(_publicacionMapper, postulacion);
             }
-            List<Usuario> usuariosToBeNotified = new List<Usuario>();
+            List<Usuario> usuariosToBeNotified = new();
             foreach (var postulacion in publicacion.Postulaciones
                 .Where(p => p.Status == PostulacionStatus.Postulada && p.Aplicacion.Status == AplicacionStatus.Aprobada))
             {
@@ -135,9 +135,8 @@
                 .Where(p => p.Aplicacion.Status == AplicacionStatus.Aprobada);
             var postulacionSelected = postulaciones
                 .OrderByDescending(p => p.Aplicacion.PuntuacionTotal)
-                .FirstOrDefault();
-            if (postulacionSelected == null)
-                throw new BadRequestException(nameof(publicacion.Postulaciones), "La publicación no tiene postulaciones");
+                .FirstOrDefault()
+                ?? throw new BadRequestException(nameof(publicacion.Postulaciones), "La publicación no tiene postulaciones");
             publicacion = model.ToEntity(_publicacionMapper, publicacion);
             postulacionSelected = model.ToEntity(_publicacionMapper, postulacionSelected);
             publicacion = await _publicacionRepository.UpdatePublicacion(publicacion);

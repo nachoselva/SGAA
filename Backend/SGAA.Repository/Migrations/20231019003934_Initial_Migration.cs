@@ -24,7 +24,8 @@ namespace SGAA.Repository.Migrations
                     FechaCancelacion = table.Column<DateOnly>(type: "date", nullable: true),
                     MontoAlquiler = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: false),
                     OrdenRenovacion = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    Archivo = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -32,6 +33,7 @@ namespace SGAA.Repository.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Contrato", x => x.Id);
+                    table.CheckConstraint("CHK_Contrato_Status", "[Status] IN ('FirmaPendiente', 'Ejecutado')");
                 });
 
             migrationBuilder.CreateTable(
@@ -40,7 +42,7 @@ namespace SGAA.Repository.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -130,7 +132,7 @@ namespace SGAA.Repository.Migrations
                     Descripcion = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Monto = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: false),
                     FechaVencimiento = table.Column<DateOnly>(type: "date", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     FechaPago = table.Column<DateTime>(type: "datetime2(3)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
@@ -179,7 +181,7 @@ namespace SGAA.Repository.Migrations
                     Id = table.Column<int>(type: "int", nullable: false),
                     ProvinciaId = table.Column<int>(type: "int", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    NombreCompleto = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    NombreCompleto = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -226,7 +228,7 @@ namespace SGAA.Repository.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     InquilinoUsuarioId = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     PuntuacionTotal = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
@@ -253,10 +255,11 @@ namespace SGAA.Repository.Migrations
                     ContratoId = table.Column<int>(type: "int", nullable: false),
                     UsuarioId = table.Column<int>(type: "int", nullable: false),
                     FechaFirma = table.Column<DateTime>(type: "datetime2(3)", nullable: true),
-                    DireccionIp = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Rol = table.Column<int>(type: "int", maxLength: 20, nullable: false),
-                    TipoIdentificacion = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    NumeroIdentificacion = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    DireccionIp = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    Rol = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    TipoIdentificacion = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    NumeroIdentificacion = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    DomicilioCompleto = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -446,7 +449,7 @@ namespace SGAA.Repository.Migrations
                         column: x => x.AplicacionId,
                         principalTable: "Aplicacion",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -465,12 +468,13 @@ namespace SGAA.Repository.Migrations
                     LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Apellido = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    TipoIdentificacion = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    NumeroIdentificacion = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    TipoIdentificacion = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    NumeroIdentificacion = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     FechaNacimiento = table.Column<DateTime>(type: "date", nullable: false),
-                    Domicilio = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Domicilio = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     FrenteIdentificacionArchivo = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    DorsoIdentificacionArchivo = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
+                    DorsoIdentificacionArchivo = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -480,7 +484,7 @@ namespace SGAA.Repository.Migrations
                         column: x => x.AplicacionId,
                         principalTable: "Aplicacion",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -491,11 +495,11 @@ namespace SGAA.Repository.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PropiedadId = table.Column<int>(type: "int", nullable: false),
                     PropietarioUsuarioId = table.Column<int>(type: "int", nullable: false),
-                    Piso = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Departamento = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Piso = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    Departamento = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     FechaAdquisicion = table.Column<DateTime>(type: "date", nullable: false),
                     TituloPropiedadArchivo = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -528,7 +532,7 @@ namespace SGAA.Repository.Migrations
                     MontoAlquiler = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: false),
                     InicioAlquiler = table.Column<DateOnly>(type: "date", nullable: false),
                     Codigo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -557,12 +561,13 @@ namespace SGAA.Repository.Migrations
                     LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Apellido = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    TipoIdentificacion = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    NumeroIdentificacion = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    TipoIdentificacion = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    NumeroIdentificacion = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     FechaNacimiento = table.Column<DateTime>(type: "date", nullable: false),
-                    Domicilio = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Domicilio = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     FrenteIdentificacionArchivo = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    DorsoIdentificacionArchivo = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
+                    DorsoIdentificacionArchivo = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -572,7 +577,7 @@ namespace SGAA.Repository.Migrations
                         column: x => x.UnidadId,
                         principalTable: "Unidad",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -606,7 +611,7 @@ namespace SGAA.Repository.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UnidadId = table.Column<int>(type: "int", nullable: false),
-                    Descripcion = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Superficie = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: false),
                     Ambientes = table.Column<int>(type: "int", nullable: false),
                     Banios = table.Column<int>(type: "int", nullable: false),
@@ -635,8 +640,8 @@ namespace SGAA.Repository.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PublicacionId = table.Column<int>(type: "int", nullable: false),
                     AplicacionId = table.Column<int>(type: "int", nullable: false),
-                    ContratoId = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    ContratoId = table.Column<int>(type: "int", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     FechaOferta = table.Column<DateTime>(type: "datetime2(3)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
@@ -656,8 +661,7 @@ namespace SGAA.Repository.Migrations
                         name: "FK_Postulacion_Contrato_ContratoId",
                         column: x => x.ContratoId,
                         principalTable: "Contrato",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Postulacion_Publicacion_PublicacionId",
                         column: x => x.PublicacionId,
@@ -2597,7 +2601,8 @@ namespace SGAA.Repository.Migrations
                 name: "IX_Postulacion_ContratoId",
                 table: "Postulacion",
                 column: "ContratoId",
-                unique: true);
+                unique: true,
+                filter: "[ContratoId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Postulacion_PublicacionId",

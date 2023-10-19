@@ -19,17 +19,27 @@
             .Include(p => p.Publicacion)
             .ThenInclude(pu => pu.Unidad)
             .ThenInclude(u => u.PropietarioUsuario)
+            .Include(p => p.Publicacion)
+            .ThenInclude(pu => pu.Unidad)
+            .ThenInclude(u => u.Propiedad)
+            .ThenInclude(pr => pr.Ciudad)
+            .ThenInclude(c => c.Provincia)
+            .Include(p => p.Publicacion)
+            .ThenInclude(pu => pu.Unidad)
+            .ThenInclude(u => u.Titulares)
             .Include(p => p.Aplicacion)
-            .ThenInclude(a => a.InquilinoUsuario);
+            .ThenInclude(a => a.InquilinoUsuario)
+            .Include(p => p.Aplicacion)
+            .ThenInclude(a => a.Postulantes);
 
         public Task<Postulacion?> GetPostulacionById(int postulacionId)
         => PostulacionQuery().Where(p => p.Id == postulacionId).FirstOrDefaultAsync();
 
         public async Task<Postulacion> AddPostulacion(Postulacion postulacion)
         {
-            await _dbContext.Postulaciones.AddAsync(postulacion);
+            var entityEntry = await _dbContext.Postulaciones.AddAsync(postulacion);
             await _dbContext.SaveChangesAsync();
-            return postulacion;
+            return entityEntry.Entity;
         }
 
         public async Task<Postulacion> UpdatePostulacion(Postulacion postulacion)

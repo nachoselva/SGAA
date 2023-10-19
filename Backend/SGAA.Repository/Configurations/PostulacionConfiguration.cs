@@ -39,7 +39,7 @@
                 .WithOne(contrato => contrato.Postulacion)
                 .HasPrincipalKey<Contrato>(contrato => contrato.Id)
                 .HasForeignKey<Postulacion>(postulacion => postulacion.ContratoId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .IsRequired(false);
 
             builder.ToTable(nameof(Postulacion), tableBuilder =>
                 tableBuilder

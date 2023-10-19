@@ -9,6 +9,7 @@
         public int? UnidadId { get; set; }
         public required string Nombre { get; set; }
         public required string Apellido { get; set; }
+        public required string Email { get; set; }
         public required TipoIdentificacion TipoIdentificacion { get; set; }
         public required string NumeroIdentificacion { get; set; }
         public required DateTime FechaNacimiento { get; set; }

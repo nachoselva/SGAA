@@ -84,23 +84,6 @@
 
         }
 
-        private BadRequestException MapIdentityErrorToBadRequest(IEnumerable<IdentityError> errors)
-        {
-            BadRequestException badRequestException = new();
-            foreach (IdentityError error in errors)
-            {
-                string fieldName = error.Code switch
-                {
-                    "InvalidUserName" or "InvalidEmail" or "DuplicateUserName" or "DuplicateEmail" => nameof(UsuarioPostModel.Email),
-                    "InvalidRoleName" or "DuplicateRoleName" => nameof(Rol),
-                    "UserAlreadyHasPassword" or "UserLockoutNotEnabled" or "UserAlreadyInRole" or "UserNotInRole" or "ConcurrencyFailure" or "InvalidToken" or "LoginAlreadyAssociated" => nameof(Usuario),
-                    "PasswordTooShort" or "PasswordRequiresNonAlphanumeric" or "PasswordRequiresDigit" or "PasswordRequiresLower" or "PasswordRequiresUpper" or "PasswordMismatch" => nameof(UsuarioPostModel.Password),
-                    _ => "Unknown",
-                };
-                badRequestException.AddMessage(fieldName, error.Description);
-            }
-            return badRequestException;
-        }
         public async Task<UsuarioGetModel> AddUsuario(UsuarioPostModel model)
         {
             Usuario? sameEmailUsusario = await FindByNameAsync(model.Email);
@@ -112,12 +95,12 @@
             IdentityResult addUserResult = await CreateAsync(usuario, model.Password);
             if (!addUserResult.Succeeded)
             {
-                throw MapIdentityErrorToBadRequest(addUserResult.Errors);
+                throw this.MapIdentityErrorToBadRequest(addUserResult.Errors);
             }
             IdentityResult addToRoleResult = await AddToRoleAsync(usuario, model.Rol.ToString());
             if (!addToRoleResult.Succeeded)
             {
-                throw MapIdentityErrorToBadRequest(addToRoleResult.Errors);
+                throw this.MapIdentityErrorToBadRequest(addToRoleResult.Errors);
             }
 
             string userToken = await GenerateUserTokenAsync(usuario, TokenOptions.DefaultProvider, ConfirmEmailTokenPurpose);
@@ -149,7 +132,7 @@
             IdentityResult result = await UpdateAsync(usuario);
             if (!result.Succeeded)
             {
-                throw MapIdentityErrorToBadRequest(result.Errors);
+                throw this.MapIdentityErrorToBadRequest(result.Errors);
             }
             return _usuarioMapper.ToGetModel(usuario);
         }
@@ -160,7 +143,7 @@
             IdentityResult result = await DeleteAsync(usuario);
             if (!result.Succeeded)
             {
-                throw MapIdentityErrorToBadRequest(result.Errors);
+                throw this.MapIdentityErrorToBadRequest(result.Errors);
             }
         }
 
@@ -289,7 +272,7 @@
                 IdentityResult result = await ConfirmEmailAsync(usuario, token);
                 if (!result.Succeeded)
                 {
-                    throw MapIdentityErrorToBadRequest(result.Errors);
+                    throw this.MapIdentityErrorToBadRequest(result.Errors);
                 }
                 return "https://www.google.com.ar/";
             }

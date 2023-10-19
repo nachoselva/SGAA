@@ -17,6 +17,9 @@
             builder.Property(postulante => postulante.Apellido)
                 .IsRequired()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L3);
+            builder.Property(u => u.Email)
+                .IsRequired()
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L4);
             builder.Property(postulante => postulante.TipoIdentificacion)
                 .HasConversion<string>()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L1)

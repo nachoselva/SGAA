@@ -18,6 +18,10 @@
             return _dbContext.Publicaciones
                 .Include(p => p.Unidad)
                 .ThenInclude(u => u.PropietarioUsuario)
+                .Include(p => p.Unidad)
+                .ThenInclude(u => u.Propiedad)
+                .ThenInclude(u => u.Ciudad)
+                .ThenInclude(u => u.Provincia)
                 .Include(p => p.Postulaciones)
                 .ThenInclude(po => po.Aplicacion)
                 .ThenInclude(ap => ap.InquilinoUsuario);

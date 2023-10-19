@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contrato de Alquiler</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            text-decoration: underline;
+        }
+
+        p, ul {
+            margin: 15px 0;
+        }
+
+        .firma {
+            width: 200px;
+            height: 100px;
+            border: 1px solid #000;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 10px;
+        }
+
+            .firma p {
+                margin: 0;
+            }
+    </style>
+</head>
+<body>
+    <h1>Contrato de Alquiler</h1>
+
+    <p>
+        En la ciudad de {{ ciudad }}, provincia de {{ provincia }}, a {{ fechaOferta }}, entre los propietarios
+        {{#each firmasPropietarios}}
+        <div>
+            {{ this.nombreCompleto }} ({{ this.tipoIdentificacion }} {{ this.numeroIdentificacion }}, con domicilio en {{ domicilioCompleto }}),
+        </div>
+        {{/each}}
+        en adelante el "Arrendador", y los inquilinos
+        {{#each firmasInquilinos}}
+        <div>
+            {{ this.nombreCompleto }} ({{ this.tipoIdentificacion }} {{ this.numeroIdentificacion }}, con domicilio en {{ domicilioCompleto }}),
+        </div>
+        {{/each}}
+        en adelante el "Inquilino", se acuerda el siguiente contrato de alquiler:
+    </p>
+
+    <h2>1. Propiedad</h2>
+    <p>El Arrendador alquila al Inquilino la propiedad ubicada en {{ domicilioCompleto }}.</p>
+
+    <h2>2. Plazo de Alquiler</h2>
+    <p>El plazo de alquiler comenzará el {{ fechaDesde }} y finalizará el {{ fechaHasta }}.</p>
+
+    <h2>3. Pago del Alquiler</h2>
+    <p>El Inquilino acuerda pagar un alquiler mensual de {{ montoAlquiler }} antes del 10 de cada mes.</p>
+
+    <h2>4. Depósito de Garantía</h2>
+    <p>El Inquilino entregará un depósito de garantía de {{ montoAlquiler }} al Arrendador. Este depósito será devuelto al Inquilino al finalizar el contrato, sujeto a la inspección de la propiedad y la satisfacción de todas las obligaciones del Inquilino.</p>
+
+    <h2>5. Obligaciones del Inquilino</h2>
+    <p>El Inquilino se compromete a:</p>
+    <ul>
+        <li>Mantener la propiedad en buen estado y limpieza.</li>
+        <li>No realizar alteraciones o reparaciones sin el consentimiento del Arrendador.</li>
+        <li>No subarrendar la propiedad sin el permiso por escrito del Arrendador.</li>
+    </ul>
+
+    <h2>6. Obligaciones del Arrendador</h2>
+    <p>El Arrendador se compromete a:</p>
+    <ul>
+        <li>Mantener la propiedad en condiciones habitables y seguras.</li>
+        <li>Realizar reparaciones necesarias en un plazo razonable.</li>
+    </ul>
+
+    <h2>7. Terminación del Contrato</h2>
+    <p>El contrato puede ser terminado por cualquiera de las partes con un preaviso de 30 días.</p>
+
+    <h2>8. Ley Aplicable</h2>
+    <p>Este contrato se rige por las leyes de la República Argentina.</p>
+
+    {{#each firmasPropietarios}}
+    <div class="firma">
+        <p> {{this.rol}} </p>
+        <p> {{this.nombreCompleto}} </p>
+        <p> {{this.tipoIdentificacion}}: {{this.numeroIdentificacion}} </p>
+        <p> Fecha Firma: {{this.fechaFirma}} </p>
+        <p> Dirección IP: {{this.direccionIP}} </p>
+    </div>
+    {{/each}}
+
+    {{#each firmasInquilinos}}
+    <div class="firma">
+        <p> {{this.rol}} </p>
+        <p> {{this.nombreCompleto}} </p>
+        <p> {{this.tipoIdentificacion}}: {{this.numeroIdentificacion}} </p>
+        <p> Fecha Firma: {{this.fechaFirma}} </p>
+        <p> Dirección IP: {{this.direccionIP}} </p>
+    </div>
+    {{/each}}
+
+    {{#if firmadoFecha}}
+    <p>Firmado por las partes el {{ firmadoFecha }}.</p>
+    {{/if}}
+</body>
+</html>

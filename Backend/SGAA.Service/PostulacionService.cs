@@ -1,5 +1,8 @@
 ﻿namespace SGAA.Service
 {
+    using Microsoft.SqlServer.Server;
+    using SGAA.Documents.Contracts;
+    using SGAA.Documents.DocumentModels;
     using SGAA.Domain.Auth;
     using SGAA.Domain.Core;
     using SGAA.Domain.Errors;
@@ -20,11 +23,12 @@
         private readonly IPostulacionCreadaEmailSender _postulacionCreadaEmailSender;
         private readonly IOfertaAceptadaEmailSender _ofertaAceptadaEmailSender;
         private readonly IOfertaRechazadaEmailSender _ofertaRechazadaEmailSender;
+        private readonly IContratoService _contratoService;
 
         public PostulacionService(IPostulacionRepository postulacionRepository, IPublicacionRepository publicacionRepository,
             IAplicacionRepository aplicacionRepository, IPostulacionMapper postulacionMapper,
             IPostulacionCreadaEmailSender postulacionCreadaEmailSender, IOfertaAceptadaEmailSender ofertaAceptadaEmailSender,
-            IOfertaRechazadaEmailSender ofertaRechazadaEmailSender)
+            IOfertaRechazadaEmailSender ofertaRechazadaEmailSender, IContratoService contratoService)
         {
             _postulacionRepository = postulacionRepository;
             _publicacionRepository = publicacionRepository;
@@ -33,6 +37,7 @@
             _postulacionCreadaEmailSender = postulacionCreadaEmailSender;
             _ofertaAceptadaEmailSender = ofertaAceptadaEmailSender;
             _ofertaRechazadaEmailSender = ofertaRechazadaEmailSender;
+            _contratoService = contratoService;
         }
 
         public async Task<PostulacionGetModel> AddPostulacion(PostulacionPostModel model)
@@ -40,14 +45,16 @@
             IReadOnlyCollection<Aplicacion> aplicaciones = await _aplicacionRepository
                 .GetAplicacionesByInquilinoUsuarioId(model.InquilinoUsuarioId!.Value);
 
-            Aplicacion? activeAplicacion = aplicaciones.FirstOrDefault(ap => ap.Status == AplicacionStatus.Aprobada);
-            if (activeAplicacion == null)
-                throw new BadRequestException("Aplicacion", "No tiene una aplicación aprobada para poder postular");
-
+            Aplicacion? activeAplicacion = aplicaciones.FirstOrDefault(ap => ap.Status == AplicacionStatus.Aprobada)
+                ?? throw new BadRequestException("Aplicacion", "No tiene una aplicación aprobada para poder postular");
             Publicacion? publicacion = await _publicacionRepository.GetPublicacionById(model.PublicacionId);
 
             if (publicacion == null || publicacion.Status != PublicacionStatus.Publicada)
                 throw new BadRequestException("Publicacion", "La publicación no está disponible");
+            model.AplicacionId = activeAplicacion.Id;
+
+            if(activeAplicacion.Postulaciones.Any(p => p.Status.IsActive() && p.PublicacionId == model.PublicacionId))
+                throw new BadRequestException("Postulación", "La aplicación activa ya postuló para esta unidad");
 
             Postulacion postulacion = model.ToEntity(_postulacionMapper);
             postulacion = await _postulacionRepository.AddPostulacion(postulacion);
@@ -55,8 +62,8 @@
             await _postulacionCreadaEmailSender.SendEmail(publicacion.Unidad.PropietarioUsuario.Email!,
                 new PostulacionCreadaEmailModel
                 {
-                    Nombre = activeAplicacion.InquilinoUsuario.Nombre,
-                    Apellido = activeAplicacion.InquilinoUsuario.Apellido,
+                    Nombre = publicacion.Unidad.PropietarioUsuario.Nombre,
+                    Apellido = publicacion.Unidad.PropietarioUsuario.Apellido,
                     Domicilio = publicacion.Unidad.DomicilioCompleto
                 });
 
@@ -70,7 +77,10 @@
                 throw new NotFoundException();
             if (postulacion.Status != PostulacionStatus.Ofrecida)
                 throw new BadRequestException(nameof(postulacion.Status), "La postulación no se encuentra en estado para aceptar");
+            if (model.FechaDesde >= model.FechaHasta)
+                throw new BadRequestException(nameof(model.FechaHasta), "Fecha hasta desde ser posterior a fecha desde");
             model.ToEntity(_postulacionMapper, postulacion.Publicacion);
+            model.ToEntity(_postulacionMapper, postulacion.Aplicacion);
             postulacion = model.ToEntity(_postulacionMapper, postulacion);
             postulacion = await _postulacionRepository.UpdatePostulacion(postulacion);
             Unidad unidad = postulacion.Publicacion.Unidad;
@@ -92,6 +102,8 @@
                     Apellido = propietarioUsuario.Apellido,
                     Domicilio = unidad.DomicilioCompleto
                 });
+
+            await _contratoService.CreateContrato(postulacion.Id, model.FechaDesde, model.FechaHasta);
 
             return postulacion.MapToGetModel(_postulacionMapper);
         }

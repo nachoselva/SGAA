@@ -13,6 +13,7 @@
                 .AddScoped<IUnidadMapper, UnidadMapper>()
                 .AddScoped<IPublicacionMapper, PublicacionMapper>()
                 .AddScoped<IPostulacionMapper, PostulacionMapper>()
-                .AddScoped<IAplicacionMapper, AplicacionMapper>();
+                .AddScoped<IAplicacionMapper, AplicacionMapper>()
+                .AddScoped<IContratoMapper, ContratoMapper>();
     }
 }
