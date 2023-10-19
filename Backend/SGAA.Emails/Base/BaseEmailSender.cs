@@ -2,6 +2,7 @@
 {
     using HandlebarsDotNet;
     using SGAA.Emails.EmailModels;
+    using SGAA.Utils;
     using SGAA.Utils.Configuration;
     using System.Net;
     using System.Net.Mail;
@@ -41,7 +42,7 @@
             return IntegrateLayout(body);
         }
 
-        private async Task SendEmail(string toAddress, string subject, string body)
+        private async Task SendEmail(string toAddress, string fullname, string subject, string body)
         {
             string smtpHost = _configuration.Smtp.Host;
             int smtpPort = _configuration.Smtp.Port;
@@ -57,12 +58,16 @@
 
             var mailMessage = new MailMessage
             {
-                From = new MailAddress(smtpUsername),
+                From = new MailAddress(smtpUsername, "SGAA - Comunicaciones"),
                 Subject = subject,
                 Body = body,
                 IsBodyHtml = true
             };
-            mailMessage.To.Add(toAddress);
+
+            mailMessage.To.Add(new MailAddress(toAddress, fullname));
+            string[] emailParts = smtpUsername.Split("@");
+            string references = $"<{emailParts[0]}+{StringExtensions.GenerateRandomString(20)}@{emailParts[1]}>";
+            mailMessage.Headers.Add("References", references);
 
             await smtpClient.SendMailAsync(mailMessage);
         }
@@ -71,7 +76,7 @@
         {
             string body = GetEmailBody(data);
             string subject = "SGAA - " + Subject;
-            await SendEmail(toAddress, subject, body);
+            await SendEmail(toAddress, data.NombreCompleto, subject, body);
         }
     }
 }
