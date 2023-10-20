@@ -21,7 +21,7 @@ namespace SGAA.Api.Controllers.Administrador
 
         [HttpGet]
         public Task<IReadOnlyCollection<ContratoGetModel>> GetContratos()
-            => _contratoService.GetContratos();
+            => _contratoService.GetContratosAdmin();
 
         [HttpGet]
         [Route("{contratoId}")]

@@ -3,9 +3,7 @@ namespace SGAA.Api.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using SGAA.Api.Providers;
-    using SGAA.Domain.Errors;
     using SGAA.Models;
-    using SGAA.Service;
     using SGAA.Service.Contracts;
 
     [ApiController]
@@ -14,10 +12,36 @@ namespace SGAA.Api.Controllers
     public class ContratoController : ControllerBase
     {
         private readonly IContratoService _contratoService;
+        private readonly IUsuarioProvider _usuarioProvider;
 
-        public ContratoController(IContratoService contratoService)
+        public ContratoController(IContratoService contratoService, IUsuarioProvider usuarioProvider)
         {
             _contratoService = contratoService;
+            _usuarioProvider = usuarioProvider;
+        }
+
+        [HttpGet]
+        public async Task<ContratoGetModel?> GetContratos([FromRoute] int contratoId)
+        {
+            int usuarioId = (await _usuarioProvider.GetUser())!.Id;
+            return await _contratoService.GetContrato(usuarioId, contratoId);
+        }
+
+        [HttpGet]
+        [Route("{contratoId}")]
+        public async Task<ContratoGetModel?> GetContrato([FromRoute] int contratoId)
+        {
+            int usuarioId = (await _usuarioProvider.GetUser())!.Id;
+            return await _contratoService.GetContrato(usuarioId, contratoId);
+        }
+
+        [HttpPut]
+        [Route("{contratoId}/firmar")]
+        public async Task<ContratoGetModel?> FirmarContrato([FromRoute] int contratoId)
+        {
+            string direccionIP = _usuarioProvider.GetDireccionIp();
+            int usuarioId = (await _usuarioProvider.GetUser())!.Id;
+            return await _contratoService.FirmarContrato(usuarioId, contratoId, direccionIP);
         }
     }
 }

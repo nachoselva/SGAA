@@ -21,6 +21,7 @@ namespace SGAA.Api.Controllers
         }
 
         [HttpGet]
+        [Route("current")]
         public async Task<UsuarioGetModel> GetCurrentUsuario()
         {
             return await _userProvider.GetUser() ?? throw new NotFoundException();
