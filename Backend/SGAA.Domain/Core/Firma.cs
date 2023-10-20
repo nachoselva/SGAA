@@ -20,8 +20,8 @@
 
         public int ContratoId { get; private set; }
         public int UsuarioId { get; set; }
-        public DateTime? FechaFirma { get; private set; }
-        public string? DireccionIp { get; private set; }
+        public DateTime? FechaFirma { get; set; }
+        public string? DireccionIp { get; set; }
         public FirmaRol Rol { get; private set; }
         public TipoIdentificacion TipoIdentificacion { get; private set; }
         public string NumeroIdentificacion { get; private set; }

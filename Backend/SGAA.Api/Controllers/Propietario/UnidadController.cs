@@ -43,7 +43,6 @@
             => await _unidadService.GetUnidad(unidadId);
 
         [HttpGet]
-        [Authorize(Roles = nameof(RolType.Propietario))]
         public async Task<IReadOnlyCollection<UnidadGetModel>> GetUnidades()
             => await _unidadService.GetUnidades((await _usuarioProvider.GetUser())!.Id);
     }

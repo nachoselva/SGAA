@@ -53,7 +53,7 @@
             return entityEntry.Entity;
         }
 
-        public Task<Contrato?> GetContratoAdmin(int contratoId)
+        public Task<Contrato?> GetContrato(int contratoId)
         {
             return ContratosQuery()
                 .Where(c => c.Id == contratoId)
