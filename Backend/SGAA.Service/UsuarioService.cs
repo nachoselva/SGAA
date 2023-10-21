@@ -26,12 +26,13 @@
         private readonly ISGAAConfiguration _configuration;
         private readonly IUsuarioMapper _usuarioMapper;
         private readonly IConfirmationEmailSender _emailSender;
+        private readonly IResetPasswordEmailSender _resetPasswordEmailSender;
 
         public UsuarioService(IUsuarioRepository usuarioRepository, ISGAAConfiguration configuration, IUsuarioMapper usuarioMapper,
-            IConfirmationEmailSender emailSender, IUserStore<Usuario> store, IOptions<IdentityOptions> optionsAccessor, IPasswordHasher<Usuario> passwordHasher,
-            IEnumerable<IUserValidator<Usuario>> userValidators, IEnumerable<IPasswordValidator<Usuario>> passwordValidators,
-            ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, IServiceProvider services,
-            ILogger<UserManager<Usuario>> logger)
+            IConfirmationEmailSender emailSender, IResetPasswordEmailSender resetPasswordEmailSender, IUserStore<Usuario> store,
+            IOptions<IdentityOptions> optionsAccessor, IPasswordHasher<Usuario> passwordHasher, IEnumerable<IUserValidator<Usuario>> userValidators,
+            IEnumerable<IPasswordValidator<Usuario>> passwordValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors,
+            IServiceProvider services, ILogger<UserManager<Usuario>> logger)
             : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services,
                   logger)
         {
@@ -39,6 +40,7 @@
             _configuration = configuration;
             _usuarioMapper = usuarioMapper;
             _emailSender = emailSender;
+            _resetPasswordEmailSender = resetPasswordEmailSender;
         }
 
         private JwtSecurityToken CreateToken(IEnumerable<Claim> authClaims)
@@ -267,18 +269,62 @@
         public async Task<string> ConfirmUsuario(string email, string token)
         {
             Usuario? usuario = await FindByNameAsync(email);
-            if (usuario != null && await VerifyUserTokenAsync(usuario, TokenOptions.DefaultProvider, ConfirmEmailTokenPurpose, token))
+            if (usuario != null)
             {
                 IdentityResult result = await ConfirmEmailAsync(usuario, token);
                 if (!result.Succeeded)
                 {
                     throw this.MapIdentityErrorToBadRequest(result.Errors);
                 }
+                //TO DO: redirect to a real frontend url
                 return "https://www.google.com.ar/";
             }
             else
             {
                 throw new UnauthorizedException();
+            }
+        }
+
+        public async Task<UsuarioGetModel> ResetPassword(ResetPasswordPostModel model)
+        {
+            Usuario? usuario = await FindByNameAsync(model.Email);
+            if (usuario != null)
+            {
+                IdentityResult resetPasswordResult = await ResetPasswordAsync(usuario, model.Token, model.Password);
+                if (!resetPasswordResult.Succeeded)
+                {
+                    throw this.MapIdentityErrorToBadRequest(resetPasswordResult.Errors);
+                }
+                if (!usuario.EmailConfirmed)
+                {
+                    IdentityResult confirmResult = await ConfirmEmailAsync(usuario, model.Token);
+                    if (!confirmResult.Succeeded)
+                    {
+                        throw this.MapIdentityErrorToBadRequest(confirmResult.Errors);
+                    }
+                }
+            }
+            else
+            {
+                throw new UnauthorizedException();
+            }
+            return usuario.MapToGetModel(_usuarioMapper);
+        }
+
+        public async Task ForgotPassword(ResetPasswordPostModel model)
+        {
+            Usuario? usuario = await FindByNameAsync(model.Email);
+            if (usuario != null)
+            {
+                string resetPasswordToken = await GeneratePasswordResetTokenAsync(usuario);
+                string resetPasswordURL = $"{_configuration.Frontend.Url}/Usuario/reset-password?email={HttpUtility.UrlEncode(usuario.Email)}&token={HttpUtility.UrlEncode(resetPasswordToken)}";
+                await _resetPasswordEmailSender.SendEmail(usuario.Email!,
+                    new ResetPasswordEmailModel
+                    {
+                        Nombre = usuario.Nombre,
+                        Apellido = usuario.Apellido,
+                        ResetPasswordURL = resetPasswordURL
+                    });
             }
         }
     }
