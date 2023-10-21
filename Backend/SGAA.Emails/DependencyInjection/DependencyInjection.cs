@@ -20,6 +20,10 @@
                .AddScoped<IOfertaAceptadaEmailSender, OfertaAceptadaEmailSender>()
                .AddScoped<IOfertaRechazadaEmailSender, OfertaRechazadaEmailSender>()
                .AddScoped<IAprobarAplicacionEmailSender, AprobarAplicacionEmailSender>()
-               .AddScoped<IRechazarAplicacionEmailSender, RechazarAplicacionEmailSender>();
+               .AddScoped<IRechazarAplicacionEmailSender, RechazarAplicacionEmailSender>()
+               .AddScoped<IUsuarioInvitadoEmailSender, UsuarioInvitadoEmailSender>()
+               .AddScoped<IResetPasswordEmailSender, ResetPasswordEmailSender>()
+               .AddScoped<IFirmaPendienteEmailSender, FirmaPendienteEmailSender>()
+               .AddScoped<IContratoEjecutadoEmailSender, ContratoEjecutadoEmailSender>();
     }
 }

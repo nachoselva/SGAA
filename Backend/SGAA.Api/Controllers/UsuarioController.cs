@@ -49,5 +49,23 @@ namespace SGAA.Api.Controllers
         {
             return Redirect(await _usuarioService.ConfirmUsuario(email, token));
         }
+
+        [HttpPost]
+        [Route("reset-password")]
+        [AllowAnonymous]
+        public async Task<ActionResult<UsuarioGetModel>> ResetPassword([FromBody] ResetPasswordPostModel model)
+        {
+            UsuarioGetModel usuario = await _usuarioService.ResetPassword(model);
+            return usuario;
+        }
+
+        [HttpPost]
+        [Route("forgot-password")]
+        [AllowAnonymous]
+        public async Task<ActionResult<UsuarioGetModel>> ForgotPassword([FromBody] ResetPasswordPostModel model)
+        {
+            await _usuarioService.ForgotPassword(model);
+            return Ok();
+        }
     }
 }

@@ -11,7 +11,9 @@
     <None Remove="EmailTemplates\AprobarUnidadEmailTemplate.html" />
     <None Remove="EmailTemplates\CancelarPostulacionEmailTemplate.html" />
     <None Remove="EmailTemplates\ConfirmationEmailTemplate.html" />
+    <None Remove="EmailTemplates\ContratoEjecutadoEmailTemplate.html" />
     <None Remove="EmailTemplates\EmailLayout.html" />
+    <None Remove="EmailTemplates\FirmaPendienteEmailTemplate.html" />
     <None Remove="EmailTemplates\OfertaAceptadaEmailTemplate.html" />
     <None Remove="EmailTemplates\OfertaRechazadaEmailTemplate.html" />
     <None Remove="EmailTemplates\PostulacionCreadaEmailTemplate.html" />
@@ -20,9 +22,17 @@
     <None Remove="EmailTemplates\RechazarUnidadEmailTemplate.html" />
     <None Remove="EmailTemplates\ReservaOfrecidaInquilinoEmailTemplate.html" />
     <None Remove="EmailTemplates\ReservaOfrecidaPropietarioEmailTemplate.html" />
+    <None Remove="EmailTemplates\ResetPasswordEmailTemplate.html" />
+    <None Remove="EmailTemplates\UsuarioInvitadoEmailTemplate.html" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="EmailTemplates\UsuarioInvitadoEmailTemplate.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\ResetPasswordEmailTemplate.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="EmailTemplates\RechazarAplicacionEmailTemplate.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -30,6 +40,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="EmailTemplates\OfertaAceptadaEmailTemplate.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\ContratoEjecutadoEmailTemplate.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmailTemplates\FirmaPendienteEmailTemplate.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="EmailTemplates\ReservaOfrecidaInquilinoEmailTemplate.html">
