@@ -29,7 +29,7 @@
             .Include(u => u.Comentarios)
             .Include(u => u.Titulares);
 
-        public async Task<IReadOnlyCollection<Unidad>> GetUnidadesByPropietario(int propietarioUserId)
+        public async Task<IReadOnlyCollection<Unidad>> GetUnidades(int propietarioUserId)
         {
             return await UnidadQuery().Where(u => u.PropietarioUsuarioId == propietarioUserId).ToListAsync();
         }
@@ -39,18 +39,18 @@
             return await UnidadQuery().ToListAsync();
         }
 
-        public Task<Unidad?> GetUnidadById(int unidadId)
+        public Task<Unidad?> GetUnidad(int unidadId)
         {
             return UnidadQuery().FirstOrDefaultAsync(p => p.Id == unidadId);
         }
 
-        public Task<Propiedad?> GetPropiedadByDireccion(int ciudadId, string calle, int altura)
+        public Task<Propiedad?> GetPropiedad(int ciudadId, string calle, int altura)
         {
             return _dbContext.Propiedades
                 .FirstOrDefaultAsync(p => p.CiudadId == ciudadId && p.Altura == altura && EF.Functions.Like(calle, p.Calle));
         }
 
-        public Task<Unidad?> GetUnidadByDireccion(int ciudadId, string calle, int altura, string piso, string departamento)
+        public Task<Unidad?> GetUnidad(int ciudadId, string calle, int altura, string piso, string departamento)
         {
             return UnidadQuery()
                 .Where(u => u.Propiedad.CiudadId == ciudadId && u.Propiedad.Altura == altura && EF.Functions.Like(calle, u.Propiedad.Calle))

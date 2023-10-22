@@ -13,6 +13,7 @@
         {
             _dbContext = dbContext;
         }
+
         private IQueryable<Publicacion> PublicacionQuery()
         {
             return _dbContext.Publicaciones
@@ -27,12 +28,12 @@
                 .ThenInclude(ap => ap.InquilinoUsuario);
         }
 
-        public Task<Publicacion?> GetPublicacionById(int publicacionId)
+        public Task<Publicacion?> GetPublicacion(int publicacionId)
         {
             return PublicacionQuery().FirstOrDefaultAsync(p => p.Id == publicacionId);
         }
 
-        public Task<Publicacion?> GetPublicacionByCodigo(string codigo)
+        public Task<Publicacion?> GetPublicacion(string codigo)
         {
             return PublicacionQuery().FirstOrDefaultAsync(p => p.Codigo == codigo);
         }
@@ -40,6 +41,13 @@
         public async Task<IReadOnlyCollection<Publicacion>> GetPublicaciones()
         {
             return await PublicacionQuery().ToListAsync();
+        }
+
+        public async Task<IReadOnlyCollection<Publicacion>> GetPublicacionesByPropietario(int propietarioUsuarioId)
+        {
+            return await PublicacionQuery()
+                .Where(p => p.Unidad.PropietarioUsuarioId == propietarioUsuarioId)
+                .ToListAsync();
         }
 
         public async Task<Publicacion> AddPublicacion(Publicacion publicacion)

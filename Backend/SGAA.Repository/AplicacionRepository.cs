@@ -24,17 +24,17 @@
             .Include(a => a.InquilinoUsuario)
             .Include(a => a.Postulaciones);
 
-        public Task<Aplicacion?> GetAplicacionAdminById(int aplicacionId)
+        public Task<Aplicacion?> GetAplicacion(int aplicacionId)
         => AplicacionQuery()
             .Where(ap => ap.Id == aplicacionId)
             .FirstOrDefaultAsync();
 
-        public async Task<IReadOnlyCollection<Aplicacion>> GetAplicacionesByInquilinoUsuarioId(int usuarioId)
+        public async Task<IReadOnlyCollection<Aplicacion>> GetAplicaciones(int usuarioId)
         => await AplicacionQuery()
                 .Where(ap => ap.InquilinoUsuarioId == usuarioId)
                 .ToListAsync();
 
-        public async Task<IReadOnlyCollection<Aplicacion>> GetAplicacionesAdmin()
+        public async Task<IReadOnlyCollection<Aplicacion>> GetAplicaciones()
          => await AplicacionQuery()
             .ToListAsync();
 

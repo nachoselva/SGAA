@@ -15,7 +15,7 @@
             _dbContext = dbContext;
         }
 
-        public async Task<IReadOnlyCollection<Ciudad>> GetAllCiudades(int provinciaId)
+        public async Task<IReadOnlyCollection<Ciudad>> GetCiudades(int provinciaId)
         {
             return await _dbContext.Ciudades.Where(c => c.ProvinciaId == provinciaId).ToListAsync();
         }

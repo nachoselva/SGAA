@@ -22,7 +22,12 @@
         }
 
         [HttpGet]
-        public async Task<AplicacionGetModel?> GetActiveAplicacion()
+        public async Task<IReadOnlyCollection<AplicacionGetModel>> GetAplicaciones() => 
+            await _aplicacionService.GetAplicaciones((await _usuarioProvider.GetUser())!.Id);
+
+        [HttpGet]
+        [Route("active")]
+        public async Task<AplicacionGetModel> GetActiveAplicacion()
         {
             int inquilinoUsuarioId = (await _usuarioProvider.GetUser())!.Id;
             AplicacionGetModel? postulacion = await _aplicacionService.GetActiveAplicacion(inquilinoUsuarioId);

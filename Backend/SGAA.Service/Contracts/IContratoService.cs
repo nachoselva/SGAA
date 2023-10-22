@@ -6,11 +6,11 @@
 
     public interface IContratoService
     {
+        Task<ContratoGetModel> GetContrato(int usuarioId, int contratoId);
+        Task<ContratoGetModel> GetContrato(int contratoId);
+        Task<IReadOnlyCollection<ContratoGetModel>> GetContratos(int usuarioId);
+        Task<IReadOnlyCollection<ContratoGetModel>> GetContratos();
         Task<ContratoGetModel> CreateContrato(int postulacionId, DateOnly fechaDesde, DateOnly fechaHasta);
         Task<ContratoGetModel> FirmarContrato(int usuarioId, int contratoId, string direccionIp);
-        Task<ContratoGetModel?> GetContrato(int usuarioId, int contratoId);
-        Task<ContratoGetModel?> GetContratoAdmin(int contratoId);
-        Task<IReadOnlyCollection<ContratoGetModel>> GetContratosAdmin();
-        Task<IReadOnlyCollection<ContratoGetModel>> GetContratos(int usuarioId);
     }
 }

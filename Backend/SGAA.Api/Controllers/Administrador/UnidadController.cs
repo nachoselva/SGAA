@@ -25,7 +25,7 @@
 
         [HttpGet]
         public async Task<IReadOnlyCollection<UnidadGetModel>> GetUnidadesAdmin()
-            => await _unidadService.GetUnidadesAdmin();
+            => await _unidadService.GetUnidades();
 
         [HttpPut]
         [Route("{unidadId}/aprobar")]

@@ -19,7 +19,7 @@
 
         public async Task<IReadOnlyCollection<CiudadGetModel>> GetCiudades(int provinciaId)
         {
-            return (await _ciudadRepository.GetAllCiudades(provinciaId))
+            return (await _ciudadRepository.GetCiudades(provinciaId))
                 .Select(p => p.MapToGetModel(_ciudadMapper))
                 .ToList();
         }

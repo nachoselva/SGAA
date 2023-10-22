@@ -4,6 +4,6 @@
 
     public interface IUsuarioRepository
     {
-        Task<IReadOnlyCollection<Usuario>> GetAllUsuarios();
+        Task<IReadOnlyCollection<Usuario>> GetUsuarios();
     }
 }

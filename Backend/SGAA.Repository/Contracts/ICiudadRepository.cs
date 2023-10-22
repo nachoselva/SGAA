@@ -4,6 +4,6 @@
 
     public interface ICiudadRepository
     {
-        Task<IReadOnlyCollection<Ciudad>> GetAllCiudades(int provinciaId);
+        Task<IReadOnlyCollection<Ciudad>> GetCiudades(int provinciaId);
     }
 }

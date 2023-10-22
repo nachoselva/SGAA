@@ -6,11 +6,11 @@
 
     public interface IUnidadRepository
     {
-        Task<IReadOnlyCollection<Unidad>> GetUnidadesByPropietario(int propietarioUserId);
+        Task<IReadOnlyCollection<Unidad>> GetUnidades(int propietarioUserId);
         Task<IReadOnlyCollection<Unidad>> GetUnidades();
-        Task<Unidad?> GetUnidadById(int unidadId);
-        Task<Propiedad?> GetPropiedadByDireccion(int ciudadId, string calle, int altura);
-        Task<Unidad?> GetUnidadByDireccion(int ciudadId, string calle, int altura, string piso, string departamento);
+        Task<Unidad?> GetUnidad(int unidadId);
+        Task<Propiedad?> GetPropiedad(int ciudadId, string calle, int altura);
+        Task<Unidad?> GetUnidad(int ciudadId, string calle, int altura, string piso, string departamento);
         Task<Unidad> AddUnidad(Unidad unidad);
         Task<Unidad> UpdateUnidad(Unidad unidad);
         Task DeleteImagenes(IEnumerable<UnidadImagen> entitiesToDelete);

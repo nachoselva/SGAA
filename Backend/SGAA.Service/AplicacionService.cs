@@ -93,22 +93,22 @@
             return aplicacion;
         }
 
-        public async Task<AplicacionGetModel?> GetActiveAplicacion(int inquilinoUsuarioId)
+        public async Task<AplicacionGetModel> GetActiveAplicacion(int inquilinoUsuarioId)
         {
             IReadOnlyCollection<Aplicacion> aplicaciones = await _aplicacionRepository
-                .GetAplicacionesByInquilinoUsuarioId(inquilinoUsuarioId);
+                .GetAplicaciones(inquilinoUsuarioId);
 
             Aplicacion? aplicacion = aplicaciones
                 .FirstOrDefault(ap => ap.Status.IsActive());
             if (aplicacion == null || aplicacion.Status != AplicacionStatus.AprobacionPendiente)
-                return null;
+                throw new NotFoundException();
             return aplicacion.MapToGetModel<Aplicacion, AplicacionGetModel>(_aplicacionMapper);
         }
 
         public async Task<AplicacionGetModel> AddAplicacion(AplicacionPostModel postModel)
         {
             IReadOnlyCollection<Aplicacion> aplicaciones = await _aplicacionRepository
-                .GetAplicacionesByInquilinoUsuarioId(postModel.InquilinoUsuarioId!.Value);
+                .GetAplicaciones(postModel.InquilinoUsuarioId!.Value);
 
             Aplicacion? existingAplicacion = aplicaciones
                 .FirstOrDefault(ap => ap.Status.IsActive());
@@ -126,12 +126,10 @@
         public async Task<AplicacionGetModel> UpdateActiveAplicacion(AplicacionPutModel putModel)
         {
             IReadOnlyCollection<Aplicacion> aplicaciones = await _aplicacionRepository
-                .GetAplicacionesByInquilinoUsuarioId(putModel.InquilinoUsuarioId!.Value);
+                .GetAplicaciones(putModel.InquilinoUsuarioId!.Value);
 
             Aplicacion? aplicacion = aplicaciones
-                .FirstOrDefault(ap => ap.Status.IsActive());
-            if (aplicacion == null)
-                throw new NotFoundException();
+                .FirstOrDefault(ap => ap.Status.IsActive()) ?? throw new NotFoundException();
             if (aplicacion.Status != AplicacionStatus.AprobacionPendiente)
                 throw new BadRequestException("Aplicacion", "La aplicación no se encuentra en estado editable");
 
@@ -144,22 +142,25 @@
             return aplicacion.MapToGetModel<Aplicacion, AplicacionGetModel>(_aplicacionMapper);
         }
 
-        public async Task<AplicacionGetModel> GetAplicacionAdmin(int aplicacionId)
+        public async Task<AplicacionGetModel> GetAplicacion(int aplicacionId)
         {
-            Aplicacion aplicacion = await _aplicacionRepository.GetAplicacionAdminById(aplicacionId) ?? throw new NotFoundException();
+            Aplicacion aplicacion = await _aplicacionRepository.GetAplicacion(aplicacionId) ?? throw new NotFoundException();
             return aplicacion.MapToGetModel<Aplicacion, AplicacionGetModel>(_aplicacionMapper);
         }
 
-        public async Task<IReadOnlyCollection<AplicacionGetModel>> GetAplicacionesAdmin()
-        => (await _aplicacionRepository.GetAplicacionesAdmin())
+        public async Task<IReadOnlyCollection<AplicacionGetModel>> GetAplicaciones(int inquilinoUsuarioId)
+        => (await _aplicacionRepository.GetAplicaciones(inquilinoUsuarioId))
+                .Select(ap => ap.MapToGetModel<Aplicacion, AplicacionGetModel>(_aplicacionMapper))
+                .ToList();
+
+        public async Task<IReadOnlyCollection<AplicacionGetModel>> GetAplicaciones()
+        => (await _aplicacionRepository.GetAplicaciones())
                 .Select(ap => ap.MapToGetModel<Aplicacion, AplicacionGetModel>(_aplicacionMapper))
                 .ToList();
 
         public async Task<AplicacionGetModel> AprobarAplicacion(int aplicacionId, AprobarAplicacionPutModel model)
         {
-            Aplicacion? aplicacion = await _aplicacionRepository.GetAplicacionAdminById(aplicacionId);
-            if (aplicacion == null)
-                throw new NotFoundException();
+            Aplicacion? aplicacion = await _aplicacionRepository.GetAplicacion(aplicacionId) ?? throw new NotFoundException();
             if (aplicacion.Status != AplicacionStatus.AprobacionPendiente)
                 throw new BadRequestException("Aplicacion", "La aplicación no se encuentra en estado para aprobar");
 
@@ -179,9 +180,7 @@
 
         public async Task<AplicacionGetModel> RechazarAplicacion(int aplicacionId, RechazarAplicacionPutModel model)
         {
-            Aplicacion? aplicacion = await _aplicacionRepository.GetAplicacionAdminById(aplicacionId);
-            if (aplicacion == null)
-                throw new NotFoundException();
+            Aplicacion? aplicacion = await _aplicacionRepository.GetAplicacion(aplicacionId) ?? throw new NotFoundException();
             if (aplicacion.Status != AplicacionStatus.AprobacionPendiente)
                 throw new BadRequestException("Aplicacion", "La aplicación no se encuentra en estado para aprobar");
 

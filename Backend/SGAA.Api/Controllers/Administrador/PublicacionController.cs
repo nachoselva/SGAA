@@ -21,10 +21,10 @@
         [HttpGet]
         [Route("{PublicacionId}")]
         public async Task<PublicacionGetModel> GetPublicacion([FromRoute] int PublicacionId)
-            => await _publicacionService.GetPublicacionByPublicacionId(PublicacionId);
+            => await _publicacionService.GetPublicacion(PublicacionId);
 
         [HttpGet]
         public async Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicacionesAdmin()
-            => await _publicacionService.GetPublicacionesAdmin();
+            => await _publicacionService.GetPublicaciones();
     }
 }

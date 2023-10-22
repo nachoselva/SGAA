@@ -6,9 +6,12 @@
 
     public interface IPublicacionService
     {
-        Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicacionesAdmin();
-        Task<PublicacionGetModel> GetPublicacionActiveByCodigo(string codigo);
-        Task<PublicacionGetModel> GetPublicacionByPublicacionId(int publicacionId);
+        Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicaciones(int propietarioUsuarioId);
+        Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicaciones();
+        Task<IReadOnlyCollection<PublicacionGetModel>> GetActivePublicaciones();
+        Task<PublicacionGetModel> GetPublicacion(int propietarioUsuarioId, int publicacionId);
+        Task<PublicacionGetModel> GetPublicacion(int publicacionId);
+        Task<PublicacionGetModel> GetActivePublicacion(string codigo);
         Task<PublicacionGetModel> AddPublicacion(PublicacionPostModel model);
         Task<PublicacionGetModel> CancelPublicacion(int publicacionId, PublicacionCancelarPutModel model);
         Task<PublicacionGetModel> CerrarPublicacion(int publicacionId, PublicacionCerrarPutModel model);

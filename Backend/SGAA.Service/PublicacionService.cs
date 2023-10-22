@@ -40,21 +40,40 @@
             _reservaOfrecidaPropietarioEmailSender = reservaOfrecidaPropietarioEmailSender;
         }
 
-        public async Task<PublicacionGetModel> GetPublicacionActiveByCodigo(string codigo)
+        public async Task<PublicacionGetModel> GetActivePublicacion(string codigo)
         {
-            Publicacion? publicacion = await _publicacionRepository.GetPublicacionByCodigo(codigo);
+            Publicacion? publicacion = await _publicacionRepository.GetPublicacion(codigo);
             return publicacion != null && publicacion.Status.IsActive() ?
                 publicacion.MapToGetModel(_publicacionMapper) :
                 throw new NotFoundException();
         }
-
-        public async Task<PublicacionGetModel> GetPublicacionByPublicacionId(int publicacionId)
+        public async Task<PublicacionGetModel> GetPublicacion(int propietarioUsuarioId, int publicacionId)
         {
-            Publicacion? publicacion = await _publicacionRepository.GetPublicacionById(publicacionId);
+            Publicacion? publicacion = await _publicacionRepository.GetPublicacion(publicacionId);
+            return publicacion != null && publicacion.Unidad.PropietarioUsuarioId == propietarioUsuarioId 
+                ? publicacion.MapToGetModel(_publicacionMapper) : throw new NotFoundException();
+        }
+
+        public async Task<PublicacionGetModel> GetPublicacion(int publicacionId)
+        {
+            Publicacion? publicacion = await _publicacionRepository.GetPublicacion(publicacionId);
             return publicacion != null ? publicacion.MapToGetModel(_publicacionMapper) : throw new NotFoundException();
         }
 
-        public async Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicacionesAdmin()
+        public async Task<IReadOnlyCollection<PublicacionGetModel>> GetActivePublicaciones()
+        {
+            IReadOnlyCollection<Publicacion> publicaciones = await _publicacionRepository.GetPublicaciones();
+            return publicaciones.Where(p => p.Status.IsActive())
+                .Select(p => p.MapToGetModel(_publicacionMapper)).ToList();
+        }
+
+        public async Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicaciones(int propietarioUsuarioId)
+        {
+            IReadOnlyCollection<Publicacion> publicaciones = await _publicacionRepository.GetPublicacionesByPropietario(propietarioUsuarioId);
+            return publicaciones.Select(publicacion => publicacion.MapToGetModel(_publicacionMapper)).ToList();
+        }
+
+        public async Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicaciones()
         {
             IReadOnlyCollection<Publicacion> publicaciones = await _publicacionRepository.GetPublicaciones();
             return publicaciones.Select(publicacion => publicacion.MapToGetModel(_publicacionMapper)).ToList();
@@ -62,7 +81,7 @@
 
         public async Task<PublicacionGetModel> AddPublicacion(PublicacionPostModel model)
         {
-            Unidad? unidad = await _unidadRepository.GetUnidadById(model.UnidadId);
+            Unidad? unidad = await _unidadRepository.GetUnidad(model.UnidadId);
             if (unidad == null || model.PropietarioUsuarioId != unidad.PropietarioUsuarioId)
                 throw new NotFoundException();
             if (unidad.Status != UnidadStatus.DocumentacionAprobada)
@@ -91,7 +110,7 @@
 
         public async Task<PublicacionGetModel> CancelPublicacion(int publicacionId, PublicacionCancelarPutModel model)
         {
-            Publicacion? publicacion = await _publicacionRepository.GetPublicacionById(publicacionId);
+            Publicacion? publicacion = await _publicacionRepository.GetPublicacion(publicacionId);
             if (publicacion == null || model.PropietarioUsuarioId != publicacion.Unidad.PropietarioUsuarioId)
                 throw new NotFoundException();
             if (publicacion.Status != PublicacionStatus.Publicada)
@@ -125,7 +144,7 @@
 
         public async Task<PublicacionGetModel> CerrarPublicacion(int publicacionId, PublicacionCerrarPutModel model)
         {
-            Publicacion? publicacion = await _publicacionRepository.GetPublicacionById(publicacionId);
+            Publicacion? publicacion = await _publicacionRepository.GetPublicacion(publicacionId);
             if (publicacion == null || model.PropietarioUsuarioId != publicacion.Unidad.PropietarioUsuarioId)
                 throw new NotFoundException();
             if (publicacion.Status != PublicacionStatus.Publicada)

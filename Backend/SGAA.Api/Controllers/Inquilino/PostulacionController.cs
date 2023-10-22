@@ -21,6 +21,10 @@
             _postulacionService = postulacionService;
         }
 
+        [HttpGet]
+        public async Task<IReadOnlyCollection<PostulacionGetModel>> GetPostulaciones()
+            => await _postulacionService.GetPostulaciones((await _usuarioProvider.GetUser())!.Id);
+
         [HttpPost]
         public async Task<PostulacionGetModel> AddPostulacion([FromBody] PostulacionPostModel model)
         {
