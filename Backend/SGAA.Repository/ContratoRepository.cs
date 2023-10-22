@@ -25,13 +25,13 @@
                 .ThenInclude(p => p.Ciudad)
                 .ThenInclude(ci => ci.Provincia);
 
-        public async Task<IReadOnlyCollection<Contrato>> GetContratosAdmin()
+        public async Task<IReadOnlyCollection<Contrato>> GetContratos()
         {
             return await ContratosQuery()
                 .ToListAsync();
         }
 
-        public async Task<IReadOnlyCollection<Contrato>> GetContratosByUsuarioId(int usuarioId)
+        public async Task<IReadOnlyCollection<Contrato>> GetContratos(int usuarioId)
         {
             return await ContratosQuery()
                 .Where(c => c.Firmas.Any(f => f.UsuarioId == usuarioId))

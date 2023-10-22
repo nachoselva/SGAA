@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Mvc;
     using SGAA.Api.Providers;
     using SGAA.Domain.Auth;
+    using SGAA.Domain.Core;
     using SGAA.Models;
     using SGAA.Service.Contracts;
 
@@ -22,9 +23,13 @@
         }
 
         [HttpGet]
-        [Route("{PublicacionId}")]
+        public async Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicaciones() 
+            => await _publicacionService.GetPublicaciones((await _usuarioProvider.GetUser())!.Id);
+
+        [HttpGet]
+        [Route("{publicacionId}")]
         public async Task<PublicacionGetModel> GetPublicacion([FromRoute] int publicacionId)
-            => await _publicacionService.GetPublicacionByPublicacionId(publicacionId);
+            => await _publicacionService.GetPublicacion(publicacionId);
 
         [HttpPost]
         public async Task<PublicacionGetModel> AddPublicacion([FromBody] PublicacionPostModel model)
@@ -37,10 +42,7 @@
         [HttpPut]
         [Route("{publicacionId}/cancelar")]
         public async Task<PublicacionGetModel> CancelarPublicacion([FromRoute] int publicacionId, [FromBody] PublicacionCancelarPutModel model)
-        {
-            PublicacionGetModel publicacion = await _publicacionService.CancelPublicacion(publicacionId, model);
-            return publicacion;
-        }
+            => await _publicacionService.CancelPublicacion(publicacionId, model);
 
         [HttpPut]
         [Route("{publicacionId}/cerrar")]

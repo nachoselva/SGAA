@@ -20,9 +20,13 @@ namespace SGAA.Api.Controllers.Administrador
         }
 
         [HttpGet]
+        public async Task<IReadOnlyCollection<UsuarioGetModel>> GetUsuario()
+            => await _usuarioService.GetUsuarios();
+
+        [HttpGet]
         [Route("{usuarioId}")]
         public async Task<UsuarioGetModel> GetUsuario([FromRoute] int usuarioId)
-            => await _usuarioService.GetById(usuarioId) ?? throw new NotFoundException();
+            => await _usuarioService.GetUsuario(usuarioId);
 
         [HttpPost]
         public async Task<UsuarioGetModel> AddUsuarioAdmin([FromBody] UsuarioPostModel model)

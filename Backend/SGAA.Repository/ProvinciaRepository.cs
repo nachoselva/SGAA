@@ -15,7 +15,7 @@
             _dbContext = dbContext;
         }
 
-        public async Task<IReadOnlyCollection<Provincia>> GetAllProvincias()
+        public async Task<IReadOnlyCollection<Provincia>> GetProvincias()
         {
             return await _dbContext.Provincias.ToListAsync();
         }

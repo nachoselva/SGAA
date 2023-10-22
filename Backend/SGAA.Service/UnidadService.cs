@@ -97,11 +97,11 @@
 
         public async Task<IReadOnlyCollection<UnidadGetModel>> GetUnidades(int propietarioUserId)
         {
-            IReadOnlyCollection<Unidad> unidades = await _unidadRepository.GetUnidadesByPropietario(propietarioUserId);
+            IReadOnlyCollection<Unidad> unidades = await _unidadRepository.GetUnidades(propietarioUserId);
             return unidades.Select(unidad => unidad.MapToGetModel<Unidad, UnidadGetModel>(_unidadMapper)).ToList();
         }
 
-        public async Task<IReadOnlyCollection<UnidadGetModel>> GetUnidadesAdmin()
+        public async Task<IReadOnlyCollection<UnidadGetModel>> GetUnidades()
         {
             IReadOnlyCollection<Unidad> unidades = await _unidadRepository.GetUnidades();
             return unidades.Select(unidad => unidad.MapToGetModel<Unidad, UnidadGetModel>(_unidadMapper)).ToList();
@@ -109,7 +109,7 @@
 
         public async Task<UnidadGetModel> GetUnidad(int unidadId)
         {
-            Unidad? unidad = await _unidadRepository.GetUnidadById(unidadId);
+            Unidad? unidad = await _unidadRepository.GetUnidad(unidadId);
             return unidad != null ? unidad.MapToGetModel<Unidad, UnidadGetModel>(_unidadMapper) : throw new NotFoundException();
         }
 
@@ -117,10 +117,10 @@
         {
             if (!postModel.Titulares.Any())
                 throw new BadRequestException("Unidad", "Debe haber por lo menos un titular");
-            Unidad? unidadExistente = await _unidadRepository.GetUnidadByDireccion(postModel.CiudadId, postModel.Calle, postModel.Altura, postModel.Piso, postModel.Departamento);
+            Unidad? unidadExistente = await _unidadRepository.GetUnidad(postModel.CiudadId, postModel.Calle, postModel.Altura, postModel.Piso, postModel.Departamento);
             if (unidadExistente != null)
                 throw new BadRequestException("Unidad", "Existe una unidad registrada en el mismo domicilio.");
-            Propiedad? propiedad = await _unidadRepository.GetPropiedadByDireccion(postModel.CiudadId, postModel.Calle, postModel.Altura);
+            Propiedad? propiedad = await _unidadRepository.GetPropiedad(postModel.CiudadId, postModel.Calle, postModel.Altura);
             if (propiedad != null)
                 postModel.PropiedadId = propiedad.Id;
             Unidad unidad = postModel.ToEntity<Unidad, UnidadPostModel>(_unidadMapper);
@@ -128,7 +128,7 @@
             unidad.Detalle.AddImagenes(postModel.Detalle.Imagenes.Select(newmodel => newmodel.ToEntity<UnidadImagen, UnidadImagenModel>(_unidadMapper)));
             unidad.AddTitulares(postModel.Titulares.Select(newmodel => newmodel.ToEntity<Titular, TitularModel>(_unidadMapper)));
             unidad = await _unidadRepository.AddUnidad(unidad);
-            unidad = (await _unidadRepository.GetUnidadById(unidad.Id))!;
+            unidad = (await _unidadRepository.GetUnidad(unidad.Id))!;
             return unidad.MapToGetModel<Unidad, UnidadGetModel>(_unidadMapper);
         }
 
@@ -136,12 +136,12 @@
         {
             if (!putModel.Titulares.Any())
                 throw new BadRequestException("Unidad", "Debe haber por lo menos un titular");
-            Unidad? unidad = await _unidadRepository.GetUnidadById(unidadId);
+            Unidad? unidad = await _unidadRepository.GetUnidad(unidadId);
             if (unidad == null || putModel.PropietarioUsuarioId != unidad.PropietarioUsuarioId)
                 throw new NotFoundException();
             if (unidad.Status != UnidadStatus.AprobacionPendiente)
                 throw new BadRequestException(nameof(unidad.Status), "La unidad no se encuentrá en estado editable");
-            Propiedad? propiedad = await _unidadRepository.GetPropiedadByDireccion(putModel.CiudadId, putModel.Calle, putModel.Altura);
+            Propiedad? propiedad = await _unidadRepository.GetPropiedad(putModel.CiudadId, putModel.Calle, putModel.Altura);
             if (propiedad != null)
                 putModel.PropiedadId = propiedad.Id;
 
@@ -156,7 +156,7 @@
 
         public async Task<UnidadGetModel> AprobarUnidad(int unidadId, AprobarUnidadPutModel model)
         {
-            Unidad? unidad = await _unidadRepository.GetUnidadById(unidadId) ?? throw new NotFoundException();
+            Unidad? unidad = await _unidadRepository.GetUnidad(unidadId) ?? throw new NotFoundException();
             if (unidad.Status != UnidadStatus.AprobacionPendiente)
                 throw new BadRequestException(nameof(unidad.Status), "La unidad no se encuentrá en estado para aprobar");
             unidad = model.ToEntity(_unidadMapper, unidad);
@@ -175,7 +175,7 @@
 
         public async Task<UnidadGetModel> RechazarUnidad(int unidadId, RechazarUnidadPutModel model)
         {
-            Unidad? unidad = await _unidadRepository.GetUnidadById(unidadId) ?? throw new NotFoundException();
+            Unidad? unidad = await _unidadRepository.GetUnidad(unidadId) ?? throw new NotFoundException();
             if (unidad.Status != UnidadStatus.AprobacionPendiente)
                 throw new BadRequestException(nameof(unidad.Status), "La unidad no se encuentrá en estado para aprobar");
             unidad = model.ToEntity(_unidadMapper, unidad);

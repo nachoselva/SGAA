@@ -9,7 +9,6 @@ namespace SGAA.Api.Controllers.Administrador
     [ApiController]
     [Route($"{nameof(RolType.Administrador)}/[controller]")]
     [Authorize(Roles = nameof(RolType.Administrador))]
-    [Authorize]
     public class ContratoController : ControllerBase
     {
         private readonly IContratoService _contratoService;
@@ -21,11 +20,11 @@ namespace SGAA.Api.Controllers.Administrador
 
         [HttpGet]
         public Task<IReadOnlyCollection<ContratoGetModel>> GetContratos()
-            => _contratoService.GetContratosAdmin();
+            => _contratoService.GetContratos();
 
         [HttpGet]
         [Route("{contratoId}")]
-        public Task<ContratoGetModel?> GetContrato([FromRoute] int contratoId)
-            => _contratoService.GetContratoAdmin(contratoId);
+        public Task<ContratoGetModel> GetContrato([FromRoute] int contratoId)
+            => _contratoService.GetContrato(contratoId);
     }
 }

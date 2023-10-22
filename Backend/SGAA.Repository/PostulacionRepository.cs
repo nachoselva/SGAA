@@ -4,6 +4,7 @@
     using SGAA.Domain.Core;
     using SGAA.Repository.Contexts;
     using SGAA.Repository.Contracts;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public class PostulacionRepository : IPostulacionRepository
@@ -32,7 +33,7 @@
             .Include(p => p.Aplicacion)
             .ThenInclude(a => a.Postulantes);
 
-        public Task<Postulacion?> GetPostulacionById(int postulacionId)
+        public Task<Postulacion?> GetPostulacion(int postulacionId)
         => PostulacionQuery().Where(p => p.Id == postulacionId).FirstOrDefaultAsync();
 
         public async Task<Postulacion> AddPostulacion(Postulacion postulacion)
@@ -47,6 +48,19 @@
             _dbContext.Postulaciones.Update(postulacion);
             await _dbContext.SaveChangesAsync();
             return postulacion;
+        }
+
+        public async Task<IReadOnlyCollection<Postulacion>> GetPostulaciones(int inquilinoUsuarioId)
+        {
+            return await PostulacionQuery()
+                .Where(p => p.Aplicacion.InquilinoUsuarioId == inquilinoUsuarioId)
+                .ToListAsync();
+        }
+
+        public async Task<IReadOnlyCollection<Postulacion>> GetPostulaciones()
+        {
+            return await PostulacionQuery()
+                .ToListAsync();
         }
     }
 }

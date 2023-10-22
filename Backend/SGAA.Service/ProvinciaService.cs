@@ -19,7 +19,7 @@
 
         public async Task<IReadOnlyCollection<ProvinciaGetModel>> GetProvincias()
         {
-            return (await _provinciaRepository.GetAllProvincias())
+            return (await _provinciaRepository.GetProvincias())
                 .Select(p => p.MapToGetModel(_provinciaMapper))
                 .ToList();
         }

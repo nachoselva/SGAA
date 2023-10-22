@@ -14,7 +14,7 @@
             _dbContext = dbContext;
         }
 
-        public async Task<IReadOnlyCollection<Usuario>> GetAllUsuarios()
+        public async Task<IReadOnlyCollection<Usuario>> GetUsuarios()
         {
             return await _dbContext.Users.ToListAsync();
         }

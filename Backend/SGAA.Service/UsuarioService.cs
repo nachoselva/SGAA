@@ -5,11 +5,13 @@
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
     using SGAA.Domain.Auth;
+    using SGAA.Domain.Core;
     using SGAA.Domain.Errors;
     using SGAA.Emails.Contracts;
     using SGAA.Emails.EmailModels;
     using SGAA.Models;
     using SGAA.Models.Mappers;
+    using SGAA.Repository;
     using SGAA.Repository.Contracts;
     using SGAA.Service.Contracts;
     using SGAA.Utils.Configuration;
@@ -151,7 +153,7 @@
 
         public async Task<UsuarioGetModel> AddFirstUsuario(UsuarioPostModel model)
         {
-            IReadOnlyCollection<Usuario> members = await _usuarioRepository.GetAllUsuarios();
+            IReadOnlyCollection<Usuario> members = await _usuarioRepository.GetUsuarios();
             if (members.Any())
             {
                 throw new UnauthorizedException();
@@ -250,15 +252,13 @@
                 await UpdateAsync(user);
             }
         }
-        public async Task<UsuarioGetModel?> GetById(int id)
+        public async Task<UsuarioGetModel> GetUsuario(int id)
         {
             Usuario? usuario = await FindByIdAsync(id.ToString());
-            if (usuario == null)
-                return null;
-            return _usuarioMapper.ToGetModel(usuario);
+            return usuario == null ? throw new NotFoundException() : _usuarioMapper.ToGetModel(usuario);
         }
 
-        public async Task<UsuarioGetModel?> GetByEmail(string email)
+        public async Task<UsuarioGetModel?> GetUsuario(string email)
         {
             Usuario? usuario = await FindByNameAsync(email);
             if (usuario == null)
@@ -326,6 +326,12 @@
                         ResetPasswordURL = resetPasswordURL
                     });
             }
+        }
+
+        public async Task<IReadOnlyCollection<UsuarioGetModel>> GetUsuarios()
+        {
+            IReadOnlyCollection<Usuario> usuarios = await _usuarioRepository.GetUsuarios();
+            return usuarios.Select(usuario => usuario.MapToGetModel(_usuarioMapper)).ToList();
         }
     }
 }

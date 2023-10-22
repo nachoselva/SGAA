@@ -21,15 +21,15 @@ namespace SGAA.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ContratoGetModel?> GetContratos([FromRoute] int contratoId)
+        public async Task<IReadOnlyCollection<ContratoGetModel>> GetContratos()
         {
             int usuarioId = (await _usuarioProvider.GetUser())!.Id;
-            return await _contratoService.GetContrato(usuarioId, contratoId);
+            return await _contratoService.GetContratos(usuarioId);
         }
 
         [HttpGet]
         [Route("{contratoId}")]
-        public async Task<ContratoGetModel?> GetContrato([FromRoute] int contratoId)
+        public async Task<ContratoGetModel> GetContrato([FromRoute] int contratoId)
         {
             int usuarioId = (await _usuarioProvider.GetUser())!.Id;
             return await _contratoService.GetContrato(usuarioId, contratoId);
@@ -37,7 +37,7 @@ namespace SGAA.Api.Controllers
 
         [HttpPut]
         [Route("{contratoId}/firmar")]
-        public async Task<ContratoGetModel?> FirmarContrato([FromRoute] int contratoId)
+        public async Task<ContratoGetModel> FirmarContrato([FromRoute] int contratoId)
         {
             string direccionIP = _usuarioProvider.GetDireccionIp();
             int usuarioId = (await _usuarioProvider.GetUser())!.Id;

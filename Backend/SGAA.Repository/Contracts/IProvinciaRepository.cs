@@ -4,6 +4,6 @@
 
     public interface IProvinciaRepository
     {
-        Task<IReadOnlyCollection<Provincia>> GetAllProvincias();
+        Task<IReadOnlyCollection<Provincia>> GetProvincias();
     }
 }

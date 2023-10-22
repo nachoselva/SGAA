@@ -21,11 +21,11 @@
         [HttpGet]
         [Route("{aplicacionId}")]
         public async Task<AplicacionGetModel> GetAplicacion([FromRoute] int aplicacionId)
-            => await _aplicacionService.GetAplicacionAdmin(aplicacionId);
+            => await _aplicacionService.GetAplicacion(aplicacionId);
 
         [HttpGet]
         public async Task<IReadOnlyCollection<AplicacionGetModel>> GetAplicacionesAdmin()
-            => await _aplicacionService.GetAplicacionesAdmin();
+            => await _aplicacionService.GetAplicaciones();
 
         [HttpPut]
         [Route("{aplicacionId}/aprobar")]

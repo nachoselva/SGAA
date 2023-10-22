@@ -20,6 +20,11 @@
         [HttpGet]
         [Route("{codigo}")]
         public async Task<PublicacionGetModel> GetPublicacionActiva([FromRoute] string codigo)
-            => await _publicacionService.GetPublicacionActiveByCodigo(codigo);
+            => await _publicacionService.GetActivePublicacion(codigo);
+
+
+        [HttpGet]
+        public async Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicaciones()
+            => await _publicacionService.GetActivePublicaciones();
     }
 }

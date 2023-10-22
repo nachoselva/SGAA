@@ -1,8 +1,5 @@
 ﻿namespace SGAA.Service
 {
-    using Microsoft.SqlServer.Server;
-    using SGAA.Documents.Contracts;
-    using SGAA.Documents.DocumentModels;
     using SGAA.Domain.Auth;
     using SGAA.Domain.Core;
     using SGAA.Domain.Errors;
@@ -40,14 +37,26 @@
             _contratoService = contratoService;
         }
 
+        public async Task<IReadOnlyCollection<PostulacionGetModel>> GetPostulaciones(int inquilinoUsuarioId)
+        {
+            IReadOnlyCollection<Postulacion> postulaciones = await _postulacionRepository.GetPostulaciones(inquilinoUsuarioId);
+            return postulaciones.Select(postulacion => postulacion.MapToGetModel(_postulacionMapper)).ToList();
+        }
+
+        public async Task<IReadOnlyCollection<PostulacionGetModel>> GetPostulaciones()
+        {
+            IReadOnlyCollection<Postulacion> postulaciones = await _postulacionRepository.GetPostulaciones();
+            return postulaciones.Select(postulacion => postulacion.MapToGetModel(_postulacionMapper)).ToList();
+        }
+
         public async Task<PostulacionGetModel> AddPostulacion(PostulacionPostModel model)
         {
             IReadOnlyCollection<Aplicacion> aplicaciones = await _aplicacionRepository
-                .GetAplicacionesByInquilinoUsuarioId(model.InquilinoUsuarioId!.Value);
+                .GetAplicaciones(model.InquilinoUsuarioId!.Value);
 
             Aplicacion? activeAplicacion = aplicaciones.FirstOrDefault(ap => ap.Status == AplicacionStatus.Aprobada)
                 ?? throw new BadRequestException("Aplicacion", "No tiene una aplicación aprobada para poder postular");
-            Publicacion? publicacion = await _publicacionRepository.GetPublicacionById(model.PublicacionId);
+            Publicacion? publicacion = await _publicacionRepository.GetPublicacion(model.PublicacionId);
 
             if (publicacion == null || publicacion.Status != PublicacionStatus.Publicada)
                 throw new BadRequestException("Publicacion", "La publicación no está disponible");
@@ -72,13 +81,17 @@
 
         public async Task<PostulacionGetModel> AceptarOferta(int postulacionId, AceptarOfertaPostulacionPutModel model)
         {
-            Postulacion? postulacion = await _postulacionRepository.GetPostulacionById(postulacionId);
+            Postulacion? postulacion = await _postulacionRepository.GetPostulacion(postulacionId);
             if (postulacion == null || postulacion.Aplicacion.InquilinoUsuarioId != model.InquilinoUsuarioId)
                 throw new NotFoundException();
             if (postulacion.Status != PostulacionStatus.Ofrecida)
                 throw new BadRequestException(nameof(postulacion.Status), "La postulación no se encuentra en estado para aceptar");
             if (model.FechaDesde >= model.FechaHasta)
                 throw new BadRequestException(nameof(model.FechaHasta), "Fecha hasta desde ser posterior a fecha desde");
+            if (model.FechaDesde.AddYears(1) < model.FechaHasta)
+                throw new BadRequestException(nameof(model.FechaHasta), "El contrato debe tener 1 año de duración como mínimo");
+            if(model.FechaDesde >= postulacion.Publicacion.InicioAlquiler)
+                throw new BadRequestException(nameof(model.FechaDesde), "El contrato debe arrancar después de la fecha de inicio de la publicación");
             model.ToEntity(_postulacionMapper, postulacion.Publicacion);
             model.ToEntity(_postulacionMapper, postulacion.Aplicacion);
             postulacion = model.ToEntity(_postulacionMapper, postulacion);
@@ -110,7 +123,7 @@
 
         public async Task<PostulacionGetModel> RechazarOferta(int postulacionId, RechazarOfertaPostulacionPutModel model)
         {
-            Postulacion? postulacion = await _postulacionRepository.GetPostulacionById(postulacionId);
+            Postulacion? postulacion = await _postulacionRepository.GetPostulacion(postulacionId);
             if (postulacion == null || postulacion.Aplicacion.InquilinoUsuarioId != model.InquilinoUsuarioId)
                 throw new NotFoundException();
             if (postulacion.Status != PostulacionStatus.Ofrecida)
@@ -136,7 +149,7 @@
 
         public async Task<PostulacionGetModel> CancelarPostulacion(int postulacionId, CancelarPostulacionPutModel model)
         {
-            Postulacion? postulacion = await _postulacionRepository.GetPostulacionById(postulacionId);
+            Postulacion? postulacion = await _postulacionRepository.GetPostulacion(postulacionId);
             if (postulacion == null || postulacion.Aplicacion.InquilinoUsuarioId != model.InquilinoUsuarioId)
                 throw new NotFoundException();
             if (postulacion.Status != PostulacionStatus.Postulada)

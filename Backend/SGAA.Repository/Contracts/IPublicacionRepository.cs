@@ -6,10 +6,11 @@
 
     public interface IPublicacionRepository
     {
-        Task<Publicacion?> GetPublicacionById(int publicacionId);
-        Task<Publicacion?> GetPublicacionByCodigo(string codigo);
+        Task<Publicacion?> GetPublicacion(int publicacionId);
+        Task<Publicacion?> GetPublicacion(string codigo);
         Task<IReadOnlyCollection<Publicacion>> GetPublicaciones();
         Task<Publicacion> AddPublicacion(Publicacion publicacion);
         Task<Publicacion> UpdatePublicacion(Publicacion publicacion);
+        Task<IReadOnlyCollection<Publicacion>> GetPublicacionesByPropietario(int propietarioUsuarioId);
     }
 }

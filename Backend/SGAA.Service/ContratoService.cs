@@ -112,7 +112,7 @@
                 return firma;
             }
 
-            Postulacion postulacion = (await _postulacionRepository.GetPostulacionById(postulacionId))!;
+            Postulacion postulacion = (await _postulacionRepository.GetPostulacion(postulacionId))!;
             List<Firma> firmas = new();
             foreach (var postulante in postulacion.Aplicacion.Postulantes)
             {
@@ -145,7 +145,7 @@
 
         }
 
-        public async Task<ContratoGetModel?> GetContrato(int usuarioId, int contratoId)
+        public async Task<ContratoGetModel> GetContrato(int usuarioId, int contratoId)
         {
             Contrato? contrato = await _contratoRepository.GetContrato(contratoId);
             return contrato != null && contrato.Firmas.Any(f => f.UsuarioId == usuarioId) ?
@@ -153,7 +153,7 @@
                 throw new NotFoundException();
         }
 
-        public async Task<ContratoGetModel?> GetContratoAdmin(int contratoId)
+        public async Task<ContratoGetModel> GetContrato(int contratoId)
         {
             Contrato? contrato = await _contratoRepository.GetContrato(contratoId);
             return contrato != null ?
@@ -161,15 +161,15 @@
                 throw new NotFoundException();
         }
 
-        public async Task<IReadOnlyCollection<ContratoGetModel>> GetContratosAdmin()
+        public async Task<IReadOnlyCollection<ContratoGetModel>> GetContratos()
         {
-            IReadOnlyCollection<Contrato> contratos = await _contratoRepository.GetContratosAdmin();
+            IReadOnlyCollection<Contrato> contratos = await _contratoRepository.GetContratos();
             return contratos.Select(c => _contratoMapper.ToGetModel(c)).ToList();
         }
 
         public async Task<IReadOnlyCollection<ContratoGetModel>> GetContratos(int usuarioId)
         {
-            IReadOnlyCollection<Contrato> contratos = await _contratoRepository.GetContratosByUsuarioId(usuarioId);
+            IReadOnlyCollection<Contrato> contratos = await _contratoRepository.GetContratos(usuarioId);
             return contratos.Select(c => _contratoMapper.ToGetModel(c)).ToList();
         }
 

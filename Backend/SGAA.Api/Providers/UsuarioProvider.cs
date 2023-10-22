@@ -24,7 +24,7 @@
             string? email = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.Email);
             if (string.IsNullOrWhiteSpace(email))
                 return null;
-            return await _usuarioService.GetByEmail(email!);
+            return await _usuarioService.GetUsuario(email!);
         }
 
         public string GetDireccionIp()
