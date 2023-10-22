@@ -38,11 +38,18 @@
                 .ToListAsync();
         }
 
+        public async Task<IReadOnlyCollection<Contrato>> GetContratosByRol(int usuarioId, FirmaRol rol)
+        {
+            return await ContratosQuery()
+                .Where(c => c.Firmas.Any(f => f.UsuarioId == usuarioId && f.Rol == rol))
+                .ToListAsync();
+        }
+
         public async Task<Contrato> UpdateContrato(Contrato contrato)
-        { 
-            _dbContext.Contratos.Update(contrato);
+        {
+            var entityEntry = _dbContext.Contratos.Update(contrato);
             await _dbContext.SaveChangesAsync();
-            return contrato;
+            return entityEntry.Entity;
         }
 
         public async Task<Contrato> AddContrato(Contrato contrato)

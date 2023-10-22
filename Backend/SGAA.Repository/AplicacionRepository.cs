@@ -47,9 +47,9 @@
 
         public async Task<Aplicacion> UpdateAplicacion(Aplicacion aplicacion)
         {
-            _dbContext.Aplicaciones.Update(aplicacion);
+            var entityEntry = _dbContext.Aplicaciones.Update(aplicacion);
             await _dbContext.SaveChangesAsync();
-            return aplicacion;
+            return entityEntry.Entity;
         }
 
         public async Task DeleteGarantias(IEnumerable<Garantia> entitiesToDelete)

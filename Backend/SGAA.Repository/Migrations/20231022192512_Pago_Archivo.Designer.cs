@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SGAA.Repository.Contexts;
 
@@ -11,9 +12,11 @@ using SGAA.Repository.Contexts;
 namespace SGAA.Repository.Migrations
 {
     [DbContext(typeof(SGAADbContext))]
-    partial class SGAADbContextModelSnapshot : ModelSnapshot
+    [Migration("20231022192512_Pago_Archivo")]
+    partial class Pago_Archivo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

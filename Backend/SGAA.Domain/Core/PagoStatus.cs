@@ -3,6 +3,7 @@
     public enum PagoStatus
     {
         Pendiente,
-        Abonado
+        Abonado,
+        Aprobado
     }
 }

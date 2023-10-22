@@ -22,16 +22,16 @@
         }
 
         [HttpPost]
-        public async Task<ActionResult<UnidadGetModel>> AddUnidad([FromBody] UnidadPostModel model)
+        public async Task<UnidadGetModel> AddUnidad([FromBody] UnidadPostModel model)
         {
             model.PropietarioUsuarioId = (await _usuarioProvider.GetUser())!.Id;
             UnidadGetModel unidad = await _unidadService.AddUnidad(model);
-            return CreatedAtAction(nameof(GetUnidad), new { unidadId = unidad.Id }, model);
+            return unidad;
         }
 
         [HttpPut]
         [Route("{unidadId}")]
-        public async Task<ActionResult<UnidadGetModel>> UpdateUnidad([FromRoute] int unidadId, [FromBody] UnidadPutModel model)
+        public async Task<UnidadGetModel> UpdateUnidad([FromRoute] int unidadId, [FromBody] UnidadPutModel model)
         {
             model.PropietarioUsuarioId = (await _usuarioProvider.GetUser())!.Id;
             return await _unidadService.UpdateUnidad(unidadId, model);

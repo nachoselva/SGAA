@@ -68,9 +68,9 @@
 
         public async Task<Unidad> UpdateUnidad(Unidad unidad)
         {
-            _dbContext.Unidades.Update(unidad);
+            var entityEntry = _dbContext.Unidades.Update(unidad);
             await _dbContext.SaveChangesAsync();
-            return unidad;
+            return entityEntry.Entity;
         }
 
         public async Task DeleteImagenes(IEnumerable<UnidadImagen> entitiesToDelete)

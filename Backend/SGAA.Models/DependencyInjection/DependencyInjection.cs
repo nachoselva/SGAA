@@ -14,6 +14,7 @@
                 .AddScoped<IPublicacionMapper, PublicacionMapper>()
                 .AddScoped<IPostulacionMapper, PostulacionMapper>()
                 .AddScoped<IAplicacionMapper, AplicacionMapper>()
-                .AddScoped<IContratoMapper, ContratoMapper>();
+                .AddScoped<IContratoMapper, ContratoMapper>()
+                .AddScoped<IPagoMapper, PagoMapper>();
     }
 }
