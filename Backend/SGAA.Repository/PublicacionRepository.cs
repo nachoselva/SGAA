@@ -59,9 +59,9 @@
 
         public async Task<Publicacion> UpdatePublicacion(Publicacion publicacion)
         {
-            _dbContext.Publicaciones.Update(publicacion);
+            var entityEntry = _dbContext.Publicaciones.Update(publicacion);
             await _dbContext.SaveChangesAsync();
-            return publicacion;
+            return entityEntry.Entity;
         }
     }
 }

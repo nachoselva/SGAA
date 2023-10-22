@@ -45,9 +45,9 @@
 
         public async Task<Postulacion> UpdatePostulacion(Postulacion postulacion)
         {
-            _dbContext.Postulaciones.Update(postulacion);
+            var entityEntry = _dbContext.Postulaciones.Update(postulacion);
             await _dbContext.SaveChangesAsync();
-            return postulacion;
+            return entityEntry.Entity;
         }
 
         public async Task<IReadOnlyCollection<Postulacion>> GetPostulaciones(int inquilinoUsuarioId)

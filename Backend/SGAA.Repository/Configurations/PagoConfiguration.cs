@@ -32,6 +32,9 @@
             builder.Property(pago => pago.FechaPago)
                 .HasColumnType(DataTypes.TYPE_DATETIME);
 
+            builder.Property(pago => pago.Archivo)
+                .HasColumnType(DataTypes.TYPE_FILE);
+
             builder
                 .HasOne(p => p.Contrato)
                 .WithMany(c => c.Pagos)
@@ -40,7 +43,7 @@
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.ToTable(tableBuilder =>
+            builder.ToTable(nameof(Pago), tableBuilder =>
                 tableBuilder
                 .HasCheckConstraintWithEnum(pago => pago.Status)
             );

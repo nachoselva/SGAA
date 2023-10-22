@@ -6,6 +6,7 @@
     public class Contrato : BaseEntity, IEntity
     {
         private readonly List<Firma> _firmas;
+        private readonly List<Pago> _pagos;
 
         public Contrato(DateOnly fechaDesde, DateOnly fechaHasta, DateOnly? fechaCancelacion, decimal montoAlquiler, int ordenRenovacion, byte[] archivo, ContratoStatus status)
         {
@@ -17,6 +18,7 @@
             Archivo = archivo;
             Status = status;
             _firmas = new List<Firma>();
+            _pagos = new List<Pago>();
         }
 
         public DateOnly FechaDesde { get; private set; }
@@ -31,9 +33,14 @@
         public IReadOnlyCollection<Firma> Firmas => _firmas;
         public IReadOnlyCollection<Pago> Pagos { get; private set; } = new List<Pago>();
 
-        public void AddFirmas(List<Firma> firmas)
+        public void AddFirmas(IEnumerable<Firma> firmas)
         {
             _firmas.AddRange(firmas);
+        }
+
+        public void AddPagos(IEnumerable<Pago> pagos)
+        {
+            _pagos.AddRange(pagos);
         }
     }
 }

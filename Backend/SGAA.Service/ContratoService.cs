@@ -1,7 +1,6 @@
 ﻿namespace SGAA.Service
 {
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.Extensions.Configuration;
     using SGAA.Documents.Contracts;
     using SGAA.Documents.DocumentModels;
     using SGAA.Domain.Auth;
@@ -21,6 +20,7 @@
     public class ContratoService : IContratoService
     {
         private readonly ISGAAConfiguration _configuration;
+        private readonly IPagoService _pagoService;
         private readonly IContratoRepository _contratoRepository;
         private readonly IPostulacionRepository _postulacionRepository;
         private readonly IContratoMapper _contratoMapper;
@@ -30,12 +30,13 @@
         private readonly IFirmaPendienteEmailSender _firmaPendienteEmailSender;
         private readonly IContratoEjecutadoEmailSender _contratoEjecutadoEmailSender;
 
-        public ContratoService(ISGAAConfiguration configuration, IContratoRepository contratoRepository, IPostulacionRepository postulacionRepository,
-            IContratoMapper contratoMapper, UserManager<Usuario> userManager, IContratoDocumentHandler contratoDocumentHandler,
-            IUsuarioInvitadoEmailSender usuarioInvitadoEmailSender, IFirmaPendienteEmailSender firmaPendienteEmailSender,
-            IContratoEjecutadoEmailSender contratoEjecutadoEmailSender)
+        public ContratoService(ISGAAConfiguration configuration, IPagoService pagoService, IContratoRepository contratoRepository,
+            IPostulacionRepository postulacionRepository, IContratoMapper contratoMapper, UserManager<Usuario> userManager,
+            IContratoDocumentHandler contratoDocumentHandler, IUsuarioInvitadoEmailSender usuarioInvitadoEmailSender,
+            IFirmaPendienteEmailSender firmaPendienteEmailSender, IContratoEjecutadoEmailSender contratoEjecutadoEmailSender)
         {
             _configuration = configuration;
+            _pagoService = pagoService;
             _contratoRepository = contratoRepository;
             _postulacionRepository = postulacionRepository;
             _contratoMapper = contratoMapper;
@@ -190,6 +191,7 @@
             }
             contrato = await _contratoRepository.UpdateContrato(contrato);
             if (contrato.Status == ContratoStatus.Ejecutado)
+            {
                 foreach (var firma in contrato.Firmas)
                 {
                     Usuario firmaUsuario = firma.Usuario;
@@ -201,6 +203,9 @@
                                     Apellido = firmaUsuario.Apellido
                                 });
                 }
+                await _pagoService.CreatePagosContrato(contrato.Id);
+            }
+
             return _contratoMapper.ToGetModel(contrato);
         }
     }
