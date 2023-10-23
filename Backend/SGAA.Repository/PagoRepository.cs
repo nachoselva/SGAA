@@ -50,5 +50,12 @@
             await _dbContext.SaveChangesAsync();
             return entityEntry.Entity;
         }
+
+        public async Task<IReadOnlyCollection<Pago>> AddPagos(IEnumerable<Pago> pagos)
+        {
+            await _dbContext.Pagos.AddRangeAsync(pagos);
+            await _dbContext.SaveChangesAsync();
+            return pagos.ToList();
+        }
     }
 }

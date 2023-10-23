@@ -229,9 +229,15 @@
             return await CreateContratoInternal(postulacion, orderRenovacion, fechaDesde, model.FechaHasta, model.MontoAlquiler);
         }
 
-        public Task<ContratoGetModel> CancelarContrato(int contratoId)
+        public async Task<ContratoGetModel> CancelarContrato(int contratoId, CancelarContratoPutModel model)
         {
-            throw new NotImplementedException();
+            Contrato currentContrato = await _contratoRepository.GetContrato(contratoId)
+                ?? throw new NotFoundException();
+            if (currentContrato.Status != ContratoStatus.Ejecutado)
+                throw new BadRequestException(nameof(currentContrato.Status), "El contrato no se encuentra en estado para ser cancelar");
+            currentContrato = model.ToEntity(_contratoMapper, currentContrato);
+            currentContrato = await _contratoRepository.UpdateContrato(currentContrato);
+            return currentContrato.MapToGetModel(_contratoMapper);
         }
     }
 }

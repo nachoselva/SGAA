@@ -13,6 +13,6 @@
         Task<ContratoGetModel> CreateContrato(int postulacionId, DateOnly fechaDesde, DateOnly fechaHasta);
         Task<ContratoGetModel> FirmarContrato(int usuarioId, int contratoId, string direccionIp);
         Task<ContratoGetModel> RenovarContrato(int contratoId, RenovarContratoPostModel model);
-        Task<ContratoGetModel> CancelarContrato(int contratoId);
+        Task<ContratoGetModel> CancelarContrato(int contratoId, CancelarContratoPutModel model);
     }
 }

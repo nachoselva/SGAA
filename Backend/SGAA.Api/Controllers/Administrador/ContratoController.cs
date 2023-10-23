@@ -35,7 +35,7 @@ namespace SGAA.Api.Controllers.Administrador
 
         [HttpPut]
         [Route("{contratoId}/cancelar")]
-        public Task<ContratoGetModel> CancelarContrato([FromRoute] int contratoId)
-            => _contratoService.CancelarContrato(contratoId);
+        public Task<ContratoGetModel> CancelarContrato([FromRoute] int contratoId, [FromBody] CancelarContratoPutModel model)
+            => _contratoService.CancelarContrato(contratoId, model);
     }
 }

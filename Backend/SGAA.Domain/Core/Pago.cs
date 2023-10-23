@@ -15,7 +15,7 @@
             Archivo = archivo;
         }
 
-        public int ContratoId { get; private set; }
+        public int ContratoId { get; set; }
         public string Descripcion { get; private set; }
         public decimal Monto { get; private set; }
         public DateOnly FechaVencimiento { get; private set; }
@@ -23,6 +23,6 @@
         public DateTime? FechaPago { get; set; }
         public byte[]? Archivo { get; set; }
 
-        public Contrato Contrato { get; private set; } = default!;
+        public Contrato Contrato { get; set; } = default!;
     }
 }
