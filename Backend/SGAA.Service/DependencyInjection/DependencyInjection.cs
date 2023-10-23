@@ -15,6 +15,7 @@
                 .AddScoped<IPublicacionService, PublicacionService>()
                 .AddScoped<IPostulacionService, PostulacionService>()
                 .AddScoped<IAplicacionService, AplicacionService>()
-                .AddScoped<IContratoService, ContratoService>();
+                .AddScoped<IContratoService, ContratoService>()
+                .AddScoped<IPagoService, PagoService>();
     }
 }

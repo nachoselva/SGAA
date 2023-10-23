@@ -34,12 +34,6 @@
                 .HasForeignKey(postulacion => postulacion.AplicacionId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
-            builder
-                .HasOne(postulacion => postulacion.Contrato)
-                .WithOne(contrato => contrato.Postulacion)
-                .HasPrincipalKey<Contrato>(contrato => contrato.Id)
-                .HasForeignKey<Postulacion>(postulacion => postulacion.ContratoId)
-                .IsRequired(false);
 
             builder.ToTable(nameof(Postulacion), tableBuilder =>
                 tableBuilder

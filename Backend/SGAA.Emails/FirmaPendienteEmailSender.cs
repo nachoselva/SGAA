@@ -11,7 +11,7 @@
         {
         }
 
-        public override string Subject => "Oferta enviada";
+        public override string Subject => "Firma de contrato pendiente";
         public override string TemplateName => "FirmaPendienteEmailTemplate";
     }
 }

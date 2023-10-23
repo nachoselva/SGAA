@@ -11,7 +11,7 @@
         {
         }
 
-        public override string Subject => "Oferta enviada";
+        public override string Subject => "Contrato ejecutado";
         public override string TemplateName => "ContratoEjecutadoEmailTemplate";
     }
 }

@@ -62,7 +62,7 @@ namespace SGAA.Api.Controllers
         [HttpPost]
         [Route("forgot-password")]
         [AllowAnonymous]
-        public async Task<ActionResult<UsuarioGetModel>> ForgotPassword([FromBody] ResetPasswordPostModel model)
+        public async Task<ActionResult<UsuarioGetModel>> ForgotPassword([FromBody] ForgotPasswordPostModel model)
         {
             await _usuarioService.ForgotPassword(model);
             return Ok();

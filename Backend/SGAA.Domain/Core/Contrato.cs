@@ -8,8 +8,9 @@
         private readonly List<Firma> _firmas;
         private readonly List<Pago> _pagos;
 
-        public Contrato(DateOnly fechaDesde, DateOnly fechaHasta, DateOnly? fechaCancelacion, decimal montoAlquiler, int ordenRenovacion, byte[] archivo, ContratoStatus status)
+        public Contrato(int postulacionId, DateOnly fechaDesde, DateOnly fechaHasta, DateOnly? fechaCancelacion, decimal montoAlquiler, int ordenRenovacion, byte[] archivo, ContratoStatus status)
         {
+            PostulacionId = postulacionId;
             FechaDesde = fechaDesde;
             FechaHasta = fechaHasta;
             FechaCancelacion = fechaCancelacion;
@@ -21,6 +22,7 @@
             _pagos = new List<Pago>();
         }
 
+        public int PostulacionId { get; private set; }
         public DateOnly FechaDesde { get; private set; }
         public DateOnly FechaHasta { get; private set; }
         public DateOnly? FechaCancelacion { get; private set; }

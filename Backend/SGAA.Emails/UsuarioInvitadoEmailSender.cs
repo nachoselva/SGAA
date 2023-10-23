@@ -11,7 +11,7 @@
         {
         }
 
-        public override string Subject => "Oferta enviada";
+        public override string Subject => "Invitación";
         public override string TemplateName => "UsuarioInvitadoEmailTemplate";
     }
 }

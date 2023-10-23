@@ -39,6 +39,14 @@
                 .HasConversion<string>()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
 
+            builder
+                .HasOne(contrato => contrato.Postulacion)
+                .WithMany(postulacion => postulacion.Contratos)
+                .HasPrincipalKey(postulacion => postulacion.Id)
+                .HasForeignKey(contrato => contrato.PostulacionId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.ToTable(nameof(Contrato), tableBuilder =>
                 tableBuilder
                 .HasCheckConstraintWithEnum(contrato => contrato.Status));

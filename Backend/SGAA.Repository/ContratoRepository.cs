@@ -23,7 +23,14 @@
                 .ThenInclude(pu => pu.Unidad)
                 .ThenInclude(u => u.Propiedad)
                 .ThenInclude(p => p.Ciudad)
-                .ThenInclude(ci => ci.Provincia);
+                .ThenInclude(ci => ci.Provincia)
+                .Include(c => c.Postulacion)
+                .ThenInclude(p => p.Aplicacion)
+                .ThenInclude(a => a.Postulantes)
+                .Include(c => c.Postulacion)
+                .ThenInclude(p => p.Publicacion)
+                .ThenInclude(pu => pu.Unidad)
+                .ThenInclude(u => u.Titulares);
 
         public async Task<IReadOnlyCollection<Contrato>> GetContratos()
         {
