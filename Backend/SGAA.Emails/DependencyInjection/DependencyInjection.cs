@@ -24,6 +24,7 @@
                .AddScoped<IUsuarioInvitadoEmailSender, UsuarioInvitadoEmailSender>()
                .AddScoped<IResetPasswordEmailSender, ResetPasswordEmailSender>()
                .AddScoped<IFirmaPendienteEmailSender, FirmaPendienteEmailSender>()
-               .AddScoped<IContratoEjecutadoEmailSender, ContratoEjecutadoEmailSender>();
+               .AddScoped<IContratoEjecutadoEmailSender, ContratoEjecutadoEmailSender>()
+               .AddScoped<IContratoCanceladoEmailSender, ContratoCanceladoEmailSender>();
     }
 }
