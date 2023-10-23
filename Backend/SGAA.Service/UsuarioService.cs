@@ -311,7 +311,7 @@
             return usuario.MapToGetModel(_usuarioMapper);
         }
 
-        public async Task ForgotPassword(ResetPasswordPostModel model)
+        public async Task ForgotPassword(ForgotPasswordPostModel model)
         {
             Usuario? usuario = await FindByNameAsync(model.Email);
             if (usuario != null)

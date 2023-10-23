@@ -11,7 +11,7 @@
         {
         }
 
-        public override string Subject => "Oferta enviada";
+        public override string Subject => "Reseteo de contraseña";
         public override string TemplateName => "ResetPasswordEmailTemplate";
     }
 }

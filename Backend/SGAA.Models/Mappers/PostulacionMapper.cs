@@ -5,7 +5,7 @@
     public class PostulacionMapper : IPostulacionMapper
     {
         public Postulacion ToEntity(PostulacionPostModel postModel)
-        => new(postModel.PublicacionId, postModel.AplicacionId!.Value, null, PostulacionStatus.Postulada, null);
+        => new(postModel.PublicacionId, postModel.AplicacionId!.Value, PostulacionStatus.Postulada, null);
 
         public Postulacion ToEntity(RechazarOfertaPostulacionPutModel putModel, Postulacion entity)
         {
@@ -55,7 +55,6 @@
         {
             PublicacionId = entity.PublicacionId,
             AplicacionId = entity.AplicacionId,
-            ContratoId = entity.ContratoId,
             Status = entity.Status,
             FechaOferta = entity.FechaOferta,
             MontoAlquiler = entity.Publicacion.MontoAlquiler,

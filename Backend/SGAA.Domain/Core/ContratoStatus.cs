@@ -3,6 +3,8 @@
     public enum ContratoStatus
     {
         FirmaPendiente,
-        Ejecutado
+        Ejecutado,
+        Renovado,
+        Cancelado
     }
 }

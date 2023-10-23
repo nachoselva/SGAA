@@ -11,7 +11,7 @@
         {
         }
 
-        public override string Subject => "Documentación de aplicacion rechazada";
+        public override string Subject => "Documentación de aplicación rechazada";
         public override string TemplateName => "RechazarAplicacionEmailTemplate";
     }
 }

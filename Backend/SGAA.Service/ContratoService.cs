@@ -84,7 +84,7 @@
                         );
         }
 
-        public async Task<ContratoGetModel> CreateContrato(int postulacionId, DateOnly fechaDesde, DateOnly fechaHasta)
+        private async Task<ContratoGetModel> CreateContratoInternal(Postulacion postulacion, int orderRenovacion, DateOnly fechaDesde, DateOnly fechaHasta, decimal montoAlquiler)
         {
             async Task<Firma> BuildFirma(Persona postulante, FirmaRol rol)
             {
@@ -113,7 +113,6 @@
                 return firma;
             }
 
-            Postulacion postulacion = (await _postulacionRepository.GetPostulacion(postulacionId))!;
             List<Firma> firmas = new();
             foreach (var postulante in postulacion.Aplicacion.Postulantes)
             {
@@ -123,7 +122,7 @@
             {
                 firmas.Add(await BuildFirma(titular, FirmaRol.Propietario));
             }
-            Contrato contrato = new(fechaDesde, fechaHasta, null, postulacion.Publicacion.MontoAlquiler, 0, Array.Empty<byte>(), ContratoStatus.FirmaPendiente);
+            Contrato contrato = new(postulacion.Id, fechaDesde, fechaHasta, null, montoAlquiler, orderRenovacion, Array.Empty<byte>(), ContratoStatus.FirmaPendiente);
             contrato.AddFirmas(firmas);
             contrato.Postulacion = postulacion;
             contrato.Archivo = GetArchivoContrato(contrato);
@@ -143,7 +142,12 @@
             }
 
             return _contratoMapper.ToGetModel(contrato);
+        }
 
+        public async Task<ContratoGetModel> CreateContrato(int postulacionId, DateOnly fechaDesde, DateOnly fechaHasta)
+        {
+            Postulacion postulacion = (await _postulacionRepository.GetPostulacion(postulacionId))!;
+            return await CreateContratoInternal(postulacion, 1, fechaDesde, fechaHasta, postulacion.Publicacion.MontoAlquiler);
         }
 
         public async Task<ContratoGetModel> GetContrato(int usuarioId, int contratoId)
@@ -207,6 +211,27 @@
             }
 
             return _contratoMapper.ToGetModel(contrato);
+        }
+
+        public async Task<ContratoGetModel> RenovarContrato(int contratoId, RenovarContratoPostModel model)
+        {
+            Contrato currentContrato = await _contratoRepository.GetContrato(contratoId)
+                ?? throw new NotFoundException();
+            if (currentContrato.Status != ContratoStatus.Ejecutado)
+                throw new BadRequestException(nameof(currentContrato.Status), "El contrato no se encuentra en estado para ser renovado");
+            DateOnly fechaDesde = currentContrato.FechaHasta.AddDays(1);
+            if (fechaDesde >= model.FechaHasta)
+                throw new BadRequestException(nameof(model.FechaHasta), "Fecha hasta desde ser posterior a fecha desde");
+            int orderRenovacion = currentContrato.OrdenRenovacion + 1;
+            Postulacion postulacion = currentContrato.Postulacion;
+            currentContrato.Status = ContratoStatus.Renovado;
+            await _contratoRepository.UpdateContrato(currentContrato);
+            return await CreateContratoInternal(postulacion, orderRenovacion, fechaDesde, model.FechaHasta, model.MontoAlquiler);
+        }
+
+        public Task<ContratoGetModel> CancelarContrato(int contratoId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
