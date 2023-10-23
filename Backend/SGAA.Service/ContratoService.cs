@@ -14,6 +14,7 @@
     using SGAA.Service.Contracts;
     using SGAA.Utils.Configuration;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using System.Threading.Tasks;
     using System.Web;
 
@@ -29,11 +30,13 @@
         private readonly IUsuarioInvitadoEmailSender _usuarioInvitadoEmailSender;
         private readonly IFirmaPendienteEmailSender _firmaPendienteEmailSender;
         private readonly IContratoEjecutadoEmailSender _contratoEjecutadoEmailSender;
+        private readonly IContratoCanceladoEmailSender _contratoCanceladoEmailSender;
 
         public ContratoService(ISGAAConfiguration configuration, IPagoService pagoService, IContratoRepository contratoRepository,
             IPostulacionRepository postulacionRepository, IContratoMapper contratoMapper, UserManager<Usuario> userManager,
             IContratoDocumentHandler contratoDocumentHandler, IUsuarioInvitadoEmailSender usuarioInvitadoEmailSender,
-            IFirmaPendienteEmailSender firmaPendienteEmailSender, IContratoEjecutadoEmailSender contratoEjecutadoEmailSender)
+            IFirmaPendienteEmailSender firmaPendienteEmailSender, IContratoEjecutadoEmailSender contratoEjecutadoEmailSender,
+            IContratoCanceladoEmailSender contratoCanceladoEmailSender)
         {
             _configuration = configuration;
             _pagoService = pagoService;
@@ -45,6 +48,7 @@
             _usuarioInvitadoEmailSender = usuarioInvitadoEmailSender;
             _firmaPendienteEmailSender = firmaPendienteEmailSender;
             _contratoEjecutadoEmailSender = contratoEjecutadoEmailSender;
+            _contratoCanceladoEmailSender = contratoCanceladoEmailSender;
         }
 
         private byte[] GetArchivoContrato(Contrato contrato)
@@ -237,6 +241,20 @@
                 throw new BadRequestException(nameof(currentContrato.Status), "El contrato no se encuentra en estado para ser cancelar");
             currentContrato = model.ToEntity(_contratoMapper, currentContrato);
             currentContrato = await _contratoRepository.UpdateContrato(currentContrato);
+
+            foreach (var firma in currentContrato.Firmas)
+            {
+                Usuario firmaUsuario = firma.Usuario;
+                await _contratoCanceladoEmailSender.SendEmail(firmaUsuario.Email!,
+                            new ContratoCanceladoEmailModel
+                            {
+                                Domicilio = currentContrato.Postulacion.Publicacion.Unidad.DomicilioCompleto,
+                                Nombre = firmaUsuario.Nombre,
+                                Apellido = firmaUsuario.Apellido,
+                                FechaCancelacion = currentContrato.FechaCancelacion!.Value.ToShortDateString()
+                            });
+            }
+
             return currentContrato.MapToGetModel(_contratoMapper);
         }
     }
