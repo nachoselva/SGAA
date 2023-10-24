@@ -93,6 +93,19 @@
             return aplicacion;
         }
 
+        private static decimal CalculatePuntuacionTotal(Aplicacion aplicacion, decimal iclIndice)
+        {
+            decimal montoGarantia = aplicacion.Garantias.Sum(g => g.Monto);
+            decimal montoIngresos = aplicacion.Postulantes.Sum(g => g.IngresoMensual);
+            decimal indiceHistorialBancario = aplicacion.Postulantes.Average(p => (decimal)p.PuntuacionCrediticia!.Value);
+            decimal indiceAntecedentesPenales = aplicacion.Postulantes.Average(p => (decimal)p.PuntuacionCrediticia!.Value);
+            return
+                (indiceHistorialBancario / 1000)
+                * (indiceAntecedentesPenales / 1000)
+                * (2 * montoGarantia * 10e-3m + 6 * montoGarantia * 10e-4m)
+                / iclIndice;
+        }
+
         public async Task<AplicacionGetModel> GetActiveAplicacion(int inquilinoUsuarioId)
         {
             IReadOnlyCollection<Aplicacion> aplicaciones = await _aplicacionRepository
@@ -163,8 +176,20 @@
             Aplicacion? aplicacion = await _aplicacionRepository.GetAplicacion(aplicacionId) ?? throw new NotFoundException();
             if (aplicacion.Status != AplicacionStatus.AprobacionPendiente)
                 throw new BadRequestException("Aplicacion", "La aplicación no se encuentra en estado para aprobar");
-
+            if (!aplicacion.Postulantes.All(po => model.Puntuaciones.Count(pu => pu.PostulanteId == po.Id) == 1))
+                throw new BadRequestException(nameof(model.Puntuaciones), "Los ids de las puntuaciones no coincide con los postulantes");
+            if (!model.Puntuaciones.All(pu => pu.PuntuacionCrediticia >= 0 && pu.PuntuacionCrediticia <= 1000))
+                throw new BadRequestException(nameof(PostulanteCalificacionModel.PuntuacionCrediticia), "La puntuación crediticia debe estar entre 0 y 1000");
+            if (!model.Puntuaciones.All(pu => pu.PuntuacionPenal >= 0 && pu.PuntuacionPenal <= 1000))
+                throw new BadRequestException(nameof(PostulanteCalificacionModel.PuntuacionPenal), "La puntuación penal debe estar entre 0 y 1000");
+            DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+            IndiceValor indiceValor = await _aplicacionRepository.GetIcl(today) 
+                ?? throw new BadRequestException("ICL", "No hay indice de contratos de alquiler registrados");
+            decimal icl = indiceValor.Valor;
+            if(icl <= 0)
+                throw new BadRequestException("ICL", "Indice de contratos de alquiler no puede ser negativo");
             aplicacion = model.ToEntity(_aplicacionMapper, aplicacion);
+            aplicacion.PuntuacionTotal = CalculatePuntuacionTotal(aplicacion, icl);
             aplicacion = await _aplicacionRepository.UpdateAplicacion(aplicacion);
             Usuario inquilinoUsuario = aplicacion.InquilinoUsuario;
 

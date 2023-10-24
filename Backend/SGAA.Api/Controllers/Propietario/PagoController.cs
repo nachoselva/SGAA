@@ -5,7 +5,6 @@
     using SGAA.Api.Middleware;
     using SGAA.Api.Providers;
     using SGAA.Domain.Auth;
-    using SGAA.Domain.Core;
     using SGAA.Models;
     using SGAA.Service.Contracts;
 

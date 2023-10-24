@@ -25,6 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="JsonSeeds\icl.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="JsonSeeds\ciudades.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

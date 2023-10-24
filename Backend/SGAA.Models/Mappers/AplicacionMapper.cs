@@ -50,7 +50,7 @@
             Encoding.ASCII.GetBytes(postModel.FrenteIdentificacionArchivo),
             Encoding.ASCII.GetBytes(postModel.DorsoIdentificacionArchivo),
             postModel.AplicacionId ?? 0, postModel.FechaEmpleadoDesde, postModel.NombreEmpresa, postModel.IngresoMensual,
-            Encoding.ASCII.GetBytes(postModel.ReciboDeSueldoArchivo));
+            Encoding.ASCII.GetBytes(postModel.ReciboDeSueldoArchivo), null, null);
         public Postulante ToEntity(PostulanteModel putModel, Postulante entity)
         {
             entity.Nombre = putModel.Nombre;
@@ -105,6 +105,12 @@
         public Aplicacion ToEntity(AprobarAplicacionPutModel putModel, Aplicacion entity)
         {
             entity.Status = AplicacionStatus.Aprobada;
+            foreach (var postulante in entity.Postulantes)
+            {
+                PostulanteCalificacionModel puntuacion = putModel.Puntuaciones.First(p => p.PostulanteId == postulante.Id);
+                postulante.PuntuacionCrediticia = puntuacion.PuntuacionCrediticia;
+                postulante.PuntuacionPenal = puntuacion.PuntuacionPenal;
+            }
             return entity;
         }
     }

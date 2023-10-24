@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SGAA.Repository.Contexts;
 
@@ -11,9 +12,11 @@ using SGAA.Repository.Contexts;
 namespace SGAA.Repository.Migrations
 {
     [DbContext(typeof(SGAADbContext))]
-    partial class SGAADbContextModelSnapshot : ModelSnapshot
+    [Migration("20231024032952_Indice_Valor")]
+    partial class Indice_Valor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -13207,9 +13210,9 @@ namespace SGAA.Repository.Migrations
                     b.HasIndex(new[] { "Nombre" }, "IX_Indices_Nombre")
                         .IsUnique();
 
-                    b.ToTable("Indice", null, t =>
+                    b.ToTable("Indices", t =>
                         {
-                            t.HasCheckConstraint("CHK_Indice_Nombre", "[Nombre] IN ('ICL')");
+                            t.HasCheckConstraint("CHK_Indices_Nombre", "[Nombre] IN ('ICL')");
                         });
 
                     b.HasData(
@@ -14507,7 +14510,7 @@ namespace SGAA.Repository.Migrations
 
                             b1.HasKey("IndiceId");
 
-                            b1.ToTable("Indice");
+                            b1.ToTable("Indices");
 
                             b1.WithOwner()
                                 .HasForeignKey("IndiceId");

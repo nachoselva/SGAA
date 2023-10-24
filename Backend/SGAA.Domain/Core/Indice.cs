@@ -5,8 +5,9 @@
 
     public class Indice : BaseEntity, IEntity
     {
-        public Indice(IndiceTipo nombre)
+        public Indice(int id, IndiceTipo nombre)
         {
+            Id = id;
             Nombre = nombre;
         }
 
