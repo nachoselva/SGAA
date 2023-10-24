@@ -2,6 +2,7 @@
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    using SGAA.Domain.Auth;
     using SGAA.Domain.Core;
     using SGAA.Repository.Configuration.Base;
     using SGAA.Repository.Extensions;
@@ -18,7 +19,9 @@
                 .IsRequired()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
 
-            builder.ToTable(tableBuilder =>
+            builder.HasDataFromEnum(p => p.Nombre, enumItem => new Indice(1, enumItem.Option));
+
+            builder.ToTable(nameof(Indice), tableBuilder =>
                 tableBuilder
                 .HasCheckConstraintWithEnum(indice => indice.Nombre)
             );

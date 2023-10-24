@@ -31,6 +31,8 @@
         public DbSet<Postulante> Postulantes { get; set; }
         public DbSet<Contrato> Contratos { get; set; }
         public DbSet<Pago> Pagos { get; set; }
+        public DbSet<Indice> Indices { get; set; }
+        public DbSet<IndiceValor> Valores { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

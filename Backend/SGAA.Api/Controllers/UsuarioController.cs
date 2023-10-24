@@ -7,6 +7,7 @@ namespace SGAA.Api.Controllers
     using SGAA.Domain.Errors;
     using SGAA.Models;
     using SGAA.Service.Contracts;
+
     [ApiController]
     [Route("[controller]")]
     [Authorize]

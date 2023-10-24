@@ -4,7 +4,6 @@ namespace SGAA.Api.Controllers.Administrador
     using Microsoft.AspNetCore.Mvc;
     using SGAA.Api.Middleware;
     using SGAA.Domain.Auth;
-    using SGAA.Domain.Errors;
     using SGAA.Models;
     using SGAA.Service.Contracts;
 
