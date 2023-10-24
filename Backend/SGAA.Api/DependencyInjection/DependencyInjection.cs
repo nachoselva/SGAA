@@ -86,8 +86,9 @@
                 };
             });
             services.AddHttpContextAccessor();
-            services.AddTransient<IUsuarioProvider, UsuarioProvider>();
-            services.AddTransient<ExceptionMiddleware>();
+            services.AddScoped<ExceptionMiddleware>();
+            services.AddScoped<TransactionMiddleware>();
+            services.AddScoped<IUsuarioProvider, UsuarioProvider>();
             services.AddSingleton<ISGAAConfiguration, SGAAConfiguration>();
             services.AddIdentityCore<Usuario>(
                 options =>

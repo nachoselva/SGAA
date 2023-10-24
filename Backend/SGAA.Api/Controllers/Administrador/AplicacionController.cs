@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using SGAA.Api.Middleware;
     using SGAA.Domain.Auth;
     using SGAA.Models;
     using SGAA.Service.Contracts;
@@ -29,11 +30,13 @@
 
         [HttpPut]
         [Route("{aplicacionId}/aprobar")]
+        [Transactional]
         public async Task<ActionResult<AplicacionGetModel>> AprobarAplicacion([FromRoute] int aplicacionId, [FromBody] AprobarAplicacionPutModel model)
             => await _aplicacionService.AprobarAplicacion(aplicacionId, model);
 
         [HttpPut]
         [Route("{aplicacionId}/rechazar")]
+        [Transactional]
         public async Task<ActionResult<AplicacionGetModel>> RechazarAplicacion([FromRoute] int aplicacionId, [FromBody] RechazarAplicacionPutModel model)
             => await _aplicacionService.RechazarAplicacion(aplicacionId, model);
     }

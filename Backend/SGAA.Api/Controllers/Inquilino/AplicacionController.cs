@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using SGAA.Api.Middleware;
     using SGAA.Api.Providers;
     using SGAA.Domain.Auth;
     using SGAA.Models;
@@ -35,6 +36,7 @@
         }
 
         [HttpPost]
+        [Transactional]
         public async Task<AplicacionGetModel> AddAplicacion([FromBody] AplicacionPostModel model)
         {
             model.InquilinoUsuarioId = (await _usuarioProvider.GetUser())!.Id;
@@ -43,6 +45,7 @@
         }
 
         [HttpPut]
+        [Transactional]
         public async Task<AplicacionGetModel> UpdateAplicacion([FromBody] AplicacionPutModel model)
         {
             model.InquilinoUsuarioId = (await _usuarioProvider.GetUser())!.Id;

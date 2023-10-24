@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using SGAA.Api.Middleware;
     using SGAA.Api.Providers;
     using SGAA.Domain.Auth;
     using SGAA.Domain.Core;
@@ -38,6 +39,7 @@
 
         [HttpPut]
         [Route("{pagoId}/abonar")]
+        [Transactional]
         public async Task<ActionResult<PagoGetModel>> AbonarPago([FromRoute] int pagoId, AbonarPagoPutModel model)
         {
             model.InquilinoUsuarioId = (await _usuarioProvider.GetUser())!.Id;
