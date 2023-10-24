@@ -2,6 +2,7 @@ namespace SGAA.Api.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using SGAA.Api.Middleware;
     using SGAA.Api.Providers;
     using SGAA.Models;
     using SGAA.Service.Contracts;
@@ -37,6 +38,7 @@ namespace SGAA.Api.Controllers
 
         [HttpPut]
         [Route("{contratoId}/firmar")]
+        [Transactional]
         public async Task<ContratoGetModel> FirmarContrato([FromRoute] int contratoId)
         {
             string direccionIP = _usuarioProvider.GetDireccionIp();
