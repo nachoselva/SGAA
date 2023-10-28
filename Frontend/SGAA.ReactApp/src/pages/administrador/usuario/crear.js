@@ -1,15 +1,16 @@
-import { useCallback, useMemo, useState } from 'react';
-import Head from 'next/head';
-import { subDays, subHours } from 'date-fns';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
+import { subDays, subHours } from 'date-fns';
+import Head from 'next/head';
+import { useCallback, useMemo, useState } from 'react';
 import { useSelection } from '/src/hooks/use-selection';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
-import { CustomersTable } from '/src/sections/customer/customers-table';
 import { CustomersSearch } from '/src/sections/customer/customers-search';
+import { CustomersTable } from '/src/sections/customer/customers-table';
 import { applyPagination } from '/src/utils/apply-pagination';
+import { AuthGuard } from '/src/guards/auth-guard';
 
 const now = new Date();
 
@@ -196,7 +197,7 @@ const Page = () => {
   );
 
   return (
-    <>
+    <AuthGuard roles={['Administrador']}>
       <Head>
         <title>
           Customers | Devias Kit
@@ -277,7 +278,7 @@ const Page = () => {
           </Stack>
         </Container>
       </Box>
-    </>
+    </AuthGuard>
   );
 };
 

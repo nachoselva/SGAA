@@ -161,5 +161,13 @@
 
             return postulacion.MapToGetModel(_postulacionMapper);
         }
+
+        public async Task<PostulacionGetModel> GetPublicacion(int inquilinoUsuarioId, int postulacionId)
+        {
+            Postulacion? postulacion = await _postulacionRepository.GetPostulacion(postulacionId);
+            if (postulacion == null || postulacion.Aplicacion.InquilinoUsuarioId != inquilinoUsuarioId)
+                throw new NotFoundException();
+            return postulacion.MapToGetModel(_postulacionMapper);
+        }
     }
 }

@@ -45,7 +45,9 @@
             Status = entity.Status,
             Codigo = entity.Codigo,
             InicioAlquiler = entity.InicioAlquiler,
-            MontoAlquiler = entity.MontoAlquiler
+            MontoAlquiler = entity.MontoAlquiler,
+            DomicilioCompleto = entity.Unidad.DomicilioCompleto,
+            Postulaciones = entity.Postulaciones?.Count
         };
     }
 }

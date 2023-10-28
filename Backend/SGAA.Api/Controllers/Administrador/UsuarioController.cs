@@ -20,7 +20,7 @@ namespace SGAA.Api.Controllers.Administrador
         }
 
         [HttpGet]
-        public async Task<IReadOnlyCollection<UsuarioGetModel>> GetUsuario()
+        public async Task<IReadOnlyCollection<UsuarioGetModel>> GetUsuarios()
             => await _usuarioService.GetUsuarios();
 
         [HttpGet]
