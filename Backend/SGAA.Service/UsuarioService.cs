@@ -5,13 +5,11 @@
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
     using SGAA.Domain.Auth;
-    using SGAA.Domain.Core;
     using SGAA.Domain.Errors;
     using SGAA.Emails.Contracts;
     using SGAA.Emails.EmailModels;
     using SGAA.Models;
     using SGAA.Models.Mappers;
-    using SGAA.Repository;
     using SGAA.Repository.Contracts;
     using SGAA.Service.Contracts;
     using SGAA.Utils.Configuration;
@@ -200,8 +198,9 @@
                     RefreshToken = refreshToken,
                     Expiration = token.ValidTo,
                     Email = member.Email!,
-                    FirstName = member.Nombre,
-                    LastName = member.Apellido
+                    Nombre = member.Nombre,
+                    Apellido = member.Apellido,
+                    Roles = userRoles
                 };
             }
             throw new UnauthorizedException();
@@ -252,9 +251,9 @@
                 await UpdateAsync(user);
             }
         }
-        public async Task<UsuarioGetModel> GetUsuario(int id)
+        public async Task<UsuarioGetModel> GetUsuario(int usuarioId)
         {
-            Usuario? usuario = await FindByIdAsync(id.ToString());
+            Usuario? usuario = await FindByIdAsync(usuarioId.ToString());
             return usuario == null ? throw new NotFoundException() : _usuarioMapper.ToGetModel(usuario);
         }
 

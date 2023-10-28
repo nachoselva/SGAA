@@ -19,12 +19,12 @@
         }
 
         [HttpGet]
-        [Route("{PublicacionId}")]
-        public async Task<PublicacionGetModel> GetPublicacion([FromRoute] int PublicacionId)
-            => await _publicacionService.GetPublicacion(PublicacionId);
+        [Route("{publicacionId}")]
+        public async Task<PublicacionGetModel> GetPublicacion([FromRoute] int publicacionId)
+            => await _publicacionService.GetPublicacion(publicacionId);
 
         [HttpGet]
-        public async Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicacionesAdmin()
+        public async Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicaciones()
             => await _publicacionService.GetPublicaciones();
     }
 }

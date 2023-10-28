@@ -24,7 +24,7 @@
 
         [HttpGet]
         [Route("{pagoId}")]
-        public async Task<PagoGetModel> GetPagos([FromRoute] int pagoId)
+        public async Task<PagoGetModel> GetPago([FromRoute] int pagoId)
             => await _pagoService.GetPagoByInquilino((await _usuarioProvider.GetUser())!.Id, pagoId);
 
         [HttpGet]

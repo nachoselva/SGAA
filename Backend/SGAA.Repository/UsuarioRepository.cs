@@ -14,9 +14,13 @@
             _dbContext = dbContext;
         }
 
+        private IQueryable<Usuario> UsuarioQuery()
+        => _dbContext.Users
+            .Include(u => u.UsuarioRoles)
+            .ThenInclude(u => u.Rol);
+
         public async Task<IReadOnlyCollection<Usuario>> GetUsuarios()
-        {
-            return await _dbContext.Users.ToListAsync();
-        }
+        => await UsuarioQuery()
+             .ToListAsync();
     }
 }

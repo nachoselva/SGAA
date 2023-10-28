@@ -7,6 +7,8 @@
     {
         public required int Id { get; set; }
         public required AplicacionStatus Status { get; set; }
+        public required int? Postulaciones { get; set; }
+        public required string InquilinoUsuarioNombreCompleto { get; set; }
 
         public ICollection<ComentarioModel> Comentarios { get; set; } = default!;
     }

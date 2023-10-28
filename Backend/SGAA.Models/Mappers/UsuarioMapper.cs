@@ -26,7 +26,8 @@
                 Id = entity.Id,
                 Email = entity.Email!,
                 Nombre = entity.Nombre,
-                Apellido = entity.Apellido
+                Apellido = entity.Apellido,
+                Roles = string.Join(',', entity.UsuarioRoles?.Select(ur => ur.Rol.Name) ?? Array.Empty<string>()) 
             };
         }
     }

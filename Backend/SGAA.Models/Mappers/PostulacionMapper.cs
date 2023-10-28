@@ -53,9 +53,11 @@
         public PostulacionGetModel ToGetModel(Postulacion entity)
         => new()
         {
+            Id = entity.Id,
             PublicacionId = entity.PublicacionId,
             AplicacionId = entity.AplicacionId,
             Status = entity.Status,
+            FechaPostulacion = entity.Audit.CreatedOn,
             FechaOferta = entity.FechaOferta,
             MontoAlquiler = entity.Publicacion.MontoAlquiler,
             DomicilioCompleto = entity.Publicacion.Unidad.DomicilioCompleto

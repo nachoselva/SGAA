@@ -1,93 +1,74 @@
-import ChartBarIcon from '@heroicons/react/24/solid/ChartBarIcon';
-import CogIcon from '@heroicons/react/24/solid/CogIcon';
-import LockClosedIcon from '@heroicons/react/24/solid/LockClosedIcon';
-import ShoppingBagIcon from '@heroicons/react/24/solid/ShoppingBagIcon';
-import UserIcon from '@heroicons/react/24/solid/UserIcon';
-import UserPlusIcon from '@heroicons/react/24/solid/UserPlusIcon';
-import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
-import XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
+import HomeModernIcon from '@heroicons/react/24/solid/HomeModernIcon';
+import HomeIcon from '@heroicons/react/24/solid/HomeIcon';
+import InboxStackIcon from '@heroicons/react/24/solid/InboxStackIcon';
+import NewsPaperIcon from '@heroicons/react/24/solid/NewsPaperIcon';
+import UserGroupIcon from '@heroicons/react/24/solid/UserGroupIcon';
 import { SvgIcon } from '@mui/material';
+import { useAuthContext } from '/src/contexts/auth-context';
 
-export const items = [
-  {
-    title: 'Overview',
-    path: '/',
-    icon: (
-      <SvgIcon fontSize="small">
-        <ChartBarIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Homes',
-    path: '/homes',
-    icon: (
-      <SvgIcon fontSize="small">
-        <ShoppingBagIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Customers',
-    path: '/customers',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UsersIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Companies',
-    path: '/companies',
-    icon: (
-      <SvgIcon fontSize="small">
-        <ShoppingBagIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Account',
-    path: '/account',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UserIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Settings',
-    path: '/settings',
-    icon: (
-      <SvgIcon fontSize="small">
-        <CogIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Login',
-    path: '/auth/login',
-    icon: (
-      <SvgIcon fontSize="small">
-        <LockClosedIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Register',
-    path: '/auth/register',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UserPlusIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Error',
-    path: '/404',
-    icon: (
-      <SvgIcon fontSize="small">
-        <XCircleIcon />
-      </SvgIcon>
-    )
+export const getMenuItems = () => {
+  const { isAuthenticated, user } = useAuthContext();
+  let items = [];
+  if (isAuthenticated) {
+    items.push(
+      {
+        title: 'Inicio',
+        path: '/',
+        icon: (
+          <SvgIcon fontSize="small">
+            <HomeIcon />
+          </SvgIcon>
+        )
+      });
+    if (user.roles.includes('Administrador')) {
+      items.push(
+        {
+          title: 'Unidades',
+          path: '/administrador/unidad',
+          icon: (
+            <SvgIcon fontSize="small">
+              <HomeModernIcon />
+            </SvgIcon>
+          )
+        },
+        {
+          title: 'Publicaciones',
+          path: '/administrador/publicacion',
+          icon: (
+            <SvgIcon fontSize="small">
+              <NewsPaperIcon />
+            </SvgIcon>
+          )
+        },
+        {
+          title: 'Aplicaciones',
+          path: '/administrador/aplicacion',
+          icon: (
+            <SvgIcon fontSize="small">
+              <InboxStackIcon />
+            </SvgIcon>
+          )
+        },
+        {
+          title: 'Postulaciones',
+          path: '/administrador/postulacion',
+          icon: (
+            <SvgIcon fontSize="small">
+              <NewsPaperIcon />
+            </SvgIcon>
+          )
+        },
+        {
+          title: 'Usuarios',
+          path: '/administrador/usuario',
+          icon: (
+            <SvgIcon fontSize="small">
+              <UserGroupIcon />
+            </SvgIcon>
+          )
+        });
+    }
   }
-];
+  return items;
+}
+  

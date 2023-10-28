@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { useAuthContext } from '/src/contexts/auth-context';
 
 export const AuthGuard = (props) => {
-  const { children } = props;
+  const { children, roles } = props;
   const router = useRouter();
-  const { isAuthenticated } = useAuthContext();
+  const { isAuthenticated, user } = useAuthContext();
   const ignore = useRef(false);
   const [checked, setChecked] = useState(false);
 
@@ -28,14 +28,32 @@ export const AuthGuard = (props) => {
       ignore.current = true;
 
       if (!isAuthenticated) {
-        console.log('Not authenticated, redirecting');
-        router
-          .replace({
-            pathname: '/auth/login',
-            query: router.asPath !== '/' ? { continueUrl: router.asPath } : undefined
-          })
+        if (router.asPath === '/') {
+          router
+            .replace({
+              pathname: '/auth/login',
+              query: router.asPath !== '/' ? { continueUrl: router.asPath } : undefined
+            })
+            .catch(console.error);
+        }
+        else {
+          router
+            .replace({
+              pathname: '/401'
+            })
           .catch(console.error);
+        }
       } else {
+        if (roles && roles.length > 0) {
+          const intersection = user.roles.filter(value => roles.includes(value));
+          if (intersection.length == 0) {
+            router
+              .replace({
+                pathname: '/403',
+              })
+              .catch(console.error);
+          }
+        }
         setChecked(true);
       }
     },
@@ -53,5 +71,6 @@ export const AuthGuard = (props) => {
 };
 
 AuthGuard.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  roles: PropTypes.arrayOf(PropTypes.string)
 };

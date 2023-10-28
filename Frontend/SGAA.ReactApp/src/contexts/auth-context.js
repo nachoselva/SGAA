@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { login } from '/src/api/login';
 
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -81,13 +82,8 @@ export const AuthProvider = (props) => {
     }
 
     if (isAuthenticated) {
-      const user = {
-        id: '5e86809283e28b96d2d38537',
-        avatar: '/assets/avatars/avatar-anika-visser.png',
-        name: 'Anika Visser',
-        email: 'anika.visser@devias.io'
-      };
-
+      const user = JSON.parse(window.sessionStorage.getItem('user'));
+      console.log(user);
       dispatch({
         type: HANDLERS.INITIALIZE,
         payload: user
@@ -107,63 +103,31 @@ export const AuthProvider = (props) => {
     []
   );
 
-  const skip = () => {
-    try {
-      window.sessionStorage.setItem('authenticated', 'true');
-    } catch (err) {
-      console.error(err);
-    }
-
-    const user = {
-      id: '5e86809283e28b96d2d38537',
-      avatar: '/assets/avatars/avatar-anika-visser.png',
-      name: 'Anika Visser',
-      email: 'anika.visser@devias.io'
-    };
-
-    dispatch({
-      type: HANDLERS.SIGN_IN,
-      payload: user
-    });
-  };
-
   const signIn = async (email, password) => {
+    const response = await login(email, password);
+    if (response.status == 200) {
+      const result = await response.json();
 
-    const requestOptions = {
-      method: 'POST',
-      mode: 'cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email, password: password })
-    };
-    fetch('https://localhost:44374/security/login', requestOptions)
-      .then(response => {
-        console.log(1);
-        return response.json();
-      })
-      .then(response => {
-        console.log(2);
-        console.log(response);
-        window.localStorage.setItem('jwt', response.accessToken);
-      })
-      .catch(err => console.log(err));
+      const user = {
+        id: result.id,
+        avatar: '/assets/avatars/avatar-anika-visser.png',
+        name: result.nombre + ' ' + result.apellido,
+        roles: result.roles,
+        email: result.email
+      };
 
-    try {
+      window.sessionStorage.setItem('jwt', result.accessToken);
       window.sessionStorage.setItem('authenticated', 'true');
-    } catch (err) {
-      console.error(err);
+      window.sessionStorage.setItem('user', JSON.stringify(user));
+
+      dispatch({
+        type: HANDLERS.SIGN_IN,
+        payload: user
+      });
     }
-
-    const user = {
-      id: '5e86809283e28b96d2d38537',
-      avatar: '/assets/avatars/avatar-anika-visser.png',
-      name: 'Anika Visser',
-      email: 'anika.visser@devias.io'
-    };
-
-    dispatch({
-      type: HANDLERS.SIGN_IN,
-      payload: user
-    });
+    else {
+      throw new Error('Usuario o contreña incorrecto');
+    }
   };
 
   const signUp = async (email, name, password) => {
@@ -180,7 +144,6 @@ export const AuthProvider = (props) => {
     <AuthContext.Provider
       value={{
         ...state,
-        skip,
         signIn,
         signUp,
         signOut

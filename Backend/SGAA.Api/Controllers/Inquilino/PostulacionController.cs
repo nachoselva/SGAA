@@ -35,8 +35,13 @@
             return postulacion;
         }
 
+        [HttpGet]
+        [Route("{postulacionId}")]
+        public async Task<PostulacionGetModel> GetPublicacion([FromRoute] int postulacionId)
+           => await _postulacionService.GetPublicacion((await _usuarioProvider.GetUser())!.Id, postulacionId);
+
         [HttpPut]
-        [Route("{postulacionId}/aceptar-oferta")]
+        [Route("{postulacionId}/Oferta/aceptar")]
         [Transactional]
         public async Task<PostulacionGetModel> AceptarOferta([FromRoute] int postulacionId, [FromBody] AceptarOfertaPostulacionPutModel model)
         {
@@ -46,7 +51,7 @@
         }
 
         [HttpPut]
-        [Route("{postulacionId}/rechazar-oferta")]
+        [Route("{postulacionId}/Oferta/rechazar")]
         [Transactional]
         public async Task<PostulacionGetModel> RechazarOferta([FromRoute] int postulacionId, [FromBody] RechazarOfertaPostulacionPutModel model)
         {
