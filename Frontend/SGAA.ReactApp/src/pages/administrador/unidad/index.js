@@ -1,47 +1,44 @@
 import { Box, Container, Stack, Typography } from '@mui/material';
 import Head from 'next/head';
-import { useCallback, useMemo, useState } from 'react';
-import { useSelection } from '/src/hooks/use-selection';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { getUnidades } from '/src/api/administrador';
+import { AuthGuard } from '/src/guards/auth-guard';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
 import { UnidadesSearch } from '/src/sections/unidad/unidad-search';
 import { UnidadesTable } from '/src/sections/unidad/unidad-table';
 import { applyPagination } from '/src/utils/apply-pagination';
-import { AuthGuard } from '/src/guards/auth-guard';
 
-const data = [
-  {
-    id: 2,
-    status: 'AprobacionPendiente',
-    provincia : 'Santa Fé',
-    ciudad: 'Rosario',
-    domicilioCompleto: 'Corrientes 1500 P1 D2'
-  }
-];
-
-const useUnidades = (page, rowsPerPage) => {
+const useUnidades = (filteredData, page, rowsPerPage) => {
   return useMemo(
     () => {
-      return applyPagination(data, page, rowsPerPage);
+      return applyPagination(filteredData, page, rowsPerPage);
     },
-    [page, rowsPerPage]
-  );
-};
-
-const useUnidadIds = (unidades) => {
-  return useMemo(
-    () => {
-      return unidades.map((unidad) => unidad.id);
-    },
-    [unidades]
+    [filteredData, page, rowsPerPage]
   );
 };
 
 const Page = () => {
+  const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const unidades = useUnidades(page, rowsPerPage);
-  const unidadesIds = useUnidadIds(unidades);
-  const unidadesSelection = useSelection(unidadesIds);
+  const [searchText, setSearchText] = useState('');
+  const lcSearchText = searchText.toLowerCase();
+  const filteredData = data.filter((item) =>
+    Object.values(item).some(
+      field => field.toString().toLowerCase().includes(lcSearchText)
+    )
+  );
+
+  const unidades = useUnidades(filteredData, page, rowsPerPage);
+
+  const handleSearchChange = useCallback(
+    (event) => {
+      console.log(event.target.value);
+      setSearchText(event.target.value);
+      setPage(0);
+    },
+    []
+  );
 
   const handlePageChange = useCallback(
     (event, value) => {
@@ -56,6 +53,13 @@ const Page = () => {
     },
     []
   );
+
+  useEffect(() => {
+    getUnidades()
+      .then((response) => {
+        setData(response);
+      });
+  }, []);
 
   return (
     <AuthGuard roles={['Administrador']}>
@@ -84,19 +88,14 @@ const Page = () => {
                 </Typography>
               </Stack>
             </Stack>
-            <UnidadesSearch />
+            <UnidadesSearch onSearchChange={handleSearchChange} />
             <UnidadesTable
-              count={data.length}
+              count={filteredData.length}
               items={unidades}
-              onDeselectAll={unidadesSelection.handleDeselectAll}
-              onDeselectOne={unidadesSelection.handleDeselectOne}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={unidadesSelection.handleSelectAll}
-              onSelectOne={unidadesSelection.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
-              selected={unidadesSelection.selected}
             />
           </Stack>
         </Container>

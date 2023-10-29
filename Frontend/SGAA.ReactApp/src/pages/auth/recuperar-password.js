@@ -4,7 +4,7 @@ import Head from 'next/head';
 import React, { useState } from 'react';
 import * as Yup from 'yup';
 import { Layout as AuthLayout } from '/src/layouts/auth/layout';
-import { recuperarPassword } from '/src/api/recuperar-password';
+import { recuperarPassword } from '/src/api/auth';
 
 const Page = () => {
   const [confirmation, setConfirmation] = useState(false);
@@ -21,20 +21,20 @@ const Page = () => {
         .max(255)
         .required('Email es obligatorio')
     }),
-    onSubmit: async (values, helpers) => {
-      const response = await recuperarPassword(values.email);
-
-      if (response.status == 200) {
+    onSubmit: (values, helpers) => {
+      recuperarPassword(values.email)
+      .then(() => {
         setConfirmation(true);
-      }
-      else if (response.status == 400) {
-        helpers.setStatus({ success: false });
-        helpers.setErrors(await response.json())
-        helpers.setSubmitting(false);
-      }
-      else {
-        throw new Error(response);
-      }
+      })
+      .catch((err) => {
+        if (err.statusCode == 400) {
+          helpers.setStatus({ success: false });
+          helpers.setErrors(err.body)
+          helpers.setSubmitting(false);
+        } else {
+          throw err;
+        }
+      });
     }
   });
 

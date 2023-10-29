@@ -4,18 +4,15 @@ import {
     Stack, TextField,
     Typography
 } from '@mui/material';
-import CircularProgress from '@mui/material/CircularProgress';
 import { useFormik } from 'formik';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import * as Yup from 'yup';
 import { useAuth } from '/src/hooks/use-auth';
 import { Layout as AuthLayout } from '/src/layouts/auth/layout';
 
 const Page = () => {
-  const router = useRouter();
   const auth = useAuth();
   const formik = useFormik({
     initialValues: {
@@ -34,16 +31,19 @@ const Page = () => {
         .max(255)
         .required('Password is required')
     }),
-    onSubmit: async (values, helpers) => {
-      try {
-        await auth.signIn(values.email, values.password);
-        router.push('/');
-      } catch (err) {
-        helpers.setStatus({ success: false });
-        helpers.setErrors({ submit: err.message });
-        helpers.setSubmitting(false);
-      }
-    }
+    onSubmit: (values, helpers) =>
+      auth.signIn(values.email, values.password)
+        .catch((err) => {
+          if (err.statusCode == 401) {
+            helpers.setStatus({ success: false });
+            helpers.setErrors({ submit: "Usuario o contraseña incorrectos" });
+            helpers.setSubmitting(false);
+            return;
+          }
+          else {
+            throw err;
+          }
+        })
   });
 
   return (

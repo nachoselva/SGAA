@@ -1,7 +1,7 @@
 import MagnifyingGlassIcon from '@heroicons/react/24/solid/MagnifyingGlassIcon';
 import { Card, InputAdornment, OutlinedInput, SvgIcon } from '@mui/material';
 
-export const UnidadesSearch = () => (
+export const UnidadesSearch = (props) => (
   <Card sx={{ p: 2 }}>
     <OutlinedInput
       defaultValue=""
@@ -18,6 +18,7 @@ export const UnidadesSearch = () => (
         </InputAdornment>
       )}
       sx={{ maxWidth: 500 }}
+      onChange={props.onSearchChange}
     />
   </Card>
 );
