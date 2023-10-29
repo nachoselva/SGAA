@@ -3,6 +3,8 @@ import HomeIcon from '@heroicons/react/24/solid/HomeIcon';
 import InboxStackIcon from '@heroicons/react/24/solid/InboxStackIcon';
 import NewsPaperIcon from '@heroicons/react/24/solid/NewsPaperIcon';
 import UserGroupIcon from '@heroicons/react/24/solid/UserGroupIcon';
+import DocumentTextIcon from '@heroicons/react/24/solid/DocumentTextIcon';
+import BriefcaseIcon from '@heroicons/react/24/solid/BriefcaseIcon';
 import { SvgIcon } from '@mui/material';
 import { useAuthContext } from '/src/contexts/auth-context';
 
@@ -32,6 +34,15 @@ export const getMenuItems = () => {
           )
         },
         {
+          title: 'Contratos',
+          path: '/administrador/contrato',
+          icon: (
+            <SvgIcon fontSize="small">
+              <DocumentTextIcon />
+            </SvgIcon>
+          )
+        },
+        {
           title: 'Publicaciones',
           path: '/administrador/publicacion',
           icon: (
@@ -54,7 +65,7 @@ export const getMenuItems = () => {
           path: '/administrador/postulacion',
           icon: (
             <SvgIcon fontSize="small">
-              <NewsPaperIcon />
+              <BriefcaseIcon />
             </SvgIcon>
           )
         },

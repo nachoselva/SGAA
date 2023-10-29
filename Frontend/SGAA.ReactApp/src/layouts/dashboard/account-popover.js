@@ -20,6 +20,14 @@ export const AccountPopover = (props) => {
     [onClose, auth, router]
   );
 
+  const handleEditarUsuario = useCallback(
+    () => {
+      onClose?.();
+      router.push('/auth/editar');
+    },
+    [onClose, auth, router]
+  );
+
   return (
     <Popover
       anchorEl={anchorEl}
@@ -58,6 +66,9 @@ export const AccountPopover = (props) => {
           }
         }}
       >
+        <MenuItem onClick={handleEditarUsuario}>
+          Editar Usuario
+        </MenuItem>
         <MenuItem onClick={handleSignOut}>
           Salir
         </MenuItem>

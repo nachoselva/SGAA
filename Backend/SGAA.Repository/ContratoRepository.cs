@@ -16,21 +16,22 @@
 
         private IQueryable<Contrato> ContratosQuery()
        => _dbContext.Contratos
-                .Include(c => c.Firmas)
-                .ThenInclude(f => f.Usuario)
-                .Include(c => c.Postulacion)
-                .ThenInclude(p => p.Publicacion)
-                .ThenInclude(pu => pu.Unidad)
-                .ThenInclude(u => u.Propiedad)
-                .ThenInclude(p => p.Ciudad)
-                .ThenInclude(ci => ci.Provincia)
-                .Include(c => c.Postulacion)
-                .ThenInclude(p => p.Aplicacion)
-                .ThenInclude(a => a.Postulantes)
-                .Include(c => c.Postulacion)
-                .ThenInclude(p => p.Publicacion)
-                .ThenInclude(pu => pu.Unidad)
-                .ThenInclude(u => u.Titulares);
+            .Include(c => c.Firmas)
+            .ThenInclude(f => f.Usuario)
+            .Include(c => c.Postulacion)
+            .ThenInclude(p => p.Publicacion)
+            .ThenInclude(pu => pu.Unidad)
+            .ThenInclude(u => u.Propiedad)
+            .ThenInclude(p => p.Ciudad)
+            .ThenInclude(ci => ci.Provincia)
+            .Include(c => c.Postulacion)
+            .ThenInclude(p => p.Aplicacion)
+            .ThenInclude(a => a.Postulantes)
+            .Include(c => c.Postulacion)
+            .ThenInclude(p => p.Publicacion)
+            .ThenInclude(pu => pu.Unidad)
+            .ThenInclude(u => u.Titulares)
+            .OrderByDescending(a => a.Audit.CreatedOn);
 
         public async Task<IReadOnlyCollection<Contrato>> GetContratos()
         {

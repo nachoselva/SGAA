@@ -6,7 +6,6 @@ import { Layout as AuthLayout } from '/src/layouts/auth/layout';
 
 const Page = () => {
   const [confirmation, setConfirmation] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(false);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(document.location.search)
@@ -65,9 +64,6 @@ const Page = () => {
                 <p>Por favor ingrese al sistema mediante el link:&nbsp;
                   <a href='auth/login'>Login</a></p>
               </>
-            }
-            {errorMessage &&
-              <p> {errorMessage} </p>
             }
           </div>
         </Box>
