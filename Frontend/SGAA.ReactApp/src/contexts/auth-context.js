@@ -1,6 +1,7 @@
-import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
-import { login } from '/src/api/login';
+import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
+import { login } from '/src/api/auth';
 
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -65,6 +66,7 @@ export const AuthProvider = (props) => {
   const { children } = props;
   const [state, dispatch] = useReducer(reducer, initialState);
   const initialized = useRef(false);
+  const router = useRouter();
 
   const initialize = async () => {
     // Prevent from calling twice in development mode with React.StrictMode enabled
@@ -84,7 +86,6 @@ export const AuthProvider = (props) => {
 
     if (isAuthenticated) {
       const user = JSON.parse(window.sessionStorage.getItem('user'));
-      console.log(user);
       dispatch({
         type: HANDLERS.INITIALIZE,
         payload: user
@@ -104,32 +105,27 @@ export const AuthProvider = (props) => {
     []
   );
 
-  const signIn = async (email, password) => {
-    const response = await login(email, password);
-    if (response.status == 200) {
-      const result = await response.json();
+  const signIn = (email, password) =>
+    login(email, password)
+      .then((result) => {
+        const user = {
+          id: result.id,
+          name: result.nombre + ' ' + result.apellido,
+          roles: result.roles,
+          email: result.email
+        };
 
-      const user = {
-        id: result.id,
-        avatar: '/assets/avatars/avatar-anika-visser.png',
-        name: result.nombre + ' ' + result.apellido,
-        roles: result.roles,
-        email: result.email
-      };
+        window.sessionStorage.setItem('jwt', result.accessToken);
+        window.sessionStorage.setItem('authenticated', 'true');
+        window.sessionStorage.setItem('user', JSON.stringify(user));
 
-      window.sessionStorage.setItem('jwt', result.accessToken);
-      window.sessionStorage.setItem('authenticated', 'true');
-      window.sessionStorage.setItem('user', JSON.stringify(user));
-
-      dispatch({
-        type: HANDLERS.SIGN_IN,
-        payload: user
+        dispatch({
+          type: HANDLERS.SIGN_IN,
+          payload: user
+        });
+        router.push('/');
+        return result;
       });
-    }
-    else {
-      throw new Error('Usuario o contreña incorrecto');
-    }
-  };
 
   const signOut = () => {
     dispatch({

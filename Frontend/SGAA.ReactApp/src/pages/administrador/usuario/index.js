@@ -1,50 +1,45 @@
-import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
-import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
 import Head from 'next/head';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { getUsuarios } from '/src/api/administrador';
 import { AuthGuard } from '/src/guards/auth-guard';
-import { useSelection } from '/src/hooks/use-selection';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
-import { CustomersSearch } from '/src/sections/customer/customers-search';
-import { CustomersTable } from '/src/sections/customer/customers-table';
+import { UsuariosSearch } from '/src/sections/usuario/usuario-search';
+import { UsuariosTable } from '/src/sections/usuario/usuario-table';
 import { applyPagination } from '/src/utils/apply-pagination';
 
-const data = [
-  {
-    id: 1,
-    nombre: 'test',
-    apellido: 'test',
-    email: 'test@test.com',
-    roles: 'Administrador'
-  }
-];
 
-const useCustomers = (page, rowsPerPage) => {
+const useUsuarios = (filteredData, page, rowsPerPage) => {
   return useMemo(
     () => {
-      return applyPagination(data, page, rowsPerPage);
+      return applyPagination(filteredData, page, rowsPerPage);
     },
-    [page, rowsPerPage]
-  );
-};
-
-const useCustomerIds = (customers) => {
-  return useMemo(
-    () => {
-      return customers.map((customer) => customer.id);
-    },
-    [customers]
+    [filteredData, page, rowsPerPage]
   );
 };
 
 const Page = () => {
+  const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const customers = useCustomers(page, rowsPerPage);
-  const customersIds = useCustomerIds(customers);
-  const customersSelection = useSelection(customersIds);
+  const [searchText, setSearchText] = useState('');
+  const lcSearchText = searchText.toLowerCase();
+  const filteredData = data.filter((item) =>
+    Object.values(item).some(
+      field => field.toString().toLowerCase().includes(lcSearchText)
+    )
+  );
+
+  const usuarios = useUsuarios(filteredData, page, rowsPerPage);
+
+  const handleSearchChange = useCallback(
+    (event) => {
+      setSearchText(event.target.value);
+      setPage(0);
+    },
+    []
+  );
 
   const handlePageChange = useCallback(
     (event, value) => {
@@ -59,6 +54,13 @@ const Page = () => {
     },
     []
   );
+
+  useEffect(() => {
+    getUsuarios()
+      .then((response) => {
+        setData(response);
+      });
+  }, []);
 
   return (
     <AuthGuard roles={['Administrador']}>
@@ -83,34 +85,8 @@ const Page = () => {
             >
               <Stack spacing={1}>
                 <Typography variant="h4">
-                  Customers
+                  Usuarios
                 </Typography>
-                <Stack
-                  alignItems="center"
-                  direction="row"
-                  spacing={1}
-                >
-                  <Button
-                    color="inherit"
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <ArrowUpOnSquareIcon />
-                      </SvgIcon>
-                    )}
-                  >
-                    Import
-                  </Button>
-                  <Button
-                    color="inherit"
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <ArrowDownOnSquareIcon />
-                      </SvgIcon>
-                    )}
-                  >
-                    Export
-                  </Button>
-                </Stack>
               </Stack>
               <div>
                 <Button
@@ -121,23 +97,18 @@ const Page = () => {
                   )}
                   variant="contained"
                 >
-                  Add
+                  Crear Usuario Administrador
                 </Button>
               </div>
             </Stack>
-            <CustomersSearch />
-            <CustomersTable
-              count={data.length}
-              items={customers}
-              onDeselectAll={customersSelection.handleDeselectAll}
-              onDeselectOne={customersSelection.handleDeselectOne}
+            <UsuariosSearch onSearchChange={handleSearchChange} />
+            <UsuariosTable
+              count={filteredData.length}
+              items={usuarios}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={customersSelection.handleSelectAll}
-              onSelectOne={customersSelection.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
-              selected={customersSelection.selected}
             />
           </Stack>
         </Container>

@@ -1,34 +1,30 @@
 import { Box, Stack, Typography } from '@mui/material';
 import Head from 'next/head';
 import React, { useState, useEffect } from 'react';
-import { confirmarCorreo } from '/src/api/confirmar-correo';
+import { confirmarCorreo } from '/src/api/auth';
 import { Layout as AuthLayout } from '/src/layouts/auth/layout';
 
 const Page = () => {
   const [confirmation, setConfirmation] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
 
-  useEffect(() =>
-  {
-    async function fn() {
-      const searchParams = new URLSearchParams(document.location.search)
-      const token = searchParams.get('token');
-      console.log(token);
-      const email = searchParams.get('email');
-      const response = await confirmarCorreo(email, token);
-
-      if (response.status == 200) {
+  useEffect(() => {
+    const searchParams = new URLSearchParams(document.location.search)
+    const token = searchParams.get('token');
+    const email = searchParams.get('email');
+    confirmarCorreo(email, token)
+      .then(() => {
         setConfirmation(true);
-      }
-      else if (response.status == 400) {
-        setErrorMessage("Ocurrió un error durante la confirmación del correo electrónico");
-      }
-      else {
-        throw new Error(response);
-      }
-    }
-
-    fn();
+      })
+      .catch((err) => {
+        if (err.statusCode == 400) {
+          helpers.setStatus({ success: false });
+          helpers.setErrors(err.body)
+          helpers.setSubmitting(false);
+        } else {
+          throw err;
+        }
+      });
   }, []);
 
   return (

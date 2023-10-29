@@ -4,7 +4,7 @@ import Head from 'next/head';
 import NextLink from 'next/link';
 import React, { useState } from 'react';
 import * as Yup from 'yup';
-import { registrar } from '/src/api/registrar';
+import { registrar } from '/src/api/auth';
 import { Layout as AuthLayout } from '/src/layouts/auth/layout';
 
 const Page = () => {
@@ -42,20 +42,20 @@ const Page = () => {
         .max(20)
         .required('Rol es obligatorio')
     }),
-    onSubmit: async (values, helpers) => {
-      const response = await registrar(values.email, values.nombre, values.apellido, values.password, values.rol);
-
-      if (response.status == 200) {
-        setConfirmation(true);
-      }
-      else if (response.status == 400) {
-        helpers.setStatus({ success: false });
-        helpers.setErrors(await response.json())
-        helpers.setSubmitting(false);
-      }
-      else {
-        throw new Error(response);
-      }
+    onSubmit: (values, helpers) => {
+      registrar(values.email, values.nombre, values.apellido, values.password, values.rol)
+        .then(() => {
+          setConfirmation(true);
+        })
+        .catch((err) => {
+          if (err.statusCode == 400) {
+            helpers.setStatus({ success: false });
+            helpers.setErrors(err.body)
+            helpers.setSubmitting(false);
+          } else {
+            throw err;
+          }
+        });
     }
   });
 
