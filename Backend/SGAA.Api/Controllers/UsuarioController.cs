@@ -46,13 +46,14 @@ namespace SGAA.Api.Controllers
             return currentUser != null ? await _usuarioService.UpdateUsuario(currentUser.Id, model) : throw new NotFoundException();
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("confirm")]
         [AllowAnonymous]
         [Transactional]
-        public async Task<IActionResult> ConfirmUsuario([FromQuery] string email, [FromQuery] string token)
+        public async Task<IActionResult> ConfirmUsuario([FromBody] ConfirmUsuarioPostModel model)
         {
-            return Redirect(await _usuarioService.ConfirmUsuario(email, token));
+            await _usuarioService.ConfirmUsuario(model);
+            return Ok();
         }
 
         [HttpPost]

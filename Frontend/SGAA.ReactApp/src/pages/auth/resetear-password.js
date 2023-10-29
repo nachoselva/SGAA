@@ -26,20 +26,16 @@ const Page = () => {
     onSubmit: async (values, helpers) => {
       const response = await resetearPassword(email, token, values.password);
 
-      try {
-        if (response.status == 200) {
-          setConfirmation(true);
-        }
-        else if (response.status == 400) {
-          helpers.setStatus({ success: false });
-          helpers.setErrors(await response.json())
-          helpers.setSubmitting(false);
-        }
-        else {
-          throw new Error(response);
-        }
-      } catch (err) {
-
+      if (response.status == 200) {
+        setConfirmation(true);
+      }
+      else if (response.status == 400) {
+        helpers.setStatus({ success: false });
+        helpers.setErrors(await response.json())
+        helpers.setSubmitting(false);
+      }
+      else {
+        throw new Error(response);
       }
     }
   });
@@ -116,9 +112,9 @@ const Page = () => {
             }
             {confirmation &&
               <>
-              <p>La contraseña fue reseteada con éxito. </p>
-              <p>Por favor ingrese al sistema mediante el link:&nbsp;
-                <a href='auth/login'>Login</a></p>
+                <p>La contraseña fue reseteada con éxito. </p>
+                <p>Por favor ingrese al sistema mediante el link:&nbsp;
+                  <a href='auth/login'>Login</a></p>
               </>
             }
           </div>

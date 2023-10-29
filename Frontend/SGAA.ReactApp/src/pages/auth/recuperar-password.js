@@ -24,20 +24,16 @@ const Page = () => {
     onSubmit: async (values, helpers) => {
       const response = await recuperarPassword(values.email);
 
-      try {
-        if (response.status == 200) {
-          setConfirmation(true);
-        }
-        else if (response.status == 400) {
-          helpers.setStatus({ success: false });
-          helpers.setErrors(await response.json())
-          helpers.setSubmitting(false);
-        }
-        else {
-          throw new Error(response);
-        }
-      } catch (err) {
-
+      if (response.status == 200) {
+        setConfirmation(true);
+      }
+      else if (response.status == 400) {
+        helpers.setStatus({ success: false });
+        helpers.setErrors(await response.json())
+        helpers.setSubmitting(false);
+      }
+      else {
+        throw new Error(response);
       }
     }
   });
@@ -114,8 +110,8 @@ const Page = () => {
             }
             {confirmation &&
               <>
-              <p>Enviamos un correo de recuperación a su email. </p>
-              <p>Por favor siga las instruciones.</p>
+                <p>Enviamos un correo de recuperación a su email. </p>
+                <p>Por favor siga las instruciones.</p>
               </>
             }
           </div>

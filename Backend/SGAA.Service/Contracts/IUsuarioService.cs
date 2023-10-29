@@ -12,7 +12,7 @@
         Task<UsuarioGetModel> AddUsuarioPublic(UsuarioPostModel model);
         Task<UsuarioGetModel> UpdateUsuario(int usuarioId, UsuarioPutModel model);
         Task DeleteUsuario(int usuarioId);
-        Task<string> ConfirmUsuario(string email, string token);
+        Task ConfirmUsuario(ConfirmUsuarioPostModel model);
         Task<UsuarioGetModel> ResetPassword(ResetPasswordPostModel model);
         Task ForgotPassword(ForgotPasswordPostModel model);
     }

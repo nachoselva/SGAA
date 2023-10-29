@@ -106,7 +106,7 @@
             }
 
             string userToken = await GenerateUserTokenAsync(usuario, TokenOptions.DefaultProvider, ConfirmEmailTokenPurpose);
-            string confirmationURL = $"{_configuration.Frontend.Url}/auth/confirmar?email={HttpUtility.UrlEncode(usuario.Email)}&token={HttpUtility.UrlEncode(userToken)}";
+            string confirmationURL = $"{_configuration.Frontend.Url}/auth/confirmar-correo?email={HttpUtility.UrlEncode(usuario.Email)}&token={HttpUtility.UrlEncode(userToken)}";
 
             await _emailSender.SendEmail(usuario.Email!, new ConfirmationEmailModel()
             {
@@ -265,18 +265,16 @@
             return _usuarioMapper.ToGetModel(usuario);
         }
 
-        public async Task<string> ConfirmUsuario(string email, string token)
+        public async Task ConfirmUsuario(ConfirmUsuarioPostModel model)
         {
-            Usuario? usuario = await FindByNameAsync(email);
+            Usuario? usuario = await FindByNameAsync(model.Email);
             if (usuario != null)
             {
-                IdentityResult result = await ConfirmEmailAsync(usuario, token);
+                IdentityResult result = await ConfirmEmailAsync(usuario, model.Token);
                 if (!result.Succeeded)
                 {
                     throw this.MapIdentityErrorToBadRequest(result.Errors);
                 }
-                //TO DO: redirect to a real frontend url
-                return "https://www.google.com.ar/";
             }
             else
             {
