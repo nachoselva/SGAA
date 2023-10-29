@@ -259,7 +259,7 @@
 
         public async Task<UsuarioGetModel?> GetUsuario(string email)
         {
-            Usuario? usuario = await FindByNameAsync(email);
+            Usuario? usuario = await _usuarioRepository.GetUsuarioByEmail(email);
             if (usuario == null)
                 return null;
             return _usuarioMapper.ToGetModel(usuario);

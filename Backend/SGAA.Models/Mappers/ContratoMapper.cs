@@ -21,7 +21,9 @@
                 Domicilio = entity.Postulacion.Publicacion.Unidad.DomicilioCompleto,
                 Archivo = Encoding.ASCII.GetString(entity.Archivo),
                 InquilinosCount = entity.Firmas.Count(f => f.Rol == FirmaRol.Inquilino),
-                PropietariosCount = entity.Firmas.Count(f => f.Rol == FirmaRol.Propietario)
+                PropietariosCount = entity.Firmas.Count(f => f.Rol == FirmaRol.Propietario),
+                Inquilinos = string.Join(',', entity.Firmas.Where(f => f.Rol == FirmaRol.Inquilino).Select(f => f.Usuario.NombreCompleto)),
+                Propietarios = string.Join(',', entity.Firmas.Where(f => f.Rol == FirmaRol.Propietario).Select(f => f.Usuario.NombreCompleto))
             };
     }
 }

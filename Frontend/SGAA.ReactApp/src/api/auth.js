@@ -1,5 +1,7 @@
 import { handleFetch } from '/src/api/fetcher';
 
+const getAuthorizationHeader = () => 'Bearer ' + window.sessionStorage.getItem('jwt');
+
 export const login = (email, password) => {
   const requestOptions = {
     method: 'POST',
@@ -30,7 +32,7 @@ export const recuperarPassword = (email) => {
   return handleFetch('/usuario/forgot-password', requestOptions);
 }
 
-export const registrar = (email, nombre, apellido, password, rol) => {
+export const registrarUsuario = (email, nombre, apellido, password, rol) => {
   const requestOptions = {
     method: 'POST',
     mode: 'cors',
@@ -48,4 +50,29 @@ export const resetearPassword = (email, token, password) => {
     body: JSON.stringify({ email: email, token: token, password: password })
   };
   return handleFetch('/usuario/reset-password', requestOptions);
+}
+
+export const editarCurrentUsuario = (nombre, apellido) => {
+  const requestOptions = {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    },
+    body: JSON.stringify({ nombre: nombre, apellido: apellido })
+  };
+  return handleFetch('/usuario', requestOptions);
+}
+
+export const getCurrentUsuario = (nombre, apellido) => {
+  const requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    }
+  };
+  return handleFetch('/usuario/current', requestOptions);
 }

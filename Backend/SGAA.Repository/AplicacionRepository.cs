@@ -23,7 +23,8 @@
             .Include(a => a.Garantias)
             .Include(a => a.Postulantes)
             .Include(a => a.InquilinoUsuario)
-            .Include(a => a.Postulaciones);
+            .Include(a => a.Postulaciones)
+            .OrderByDescending(a => a.Audit.CreatedOn);
 
         public Task<Aplicacion?> GetAplicacion(int aplicacionId)
         => AplicacionQuery()

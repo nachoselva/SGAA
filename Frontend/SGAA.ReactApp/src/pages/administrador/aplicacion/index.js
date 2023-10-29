@@ -1,47 +1,43 @@
-import { Box, Container, Stack, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Container, Link, Stack, Typography } from '@mui/material';
 import Head from 'next/head';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { getAplicaciones } from '/src/api/administrador';
 import { AuthGuard } from '/src/guards/auth-guard';
-import { useSelection } from '/src/hooks/use-selection';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
 import { AplicacionesSearch } from '/src/sections/aplicacion/aplicacion-search';
 import { AplicacionesTable } from '/src/sections/aplicacion/aplicacion-table';
 import { applyPagination } from '/src/utils/apply-pagination';
 
-const data = [
-  {
-    id: 2,
-    status: 'AprobacionPendiente',
-    inquilinoUsuarioNombreCompleto : 'nombre completo',
-    postulaciones: 2,
-    puntuacionTotal: 50
-  }
-];
-
-const useAplicaciones = (page, rowsPerPage) => {
+const useAplicaciones = (filteredData, page, rowsPerPage) => {
   return useMemo(
     () => {
-      return applyPagination(data, page, rowsPerPage);
+      return applyPagination(filteredData, page, rowsPerPage);
     },
-    [page, rowsPerPage]
-  );
-};
-
-const useAplicacionIds = (aplicaciones) => {
-  return useMemo(
-    () => {
-      return aplicaciones.map((aplicacion) => aplicacion.id);
-    },
-    [aplicaciones]
+    [filteredData, page, rowsPerPage]
   );
 };
 
 const Page = () => {
+  const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const aplicaciones = useAplicaciones(page, rowsPerPage);
-  const aplicacionesIds = useAplicacionIds(aplicaciones);
-  const aplicacionesSelection = useSelection(aplicacionesIds);
+  const [searchText, setSearchText] = useState('');
+  const lcSearchText = searchText.toLowerCase();
+  const filteredData = data.filter((item) =>
+    Object.values(item).some(
+      field => field?.toString().toLowerCase().includes(lcSearchText)
+    )
+  );
+
+  const aplicaciones = useAplicaciones(filteredData, page, rowsPerPage);
+
+  const handleSearchChange = useCallback(
+    (event) => {
+      setSearchText(event.target.value);
+      setPage(0);
+    },
+    []
+  );
 
   const handlePageChange = useCallback(
     (event, value) => {
@@ -57,13 +53,44 @@ const Page = () => {
     []
   );
 
+  useEffect(() => {
+    getAplicaciones()
+      .then((response) => {
+        setData(response);
+      });
+  }, []);
+
   return (
     <AuthGuard roles={['Administrador']}>
       <Head>
         <title>
-          Aplicaciones
+          SGAA - Aplicaciones
         </title>
       </Head>
+      <Box>
+        <Container maxWidth="xl">
+          <Stack spacing={3}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              spacing={4}
+            >
+              <Breadcrumbs aria-label="breadcrumb">
+                <Link underline="hover" color="inherit" href="/">
+                  Inicio
+                </Link>
+                <Link
+                  underline="hover"
+                  color="inherit"
+                  href="/administrador/aplicacion"
+                >
+                  Aplicaciones
+                </Link>
+              </Breadcrumbs>
+            </Stack>
+          </Stack>
+        </Container>
+      </Box>
       <Box
         component="main"
         sx={{
@@ -84,19 +111,14 @@ const Page = () => {
                 </Typography>
               </Stack>
             </Stack>
-            <AplicacionesSearch />
+            <AplicacionesSearch onSearchChange={handleSearchChange} />
             <AplicacionesTable
               count={data.length}
               items={aplicaciones}
-              onDeselectAll={aplicacionesSelection.handleDeselectAll}
-              onDeselectOne={aplicacionesSelection.handleDeselectOne}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={aplicacionesSelection.handleSelectAll}
-              onSelectOne={aplicacionesSelection.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
-              selected={aplicacionesSelection.selected}
             />
           </Stack>
         </Container>
