@@ -106,7 +106,7 @@
             }
 
             string userToken = await GenerateUserTokenAsync(usuario, TokenOptions.DefaultProvider, ConfirmEmailTokenPurpose);
-            string confirmationURL = $"{_configuration.Frontend.Url}/Usuario/Confirm?email={HttpUtility.UrlEncode(usuario.Email)}&token={HttpUtility.UrlEncode(userToken)}";
+            string confirmationURL = $"{_configuration.Frontend.Url}/auth/confirmar?email={HttpUtility.UrlEncode(usuario.Email)}&token={HttpUtility.UrlEncode(userToken)}";
 
             await _emailSender.SendEmail(usuario.Email!, new ConfirmationEmailModel()
             {
@@ -296,7 +296,8 @@
                 }
                 if (!usuario.EmailConfirmed)
                 {
-                    IdentityResult confirmResult = await ConfirmEmailAsync(usuario, model.Token);
+                    usuario.EmailConfirmed = true;
+                    IdentityResult confirmResult = await UpdateAsync(usuario);
                     if (!confirmResult.Succeeded)
                     {
                         throw this.MapIdentityErrorToBadRequest(confirmResult.Errors);
@@ -316,7 +317,7 @@
             if (usuario != null)
             {
                 string resetPasswordToken = await GeneratePasswordResetTokenAsync(usuario);
-                string resetPasswordURL = $"{_configuration.Frontend.Url}/Usuario/reset-password?email={HttpUtility.UrlEncode(usuario.Email)}&token={HttpUtility.UrlEncode(resetPasswordToken)}";
+                string resetPasswordURL = $"{_configuration.Frontend.Url}/auth/resetear-password?email={HttpUtility.UrlEncode(usuario.Email)}&token={HttpUtility.UrlEncode(resetPasswordToken)}";
                 await _resetPasswordEmailSender.SendEmail(usuario.Email!,
                     new ResetPasswordEmailModel
                     {

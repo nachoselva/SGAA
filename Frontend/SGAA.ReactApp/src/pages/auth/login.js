@@ -1,20 +1,15 @@
 import {
-  Alert,
-  Box,
-  Button,
-  FormHelperText,
-  Link,
-  Stack,
-  Tab,
-  Tabs,
-  TextField,
-  Typography
+    Box,
+    Button, Link,
+    Stack, TextField,
+    Typography
 } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useFormik } from 'formik';
 import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useCallback, useState } from 'react';
+import React from 'react';
 import * as Yup from 'yup';
 import { useAuth } from '/src/hooks/use-auth';
 import { Layout as AuthLayout } from '/src/layouts/auth/layout';
@@ -22,11 +17,10 @@ import { Layout as AuthLayout } from '/src/layouts/auth/layout';
 const Page = () => {
   const router = useRouter();
   const auth = useAuth();
-  const [method, setMethod] = useState('email');
   const formik = useFormik({
     initialValues: {
-      email: 'demo@devias.io',
-      password: 'Password123!',
+      email: '',
+      password: '',
       submit: null
     },
     validationSchema: Yup.object({
@@ -52,18 +46,11 @@ const Page = () => {
     }
   });
 
-  const handleMethodChange = useCallback(
-    (event, value) => {
-      setMethod(value);
-    },
-    []
-  );
-
   return (
     <>
       <Head>
         <title>
-          Login | Devias Kit
+          Login
         </title>
       </Head>
       <Box
@@ -89,7 +76,7 @@ const Page = () => {
               sx={{ mb: 3 }}
             >
               <Typography variant="h4">
-                Sistema de Gestión de Vacantes Autónomas
+                Sistema de Gestión de Alquileres Autónomos
               </Typography>
               <Typography
                 color="text.secondary"
@@ -99,11 +86,26 @@ const Page = () => {
                 &nbsp;
                 <Link
                   component={NextLink}
-                  href="/auth/register"
+                  href="/auth/registrar"
                   underline="hover"
                   variant="subtitle2"
                 >
                   Registrarse
+                </Link>
+              </Typography>
+              <Typography
+                color="text.secondary"
+                variant="body2"
+              >
+                Olvidé mi contraseña
+                &nbsp;
+                <Link
+                  component={NextLink}
+                  href="/auth/recuperar-password"
+                  underline="hover"
+                  variant="subtitle2"
+                >
+                  Recuperar password
                 </Link>
               </Typography>
             </Stack>

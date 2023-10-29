@@ -48,15 +48,14 @@ const Page = () => (
             sx={{ mb: 3 }}
             variant="h3"
           >
-            404: The page you are looking for isn’t here
+            404: Página inexistente
           </Typography>
           <Typography
             align="center"
             color="text.secondary"
             variant="body1"
           >
-            You either tried some shady route or you came here by mistake.
-            Whichever it is, try using the navigation
+            Esta página no existe. En caso que sea un error, por favor contacte al administrador del sitio.
           </Typography>
           <Button
             component={NextLink}
@@ -69,7 +68,7 @@ const Page = () => (
             sx={{ mt: 3 }}
             variant="contained"
           >
-            Go back to dashboard
+            Ir a Inicio
           </Button>
         </Box>
       </Container>

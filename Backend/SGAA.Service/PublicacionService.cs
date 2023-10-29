@@ -92,7 +92,7 @@
             Publicacion publicacion = model.ToEntity(_publicacionMapper);
             publicacion = await _publicacionRepository.AddPublicacion(publicacion);
 
-            string publicacionURL = $"{_configuration.Frontend.Url}/Publicacion/{publicacion.Codigo}";
+            string publicacionURL = $"{_configuration.Frontend.Url}/publicacion/{publicacion.Codigo}";
 
             await _publicarUnidadEmailSender.SendEmail(unidad.PropietarioUsuario.Email!,
                  new PublicarUnidadEmailModel

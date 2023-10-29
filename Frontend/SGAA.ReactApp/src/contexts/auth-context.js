@@ -5,7 +5,8 @@ import { login } from '/src/api/login';
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
   SIGN_IN: 'SIGN_IN',
-  SIGN_OUT: 'SIGN_OUT'
+  SIGN_OUT: 'SIGN_OUT',
+  SIGN_UP: 'SIGN_UP',
 };
 
 const initialState = {
@@ -130,10 +131,6 @@ export const AuthProvider = (props) => {
     }
   };
 
-  const signUp = async (email, name, password) => {
-    throw new Error('Sign up is not implemented');
-  };
-
   const signOut = () => {
     dispatch({
       type: HANDLERS.SIGN_OUT
@@ -145,7 +142,6 @@ export const AuthProvider = (props) => {
       value={{
         ...state,
         signIn,
-        signUp,
         signOut
       }}
     >
