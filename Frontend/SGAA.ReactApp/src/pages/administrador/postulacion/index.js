@@ -1,54 +1,42 @@
-import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
-import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
-import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
-import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Container, Link, Stack, Typography } from '@mui/material';
 import Head from 'next/head';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { getPostulaciones } from '/src/api/administrador';
 import { AuthGuard } from '/src/guards/auth-guard';
-import { useSelection } from '/src/hooks/use-selection';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
 import { PostulacionesSearch } from '/src/sections/postulacion/postulacion-search';
 import { PostulacionesTable } from '/src/sections/postulacion/postulacion-table';
 import { applyPagination } from '/src/utils/apply-pagination';
 
-const data = [
-  {
-    id: 1,
-    publicacionId: 1,
-    aplicacionId: 1,
-    status: 'Postulada',
-    postulantes: 'lista de postulantes',
-    fechaPostulacion: '2023/10/10',
-    fechaOferta: '2023/10/10',
-    montoAlquiler: 2000,
-    domicilioCompleto: 'Corrientes 1500 2A'
-  }
-];
-
-const usePostulaciones = (page, rowsPerPage) => {
+const usePostulaciones = (filteredData, page, rowsPerPage) => {
   return useMemo(
     () => {
-      return applyPagination(data, page, rowsPerPage);
+      return applyPagination(filteredData, page, rowsPerPage);
     },
-    [page, rowsPerPage]
-  );
-};
-
-const usePostulacionIds = (postulaciones) => {
-  return useMemo(
-    () => {
-      return postulaciones.map((postulacion) => postulacion.id);
-    },
-    [postulaciones]
+    [filteredData, page, rowsPerPage]
   );
 };
 
 const Page = () => {
+  const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const postulaciones = usePostulaciones(page, rowsPerPage);
-  const postulacionesIds = usePostulacionIds(postulaciones);
-  const postulacionesSelection = useSelection(postulacionesIds);
+  const [searchText, setSearchText] = useState('');
+  const lcSearchText = searchText.toLowerCase();
+  const filteredData = data.filter((item) =>
+    Object.values(item).some(
+      field => field?.toString().toLowerCase().includes(lcSearchText)
+    )
+  );
+  const postulaciones = usePostulaciones(filteredData, page, rowsPerPage);
+
+  const handleSearchChange = useCallback(
+    (event) => {
+      setSearchText(event.target.value);
+      setPage(0);
+    },
+    []
+  );
 
   const handlePageChange = useCallback(
     (event, value) => {
@@ -64,13 +52,44 @@ const Page = () => {
     []
   );
 
+  useEffect(() => {
+    getPostulaciones()
+      .then((response) => {
+        setData(response);
+      });
+  }, []);
+
   return (
     <AuthGuard roles={['Administrador']}>
       <Head>
         <title>
-          Postulaciones
+          SGAA - Postulaciones
         </title>
       </Head>
+      <Box>
+        <Container maxWidth="xl">
+          <Stack spacing={3}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              spacing={4}
+            >
+              <Breadcrumbs aria-label="breadcrumb">
+                <Link underline="hover" color="inherit" href="/">
+                  Inicio
+                </Link>
+                <Link
+                  underline="hover"
+                  color="inherit"
+                  href="/administrador/postulacion"
+                >
+                  Postulaciones
+                </Link>
+              </Breadcrumbs>
+            </Stack>
+          </Stack>
+        </Container>
+      </Box>
       <Box
         component="main"
         sx={{
@@ -91,19 +110,14 @@ const Page = () => {
                 </Typography>
               </Stack>
             </Stack>
-            <PostulacionesSearch />
+            <PostulacionesSearch onSearchChange={handleSearchChange} />
             <PostulacionesTable
               count={data.length}
               items={postulaciones}
-              onDeselectAll={postulacionesSelection.handleDeselectAll}
-              onDeselectOne={postulacionesSelection.handleDeselectOne}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={postulacionesSelection.handleSelectAll}
-              onSelectOne={postulacionesSelection.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
-              selected={postulacionesSelection.selected}
             />
           </Stack>
         </Container>

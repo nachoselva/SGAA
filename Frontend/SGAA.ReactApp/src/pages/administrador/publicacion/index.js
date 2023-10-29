@@ -1,52 +1,47 @@
-import { Box, Container, Stack, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Container, Link, Stack, Typography } from '@mui/material';
 import Head from 'next/head';
-import { useCallback, useMemo, useState } from 'react';
-import { useSelection } from '/src/hooks/use-selection';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { getPublicaciones } from '/src/api/administrador';
+import { AuthGuard } from '/src/guards/auth-guard';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
 import { PublicacionesSearch } from '/src/sections/publicacion/publicacion-search';
 import { PublicacionesTable } from '/src/sections/publicacion/publicacion-table';
 import { applyPagination } from '/src/utils/apply-pagination';
-import { AuthGuard } from '/src/guards/auth-guard';
 
-const data = [
-  {
-    id: 2,
-    montoAlquiler: 100000.50,
-    inicioAlquiler: '2023/10/10',
-    postulaciones: 10,
-    status: 'Publicada',
-    domicilioCompleto: 'Corrientes 1500 P1 D2'
-  }
-];
-
-const usePublicaciones = (page, rowsPerPage) => {
+const usePublicaciones = (filteredData, page, rowsPerPage) => {
   return useMemo(
     () => {
-      return applyPagination(data, page, rowsPerPage);
+      return applyPagination(filteredData, page, rowsPerPage);
     },
-    [page, rowsPerPage]
-  );
-};
-
-const usePublicacionIds = (publicaciones) => {
-  return useMemo(
-    () => {
-      return publicaciones.map((publicacion) => publicacion.id);
-    },
-    [publicaciones]
+    [filteredData, page, rowsPerPage]
   );
 };
 
 const Page = () => {
+  const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const publicaciones = usePublicaciones(page, rowsPerPage);
-  const publicacionesIds = usePublicacionIds(publicaciones);
-  const publicacionesSelection = useSelection(publicacionesIds);
+  const [searchText, setSearchText] = useState('');
+  const lcSearchText = searchText.toLowerCase();
+  const filteredData = data.filter((item) =>
+    Object.values(item).some(
+      field => field?.toString().toLowerCase().includes(lcSearchText)
+    )
+  );
+  const publicaciones = usePublicaciones(filteredData, page, rowsPerPage);
+
+  const handleSearchChange = useCallback(
+    (event) => {
+      setSearchText(event.target.value);
+      setPage(0);
+    },
+    []
+  );
 
   const handlePageChange = useCallback(
     (event, value) => {
-      setPage(value);
+      setSearchText(event.target.value);
+      setPage(0);
     },
     []
   );
@@ -58,13 +53,44 @@ const Page = () => {
     []
   );
 
+  useEffect(() => {
+    getPublicaciones()
+      .then((response) => {
+        setData(response);
+      });
+  }, []);
+
   return (
     <AuthGuard roles={['Administrador']}>
       <Head>
         <title>
-          Publicaciones
+          SGAA - Publicaciones
         </title>
       </Head>
+      <Box>
+        <Container maxWidth="xl">
+          <Stack spacing={3}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              spacing={4}
+            >
+              <Breadcrumbs aria-label="breadcrumb">
+                <Link underline="hover" color="inherit" href="/">
+                  Inicio
+                </Link>
+                <Link
+                  underline="hover"
+                  color="inherit"
+                  href="/administrador/publicacion"
+                >
+                  Publicaciones
+                </Link>
+              </Breadcrumbs>
+            </Stack>
+          </Stack>
+        </Container>
+      </Box>
       <Box
         component="main"
         sx={{
@@ -85,19 +111,14 @@ const Page = () => {
                 </Typography>
               </Stack>
             </Stack>
-            <PublicacionesSearch />
+            <PublicacionesSearch onSearchChange={handleSearchChange} />
             <PublicacionesTable
               count={data.length}
               items={publicaciones}
-              onDeselectAll={publicacionesSelection.handleDeselectAll}
-              onDeselectOne={publicacionesSelection.handleDeselectOne}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={publicacionesSelection.handleSelectAll}
-              onSelectOne={publicacionesSelection.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
-              selected={publicacionesSelection.selected}
             />
           </Stack>
         </Container>

@@ -31,7 +31,8 @@
             .Include(p => p.Aplicacion)
             .ThenInclude(a => a.InquilinoUsuario)
             .Include(p => p.Aplicacion)
-            .ThenInclude(a => a.Postulantes);
+            .ThenInclude(a => a.Postulantes)
+            .OrderByDescending(a => a.Audit.CreatedOn);
 
         public Task<Postulacion?> GetPostulacion(int postulacionId)
         => PostulacionQuery().Where(p => p.Id == postulacionId).FirstOrDefaultAsync();

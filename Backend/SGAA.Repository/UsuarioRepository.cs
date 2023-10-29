@@ -17,10 +17,15 @@
         private IQueryable<Usuario> UsuarioQuery()
         => _dbContext.Users
             .Include(u => u.UsuarioRoles)
-            .ThenInclude(u => u.Rol);
+            .ThenInclude(u => u.Rol)
+            .OrderByDescending(a => a.Audit.CreatedOn);
 
         public async Task<IReadOnlyCollection<Usuario>> GetUsuarios()
         => await UsuarioQuery()
              .ToListAsync();
+
+        public Task<Usuario?> GetUsuarioByEmail(string email)
+        => UsuarioQuery()
+             .FirstOrDefaultAsync(u => u.Email == email);
     }
 }

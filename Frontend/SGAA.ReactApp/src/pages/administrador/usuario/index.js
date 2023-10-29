@@ -1,5 +1,5 @@
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
-import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Button, Container, Link, Stack, SvgIcon, Typography } from '@mui/material';
 import Head from 'next/head';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getUsuarios } from '/src/api/administrador';
@@ -66,9 +66,30 @@ const Page = () => {
     <AuthGuard roles={['Administrador']}>
       <Head>
         <title>
-          Usuarios
+          SGAA - Usuarios
         </title>
       </Head>
+
+      <Box>
+        <Container maxWidth="xl">
+          <Stack spacing={3}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              spacing={4}
+            >
+              <Breadcrumbs aria-label="breadcrumb">
+                <Link underline="hover" color="inherit" href="/">
+                  Inicio
+                </Link>
+                <Link underline="hover" color="inherit" href="/administrador/usuario">
+                  Usuarios
+                </Link>
+              </Breadcrumbs>
+            </Stack>
+          </Stack>
+        </Container>
+      </Box>
       <Box
         component="main"
         sx={{
@@ -88,18 +109,17 @@ const Page = () => {
                   Usuarios
                 </Typography>
               </Stack>
-              <div>
-                <Button
-                  startIcon={(
-                    <SvgIcon fontSize="small">
-                      <PlusIcon />
-                    </SvgIcon>
-                  )}
-                  variant="contained"
-                >
-                  Crear Usuario Administrador
-                </Button>
-              </div>
+              <Button
+                startIcon={(
+                  <SvgIcon fontSize="small">
+                    <PlusIcon />
+                  </SvgIcon>
+                )}
+                variant="contained"
+                href="/administrador/usuario/crear"
+              >
+                Crear Usuario Administrador
+              </Button>
             </Stack>
             <UsuariosSearch onSearchChange={handleSearchChange} />
             <UsuariosTable
