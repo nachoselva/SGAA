@@ -1,11 +1,11 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Card, Container, Grid, Link, Stack, Typography } from '@mui/material';
 import Head from 'next/head';
-import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import { editarCurrentUsuario, getCurrentUsuario } from '/src/api/auth';
 import { AuthGuard } from '/src/guards/auth-guard';
-import { Layout as AuthLayout } from '/src/layouts/auth/layout';
+import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
 import { UsuarioEditarForm } from '/src/sections/usuario/usuario-editar-form';
-import { useRouter } from 'next/router';
 
 const Page = () => {
   const router = useRouter();
@@ -25,49 +25,80 @@ const Page = () => {
   }, []);
 
   return (
-    <AuthGuard roles={['Administrador']}>
+    <AuthGuard>
       <Head>
         <title>
-          Editar Usuario
+          SGAA - Editar Usuario
         </title>
       </Head>
+      <Box>
+        <Container maxWidth="xl">
+          <Stack spacing={3}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              spacing={4}
+            >
+              <Breadcrumbs aria-label="breadcrumb">
+                <Link underline="hover" color="inherit" href="/">
+                  Inicio
+                </Link>
+                <Link underline="hover" color="inherit" href="/auth/editar">
+                  Editar Usuario
+                </Link>
+              </Breadcrumbs>
+            </Stack>
+          </Stack>
+        </Container>
+      </Box>
       <Box
+        component="main"
         sx={{
-          flex: '1 1 auto',
-          alignItems: 'center',
-          display: 'flex',
-          justifyContent: 'center'
+          flexGrow: 1,
+          py: 8
         }}
       >
-        <Box
-          sx={{
-            maxWidth: 550,
-            px: 3,
-            py: '100px',
-            width: '100%'
-          }}
-        >
-          <Stack
-            spacing={1}
-            sx={{ mb: 3 }}
-          >
-            <Typography variant="h4">
-              Editar Usuario
-            </Typography>
-          </Stack>
+        <Container maxWidth="xl">
+          <Stack spacing={3}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              spacing={4}
+            >
+              <Stack spacing={1}>
+                <Typography variant="h4">
+                  Crear Usuario
+                </Typography>
+              </Stack>
+            </Stack>
+            <Grid
+              container
+              spacing={3}
+            >
+              <Grid
+                xs={12}
+                sm={8}
+                lg={6}
+                xl={4}
+              >
+                <Card sx={{ p: 2 }} >
           {usuario &&
-            <UsuarioEditarForm nombre={usuario.nombre} apellido={usuario.apellido} email={usuario.email} rol={usuario.roles} handleSubmit={editarCurrentUsuario} handleConfirmationChange={onConfirmation}></UsuarioEditarForm>
-          }
-        </Box>
+                      <UsuarioEditarForm nombre={usuario.nombre} apellido={usuario.apellido} email={usuario.email} rol={usuario.roles} handleSubmit={editarCurrentUsuario} handleConfirmationChange={onConfirmation}></UsuarioEditarForm>
+                    }
+          </Card>
+              </Grid>
+            </Grid>
+          </Stack>
+        </Container>
       </Box>
     </AuthGuard>
   );
 };
 
 Page.getLayout = (page) => (
-  <AuthLayout>
+  <DashboardLayout>
     {page}
-  </AuthLayout>
+  </DashboardLayout>
 );
 
 export default Page;
