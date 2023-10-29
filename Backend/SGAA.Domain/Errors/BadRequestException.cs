@@ -44,9 +44,13 @@
             return this;
         }
         public override string Message => string.Join(Environment.NewLine, _validationErrors.Select(err => $"{err.Key}: {string.Join("; ", err.Value)}"));
-        public IDictionary<string, IList<string>> GetValidationErrors()
+        public IDictionary<string, string> GetValidationErrors()
         {
-            return _validationErrors;
+            return _validationErrors
+                .ToDictionary(
+                err => err.Key.Substring(0, 1).ToLower() + err.Key.Substring(1, err.Key.Length - 1), 
+                err => string.Join(',', err.Value)
+            );
         }
     }
 }
