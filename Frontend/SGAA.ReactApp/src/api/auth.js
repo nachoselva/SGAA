@@ -1,6 +1,6 @@
 import { handleFetch } from '/src/api/fetcher';
 
-const getAuthorizationHeader = () => 'Bearer ' + window.sessionStorage.getItem('jwt');
+const getAuthorizationHeader = () => 'Bearer ' + window.localStorage.getItem('jwt');
 
 export const login = (email, password) => {
   const requestOptions = {
@@ -65,7 +65,7 @@ export const editarCurrentUsuario = (nombre, apellido) => {
   return handleFetch('/usuario', requestOptions);
 }
 
-export const getCurrentUsuario = (nombre, apellido) => {
+export const getCurrentUsuario = () => {
   const requestOptions = {
     method: 'GET',
     mode: 'cors',

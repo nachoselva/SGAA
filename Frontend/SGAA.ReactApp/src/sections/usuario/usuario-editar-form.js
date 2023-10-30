@@ -5,11 +5,10 @@ import * as Yup from 'yup';
 
 export const UsuarioEditarForm = (props) => {
 
-  console.log(props.rol);
   const formik = useFormik({
     initialValues: {
-      nombre: props.nombre,
-      apellido: props.apellido,
+      nombre: props.usuario.nombre,
+      apellido: props.usuario.apellido,
       submit: null
     },
     validationSchema: Yup.object({
@@ -71,7 +70,7 @@ export const UsuarioEditarForm = (props) => {
             label="Email"
             name="email"
             type="email"
-            value={props.email}
+            value={props.usuario.email}
             InputProps={{
               readOnly: true,
             }}
@@ -83,7 +82,7 @@ export const UsuarioEditarForm = (props) => {
             name="rol"
             select
             SelectProps={{ native: true }}
-            value={props.rol}
+            value={props.usuario.rol}
             InputProps={{
               readOnly: true,
             }}

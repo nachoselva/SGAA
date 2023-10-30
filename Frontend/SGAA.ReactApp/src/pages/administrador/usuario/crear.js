@@ -1,10 +1,10 @@
 import { Box, Breadcrumbs, Card, Container, Grid, Link, Stack, Typography } from '@mui/material';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { UsuarioCrearForm } from '../../../sections/usuario/usuario-crear-form';
 import { registrarUsuario } from '/src/api/administrador';
 import { AuthGuard } from '/src/guards/auth-guard';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
+import { UsuarioCrearForm } from '/src/sections/usuario/usuario-crear-form';
 
 const Page = () => {
   const router = useRouter();
@@ -13,7 +13,6 @@ const Page = () => {
     if (result)
       router.push('/administrador/usuario');
   };
-
 
   return (
     <AuthGuard roles={['Administrador']}>
@@ -31,13 +30,25 @@ const Page = () => {
               spacing={4}
             >
               <Breadcrumbs aria-label="breadcrumb">
-                <Link underline="hover" color="inherit" href="/">
+                <Link
+                  component="button"
+                  underline="hover"
+                  color="inherit"
+                  onClick={() => router.push('/')}>
                   Inicio
                 </Link>
-                <Link underline="hover" color="inherit" href="/administrador/usuario">
+                <Link
+                  component="button"
+                  underline="hover"
+                  color="inherit"
+                  onClick={() => router.push('/administrador/usuario')}>
                   Usuarios
                 </Link>
-                <Link underline="hover" color="inherit" href="/administrador/usuario/crear">
+                <Link
+                  component="button"
+                  underline="hover"
+                  color="inherit"
+                  onClick={() => router.push('/administrador/usuario/crear')}>
                   Crear Usuario
                 </Link>
               </Breadcrumbs>
@@ -76,7 +87,7 @@ const Page = () => {
                 xl={4}
               >
                 <Card sx={{ p: 2 }} >
-                  <UsuarioCrearForm handleSubmit={registrarUsuario} handleConfirmationChange={onUsuarioCreated} includeAdminRol={true}></UsuarioForm>
+                  <UsuarioCrearForm handleSubmit={registrarUsuario} handleConfirmationChange={onUsuarioCreated} includeAdminRol={true} />
                 </Card>
               </Grid>
             </Grid>

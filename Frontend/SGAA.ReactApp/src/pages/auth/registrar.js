@@ -4,7 +4,7 @@ import NextLink from 'next/link';
 import React, { useState } from 'react';
 import { registrarUsuario } from '/src/api/auth';
 import { Layout as AuthLayout } from '/src/layouts/auth/layout';
-import { UsuarioForm } from '/src/sections/usuario/usuario-form';
+import { UsuarioCrearForm } from '/src/sections/usuario/usuario-crear-form';
 
 const Page = () => {
   const [confirmation, setConfirmation] = useState(false);
@@ -56,7 +56,7 @@ const Page = () => {
             </Typography>
           </Stack>
           {!confirmation &&
-            <UsuarioForm handleSubmit={registrarUsuario} handleConfirmationChange={setConfirmation} />
+            <UsuarioCrearForm handleSubmit={registrarUsuario} handleConfirmationChange={setConfirmation} />
           }
           {confirmation &&
             <>

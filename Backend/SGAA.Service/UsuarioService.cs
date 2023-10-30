@@ -253,7 +253,7 @@
         }
         public async Task<UsuarioGetModel> GetUsuario(int usuarioId)
         {
-            Usuario? usuario = await FindByIdAsync(usuarioId.ToString());
+            Usuario? usuario = await _usuarioRepository.GetUsuarioById(usuarioId);
             return usuario == null ? throw new NotFoundException() : _usuarioMapper.ToGetModel(usuario);
         }
 

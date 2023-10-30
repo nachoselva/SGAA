@@ -83,7 +83,7 @@ const Page = () => {
               >
                 <Card sx={{ p: 2 }} >
           {usuario &&
-                      <UsuarioEditarForm nombre={usuario.nombre} apellido={usuario.apellido} email={usuario.email} rol={usuario.roles} handleSubmit={editarCurrentUsuario} handleConfirmationChange={onConfirmation}></UsuarioEditarForm>
+                    <UsuarioEditarForm usuario={usuario} handleSubmit={editarCurrentUsuario} handleConfirmationChange={onConfirmation}></UsuarioEditarForm>
                     }
           </Card>
               </Grid>

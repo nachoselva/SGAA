@@ -7,6 +7,7 @@ import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
 import { UnidadesSearch } from '/src/sections/unidad/unidad-search';
 import { UnidadesTable } from '/src/sections/unidad/unidad-table';
 import { applyPagination } from '/src/utils/apply-pagination';
+import { useRouter } from 'next/navigation';
 
 const useUnidades = (filteredData, page, rowsPerPage) => {
   return useMemo(
@@ -18,6 +19,7 @@ const useUnidades = (filteredData, page, rowsPerPage) => {
 };
 
 const Page = () => {
+  const router = useRouter();
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -33,7 +35,6 @@ const Page = () => {
 
   const handleSearchChange = useCallback(
     (event) => {
-      console.log(event.target.value);
       setSearchText(event.target.value);
       setPage(0);
     },
@@ -77,14 +78,18 @@ const Page = () => {
               spacing={4}
             >
               <Breadcrumbs aria-label="breadcrumb">
-                <Link underline="hover" color="inherit" href="/">
+                <Link
+                  component="button"
+                  underline="hover"
+                  color="inherit"
+                  onClick={() => router.push('/')}>
                   Inicio
                 </Link>
                 <Link
+                  component="button"
                   underline="hover"
                   color="inherit"
-                  href="/administrador/unidad"
-                >
+                  onClick={() => router.push('/administrador/unidad')}>
                   Unidades
                 </Link>
               </Breadcrumbs>

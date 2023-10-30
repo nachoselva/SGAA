@@ -26,7 +26,6 @@ export const AuthGuard = (props) => {
       }
 
       ignore.current = true;
-
       if (!isAuthenticated) {
         if (router.asPath === '/') {
           router

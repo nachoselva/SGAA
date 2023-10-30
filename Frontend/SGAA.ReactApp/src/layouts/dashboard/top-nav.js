@@ -1,6 +1,7 @@
+import Bars3Icon from '@heroicons/react/24/solid/Bars3Icon';
 import UserCircleIcon from '@heroicons/react/24/solid/UserCircleIcon';
 import {
-    Avatar, Box, Stack, useMediaQuery
+    Avatar, Box, IconButton, Stack, SvgIcon, useMediaQuery
 } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { alpha } from '@mui/material/styles';
@@ -13,7 +14,9 @@ const SIDE_NAV_WIDTH = 280;
 const TOP_NAV_HEIGHT = 64;
 
 export const TopNav = (props) => {
+  const { onNavOpen } = props;
   const accountPopover = usePopover();
+  const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
 
   return (
     <>
@@ -44,8 +47,14 @@ export const TopNav = (props) => {
           }}
         >
           <Stack
-
           >
+            {!lgUp && (
+              <IconButton onClick={onNavOpen}>
+                <SvgIcon fontSize="small">
+                  <Bars3Icon />
+                </SvgIcon>
+              </IconButton>
+            )}
           </Stack>
           <Stack
             alignItems="center"
