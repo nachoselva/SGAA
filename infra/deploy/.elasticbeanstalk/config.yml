@@ -7,7 +7,7 @@ environment-defaults:
     repository: null
 global:
   application_name: sgaa-api
-  default_ec2_keyname: Elastic Beanstalk Lelis Personal Machine
+  default_ec2_keyname: sgaa-devops-key
   default_platform: Docker running on 64bit Amazon Linux 2
   default_region: us-east-2
   include_git_submodules: true
