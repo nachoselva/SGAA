@@ -1,6 +1,6 @@
 import { handleFetch } from '/src/api/fetcher';
 
-const getAuthorizationHeader = () => 'Bearer ' + window.sessionStorage.getItem('jwt');
+const getAuthorizationHeader = () => 'Bearer ' + window.localStorage.getItem('jwt');
 
 export const getUsuarios = () => {
   const requestOptions = {
@@ -12,6 +12,18 @@ export const getUsuarios = () => {
     }
   };
   return handleFetch('/administrador/usuario', requestOptions);
+}
+
+export const getUsuario = (usuarioId) => {
+  const requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    }
+  };
+  return handleFetch('/administrador/usuario/' + usuarioId, requestOptions);
 }
 
 export const getUnidades = () => {

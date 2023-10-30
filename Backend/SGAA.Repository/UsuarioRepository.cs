@@ -27,5 +27,9 @@
         public Task<Usuario?> GetUsuarioByEmail(string email)
         => UsuarioQuery()
              .FirstOrDefaultAsync(u => u.Email == email);
+
+        public Task<Usuario?> GetUsuarioById(int usuarioId)
+        => UsuarioQuery()
+             .FirstOrDefaultAsync(u => u.Id == usuarioId);
     }
 }

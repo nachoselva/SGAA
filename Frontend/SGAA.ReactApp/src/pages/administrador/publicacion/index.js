@@ -7,6 +7,7 @@ import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
 import { PublicacionesSearch } from '/src/sections/publicacion/publicacion-search';
 import { PublicacionesTable } from '/src/sections/publicacion/publicacion-table';
 import { applyPagination } from '/src/utils/apply-pagination';
+import { useRouter } from 'next/navigation';
 
 const usePublicaciones = (filteredData, page, rowsPerPage) => {
   return useMemo(
@@ -18,6 +19,7 @@ const usePublicaciones = (filteredData, page, rowsPerPage) => {
 };
 
 const Page = () => {
+  const router = useRouter();
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -76,14 +78,18 @@ const Page = () => {
               spacing={4}
             >
               <Breadcrumbs aria-label="breadcrumb">
-                <Link underline="hover" color="inherit" href="/">
+                <Link
+                  component="button"
+                  underline="hover"
+                  color="inherit"
+                  onClick={() => router.push('/')}>
                   Inicio
                 </Link>
                 <Link
+                  component="button"
                   underline="hover"
                   color="inherit"
-                  href="/administrador/publicacion"
-                >
+                  onClick={() => router.push('/administrador/publicacion')}>
                   Publicaciones
                 </Link>
               </Breadcrumbs>

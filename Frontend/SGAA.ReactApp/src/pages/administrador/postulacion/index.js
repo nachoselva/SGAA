@@ -7,6 +7,7 @@ import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
 import { PostulacionesSearch } from '/src/sections/postulacion/postulacion-search';
 import { PostulacionesTable } from '/src/sections/postulacion/postulacion-table';
 import { applyPagination } from '/src/utils/apply-pagination';
+import { useRouter } from 'next/navigation';
 
 const usePostulaciones = (filteredData, page, rowsPerPage) => {
   return useMemo(
@@ -18,6 +19,7 @@ const usePostulaciones = (filteredData, page, rowsPerPage) => {
 };
 
 const Page = () => {
+  const router = useRouter();
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -75,14 +77,18 @@ const Page = () => {
               spacing={4}
             >
               <Breadcrumbs aria-label="breadcrumb">
-                <Link underline="hover" color="inherit" href="/">
+                <Link
+                  component="button"
+                  underline="hover"
+                  color="inherit"
+                  onClick={() => router.push('/')}>
                   Inicio
                 </Link>
                 <Link
+                  component="button"
                   underline="hover"
                   color="inherit"
-                  href="/administrador/postulacion"
-                >
+                  onClick={() => router.push('/administrador/postulacion')}>
                   Postulaciones
                 </Link>
               </Breadcrumbs>

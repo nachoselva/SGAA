@@ -1,9 +1,9 @@
-import { useCallback } from 'react';
+import { Box, Divider, MenuItem, MenuList, Popover, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
-import { Box, Divider, MenuItem, MenuList, Popover, Typography } from '@mui/material';
+import { useCallback } from 'react';
+import { useAuthContext } from '/src/contexts/auth-context';
 import { useAuth } from '/src/hooks/use-auth';
-import { useAuthContext } from '/src/contexts/auth-context'
 
 export const AccountPopover = (props) => {
   const { user } = useAuthContext();

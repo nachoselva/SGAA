@@ -1,14 +1,16 @@
 import {
-    Box,
-    Card, Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TablePagination,
-    TableRow
+  Box,
+  Card, Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Link
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Scrollbar } from '/src/components/scrollbar';
+import { useRouter } from 'next/navigation';
 
 export const UsuariosTable = (props) => {
   const {
@@ -17,9 +19,10 @@ export const UsuariosTable = (props) => {
     onPageChange = () => { },
     onRowsPerPageChange,
     page = 0,
-    rowsPerPage = 0,
-    selected = []
+    rowsPerPage = 0
   } = props;
+
+  const router = useRouter();
 
   return (
     <Card>
@@ -42,6 +45,8 @@ export const UsuariosTable = (props) => {
                 </TableCell>
                 <TableCell>
                   Roles
+                </TableCell>
+                <TableCell>
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -67,6 +72,15 @@ export const UsuariosTable = (props) => {
                     <TableCell>
                       {usuario.roles}
                     </TableCell>
+                    <TableCell>
+                      <Link
+                        component="button"
+                        underline="hover"
+                        color="inherit"
+                        onClick={() => router.push(window.location.pathname + '/' + usuario.id)}>
+                        Ver detalle
+                      </Link>
+                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -82,7 +96,7 @@ export const UsuariosTable = (props) => {
         page={page}
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={[5, 10, 25]}
-        labelRowsPerPage = "Items por página"
+        labelRowsPerPage="Items por página"
       />
     </Card>
   );

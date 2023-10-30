@@ -79,13 +79,13 @@ export const AuthProvider = (props) => {
     let isAuthenticated = false;
 
     try {
-      isAuthenticated = window.sessionStorage.getItem('authenticated') === 'true';
+      isAuthenticated = window.localStorage.getItem('authenticated') === 'true';
     } catch (err) {
       console.error(err);
     }
 
     if (isAuthenticated) {
-      const user = JSON.parse(window.sessionStorage.getItem('user'));
+      const user = JSON.parse(window.localStorage.getItem('user'));
       dispatch({
         type: HANDLERS.INITIALIZE,
         payload: user
@@ -115,9 +115,9 @@ export const AuthProvider = (props) => {
           email: result.email
         };
 
-        window.sessionStorage.setItem('jwt', result.accessToken);
-        window.sessionStorage.setItem('authenticated', 'true');
-        window.sessionStorage.setItem('user', JSON.stringify(user));
+        window.localStorage.setItem('jwt', result.accessToken);
+        window.localStorage.setItem('authenticated', 'true');
+        window.localStorage.setItem('user', JSON.stringify(user));
 
         dispatch({
           type: HANDLERS.SIGN_IN,

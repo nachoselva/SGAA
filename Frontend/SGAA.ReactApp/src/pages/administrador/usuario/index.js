@@ -8,6 +8,7 @@ import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
 import { UsuariosSearch } from '/src/sections/usuario/usuario-search';
 import { UsuariosTable } from '/src/sections/usuario/usuario-table';
 import { applyPagination } from '/src/utils/apply-pagination';
+import { useRouter } from 'next/navigation';
 
 
 const useUsuarios = (filteredData, page, rowsPerPage) => {
@@ -20,6 +21,7 @@ const useUsuarios = (filteredData, page, rowsPerPage) => {
 };
 
 const Page = () => {
+  const router = useRouter();
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -55,6 +57,14 @@ const Page = () => {
     []
   );
 
+  const handleCrearUsuario = useCallback(
+    () => {
+      router.push('/administrador/usuario/crear');
+    },
+    []
+  );
+
+
   useEffect(() => {
     getUsuarios()
       .then((response) => {
@@ -79,10 +89,18 @@ const Page = () => {
               spacing={4}
             >
               <Breadcrumbs aria-label="breadcrumb">
-                <Link underline="hover" color="inherit" href="/">
+                <Link
+                  component="button"
+                  underline="hover"
+                  color="inherit"
+                  onClick={() => router.push('/')}>
                   Inicio
                 </Link>
-                <Link underline="hover" color="inherit" href="/administrador/usuario">
+                <Link
+                  component="button"
+                  underline="hover"
+                  color="inherit"
+                  onClick={() => router.push('/administrador/usuario')}>
                   Usuarios
                 </Link>
               </Breadcrumbs>
@@ -116,9 +134,9 @@ const Page = () => {
                   </SvgIcon>
                 )}
                 variant="contained"
-                href="/administrador/usuario/crear"
+                onClick={handleCrearUsuario}
               >
-                Crear Usuario Administrador
+                Usuario
               </Button>
             </Stack>
             <UsuariosSearch onSearchChange={handleSearchChange} />
