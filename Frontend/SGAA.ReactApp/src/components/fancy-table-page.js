@@ -40,10 +40,6 @@ export const FancyTablePage = (props) => {
       </FancyBreadcrumbs>
       <Box
         component="main"
-        sx={{
-          flexGrow: 1,
-          py: 8
-        }}
       >
         <Container maxWidth="xl">
           <Stack spacing={3}>

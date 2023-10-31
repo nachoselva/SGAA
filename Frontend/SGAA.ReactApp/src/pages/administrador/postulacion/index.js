@@ -39,10 +39,20 @@ const Page = () => {
           component="button"
           underline="hover"
           color="inherit"
-          onClick={() => router.push('/administrador/aplicacion/' + row.aplicacionId)}>
-          Ver Aplicacion
+          onClick={() => router.push('/administrador/postulacion/' + row.id)}>
+          Ver Postulación
         </Link>
-      </TableCell> <TableCell>
+      </TableCell>
+      <TableCell>
+        <Link
+          component="button"
+          underline="hover"
+          color="inherit"
+          onClick={() => router.push('/administrador/aplicacion/' + row.aplicacionId)}>
+          Ver Aplicación
+        </Link>
+      </TableCell>
+      <TableCell>
         <Link
           component="button"
           underline="hover"
@@ -59,9 +69,10 @@ const Page = () => {
       { key: 'domicilioCompleto', title: 'Unidad' },
       { key: 'montoAlquiler', title: 'Monto Alquiler' },
       { key: 'postulantes', title: 'Postulantes' },
-      { key: 'fechaPostulacion', title: 'Fecha Postulacion' },
+      { key: 'fechaPostulacion', title: 'Fecha Postulación' },
       { key: 'fechaOferta', title: 'Fecha Oferta' },
       { key: 'status', title: 'Estado' },
+      { key: null, title: null },
       { key: null, title: null },
       { key: null, title: null }
     ];

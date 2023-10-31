@@ -1,40 +1,37 @@
-import { Box, Container, Stack } from '@mui/material';
-import Head from 'next/head';
-import { AplicacionDetails } from '/src/sections/aplicacion/aplicacion-detail';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { FancyFormPage } from '../../../../components/fancy-form-page';
+import { getUnidad } from '/src/api/administrador';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
-import { AuthGuard } from '/src/guards/auth-guard';
-
-const data =
-{
-  id: 2,
-  status: 'AprobacionPendiente',
-  inquilinoUsuarioNombreCompleto: 'nombre completo',
-  postulaciones: 2,
-  puntuacionTotal: 50
-};
+import { UnidadLeerForm } from '/src/sections/unidad/unidad-leer-form';
 
 const Page = () => {
+  const router = useRouter();
+  const [unidad, setUnidad] = useState(null);
+  const unidadId = router.query.unidadId;
+
+  const getBreadcrumbsConfig = (unidadId) =>
+    [
+      { url: '/', title: 'Inicio' },
+      { url: '/administrador/unidad', title: 'Unidades' },
+      { url: '/administrador/unidad/' + unidadId, title: unidadId }
+    ];
+
+  const breadcrumbsConfig = getBreadcrumbsConfig(unidadId);
+
+  useEffect(() => {
+    getUnidad(unidadId)
+      .then((response) => {
+        setUnidad(response);
+      });
+  }, []);
+
   return (
-    <>
-      <Head>
-        <title>
-          Aplicación
-        </title>
-      </Head>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          py: 8
-        }}
-      >
-        <Container maxWidth="xl">
-          <Stack spacing={3}>
-            <AplicacionDetails aplicacion={data} ></AplicacionDetails>
-          </Stack>
-        </Container>
-      </Box>
-    </>
+    <FancyFormPage
+      form={unidad && <UnidadLeerForm unidad={unidad} />}
+      entityName={'Unidad'}
+      breadcrumbsConfig={breadcrumbsConfig}>
+    </FancyFormPage>
   );
 };
 

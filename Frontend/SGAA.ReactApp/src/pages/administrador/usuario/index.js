@@ -34,7 +34,7 @@ const Page = () => {
           underline="hover"
           color="inherit"
           onClick={() => router.push('/administrador/usuario/' + row.id)}>
-          Ver usuario
+          Ver Usuario
         </Link>
       </TableCell>
     </TableRow>);

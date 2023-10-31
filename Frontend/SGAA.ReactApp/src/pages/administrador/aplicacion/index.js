@@ -34,7 +34,7 @@ const Page = () => {
           underline="hover"
           color="inherit"
           onClick={() => router.push('/administrador/aplicacion/' + row.id)}>
-          Ver detalle
+          Ver Aplicación
         </Link>
       </TableCell>
     </TableRow>);

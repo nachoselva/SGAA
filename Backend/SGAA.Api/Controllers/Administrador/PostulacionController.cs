@@ -21,5 +21,10 @@
         [HttpGet]
         public async Task<IReadOnlyCollection<PostulacionGetModel>> GetPostulaciones()
             => await _postulacionService.GetPostulaciones();
+
+        [HttpGet]
+        [Route("{postulacionId}")]
+        public Task<PostulacionGetModel> GetContrato([FromRoute] int postulacionId)
+            => _postulacionService.GetContrato(postulacionId);
     }
 }

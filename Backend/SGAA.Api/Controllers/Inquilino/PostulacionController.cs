@@ -38,7 +38,7 @@
         [HttpGet]
         [Route("{postulacionId}")]
         public async Task<PostulacionGetModel> GetPublicacion([FromRoute] int postulacionId)
-           => await _postulacionService.GetPublicacion((await _usuarioProvider.GetUser())!.Id, postulacionId);
+           => await _postulacionService.GetPostulacion((await _usuarioProvider.GetUser())!.Id, postulacionId);
 
         [HttpPut]
         [Route("{postulacionId}/Oferta/aceptar")]

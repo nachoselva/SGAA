@@ -40,6 +40,15 @@ const Page = () => {
       <TableCell>
         {row.propietarios}
       </TableCell>
+      <TableCell>
+        <Link
+          component="button"
+          underline="hover"
+          color="inherit"
+          onClick={() => router.push('/administrador/contrato/' + row.id)}>
+          Ver Contrato
+        </Link>
+      </TableCell>
     </TableRow>);
 
   const headerConfiguration =
@@ -52,7 +61,8 @@ const Page = () => {
       { key: 'status', title: 'Estado' },
       { key: 'ordenRenovacion', title: 'N° Renovación' },
       { key: 'inquilinos', title: 'Inquilinos' },
-      { key: 'propietarios', title: 'Propietarios' }
+      { key: 'propietarios', title: 'Propietarios' },
+      { key: null, title: null }
     ];
 
   const breadcrumbsConfig = [

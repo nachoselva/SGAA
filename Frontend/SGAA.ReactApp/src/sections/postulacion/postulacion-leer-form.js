@@ -1,0 +1,84 @@
+import { Box, Stack, TextField } from '@mui/material';
+import React from 'react';
+
+export const PostulacionLeerForm = (props) => {
+  const { postulacion } = props;
+
+  return (
+    <Box>
+      <form
+        noValidate
+      >
+        <Stack spacing={3}>
+          <TextField
+            fullWidth
+            label="Id"
+            name="id"
+            value={postulacion.id}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+          <TextField
+            fullWidth
+            label="Domicilio"
+            name="domicilioCompleto"
+            value={postulacion.domicilioCompleto}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+          <TextField
+            fullWidth
+            label="Monto Alquiler"
+            name="montoAlquiler"
+            value={postulacion.montoAlquiler}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+          <TextField
+            fullWidth
+            label="Postulantes"
+            name="postulantes"
+            type="postulantes"
+            value={postulacion.postulantes}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+          <TextField
+            fullWidth
+            label="Fecha Postulación"
+            name="fechaPostulacion"
+            type="fechaPostulacion"
+            value={postulacion.fechaPostulacion}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+          <TextField
+            fullWidth
+            label="Fecha Oferta"
+            name="fechaOferta"
+            type="fechaOferta"
+            value={postulacion.fechaOferta}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+          <TextField
+            fullWidth
+            label="Estado"
+            name="status"
+            type="status"
+            value={postulacion.status}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        </Stack>
+      </form>
+    </Box>
+  );
+};

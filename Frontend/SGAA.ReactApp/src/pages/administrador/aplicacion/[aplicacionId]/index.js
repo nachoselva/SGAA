@@ -1,39 +1,37 @@
-import { Box, Container, Stack } from '@mui/material';
-import Head from 'next/head';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { FancyFormPage } from '../../../../components/fancy-form-page';
+import { getAplicacion } from '/src/api/administrador';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
-import { AuthGuard } from '/src/guards/auth-guard';
-
-const data =
-{
-  id: 2,
-  status: 'AprobacionPendiente',
-  inquilinoUsuarioNombreCompleto: 'nombre completo',
-  postulaciones: 2,
-  puntuacionTotal: 50
-};
+import { AplicacionLeerForm } from '/src/sections/aplicacion/aplicacion-leer-form';
 
 const Page = () => {
+  const router = useRouter();
+  const [aplicacion, setAplicacion] = useState(null);
+  const aplicacionId = router.query.aplicacionId;
+
+  const getBreadcrumbsConfig = (aplicacionId) =>
+    [
+      { url: '/', title: 'Inicio' },
+      { url: '/administrador/aplicacion', title: 'Aplicaciones' },
+      { url: '/administrador/aplicacion/' + aplicacionId, title: aplicacionId }
+    ];
+
+  const breadcrumbsConfig = getBreadcrumbsConfig(aplicacionId);
+
+  useEffect(() => {
+    getAplicacion(aplicacionId)
+      .then((response) => {
+        setAplicacion(response);
+      });
+  }, []);
+
   return (
-    <AuthGuard roles={['Administrador']}>
-      <Head>
-        <title>
-          Aplicación
-        </title>
-      </Head>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          py: 8
-        }}
-      >
-        <Container maxWidth="xl">
-          <Stack spacing={3}>
-            <AplicacionDetails aplicacion={data} ></AplicacionDetails>
-          </Stack>
-        </Container>
-      </Box>
-    </AuthGuard>
+    <FancyFormPage
+      form={aplicacion && <AplicacionLeerForm aplicacion={aplicacion} />}
+      entityName={'Aplicacion'}
+      breadcrumbsConfig={breadcrumbsConfig}>
+    </FancyFormPage>
   );
 };
 

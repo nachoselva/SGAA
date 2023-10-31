@@ -2,6 +2,11 @@ import { Box, Breadcrumbs, Card, Container, Grid, Link, Stack, Typography } from
 import Head from 'next/head';
 import { AuthGuard } from '/src/guards/auth-guard';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
+import { FancyBreadcrumbs } from '/src/components/fancy-breadcrumbs';
+
+const breadcrumbsConfig = [
+  { url: '/', title: 'Inicio' }
+];
 
 const Page = () => {
   return (
@@ -12,33 +17,10 @@ const Page = () => {
           SGAA - Inicio
         </title>
       </Head>
-      <Box>
-        <Container maxWidth="xl">
-          <Stack spacing={3}>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              spacing={4}
-            >
-              <Breadcrumbs aria-label="breadcrumb">
-                <Link
-                  component="button"
-                  underline="hover"
-                  color="inherit"
-                  onClick={() => router.push('/')}>
-                  Inicio
-                </Link>
-              </Breadcrumbs>
-            </Stack>
-          </Stack>
-        </Container>
-      </Box>
+      <FancyBreadcrumbs breadcrumbsConfig={breadcrumbsConfig}>
+      </FancyBreadcrumbs>
       <Box
         component="main"
-        sx={{
-          flexGrow: 1,
-          py: 8
-        }}
       >
         <Container maxWidth="xl">
           <Stack spacing={3}>
