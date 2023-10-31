@@ -12,13 +12,21 @@ export const UsuarioLeerForm = (props) => {
         <Stack spacing={3}>
           <TextField
             fullWidth
+            label="Id"
+            name="id"
+            value={usuario.id}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+          <TextField
+            fullWidth
             label="Nombre"
             name="nombre"
             value={usuario.nombre}
             InputProps={{
               readOnly: true,
             }}
-            disabled
           />
           <TextField
             fullWidth
@@ -28,7 +36,6 @@ export const UsuarioLeerForm = (props) => {
             InputProps={{
               readOnly: true,
             }}
-            disabled
           />
           <TextField
             fullWidth
@@ -39,24 +46,16 @@ export const UsuarioLeerForm = (props) => {
             InputProps={{
               readOnly: true,
             }}
-            disabled
           />
           <TextField
             fullWidth
             label="Rol"
             name="rol"
-            select
-            SelectProps={{ native: true }}
             value={usuario.roles}
             InputProps={{
               readOnly: true,
             }}
-            disabled
-          >
-            <option key={'Inquilino'} value={'Inquilino'}>Inquilino</option>
-            <option key={'Propietario'} value={'Propietario'}>Propietario</option>
-            <option key={'Administrador'} value={'Administrador'}>Administrador</option>
-          </TextField>
+          />
         </Stack>
       </form>
     </Box>

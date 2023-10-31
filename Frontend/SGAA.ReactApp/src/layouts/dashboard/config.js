@@ -10,9 +10,12 @@ import { useAuthContext } from '/src/contexts/auth-context';
 
 export const getMenuItems = () => {
   const { isAuthenticated, user } = useAuthContext();
-  let items = [];
+  let everyone = [];
+  let administrador = [];
+  let propietario = [];
+  let inquilino = [];
   if (isAuthenticated) {
-    items.push(
+    everyone.push(
       {
         title: 'Inicio',
         path: '/',
@@ -23,7 +26,7 @@ export const getMenuItems = () => {
         )
       });
     if (user.roles.includes('Administrador')) {
-      items.push(
+      administrador.push(
         {
           title: 'Unidades',
           path: '/administrador/unidad',
@@ -80,6 +83,6 @@ export const getMenuItems = () => {
         });
     }
   }
-  return items;
+  return { everyone, administrador, propietario, inquilino };
 }
-  
+
