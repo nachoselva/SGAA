@@ -1,8 +1,8 @@
 import {
-    Box, Divider,
-    Drawer,
-    Stack, Typography,
-    useMediaQuery
+  Box, Divider,
+  Drawer,
+  Stack, Typography,
+  useMediaQuery
 } from '@mui/material';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -16,6 +16,32 @@ export const SideNav = (props) => {
   const { open, onClose } = props;
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
+  const { everyone, administrador, propietario, inquilino } = getMenuItems();
+
+  const renderLink = (item) => {
+    let active;
+    if (!item.path) {
+      active = false;
+    }
+    else if (item.path === '/') {
+      active = item.path === pathname;
+    }
+    else {
+      active = pathname?.includes(item.path) ?? false;
+    }
+
+    return (
+      <SideNavItem
+        active={active}
+        disabled={item.disabled}
+        external={item.external}
+        icon={item.icon}
+        key={item.title}
+        path={item.path}
+        title={item.title}
+      />
+    );
+  };
 
   const content = (
     <Scrollbar
@@ -85,21 +111,43 @@ export const SideNav = (props) => {
               m: 0
             }}
           >
-            {getMenuItems().map((item) => {
-              const active = item.path ? (pathname === item.path) : false;
-
-              return (
-                <SideNavItem
-                  active={active}
-                  disabled={item.disabled}
-                  external={item.external}
-                  icon={item.icon}
-                  key={item.title}
-                  path={item.path}
-                  title={item.title}
-                />
-              );
-            })}
+            {
+              everyone.map((item) => renderLink(item))
+            }
+            <Divider sx={{ borderColor: 'neutral.700' }} />
+            {
+              administrador.length > 0 &&
+              <Box><p>Administrador</p></Box>
+            }
+            {
+              administrador.map((item) => renderLink(item))
+            }
+            {
+              administrador.length > 0 &&
+              < Divider sx={{ borderColor: 'neutral.700' }} />
+            }
+            {
+              propietario.length > 0 &&
+              <Box><p>Propietario</p></Box>
+            }
+            {
+              propietario.map((item) => renderLink(item))
+            }
+            {
+              propietario.length > 0 &&
+              <Divider sx={{ borderColor: 'neutral.700' }} />
+            }
+            {
+              inquilino.length > 0 &&
+              <Box><p>Inquilino</p></Box>
+            }
+            {
+              inquilino.map((item) => renderLink(item))
+            }
+            {
+              propietario.length > 0 &&
+              <Divider sx={{ borderColor: 'neutral.700' }} />
+            }
           </Stack>
         </Box>
         <Divider sx={{ borderColor: 'neutral.700' }} />

@@ -1,36 +1,29 @@
 import { Box, Stack, Typography } from '@mui/material';
 import Head from 'next/head';
-import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import { confirmarCorreo } from '/src/api/auth';
 import { Layout as AuthLayout } from '/src/layouts/auth/layout';
 
 const Page = () => {
   const [confirmation, setConfirmation] = useState(false);
+  const router = useRouter();
+  const email = router.query.email;
+  const token = router.query.token;
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(document.location.search)
-    const token = searchParams.get('token');
-    const email = searchParams.get('email');
-    confirmarCorreo(email, token)
-      .then(() => {
-        setConfirmation(true);
-      })
-      .catch((err) => {
-        if (err.statusCode == 400) {
-          helpers.setStatus({ success: false });
-          helpers.setErrors(err.body)
-          helpers.setSubmitting(false);
-        } else {
-          throw err;
-        }
-      });
-  }, []);
+    if (email && token)
+      confirmarCorreo(email, token)
+        .then(() => {
+          setConfirmation(true);
+        });
+  }, [email, token]);
 
   return (
     <>
       <Head>
         <title>
-          Resetear Contraseña
+          Confirmar Correo Electrónico
         </title>
       </Head>
       <Box
@@ -62,7 +55,7 @@ const Page = () => {
               <>
                 <p>Su correo fue confirmado. </p>
                 <p>Por favor ingrese al sistema mediante el link:&nbsp;
-                  <a href='auth/login'>Login</a></p>
+                  <a href='/auth/login'>Login</a></p>
               </>
             }
           </div>

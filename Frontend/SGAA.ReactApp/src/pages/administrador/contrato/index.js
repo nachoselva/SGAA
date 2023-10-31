@@ -1,137 +1,75 @@
-import { Box, Breadcrumbs, Container, Link, Stack, Typography } from '@mui/material';
-import Head from 'next/head';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { getContratos } from '/src/api/administrador';
-import { AuthGuard } from '/src/guards/auth-guard';
-import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
-import { ContratosSearch } from '/src/sections/contrato/contrato-search';
-import { ContratosTable } from '/src/sections/contrato/contrato-table';
-import { applyPagination } from '/src/utils/apply-pagination';
+import { Link, TableRow, TableCell } from '@mui/material';
 import { useRouter } from 'next/navigation';
-
-const useContratos = (filteredData, page, rowsPerPage) => {
-  return useMemo(
-    () => {
-      return applyPagination(filteredData, page, rowsPerPage);
-    },
-    [filteredData, page, rowsPerPage]
-  );
-};
+import { getContratos } from '/src/api/administrador';
+import { FancyTablePage } from '/src/components/fancy-table-page';
+import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
 
 const Page = () => {
+
   const router = useRouter();
-  const [data, setData] = useState([]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [searchText, setSearchText] = useState('');
-  const lcSearchText = searchText.toLowerCase();
-  const filteredData = data.filter((item) =>
-    Object.values(item).some(
-      field => field?.toString().toLowerCase().includes(lcSearchText)
-    )
-  );
 
-  const contratos = useContratos(filteredData, page, rowsPerPage);
+  const tableRowGenerator = (row) => (
+    <TableRow
+      hover
+      key={row.id}
+    >
+      <TableCell>
+        {row.id}
+      </TableCell>
+      <TableCell>
+        {row.domicilio}
+      </TableCell>
+      <TableCell>
+        {row.fechaDesde}
+      </TableCell>
+      <TableCell>
+        {row.fechaHasta}
+      </TableCell>
+      <TableCell>
 
-  const handleSearchChange = useCallback(
-    (event) => {
-      setSearchText(event.target.value);
-      setPage(0);
-    },
-    []
-  );
+      </TableCell>
+      <TableCell>
+        {row.status}
+      </TableCell>
+      <TableCell>
+        {row.ordenRenovacion}
+      </TableCell>
+      <TableCell>
+        {row.inquilinos}
+      </TableCell>
+      <TableCell>
+        {row.propietarios}
+      </TableCell>
+    </TableRow>);
 
-  const handlePageChange = useCallback(
-    (event, value) => {
-      setPage(value);
-    },
-    []
-  );
+  const headerConfiguration =
+    [
+      { key: 'id', title: '#' },
+      { key: 'domicilio', title: 'Unidad' },
+      { key: 'fechaDesde', title: 'Desde' },
+      { key: 'fechaHasta', title: 'Hasta' },
+      { key: null, title: 'Contrato' },
+      { key: 'status', title: 'Estado' },
+      { key: 'ordenRenovacion', title: 'N° Renovación' },
+      { key: 'inquilinos', title: 'Inquilinos' },
+      { key: 'propietarios', title: 'Propietarios' }
+    ];
 
-  const handleRowsPerPageChange = useCallback(
-    (event) => {
-      setRowsPerPage(event.target.value);
-    },
-    []
-  );
-
-  useEffect(() => {
-    getContratos()
-      .then((response) => {
-        setData(response);
-      });
-  }, []);
+  const breadcrumbsConfig = [
+    { url: '/', title: 'Inicio' },
+    { url: '/administrador/contrato', title: 'Contratos' }
+  ];
 
   return (
-    <AuthGuard roles={['Administrador']}>
-      <Head>
-        <title>
-          SGAA - Contratos
-        </title>
-      </Head>
-      <Box>
-        <Container maxWidth="xl">
-          <Stack spacing={3}>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              spacing={4}
-            >
-              <Breadcrumbs aria-label="breadcrumb">
-
-                <Link 
-                  component="button"
-                  underline="hover"
-                  color="inherit"
-                  onClick={() => router.push('/')} >
-                  Inicio
-                </Link>
-                <Link
-                  component="button"
-                  underline="hover"
-                  color="inherit"
-                  onClick={() => router.push('/administrador/contrato')}
-                >
-                  Contratos
-                </Link>
-              </Breadcrumbs>
-            </Stack>
-          </Stack>
-        </Container>
-      </Box>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          py: 8
-        }}
-      >
-        <Container maxWidth="xl">
-          <Stack spacing={3}>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              spacing={4}
-            >
-              <Stack spacing={1}>
-                <Typography variant="h4">
-                  Contratos
-                </Typography>
-              </Stack>
-            </Stack>
-            <ContratosSearch onSearchChange={handleSearchChange} />
-            <ContratosTable
-              count={data.length}
-              items={contratos}
-              onPageChange={handlePageChange}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              page={page}
-              rowsPerPage={rowsPerPage}
-            />
-          </Stack>
-        </Container>
-      </Box>
-    </AuthGuard>
+    <FancyTablePage
+      getData={getContratos}
+      entityName={'Contrato'}
+      listName={'Contratos'}
+      breadcrumbsConfig={breadcrumbsConfig}
+      roles={['Administrador']}
+      headerConfiguration={headerConfiguration}
+      tableRowGenerator={tableRowGenerator}
+    />
   );
 };
 

@@ -1,6 +1,5 @@
 import { Box, Container, Stack } from '@mui/material';
 import Head from 'next/head';
-import { AplicacionDetails } from '/src/sections/aplicacion/aplicacion-detail';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
 import { AuthGuard } from '/src/guards/auth-guard';
 
