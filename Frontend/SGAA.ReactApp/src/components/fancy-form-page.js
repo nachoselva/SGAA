@@ -5,8 +5,7 @@ import { AuthGuard } from '/src/guards/auth-guard';
 
 export const FancyFormPage = (props) => {
   const { entityName, form, breadcrumbsConfig } = props;
-  console.log(entityName);
-  console.log(breadcrumbsConfig);
+
   return (
     <AuthGuard roles={['Administrador']}>
       <Head>
@@ -19,8 +18,7 @@ export const FancyFormPage = (props) => {
       <Box
         component="main"
         sx={{
-          flexGrow: 1,
-          py: 8
+          flexGrow: 1
         }}
       >
         <Container maxWidth="xl">
@@ -32,7 +30,7 @@ export const FancyFormPage = (props) => {
             >
               <Stack spacing={1}>
                 <Typography variant="h4">
-                  Detalle Usuario
+                  Detalle {entityName}
                 </Typography>
               </Stack>
             </Stack>
