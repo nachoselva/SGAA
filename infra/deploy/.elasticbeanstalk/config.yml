@@ -1,17 +1,13 @@
 branch-defaults:
   default:
-    environment: production
+    environment: sgaa-production-docker-prd
     group_suffix: null
-environment-defaults:
-  production:
-    branch: null
-    repository: null
 global:
-  application_name: sgaa-api
+  application_name: sgaa-production-docker
   branch: null
-  default_ec2_keyname: sgaa-devops-user-key-pair
+  default_ec2_keyname: sgaa-docker-key-pair
   default_platform: Docker running on 64bit Amazon Linux 2
-  default_region: us-east-2
+  default_region: us-east-1
   include_git_submodules: true
   instance_profile: null
   platform_name: null
