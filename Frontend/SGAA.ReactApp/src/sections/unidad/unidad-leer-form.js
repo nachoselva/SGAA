@@ -11,6 +11,7 @@ export const UnidadLeerForm = (props) => {
       >
         <Stack spacing={3}>
           <TextField
+            variant="filled"
             fullWidth
             label="Id"
             name="id"
@@ -20,6 +21,7 @@ export const UnidadLeerForm = (props) => {
             }}
           />
           <TextField
+            variant="filled"
             fullWidth
             label="Domicilio"
             name="domicilioCompleto"
@@ -29,6 +31,7 @@ export const UnidadLeerForm = (props) => {
             }}
           />
           <TextField
+            variant="filled"
             fullWidth
             label="Provincia"
             name="provincia"
@@ -38,6 +41,7 @@ export const UnidadLeerForm = (props) => {
             }}
           />
           <TextField
+            variant="filled"
             fullWidth
             label="Estado"
             name="status"

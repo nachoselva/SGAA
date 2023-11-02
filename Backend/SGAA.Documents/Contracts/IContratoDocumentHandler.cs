@@ -4,6 +4,6 @@
 
     public interface IContratoDocumentHandler
     {
-        byte[] GetDocumentBody(ContratoDocumentModel documentModel);
+        string GetDocumentBody(ContratoDocumentModel documentModel);
     }
 }

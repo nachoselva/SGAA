@@ -11,6 +11,6 @@
         public required DateOnly FechaVencimiento { get; set; }
         public required PagoStatus Status { get; set; }
         public required DateTime? FechaPago { get; set; }
-        public required byte[]? Archivo { get; set; }
+        public required string? Archivo { get; set; }
     }
 }

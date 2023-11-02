@@ -11,6 +11,7 @@ export const PublicacionLeerForm = (props) => {
       >
         <Stack spacing={3}>
           <TextField
+            variant="filled"
             fullWidth
             label="Id"
             name="id"
@@ -20,6 +21,7 @@ export const PublicacionLeerForm = (props) => {
             }}
           />
           <TextField
+            variant="filled"
             fullWidth
             label="Domicilio"
             name="domicilioCompleto"
@@ -29,6 +31,7 @@ export const PublicacionLeerForm = (props) => {
             }}
           />
           <TextField
+            variant="filled"
             fullWidth
             label="Monto Alquiler"
             name="montoAlquiler"
@@ -38,6 +41,7 @@ export const PublicacionLeerForm = (props) => {
             }}
           />
           <TextField
+            variant="filled"
             fullWidth
             label="Inicio"
             name="inicioAlquiler"
@@ -48,6 +52,7 @@ export const PublicacionLeerForm = (props) => {
             }}
           />
           <TextField
+            variant="filled"
             fullWidth
             label="Postulaciones"
             name="postulaciones"
@@ -58,6 +63,7 @@ export const PublicacionLeerForm = (props) => {
             }}
           />
           <TextField
+            variant="filled"
             fullWidth
             label="Estado"
             name="status"

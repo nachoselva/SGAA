@@ -99,7 +99,7 @@
             {
                 throw this.MapIdentityErrorToBadRequest(addUserResult.Errors);
             }
-            IdentityResult addToRoleResult = await AddToRoleAsync(usuario, model.Rol.ToString());
+            IdentityResult addToRoleResult = await AddToRolesAsync(usuario, model.Roles.Select(r => r.ToString()));
             if (!addToRoleResult.Succeeded)
             {
                 throw this.MapIdentityErrorToBadRequest(addToRoleResult.Errors);
@@ -120,9 +120,9 @@
 
         public async Task<UsuarioGetModel> AddUsuarioPublic(UsuarioPostModel model)
         {
-            if (model.Rol == RolType.Administrador)
+            if (model.Roles.Contains(RolType.Administrador))
             {
-                throw new UnauthorizedException();
+                throw new BadRequestException(nameof(model.Roles), "No está autorizado a crear administradores");
             }
             return await AddUsuario(model);
         }

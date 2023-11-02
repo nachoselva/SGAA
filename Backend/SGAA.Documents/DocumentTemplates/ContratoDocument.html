@@ -45,11 +45,11 @@
     <p>
         En la ciudad de {{ ciudad }}, provincia de {{ provincia }}, a {{ fechaOferta }}, entre los propietarios
         {{#each firmasPropietarios}}
-        {{ this.nombreCompleto }} ({{ this.tipoIdentificacion }} {{ this.numeroIdentificacion }}, con domicilio en {{ this.domicilio }}),
+        {{ this.nombreCompleto }} (DNI {{ this.numeroIdentificacion }}, con domicilio en {{ this.domicilio }}),
         {{/each}}
         en adelante el "Arrendador", y los inquilinos
         {{#each firmasInquilinos}}
-        {{ this.nombreCompleto }} ({{ this.tipoIdentificacion }} {{ this.numeroIdentificacion }}, con domicilio en {{ this.domicilio }}),
+        {{ this.nombreCompleto }} (DNI {{ this.numeroIdentificacion }}, con domicilio en {{ this.domicilio }}),
         {{/each}}
         en adelante el "Inquilino", se acuerda el siguiente contrato de alquiler:
     </p>
@@ -91,7 +91,7 @@
     <div class="firma">
         <p> {{this.rol}} </p>
         <p> {{this.nombreCompleto}} </p>
-        <p> {{this.tipoIdentificacion}}: {{this.numeroIdentificacion}} </p>
+        <p> DNI: {{this.numeroIdentificacion}} </p>
         {{#if this.fechaFirma}}
         <p> Fecha Firma: {{this.fechaFirma}} </p>
         {{/if}}
@@ -108,7 +108,7 @@
     <div class="firma">
         <p> {{this.rol}} </p>
         <p> {{this.nombreCompleto}} </p>
-        <p> {{this.tipoIdentificacion}}: {{this.numeroIdentificacion}} </p>
+        <p> DNI: {{this.numeroIdentificacion}} </p>
         {{#if this.fechaFirma}}
         <p> Fecha Firma: {{this.fechaFirma}} </p>
         {{/if}}

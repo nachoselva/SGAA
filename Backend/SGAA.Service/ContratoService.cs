@@ -47,7 +47,7 @@
             _contratoEjecutadoEmailSender = contratoEjecutadoEmailSender;
         }
 
-        private byte[] GetArchivoContrato(Contrato contrato)
+        private string GetArchivoContrato(Contrato contrato)
         {
             static FirmaContratoDocumentModel BuildFirmaDocumentModel(Firma firma)
             {
@@ -58,8 +58,7 @@
                     NombreCompleto = firma.Usuario.NombreCompleto,
                     Domicilio = firma.Domicilio,
                     NumeroIdentificacion = firma.NumeroIdentificacion,
-                    Rol = firma.Rol.ToString(),
-                    TipoIdentificacion = firma.TipoIdentificacion.ToString()
+                    Rol = firma.Rol.ToString()
                 };
             }
 
@@ -105,7 +104,7 @@
                             InvitacionURL = invitacionURL
                         }); ;
                 }
-                Firma firma = new(0, 0, null, null, rol, postulante.TipoIdentificacion, postulante.NumeroIdentificacion, postulante.Domicilio)
+                Firma firma = new(0, 0, null, null, rol, postulante.NumeroIdentificacion, postulante.Domicilio)
                 {
                     UsuarioId = usuario.Id,
                     Usuario = usuario
@@ -122,7 +121,7 @@
             {
                 firmas.Add(await BuildFirma(titular, FirmaRol.Propietario));
             }
-            Contrato contrato = new(postulacion.Id, fechaDesde, fechaHasta, null, montoAlquiler, orderRenovacion, Array.Empty<byte>(), ContratoStatus.FirmaPendiente);
+            Contrato contrato = new(postulacion.Id, fechaDesde, fechaHasta, null, montoAlquiler, orderRenovacion, string.Empty, ContratoStatus.FirmaPendiente);
             contrato.AddFirmas(firmas);
             contrato.Postulacion = postulacion;
             contrato.Archivo = GetArchivoContrato(contrato);

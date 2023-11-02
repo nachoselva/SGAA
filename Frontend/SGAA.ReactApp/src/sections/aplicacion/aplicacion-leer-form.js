@@ -11,6 +11,7 @@ export const AplicacionLeerForm = (props) => {
       >
         <Stack spacing={3}>
           <TextField
+            variant="filled"
             fullWidth
             label="Id"
             name="id"
@@ -20,6 +21,7 @@ export const AplicacionLeerForm = (props) => {
             }}
           />
           <TextField
+            variant="filled"
             fullWidth
             label="Inquilino"
             name="inquilinoUsuarioNombreCompleto"
@@ -29,6 +31,7 @@ export const AplicacionLeerForm = (props) => {
             }}
           />
           <TextField
+            variant="filled"
             fullWidth
             label="Estado"
             name="status"
@@ -39,6 +42,7 @@ export const AplicacionLeerForm = (props) => {
             }}
           />
           <TextField
+            variant="filled"
             fullWidth
             label="Puntuación"
             name="puntuacionTotal"
@@ -49,6 +53,7 @@ export const AplicacionLeerForm = (props) => {
             }}
           />
           <TextField
+            variant="filled"
             fullWidth
             label="Postulaciones"
             name="postulaciones"

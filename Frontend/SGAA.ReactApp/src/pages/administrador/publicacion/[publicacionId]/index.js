@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { FancyFormPage } from '../../../../components/fancy-form-page';
+import { FancyFormPage } from '/src/components/fancy-form-page';
 import { getPublicacion } from '/src/api/administrador';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
 import { PublicacionLeerForm } from '/src/sections/publicacion/publicacion-leer-form';
@@ -28,6 +28,7 @@ const Page = () => {
 
   return (
     <FancyFormPage
+      roles={['Administrador']}
       form={publicacion && <PublicacionLeerForm publicacion={publicacion} />}
       entityName={'Publicación'}
       breadcrumbsConfig={breadcrumbsConfig}>

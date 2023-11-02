@@ -26,7 +26,6 @@
         public required string Rol { get; set; }
         public required string NombreCompleto { get; set; }
         public required string Domicilio { get; set; }
-        public required string TipoIdentificacion { get; set; }
         public required string NumeroIdentificacion { get; set; }
         public required string? FechaFirma { get; set; }
         public required string? DireccionIP { get; set; }

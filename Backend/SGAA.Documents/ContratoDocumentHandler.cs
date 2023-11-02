@@ -14,12 +14,12 @@
         private readonly IHandlebars _handlebarEngine = Handlebars.Create();
         private readonly HtmlToPdfConverter _pdfConverter = new();
 
-        public byte[] GetDocumentBody(ContratoDocumentModel documentModel)
+        public string GetDocumentBody(ContratoDocumentModel documentModel)
         {
             string templateContent = File.ReadAllText($"{path}ContratoDocument.html");
             var template = _handlebarEngine.Compile(templateContent);
             var documentHtml = template(documentModel);
-            return _pdfConverter.GeneratePdf(documentHtml);
+            return Convert.ToBase64String(_pdfConverter.GeneratePdf(documentHtml));
         }
     }
 }

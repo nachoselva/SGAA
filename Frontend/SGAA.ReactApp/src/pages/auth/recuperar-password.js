@@ -1,10 +1,10 @@
-import { Box, Button, Link, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Stack, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import Head from 'next/head';
 import React, { useState } from 'react';
 import * as Yup from 'yup';
-import { Layout as AuthLayout } from '/src/layouts/auth/layout';
 import { recuperarPassword } from '/src/api/auth';
+import { Layout as AuthLayout } from '/src/layouts/auth/layout';
 
 const Page = () => {
   const [confirmation, setConfirmation] = useState(false);
@@ -77,6 +77,7 @@ const Page = () => {
               >
                 <Stack spacing={3}>
                   <TextField
+                    variant="filled"
                     error={!!(formik.touched.email && formik.errors.email)}
                     fullWidth
                     helperText={formik.touched.email && formik.errors.email}

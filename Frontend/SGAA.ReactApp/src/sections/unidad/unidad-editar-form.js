@@ -3,12 +3,12 @@ import { useFormik } from 'formik';
 import React from 'react';
 import * as Yup from 'yup';
 
-export const UsuarioEditarForm = (props) => {
+export const UnidadEditarForm = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      nombre: props.usuario.nombre,
-      apellido: props.usuario.apellido,
+      nombre: props.unidad.nombre,
+      apellido: props.unidad.apellido,
       submit: null
     },
     validationSchema: Yup.object({
@@ -73,18 +73,7 @@ export const UsuarioEditarForm = (props) => {
             label="Email"
             name="email"
             type="email"
-            value={props.usuario.email}
-            InputProps={{
-              readOnly: true,
-            }}
-            disabled
-          />
-          <TextField
-            variant="filled"
-            fullWidth
-            label="Rol"
-            name="rol"
-            value={props.usuario.roles}
+            value={props.unidad.email}
             InputProps={{
               readOnly: true,
             }}

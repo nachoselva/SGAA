@@ -14,7 +14,7 @@
         public Pago ToEntity(AbonarPagoPutModel putModel, Pago entity)
         {
             entity.FechaPago = DateTime.Now;
-            entity.Archivo = Encoding.ASCII.GetBytes(putModel.Archivo);
+            entity.Archivo = putModel.Archivo;
             entity.Status = PagoStatus.Abonado;
             return entity;
         }

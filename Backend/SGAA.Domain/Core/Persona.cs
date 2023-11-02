@@ -5,12 +5,11 @@
 
     public abstract class Persona : BaseEntity, IEntity
     {
-        protected Persona(string nombre, string apellido, string email, TipoIdentificacion tipoIdentificacion, string numeroIdentificacion, DateTime fechaNacimiento, string domicilio, byte[] frenteIdentificacionArchivo, byte[] dorsoIdentificacionArchivo)
+        protected Persona(string nombre, string apellido, string email, string numeroIdentificacion, DateTime fechaNacimiento, string domicilio, string frenteIdentificacionArchivo, string dorsoIdentificacionArchivo)
         {
             Nombre = nombre;
             Apellido = apellido;
             Email = email;
-            TipoIdentificacion = tipoIdentificacion;
             NumeroIdentificacion = numeroIdentificacion;
             FechaNacimiento = fechaNacimiento;
             Domicilio = domicilio;
@@ -20,12 +19,11 @@
 
         public string Nombre { get; set; }
         public string Apellido { get; set; }
-        public TipoIdentificacion TipoIdentificacion { get; set; }
         public string NumeroIdentificacion { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public string Domicilio { get; set; }
-        public byte[] FrenteIdentificacionArchivo { get; set; }
-        public byte[] DorsoIdentificacionArchivo { get; set; }
+        public string FrenteIdentificacionArchivo { get; set; }
+        public string DorsoIdentificacionArchivo { get; set; }
         public string Email { get; set; }
     }
 }

@@ -19,7 +19,7 @@
                 OrdenRenovacion = entity.OrdenRenovacion,
                 Status = entity.Status,
                 Domicilio = entity.Postulacion.Publicacion.Unidad.DomicilioCompleto,
-                Archivo = Encoding.ASCII.GetString(entity.Archivo),
+                Archivo = entity.Archivo,
                 InquilinosCount = entity.Firmas.Count(f => f.Rol == FirmaRol.Inquilino),
                 PropietariosCount = entity.Firmas.Count(f => f.Rol == FirmaRol.Propietario),
                 Inquilinos = string.Join(',', entity.Firmas.Where(f => f.Rol == FirmaRol.Inquilino).Select(f => f.Usuario.NombreCompleto)),

@@ -15,9 +15,7 @@
                 .IsRequired()
                 .HasColumnType(DataTypes.TYPE_DECIMAL);
 
-            builder.Property(garantia => garantia.Archivo)
-                .IsRequired()
-                .HasColumnType(DataTypes.TYPE_FILE);
+            builder.Property(garantia => garantia.Archivo);
 
             builder
                 .HasOne(garantia => garantia.Aplicacion)
