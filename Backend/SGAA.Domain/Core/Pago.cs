@@ -4,7 +4,7 @@
 
     public class Pago : BaseEntity, IEntity
     {
-        public Pago(int contratoId, string descripcion, decimal monto, DateOnly fechaVencimiento, PagoStatus status, DateTime? fechaPago, byte[]? archivo)
+        public Pago(int contratoId, string descripcion, decimal monto, DateOnly fechaVencimiento, PagoStatus status, DateTime? fechaPago, string? archivo)
         {
             ContratoId = contratoId;
             Descripcion = descripcion;
@@ -21,7 +21,7 @@
         public DateOnly FechaVencimiento { get; private set; }
         public PagoStatus Status { get; set; }
         public DateTime? FechaPago { get; set; }
-        public byte[]? Archivo { get; set; }
+        public string? Archivo { get; set; }
 
         public Contrato Contrato { get; private set; } = default!;
     }

@@ -11,6 +11,7 @@ export const ContratoLeerForm = (props) => {
       >
         <Stack spacing={3}>
           <TextField
+            variant="filled"
             fullWidth
             label="Id"
             name="id"
@@ -20,6 +21,7 @@ export const ContratoLeerForm = (props) => {
             }}
           />
           <TextField
+            variant="filled"
             fullWidth
             label="Domicilio"
             name="domicilio"
@@ -29,6 +31,7 @@ export const ContratoLeerForm = (props) => {
             }}
           />
           <TextField
+            variant="filled"
             fullWidth
             label="Desde"
             name="fechaDesde"
@@ -38,6 +41,7 @@ export const ContratoLeerForm = (props) => {
             }}
           />
           <TextField
+            variant="filled"
             fullWidth
             label="Hasta"
             name="fechaHasta"
@@ -48,6 +52,7 @@ export const ContratoLeerForm = (props) => {
             }}
           />
           <TextField
+            variant="filled"
             fullWidth
             label="Contrato"
             name="contrato"
@@ -58,6 +63,7 @@ export const ContratoLeerForm = (props) => {
             }}
           />
           <TextField
+            variant="filled"
             fullWidth
             label="Estado"
             name="status"
@@ -68,6 +74,7 @@ export const ContratoLeerForm = (props) => {
             }}
           />
           <TextField
+            variant="filled"
             fullWidth
             label="Orden Renovacion"
             name="ordenRenovacion"
@@ -78,6 +85,7 @@ export const ContratoLeerForm = (props) => {
             }}
           />
           <TextField
+            variant="filled"
             fullWidth
             label="Inquilinos"
             name="inquilinos"
@@ -88,6 +96,7 @@ export const ContratoLeerForm = (props) => {
             }}
           />
           <TextField
+            variant="filled"
             fullWidth
             label="Propietarios"
             name="propietarios"

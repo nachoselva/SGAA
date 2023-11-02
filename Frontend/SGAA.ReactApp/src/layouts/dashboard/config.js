@@ -82,6 +82,18 @@ export const getMenuItems = () => {
           )
         });
     }
+    if (user.roles.includes('Propietario')) {
+      propietario.push(
+        {
+          title: 'Mis Unidades',
+          path: '/propietario/unidad',
+          icon: (
+            <SvgIcon fontSize="small">
+              <HomeModernIcon />
+            </SvgIcon>
+          )
+        });
+    }
   }
   return { everyone, administrador, propietario, inquilino };
 }

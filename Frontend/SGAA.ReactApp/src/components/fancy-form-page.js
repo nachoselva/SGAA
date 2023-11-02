@@ -4,13 +4,13 @@ import { FancyBreadcrumbs } from './fancy-breadcrumbs';
 import { AuthGuard } from '/src/guards/auth-guard';
 
 export const FancyFormPage = (props) => {
-  const { entityName, form, breadcrumbsConfig } = props;
+  const { title, form, breadcrumbsConfig, roles } = props;
 
   return (
-    <AuthGuard roles={['Administrador']}>
+    <AuthGuard roles={roles}>
       <Head>
         <title>
-          SGAA - Detalle {entityName}
+          SGAA - {title}
         </title>
       </Head>
       <FancyBreadcrumbs breadcrumbsConfig={breadcrumbsConfig}>
@@ -21,8 +21,8 @@ export const FancyFormPage = (props) => {
           flexGrow: 1
         }}
       >
-        <Container maxWidth="xl">
-          <Stack spacing={3}>
+        <Container maxWidth="xl" >
+          <Stack spacing={3} >
             <Stack
               direction="row"
               justifyContent="space-between"
@@ -30,7 +30,7 @@ export const FancyFormPage = (props) => {
             >
               <Stack spacing={1}>
                 <Typography variant="h4">
-                  Detalle {entityName}
+                  {title}
                 </Typography>
               </Stack>
             </Stack>
@@ -40,11 +40,11 @@ export const FancyFormPage = (props) => {
             >
               <Grid
                 xs={12}
-                sm={8}
-                lg={6}
-                xl={4}
+                lg={8}
               >
-                <Card sx={{ p: 2 }} >
+                <Card sx={{ p: 2 }} sx={{
+                  border: 1, borderRadius: '8px', 'border- style': 'solid', 'border-width': '1px', 'border-color': '#1C2536', p: 2, mt: 1
+                }} >
                   {
                     form
                   }

@@ -102,7 +102,8 @@ export function createComponents(config) {
           flex: '1 1 auto',
           flexDirection: 'column',
           minHeight: '100%',
-          width: '100%'
+          width: '100%',
+          backgroundColor: '#eff1f5f5'
         },
         '#__next': {
           display: 'flex',

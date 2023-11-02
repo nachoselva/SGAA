@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SGAA.Repository.Contexts;
 
@@ -11,9 +12,11 @@ using SGAA.Repository.Contexts;
 namespace SGAA.Repository.Migrations
 {
     [DbContext(typeof(SGAADbContext))]
-    partial class SGAADbContextModelSnapshot : ModelSnapshot
+    [Migration("20231101160948_byte_array_to_string")]
+    partial class byte_array_to_string
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -13142,6 +13145,11 @@ namespace SGAA.Repository.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
+                    b.Property<string>("TipoIdentificacion")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
                     b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
@@ -13154,6 +13162,8 @@ namespace SGAA.Repository.Migrations
                     b.ToTable("Firma", t =>
                         {
                             t.HasCheckConstraint("CHK_Firma_Rol", "[Rol] IN ('Inquilino', 'Propietario')");
+
+                            t.HasCheckConstraint("CHK_Firma_TipoIdentificacion", "[TipoIdentificacion] IN ('Dni')");
                         });
                 });
 
@@ -13455,6 +13465,11 @@ namespace SGAA.Repository.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TipoIdentificacion")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AplicacionId");
@@ -13483,7 +13498,9 @@ namespace SGAA.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CiudadId", "Calle", "Altura")
+                    b.HasIndex("CiudadId");
+
+                    b.HasIndex("Calle", "Altura")
                         .IsUnique();
 
                     b.ToTable("Propiedad", (string)null);
@@ -13731,6 +13748,11 @@ namespace SGAA.Repository.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("NumeroIdentificacion")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("TipoIdentificacion")
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");

@@ -79,6 +79,7 @@ const Page = () => {
               >
                 <Stack spacing={3}>
                   <TextField
+                    variant="filled"
                     error={!!(formik.touched.password && formik.errors.password)}
                     fullWidth
                     helperText={formik.touched.password && formik.errors.password}

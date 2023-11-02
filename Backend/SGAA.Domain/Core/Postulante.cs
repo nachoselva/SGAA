@@ -5,11 +5,11 @@
 
     public class Postulante : Persona, IEntity
     {
-        public Postulante(string nombre, string apellido, string email, TipoIdentificacion tipoIdentificacion, string numeroIdentificacion, 
-            DateTime fechaNacimiento, string domicilio, byte[] frenteIdentificacionArchivo, byte[] dorsoIdentificacionArchivo, 
-            int aplicacionId, DateTime fechaEmpleadoDesde, string nombreEmpresa, decimal ingresoMensual, byte[] reciboDeSueldoArchivo,
-            int? puntuacionCrediticia, int? puntuacionPenal) 
-            : base(nombre, apellido, email, tipoIdentificacion, numeroIdentificacion, fechaNacimiento, domicilio, frenteIdentificacionArchivo, dorsoIdentificacionArchivo)
+        public Postulante(string nombre, string apellido, string email, string numeroIdentificacion,
+            DateTime fechaNacimiento, string domicilio, string frenteIdentificacionArchivo, string dorsoIdentificacionArchivo,
+            int aplicacionId, DateTime fechaEmpleadoDesde, string nombreEmpresa, decimal ingresoMensual, string reciboDeSueldoArchivo,
+            int? puntuacionCrediticia, int? puntuacionPenal)
+            : base(nombre, apellido, email, numeroIdentificacion, fechaNacimiento, domicilio, frenteIdentificacionArchivo, dorsoIdentificacionArchivo)
         {
             AplicacionId = aplicacionId;
             FechaEmpleadoDesde = fechaEmpleadoDesde;
@@ -24,7 +24,7 @@
         public DateTime FechaEmpleadoDesde { get; set; }
         public string NombreEmpresa { get; set; }
         public decimal IngresoMensual { get; set; }
-        public byte[] ReciboDeSueldoArchivo { get; set; }
+        public string ReciboDeSueldoArchivo { get; set; }
         public int? PuntuacionCrediticia { get; set; }
         public int? PuntuacionPenal { get; set; }
 

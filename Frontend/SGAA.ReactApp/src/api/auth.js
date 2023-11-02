@@ -32,12 +32,12 @@ export const recuperarPassword = (email) => {
   return handleFetch('/usuario/forgot-password', requestOptions);
 }
 
-export const registrarUsuario = (email, nombre, apellido, password, rol) => {
+export const registrarUsuario = (usuario) => {
   const requestOptions = {
     method: 'POST',
     mode: 'cors',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: email, nombre: nombre, apellido: apellido, rol: rol, password: password })
+    body: JSON.stringify(usuario)
   };
   return handleFetch('/usuario', requestOptions);
 }
@@ -52,7 +52,7 @@ export const resetearPassword = (email, token, password) => {
   return handleFetch('/usuario/reset-password', requestOptions);
 }
 
-export const editarCurrentUsuario = (nombre, apellido) => {
+export const editarCurrentUsuario = (usuario) => {
   const requestOptions = {
     method: 'PUT',
     mode: 'cors',
@@ -60,7 +60,7 @@ export const editarCurrentUsuario = (nombre, apellido) => {
       'Content-Type': 'application/json',
       'Authorization': getAuthorizationHeader(),
     },
-    body: JSON.stringify({ nombre: nombre, apellido: apellido })
+    body: JSON.stringify(usuario)
   };
   return handleFetch('/usuario', requestOptions);
 }

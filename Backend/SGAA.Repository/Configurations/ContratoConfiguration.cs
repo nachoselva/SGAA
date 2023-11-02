@@ -30,9 +30,7 @@
             builder.Property(contrato => contrato.OrdenRenovacion)
                 .IsRequired();
 
-            builder.Property(contrato => contrato.Archivo)
-                .IsRequired()
-                .HasColumnType(DataTypes.TYPE_FILE);
+            builder.Property(contrato => contrato.Archivo);
 
             builder.Property(contrato => contrato.Status)
                 .IsRequired()

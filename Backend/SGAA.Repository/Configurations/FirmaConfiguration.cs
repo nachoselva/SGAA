@@ -19,10 +19,6 @@
             builder.Property(unidad => unidad.Rol)
                 .IsRequired()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
-            builder.Property(unidad => unidad.TipoIdentificacion)
-                .IsRequired()
-                .HasConversion<string>()
-                .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
             builder.Property(firma => firma.NumeroIdentificacion)
                 .IsRequired()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
@@ -48,17 +44,10 @@
                 .HasConversion<string>()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
 
-            builder.Property(firma => firma.TipoIdentificacion)
-                .IsRequired()
-                .HasConversion<string>()
-                .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
-
             builder.ToTable(tableBuilder =>
             {
                 tableBuilder
                 .HasCheckConstraintWithEnum(firma => firma.Rol);
-                tableBuilder
-                .HasCheckConstraintWithEnum(firma => firma.TipoIdentificacion);
             });
         }
     }

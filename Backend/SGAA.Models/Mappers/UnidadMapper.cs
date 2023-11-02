@@ -1,7 +1,6 @@
 ﻿namespace SGAA.Models.Mappers
 {
     using SGAA.Domain.Core;
-    using System.Text;
 
     public class UnidadMapper : IUnidadMapper
     {
@@ -18,7 +17,7 @@
                 Piso = entity.Piso,
                 Departamento = entity.Departamento,
                 FechaAdquisicion = entity.FechaAdquisicion,
-                TituloPropiedadArchivo = Encoding.ASCII.GetString(entity.TituloPropiedadArchivo),
+                TituloPropiedadArchivo = entity.TituloPropiedadArchivo,
                 Status = entity.Status,
                 Ciudad = entity.Propiedad.Ciudad.Nombre,
                 Provincia = entity.Propiedad.Ciudad.Provincia.Nombre,
@@ -48,7 +47,7 @@
                 postModel.Piso,
                 postModel.Departamento,
                 postModel.FechaAdquisicion,
-                Encoding.ASCII.GetBytes(postModel.TituloPropiedadArchivo),
+                postModel.TituloPropiedadArchivo,
                 UnidadStatus.AprobacionPendiente);
 
             if (propiedad != null)
@@ -69,7 +68,7 @@
             }
             entity.Piso = putModel.Piso;
             entity.Departamento = putModel.Departamento;
-            entity.TituloPropiedadArchivo = Encoding.ASCII.GetBytes(putModel.TituloPropiedadArchivo);
+            entity.TituloPropiedadArchivo = putModel.TituloPropiedadArchivo;
             entity.Piso = putModel.Piso;
 
             return entity;
@@ -100,14 +99,14 @@
 
         public UnidadImagen ToEntity(UnidadImagenModel postModel)
         {
-            return new UnidadImagen(postModel.UnidadDetalleId ?? 0, postModel.Titulo, postModel.Descripcion, Encoding.ASCII.GetBytes(postModel.Archivo));
+            return new UnidadImagen(postModel.UnidadDetalleId ?? 0, postModel.Titulo, postModel.Descripcion, postModel.Archivo);
         }
 
         public UnidadImagen ToEntity(UnidadImagenModel putModel, UnidadImagen entity)
         {
             entity.Titulo = putModel.Titulo;
             entity.Descripcion = putModel.Descripcion;
-            entity.Archivo = Encoding.ASCII.GetBytes(putModel.Archivo);
+            entity.Archivo = putModel.Archivo;
             return entity;
         }
 
@@ -129,12 +128,11 @@
             entity.Nombre = putModel.Nombre;
             entity.Apellido = putModel.Apellido;
             entity.Email = putModel.Email;
-            entity.TipoIdentificacion = putModel.TipoIdentificacion;
             entity.NumeroIdentificacion = putModel.NumeroIdentificacion;
             entity.FechaNacimiento = putModel.FechaNacimiento;
             entity.Domicilio = putModel.Domicilio;
-            entity.FrenteIdentificacionArchivo = Encoding.ASCII.GetBytes(putModel.FrenteIdentificacionArchivo);
-            entity.DorsoIdentificacionArchivo = Encoding.ASCII.GetBytes(putModel.DorsoIdentificacionArchivo);
+            entity.FrenteIdentificacionArchivo = putModel.FrenteIdentificacionArchivo;
+            entity.DorsoIdentificacionArchivo = putModel.DorsoIdentificacionArchivo;
             return entity;
         }
 
@@ -145,12 +143,11 @@
                 postModel.Nombre,
                 postModel.Apellido,
                 postModel.Email,
-                postModel.TipoIdentificacion,
                 postModel.NumeroIdentificacion,
                 postModel.FechaNacimiento,
                 postModel.Domicilio,
-                Encoding.ASCII.GetBytes(postModel.FrenteIdentificacionArchivo),
-                Encoding.ASCII.GetBytes(postModel.DorsoIdentificacionArchivo)
+                postModel.FrenteIdentificacionArchivo,
+                postModel.DorsoIdentificacionArchivo
                 );
         }
 
@@ -163,12 +160,11 @@
                 Nombre = entity.Nombre,
                 Apellido = entity.Apellido,
                 Email = entity.Email,
-                TipoIdentificacion = entity.TipoIdentificacion,
                 NumeroIdentificacion = entity.NumeroIdentificacion,
                 FechaNacimiento = entity.FechaNacimiento,
                 Domicilio = entity.Domicilio,
-                FrenteIdentificacionArchivo = Encoding.ASCII.GetString(entity.FrenteIdentificacionArchivo),
-                DorsoIdentificacionArchivo = Encoding.ASCII.GetString(entity.DorsoIdentificacionArchivo)
+                FrenteIdentificacionArchivo = entity.FrenteIdentificacionArchivo,
+                DorsoIdentificacionArchivo = entity.DorsoIdentificacionArchivo
             };
 
         public ComentarioModel ToGetModel(UnidadComentario entity)
@@ -200,7 +196,7 @@
                 UnidadDetalleId = entity.UnidadDetalleId,
                 Titulo = entity.Titulo,
                 Descripcion = entity.Descripcion,
-                Archivo = Encoding.ASCII.GetString(entity.Archivo)
+                Archivo = entity.Archivo
             };
     }
 }

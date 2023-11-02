@@ -32,8 +32,7 @@
             builder.Property(pago => pago.FechaPago)
                 .HasColumnType(DataTypes.TYPE_DATETIME);
 
-            builder.Property(pago => pago.Archivo)
-                .HasColumnType(DataTypes.TYPE_FILE);
+            builder.Property(pago => pago.Archivo);
 
             builder
                 .HasOne(p => p.Contrato)

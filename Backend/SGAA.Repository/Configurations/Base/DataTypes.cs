@@ -4,7 +4,6 @@
     {
         public const string TYPE_DATE = "date";
         public const string TYPE_DATETIME = "datetime2(3)";
-        public const string TYPE_FILE = "varbinary(max)";
         public const string TYPE_DECIMAL = "decimal";
 
         public const int TYPE_DECIMAL_PRECISION = 14;

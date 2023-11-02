@@ -145,7 +145,7 @@ export const SideNav = (props) => {
               inquilino.map((item) => renderLink(item))
             }
             {
-              propietario.length > 0 &&
+              inquilino.length > 0 &&
               <Divider sx={{ borderColor: 'neutral.700' }} />
             }
           </Stack>

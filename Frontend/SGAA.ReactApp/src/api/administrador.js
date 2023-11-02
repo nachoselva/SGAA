@@ -146,7 +146,7 @@ export const getPostulacion = (postulacionId) => {
   return handleFetch('/administrador/postulacion/' + postulacionId, requestOptions);
 }
 
-export const registrarUsuario = (email, nombre, apellido, password, rol) => {
+export const registrarUsuario = (usuario) => {
   const requestOptions = {
     method: 'POST',
     mode: 'cors',
@@ -154,8 +154,7 @@ export const registrarUsuario = (email, nombre, apellido, password, rol) => {
       'Content-Type': 'application/json',
       'Authorization': getAuthorizationHeader(),
     },
-    body: JSON.stringify({ email: email, nombre: nombre, apellido: apellido, rol: rol, password: password })
+    body: JSON.stringify(usuario)
   };
   return handleFetch('/administrador/usuario', requestOptions);
 }
-

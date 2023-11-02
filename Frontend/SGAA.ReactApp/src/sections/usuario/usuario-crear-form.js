@@ -1,4 +1,4 @@
-import { Box, Button, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Checkbox, FormControl, InputLabel, ListItemText, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import React from 'react';
 import * as Yup from 'yup';
@@ -10,7 +10,7 @@ export const UsuarioCrearForm = (props) => {
       nombre: '',
       apellido: '',
       password: '',
-      rol: props.defaultRol ? props.defaultRol : 'Inquilino',
+      roles: props.defaultRol ? [props.defaultRol] : [],
       submit: null
     },
     validationSchema: Yup.object({
@@ -29,15 +29,14 @@ export const UsuarioCrearForm = (props) => {
         .required('Apellido es obligatorio'),
       password: Yup
         .string()
-        .max(255)
+        .max(100)
         .required('Password es obligatorio'),
-      rol: Yup
-        .string()
-        .max(20)
-        .required('Rol es obligatorio')
+      roles: Yup.array().of(Yup.string().max(20))
+        .min(1, "Roles es obligatorio")
+        .required('Roles es obligatorio')
     }),
     onSubmit: (values, helpers) => {
-      props.handleSubmit(values.email, values.nombre, values.apellido, values.password, values.rol)
+      props.handleSubmit(values)
         .then(() => {
           props.handleConfirmationChange(true);
         })
@@ -53,6 +52,25 @@ export const UsuarioCrearForm = (props) => {
     }
   });
 
+  const roles = [];
+  roles.push('Inquilino');
+  roles.push('Propietario');
+  if (props.includeAdminRol)
+    roles.push('Administrador');
+
+  const handleChangeSelect = (event) => {
+    const value = event.target.value;
+    let roles = formik.values.roles;
+    const indexOf = roles.indexOf(value);
+    if (indexOf > -1) {
+      roles = roles.splice(indexOf, 1);
+    } else {
+      roles = roles.push(value);
+    }
+    event.target.value = value;
+    formik.handleChange(event);
+  }
+
   return (
     <Box>
       <form
@@ -61,6 +79,7 @@ export const UsuarioCrearForm = (props) => {
       >
         <Stack spacing={3}>
           <TextField
+            variant="filled"
             error={!!(formik.touched.nombre && formik.errors.nombre)}
             fullWidth
             helperText={formik.touched.nombre && formik.errors.nombre}
@@ -71,6 +90,7 @@ export const UsuarioCrearForm = (props) => {
             value={formik.values.nombre}
           />
           <TextField
+            variant="filled"
             error={!!(formik.touched.apellido && formik.errors.apellido)}
             fullWidth
             helperText={formik.touched.apellido && formik.errors.apellido}
@@ -81,6 +101,7 @@ export const UsuarioCrearForm = (props) => {
             value={formik.values.apellido}
           />
           <TextField
+            variant="filled"
             error={!!(formik.touched.email && formik.errors.email)}
             fullWidth
             helperText={formik.touched.email && formik.errors.email}
@@ -92,6 +113,7 @@ export const UsuarioCrearForm = (props) => {
             value={formik.values.email}
           />
           <TextField
+            variant="filled"
             error={!!(formik.touched.password && formik.errors.password)}
             fullWidth
             helperText={formik.touched.password && formik.errors.password}
@@ -102,22 +124,35 @@ export const UsuarioCrearForm = (props) => {
             type="password"
             value={formik.values.password}
           />
-          <TextField
-            fullWidth
-            label="Rol"
-            name="rol"
-            onChange={formik.handleChange}
-            select
-            SelectProps={{ native: true }}
-            value={formik.values.rol}
+
+          <FormControl
+            variant="filled"
+            margin={"1"}
+            style={{ width: "100%", marginBottom: 32 }}
           >
-            <option key={'Inquilino'} value={'Inquilino'}>Inquilino</option>
-            <option key={'Propietario'} value={'Propietario'}>Propietario</option>
-            {
-              props.includeAdminRol &&
-              <option key={'Administrador'} value={'Administrador'}>Administrador</option>
-            }
-          </TextField>
+            <InputLabel id="roles-label">Roles</InputLabel>
+            <Select
+              variant="filled"
+              error={!!(formik.touched.roles && formik.errors.roles)}
+              helperText={formik.touched.roles && formik.errors.roles}
+              fullWidth
+              onBlur={formik.handleBlur}
+              name="roles"
+              multiple
+              value={formik.values.roles}
+              onChange={handleChangeSelect}
+              renderValue={(selected) => selected.join(', ')}
+              labelId="roles-label"
+              label={"Roles"}
+            >
+              {roles.map((rol) => (
+                <MenuItem key={rol} value={rol}>
+                  <Checkbox checked={formik.values.roles.indexOf(rol) > -1} />
+                  <ListItemText primary={rol} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Stack>
         {formik.errors.submit && (
           <Typography
