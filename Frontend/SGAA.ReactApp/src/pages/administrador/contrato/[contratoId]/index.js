@@ -12,7 +12,7 @@ const Page = () => {
 
   const getBreadcrumbsConfig = (contratoId) =>
     [
-      { url: '/', title: 'Inicio' },
+      { url: '/inicio', title: 'Inicio' },
       { url: '/administrador/contrato', title: 'Contratos' },
       { url: '/administrador/contrato/' + contratoId, title: contratoId }
     ];
@@ -30,7 +30,7 @@ const Page = () => {
     <FancyFormPage
       roles={['Administrador']}
       form={contrato && <ContratoLeerForm contrato={contrato} />}
-      entityName={'Contrato'}
+      title={'Detalle Contrato'}
       breadcrumbsConfig={breadcrumbsConfig}>
     </FancyFormPage>
   );

@@ -29,7 +29,7 @@
         [HttpGet]
         [Route("{publicacionId}")]
         public async Task<PublicacionGetModel> GetPublicacion([FromRoute] int publicacionId)
-            => await _publicacionService.GetPublicacion(publicacionId);
+            => await _publicacionService.GetPublicacion((await _usuarioProvider.GetUser())!.Id, publicacionId);
 
         [HttpPost]
         [Transactional]

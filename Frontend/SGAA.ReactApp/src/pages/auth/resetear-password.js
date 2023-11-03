@@ -1,4 +1,4 @@
-import { Box, Button, Stack, TextField, Typography } from '@mui/material';
+import { Card, Button, Stack, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import Head from 'next/head';
 import React, { useState } from 'react';
@@ -44,83 +44,70 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Resetear Contraseña
+          SGAA - Resetear Contraseña
         </title>
       </Head>
-      <Box
-        sx={{
-          flex: '1 1 auto',
-          alignItems: 'center',
-          display: 'flex',
-          justifyContent: 'center'
-        }}
-      >
-        <Box
-          sx={{
-            maxWidth: 550,
-            px: 3,
-            py: '100px',
-            width: '100%'
-          }}
+
+      <Card sx={{ p: 2 }} sx={{
+        border: 1, borderRadius: '8px', 'border- style': 'solid', 'border-width': '1px', 'border-color': '#1C2536', p: 2, mt: 1
+      }} >
+        <Stack
+          spacing={1}
+          sx={{ mb: 3 }}
         >
-          <Stack
-            spacing={1}
-            sx={{ mb: 3 }}
-          >
-            <Typography variant="h4">
-              Resetear Contraseña
-            </Typography>
-          </Stack>
-          <div>
-            {!confirmation &&
-              <form
-                noValidate
-                onSubmit={formik.handleSubmit}
-              >
-                <Stack spacing={3}>
-                  <TextField
-                    variant="filled"
-                    error={!!(formik.touched.password && formik.errors.password)}
-                    fullWidth
-                    helperText={formik.touched.password && formik.errors.password}
-                    label="Contraseña"
-                    name="password"
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    type="password"
-                    value={formik.values.password}
-                  />
-                </Stack>
-                {formik.errors.submit && (
-                  <Typography
-                    color="error"
-                    sx={{ mt: 3 }}
-                    variant="body2"
-                  >
-                    {formik.errors.submit}
-                  </Typography>
-                )}
-                <Button
+          <Typography variant="h4">
+            Resetear Contraseña
+          </Typography>
+        </Stack>
+        <div>
+          {!confirmation &&
+            <form
+              noValidate
+              onSubmit={formik.handleSubmit}
+            >
+              <Stack spacing={3}>
+                <TextField
+                  variant="filled"
+                  error={!!(formik.touched.password && formik.errors.password)}
                   fullWidth
-                  size="large"
+                  helperText={formik.touched.password && formik.errors.password}
+                  label="Contraseña"
+                  name="password"
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  type="password"
+                  value={formik.values.password}
+                />
+              </Stack>
+              {formik.errors.submit && (
+                <Typography
+                  color="error"
                   sx={{ mt: 3 }}
-                  type="submit"
-                  variant="contained"
+                  variant="body2"
                 >
-                  Resetear
-                </Button>
-              </form>
-            }
-            {confirmation &&
-              <>
-                <p>La contraseña fue reseteada con éxito. </p>
-                <p>Por favor ingrese al sistema mediante el link:&nbsp;
-                  <a href='auth/login'>Login</a></p>
-              </>
-            }
-          </div>
-        </Box>
-      </Box>
+                  {formik.errors.submit}
+                </Typography>
+              )}
+              <Button
+                fullWidth
+                size="large"
+                sx={{ mt: 3 }}
+                type="submit"
+                variant="contained"
+              >
+                Resetear
+              </Button>
+            </form>
+          }
+          {confirmation &&
+            <>
+              <p>La contraseña fue reseteada con éxito. </p>
+              <p>Por favor ingrese al sistema mediante el link:&nbsp;
+                <a href='auth/login'>Login</a></p>
+            </>
+          }
+        </div>
+      </Card>
     </>
   );
 };

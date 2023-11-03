@@ -2,7 +2,7 @@ import { handleFetch } from '/src/api/fetcher';
 
 const getAuthorizationHeader = () => 'Bearer ' + window.localStorage.getItem('jwt');
 
-export const getUnidades = () => {
+export const getAplicaciones = () => {
   const requestOptions = {
     method: 'GET',
     mode: 'cors',
@@ -11,10 +11,10 @@ export const getUnidades = () => {
       'Authorization': getAuthorizationHeader(),
     }
   };
-  return handleFetch('/propietario/unidad', requestOptions);
+  return handleFetch('/inquilino/aplicacion', requestOptions);
 }
 
-export const getUnidad = (unidadId) => {
+export const getAplicacion = (aplicacionId) => {
   const requestOptions = {
     method: 'GET',
     mode: 'cors',
@@ -23,10 +23,10 @@ export const getUnidad = (unidadId) => {
       'Authorization': getAuthorizationHeader(),
     }
   };
-  return handleFetch('/propietario/unidad/' + unidadId, requestOptions);
+  return handleFetch('/inquilino/aplicacion/' + aplicacionId, requestOptions);
 }
 
-export const getPublicaciones = () => {
+export const getAplicacionActive = () => {
   const requestOptions = {
     method: 'GET',
     mode: 'cors',
@@ -35,22 +35,10 @@ export const getPublicaciones = () => {
       'Authorization': getAuthorizationHeader(),
     }
   };
-  return handleFetch('/propietario/publicacion', requestOptions);
+  return handleFetch('/inquilino/aplicacion/active', requestOptions);
 }
 
-export const getPublicacion = (publicacionId) => {
-  const requestOptions = {
-    method: 'GET',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': getAuthorizationHeader(),
-    }
-  };
-  return handleFetch('/propietario/publicacion/' + publicacionId, requestOptions);
-}
-
-export const registrarUnidad = (unidad) => {
+export const registrarAplicacion = (aplicacion) => {
   const requestOptions = {
     method: 'POST',
     mode: 'cors',
@@ -58,12 +46,12 @@ export const registrarUnidad = (unidad) => {
       'Content-Type': 'application/json',
       'Authorization': getAuthorizationHeader(),
     },
-    body: JSON.stringify(unidad)
+    body: JSON.stringify(aplicacion)
   };
-  return handleFetch('/propietario/unidad', requestOptions);
+  return handleFetch('/inquilino/aplicacion', requestOptions);
 }
 
-export const actualizarUnidad = (unidad) => {
+export const actualizarAplicacion = (aplicacion) => {
   const requestOptions = {
     method: 'PUT',
     mode: 'cors',
@@ -71,7 +59,19 @@ export const actualizarUnidad = (unidad) => {
       'Content-Type': 'application/json',
       'Authorization': getAuthorizationHeader(),
     },
-    body: JSON.stringify(unidad)
+    body: JSON.stringify(aplicacion)
   };
-  return handleFetch('/propietario/unidad/'+unidad.id, requestOptions);
+  return handleFetch('/inquilino/aplicacion/' + aplicacion.id, requestOptions);
+}
+
+export const getPostulaciones = () => {
+  const requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    }
+  };
+  return handleFetch('/inquilino/postulacion', requestOptions);
 }

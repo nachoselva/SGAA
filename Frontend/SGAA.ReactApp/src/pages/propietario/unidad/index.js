@@ -29,13 +29,40 @@ const Page = () => {
         {row.status}
       </TableCell>
       <TableCell>
-        <Link
-          component="button"
-          underline="hover"
-          color="inherit"
-          onClick={() => router.push('/propietario/unidad/' + row.id)}>
-          Ver Unidad
-        </Link>
+        {
+          row.CanBePublicada &&
+          <Link
+            component="button"
+            underline="hover"
+            color="inherit"
+            onClick={() => router.push('/propietario/unidad/' + row.id + '/publicacion/crear')}>
+            Ver Unidad
+          </Link>
+        }
+      </TableCell>
+      <TableCell>
+        {
+          row.status == 'AprobacionPendiente'
+          &&
+          <Link
+            component="button"
+            underline="hover"
+            color="inherit"
+            onClick={() => router.push('/propietario/unidad/' + row.id+'/editar')}>
+            Editar Unidad
+          </Link>
+        }
+        {
+          row.status == 'DocumentacionAprobada'
+          &&
+          <Link
+            component="button"
+            underline="hover"
+            color="inherit"
+            onClick={() => router.push('/propietario/unidad/' + row.id)}>
+            Ver Unidad
+          </Link>
+        }
       </TableCell>
     </TableRow>);
 
@@ -46,11 +73,12 @@ const Page = () => {
       { key: 'ciudad', title: 'Ciudad' },
       { key: 'provincia', title: 'Provincia' },
       { key: 'status', title: 'Estado' },
+      { key: null, title: null },
       { key: null, title: null }
     ];
 
   const breadcrumbsConfig = [
-    { url: '/', title: 'Inicio' },
+    { url: '/inicio', title: 'Inicio' },
     { url: '/propietario/unidad', title: 'Unidades' }
   ];
 

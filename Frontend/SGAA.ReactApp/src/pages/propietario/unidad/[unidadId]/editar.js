@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { actualizarUnidad, getUnidad } from '/src/api/propietario';
 import { FancyFormPage } from '/src/components/fancy-form-page';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
-import { UnidadLeerForm } from '/src/sections/unidad/unidad-leer-form';
+import { UnidadCrearForm } from '/src/sections/unidad/unidad-crear-form';
 import React, { useEffect, useState } from 'react';
 
 const Page = () => {
@@ -18,7 +18,7 @@ const Page = () => {
   const breadcrumbsConfig = [
     { url: '/inicio', title: 'Inicio' },
     { url: '/propietario/unidad', title: 'Unidades' },
-    { url: '/propietario/unidad/' + unidadId, title: unidadId }
+    { url: '/propietario/unidad/' + unidadId + '/Editar', title: unidadId }
   ];
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const Page = () => {
   return (
     <FancyFormPage
       roles={['Propietario']}
-      form={unidad && <UnidadLeerForm unidad={unidad} handleSubmit={actualizarUnidad} handleConfirmationChange={onUnidadCreated} />}
+      form={unidad && <UnidadCrearForm unidad={unidad} handleSubmit={actualizarUnidad} handleConfirmationChange={onUnidadCreated} />}
       title={'Editar Unidad'}
       breadcrumbsConfig={breadcrumbsConfig}
     >

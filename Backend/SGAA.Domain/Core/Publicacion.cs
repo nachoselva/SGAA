@@ -21,6 +21,6 @@
         public PublicacionStatus Status { get; set; }
 
         public Unidad Unidad { get; private set; } = default!;
-        public IReadOnlyCollection<Postulacion> Postulaciones { get; private set; } = new List<Postulacion>();
+        public IReadOnlyCollection<Postulacion> Postulaciones { get; private set; } = new List<Postulacion>();   
     }
 }

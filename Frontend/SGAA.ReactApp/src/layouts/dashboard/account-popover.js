@@ -6,7 +6,7 @@ import { useAuthContext } from '/src/contexts/auth-context';
 import { useAuth } from '/src/hooks/use-auth';
 
 export const AccountPopover = (props) => {
-  const { user } = useAuthContext();
+  const { isAuthenticated, user } = useAuthContext();
   const { anchorEl, onClose, open } = props;
   const router = useRouter();
   const auth = useAuth();
@@ -24,6 +24,14 @@ export const AccountPopover = (props) => {
     () => {
       onClose?.();
       router.push('/auth/editar');
+    },
+    [onClose, auth, router]
+  );
+
+  const handleSignIn = useCallback(
+    () => {
+      onClose?.();
+      router.push('/auth/login');
     },
     [onClose, auth, router]
   );
@@ -66,12 +74,23 @@ export const AccountPopover = (props) => {
           }
         }}
       >
-        <MenuItem onClick={handleEditarUsuario}>
-          Editar Usuario
-        </MenuItem>
-        <MenuItem onClick={handleSignOut}>
-          Salir
-        </MenuItem>
+        {
+          !isAuthenticated &&
+          <MenuItem onClick={handleSignIn}>
+            Ingresar
+          </MenuItem>
+        }
+        {
+          isAuthenticated &&
+          <>
+            <MenuItem onClick={handleEditarUsuario}>
+              Editar Usuario
+            </MenuItem>
+            <MenuItem onClick={handleSignOut}>
+              Salir
+            </MenuItem>
+          </>
+        }
       </MenuList>
     </Popover>
   );

@@ -52,5 +52,10 @@
             IEnumerable<int> idsToDelete = titulares.Select(img => img.Id);
             _titulares.RemoveAll(img => idsToDelete.Contains(img.Id));
         }
+
+        public bool CanBePublicada()
+        {
+            return Status == UnidadStatus.DocumentacionAprobada && !Publicaciones.Any(p => p.Status.IsActive());
+        }
     }
 }

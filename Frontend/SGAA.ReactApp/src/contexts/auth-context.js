@@ -123,11 +123,16 @@ export const AuthProvider = (props) => {
           type: HANDLERS.SIGN_IN,
           payload: user
         });
-        router.push('/');
+        router.push('/inicio');
         return result;
       });
 
   const signOut = () => {
+
+    window.localStorage.removeItem('jwt');
+    window.localStorage.removeItem('authenticated');
+    window.localStorage.removeItem('user');
+
     dispatch({
       type: HANDLERS.SIGN_OUT
     });
