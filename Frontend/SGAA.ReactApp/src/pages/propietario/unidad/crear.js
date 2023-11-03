@@ -13,7 +13,7 @@ const Page = () => {
   };
 
   const breadcrumbsConfig = [
-    { url: '/', title: 'Inicio' },
+    { url: '/inicio', title: 'Inicio' },
     { url: '/propietario/unidad', title: 'Unidades' },
     { url: '/propietario/unidad/crear', title: 'Crear' }
   ];
@@ -21,7 +21,7 @@ const Page = () => {
   return (
     <FancyFormPage
       roles={['Propietario']}
-      form={<UnidadCrearForm handleSubmit={registrarUnidad} handleConfirmationChange={onUnidadCreated} includeAdminRol={true} />}
+      form={<UnidadCrearForm handleSubmit={registrarUnidad} handleConfirmationChange={onUnidadCreated} />}
       title={'Crear Unidad'}
       breadcrumbsConfig={breadcrumbsConfig}>
     </FancyFormPage>

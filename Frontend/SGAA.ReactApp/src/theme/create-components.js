@@ -97,19 +97,23 @@ export function createComponents(config) {
           minHeight: '100%',
           width: '100%'
         },
+        main: {
+          height: '100%'
+        },
         body: {
           display: 'flex',
           flex: '1 1 auto',
           flexDirection: 'column',
           minHeight: '100%',
           width: '100%',
-          backgroundColor: '#eff1f5f5'
+          backgroundColor: '#eff1f5f5',
+          height: '100%'
         },
         '#__next': {
           display: 'flex',
           flex: '1 1 auto',
           flexDirection: 'column',
-          height: '100%',
+          height: '100vh',  
           width: '100%'
         },
         '#nprogress': {
@@ -123,7 +127,7 @@ export function createComponents(config) {
           top: 0,
           width: '100%',
           zIndex: 2000
-        }
+        },
       }
     },
     MuiInputBase: {

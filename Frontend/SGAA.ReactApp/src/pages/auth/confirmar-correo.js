@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Card, Stack, Typography } from '@mui/material';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -23,44 +23,28 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Confirmar Correo Electrónico
+          SGAA - Confirmar Correo Electrónico
         </title>
       </Head>
-      <Box
-        sx={{
-          flex: '1 1 auto',
-          alignItems: 'center',
-          display: 'flex',
-          justifyContent: 'center'
-        }}
-      >
-        <Box
-          sx={{
-            maxWidth: 550,
-            px: 3,
-            py: '100px',
-            width: '100%'
-          }}
+      <Card sx={{ p: 2 }} sx={{
+        border: 1, borderRadius: '8px', 'border- style': 'solid', 'border-width': '1px', 'border-color': '#1C2536', p: 2, mt: 1
+      }} >
+        <Stack
+          spacing={1}
+          sx={{ mb: 3 }}
         >
-          <Stack
-            spacing={1}
-            sx={{ mb: 3 }}
-          >
-            <Typography variant="h4">
-              Confirmar Correo
-            </Typography>
-          </Stack>
-          <div>
-            {confirmation &&
-              <>
-                <p>Su correo fue confirmado. </p>
-                <p>Por favor ingrese al sistema mediante el link:&nbsp;
-                  <a href='/auth/login'>Login</a></p>
-              </>
-            }
-          </div>
-        </Box>
-      </Box>
+          <Typography variant="h4">
+            Confirmar Correo
+          </Typography>
+        </Stack>
+        {confirmation &&
+          <>
+            <p>Su correo fue confirmado. </p>
+            <p>Por favor ingrese al sistema mediante el link:&nbsp;
+              <a href='/auth/login'>Login</a></p>
+          </>
+        }
+      </Card>
     </>
   );
 };

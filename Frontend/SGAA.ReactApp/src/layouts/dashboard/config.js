@@ -1,10 +1,10 @@
-import HomeModernIcon from '@heroicons/react/24/solid/HomeModernIcon';
+import BriefcaseIcon from '@heroicons/react/24/solid/BriefcaseIcon';
+import DocumentTextIcon from '@heroicons/react/24/solid/DocumentTextIcon';
 import HomeIcon from '@heroicons/react/24/solid/HomeIcon';
+import HomeModernIcon from '@heroicons/react/24/solid/HomeModernIcon';
 import InboxStackIcon from '@heroicons/react/24/solid/InboxStackIcon';
 import NewsPaperIcon from '@heroicons/react/24/solid/NewsPaperIcon';
 import UserGroupIcon from '@heroicons/react/24/solid/UserGroupIcon';
-import DocumentTextIcon from '@heroicons/react/24/solid/DocumentTextIcon';
-import BriefcaseIcon from '@heroicons/react/24/solid/BriefcaseIcon';
 import { SvgIcon } from '@mui/material';
 import { useAuthContext } from '/src/contexts/auth-context';
 
@@ -14,17 +14,28 @@ export const getMenuItems = () => {
   let administrador = [];
   let propietario = [];
   let inquilino = [];
+
+  everyone.push(
+    {
+      title: 'Inicio',
+      path: '/inicio',
+      icon: (
+        <SvgIcon fontSize="small">
+          <HomeIcon />
+        </SvgIcon>
+      )
+    },
+    {
+      title: 'Publicaciones Activas',
+      path: '/publicacion',
+      icon: (
+        <SvgIcon fontSize="small">
+          <NewsPaperIcon />
+        </SvgIcon>
+      )
+    });
+
   if (isAuthenticated) {
-    everyone.push(
-      {
-        title: 'Inicio',
-        path: '/',
-        icon: (
-          <SvgIcon fontSize="small">
-            <HomeIcon />
-          </SvgIcon>
-        )
-      });
     if (user.roles.includes('Administrador')) {
       administrador.push(
         {
@@ -90,6 +101,36 @@ export const getMenuItems = () => {
           icon: (
             <SvgIcon fontSize="small">
               <HomeModernIcon />
+            </SvgIcon>
+          )
+        },
+        {
+          title: 'Mis Publicaciones',
+          path: '/propietario/publicacion',
+          icon: (
+            <SvgIcon fontSize="small">
+              <NewsPaperIcon />
+            </SvgIcon>
+          )
+        });
+    }
+    if (user.roles.includes('Inquilino')) {
+      propietario.push(
+        {
+          title: 'Mis Aplicaciones',
+          path: '/inquilino/aplicacion',
+          icon: (
+            <SvgIcon fontSize="small">
+              <HomeModernIcon />
+            </SvgIcon>
+          )
+        },
+        {
+          title: 'Mis Postulaciones',
+          path: '/inquilino/postulacion',
+          icon: (
+            <SvgIcon fontSize="small">
+              <BriefcaseIcon />
             </SvgIcon>
           )
         });

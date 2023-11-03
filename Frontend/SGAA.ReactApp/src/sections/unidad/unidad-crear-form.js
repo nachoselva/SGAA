@@ -10,7 +10,7 @@ import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 
 export const UnidadCrearForm = (props) => {
   const formik = useFormik({
-    initialValues: {
+    initialValues: props.unidad ?? {
       provinciaId: -1,
       ciudadId: -1,
       calle: '',
@@ -109,6 +109,9 @@ export const UnidadCrearForm = (props) => {
                 .email('Formato de email inválido')
                 .max(255)
                 .required('Email es obligatorio'),
+              fechaNacimiento: Yup
+                .string()
+                .required('Fecha de Nacimiento es obligatorio'),
               numeroIdentificacion: Yup
                 .string()
                 .max(255)
@@ -125,8 +128,8 @@ export const UnidadCrearForm = (props) => {
                 .required('Título de propiedad es obligatorio')
             })
         )
-        .min(1, "Roles es obligatorio")
-        .required('Roles es obligatorio')
+        .min(1, "Titulares es obligatorio")
+        .required('Titulares es obligatorio')
     }),
     onSubmit: (values, helpers) => {
       props.handleSubmit(values)
@@ -153,14 +156,11 @@ export const UnidadCrearForm = (props) => {
       getCiudades(formik.values.provinciaId)
         .then((response) => {
           const orderedCiudades = response.sort((ciudad) => ciudad.nombre);
-          formik.setFieldValue('ciudadId', -1, true);
-          formik.setTouched({ 'ciudadId': false });
           setCiudades(orderedCiudades);
         });
   }, [formik.values.provinciaId]);
 
   useEffect(() => {
-    formik.setTouched({});
     getProvincias()
       .then((response) => {
         const orderedProvincias = response.sort((provincia) => provincia.nombre);
@@ -209,7 +209,10 @@ export const UnidadCrearForm = (props) => {
               onBlur={formik.handleBlur}
               name="provinciaId"
               value={formik.values.provinciaId}
-              onChange={formik.handleChange}
+              onChange={(event) => {
+                formik.setFieldValue('ciudadId', -1);
+                formik.handleChange(event);
+              }}
               variant="filled"
               labelId="provinciaId-label"
               label={'Provincia'}
@@ -595,6 +598,24 @@ export const UnidadCrearForm = (props) => {
               <PlusIcon></PlusIcon>
             </Button>
           </Grid>
+          {
+            props.unidad?.comentarios?.length > 0 &&
+            <Grid item xs={12}>
+              <Typography variant="h5">
+                Comentarios
+              </Typography>
+            </Grid>
+          }
+          {
+            props.unidad?.comentarios?.length > 0 &&
+            <Grid item xs={12}>
+              <ul>
+                {props.unidad.comentarios.sort((comentario) => comentario.fecha).map(com =>
+                  <li>[{com.fecha}] : {com.comentario}</li>
+                )}
+              </ul>
+            </Grid>
+          }
         </Grid>
         {formik.errors.submit && (
           <Typography

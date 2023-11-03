@@ -43,7 +43,7 @@
         [HttpGet]
         [Route("{unidadId}")]
         public async Task<UnidadGetModel> GetUnidad([FromRoute] int unidadId)
-            => await _unidadService.GetUnidad(unidadId);
+            => await _unidadService.GetUnidad((await _usuarioProvider.GetUser())!.Id, unidadId);
 
         [HttpGet]
         public async Task<IReadOnlyCollection<UnidadGetModel>> GetUnidades()

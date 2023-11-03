@@ -1,6 +1,5 @@
 import {
-    Box,
-    Button, Link,
+    Button, Card, Link,
     Stack, TextField,
     Typography
 } from '@mui/material';
@@ -23,13 +22,13 @@ const Page = () => {
     validationSchema: Yup.object({
       email: Yup
         .string()
-        .email('Must be a valid email')
+        .email('Email inválido')
         .max(255)
-        .required('Email is required'),
+        .required('Email es obligatorio'),
       password: Yup
         .string()
         .max(255)
-        .required('Password is required')
+        .required('Contraseña es obligatorio')
     }),
     onSubmit: (values, helpers) =>
       auth.signIn(values.email, values.password)
@@ -50,117 +49,116 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Login
+          SGAA - Login
         </title>
       </Head>
-      <Box
-        sx={{
-          backgroundColor: 'background.paper',
-          flex: '1 1 auto',
-          alignItems: 'center',
-          display: 'flex',
-          justifyContent: 'center'
-        }}
-      >
-        <Box
-          sx={{
-            maxWidth: 550,
-            px: 3,
-            py: '100px',
-            width: '100%'
-          }}
+      <Card sx={{ p: 2 }} sx={{
+        border: 1, borderRadius: '8px', 'border- style': 'solid', 'border-width': '1px', 'border-color': '#1C2536', p: 2, mt: 1
+      }} >
+
+        <Stack
+          spacing={1}
+          sx={{ mb: 3 }}
         >
-          <div>
-            <Stack
-              spacing={1}
-              sx={{ mb: 3 }}
+          <Typography variant="h4">
+            Ingresar
+          </Typography>
+          <Typography
+            color="text.secondary"
+            variant="body2"
+          >
+            Ingreso público
+            &nbsp;
+            <Link
+              component={NextLink}
+              href="/|"
+              underline="hover"
+              variant="subtitle2"
             >
-              <Typography variant="h4">
-                Sistema de Gestión de Alquileres Autónomos
-              </Typography>
-              <Typography
-                color="text.secondary"
-                variant="body2"
-              >
-                ¿No tiene una cuenta?
-                &nbsp;
-                <Link
-                  component={NextLink}
-                  href="/auth/registrar"
-                  underline="hover"
-                  variant="subtitle2"
-                >
-                  Registrarse
-                </Link>
-              </Typography>
-              <Typography
-                color="text.secondary"
-                variant="body2"
-              >
-                Olvidé mi contraseña
-                &nbsp;
-                <Link
-                  component={NextLink}
-                  href="/auth/recuperar-password"
-                  underline="hover"
-                  variant="subtitle2"
-                >
-                  Recuperar password
-                </Link>
-              </Typography>
-            </Stack>
-            <form
-              noValidate
-              onSubmit={formik.handleSubmit}
+              Ingresar
+            </Link>
+          </Typography>
+          <Typography
+            color="text.secondary"
+            variant="body2"
+          >
+            Crear una cuenta
+            &nbsp;
+            <Link
+              component={NextLink}
+              href="/auth/registrar"
+              underline="hover"
+              variant="subtitle2"
             >
-              <Stack spacing={3}>
-                <TextField
-                  variant="filled"
-                  error={!!(formik.touched.email && formik.errors.email)}
-                  fullWidth
-                  helperText={formik.touched.email && formik.errors.email}
-                  label="Email"
-                  name="email"
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  type="email"
-                  value={formik.values.email}
-                />
-                <TextField
-                  variant="filled"
-                  error={!!(formik.touched.password && formik.errors.password)}
-                  fullWidth
-                  helperText={formik.touched.password && formik.errors.password}
-                  label="Contraseña"
-                  name="password"
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  type="password"
-                  value={formik.values.password}
-                />
-              </Stack>
-              {formik.errors.submit && (
-                <Typography
-                  color="error"
-                  sx={{ mt: 3 }}
-                  variant="body2"
-                >
-                  {formik.errors.submit}
-                </Typography>
-              )}
-              <Button
-                fullWidth
-                size="large"
-                sx={{ mt: 3 }}
-                type="submit"
-                variant="contained"
-              >
-                Login
-              </Button>
-            </form>
-          </div>
-        </Box>
-      </Box>
+              Registrar usuario
+            </Link>
+          </Typography>
+          <Typography
+            color="text.secondary"
+            variant="body2"
+          >
+            Olvidé mi contraseña
+            &nbsp;
+            <Link
+              component={NextLink}
+              href="/auth/recuperar-password"
+              underline="hover"
+              variant="subtitle2"
+            >
+              Recuperar contraseña
+            </Link>
+          </Typography>
+        </Stack>
+        <form
+          noValidate
+          onSubmit={formik.handleSubmit}
+        >
+          <Stack spacing={3}>
+            <TextField
+              variant="filled"
+              error={!!(formik.touched.email && formik.errors.email)}
+              fullWidth
+              helperText={formik.touched.email && formik.errors.email}
+              label="Email"
+              name="email"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              type="email"
+              value={formik.values.email}
+            />
+            <TextField
+              variant="filled"
+              error={!!(formik.touched.password && formik.errors.password)}
+              fullWidth
+              helperText={formik.touched.password && formik.errors.password}
+              label="Contraseña"
+              name="password"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              type="password"
+              value={formik.values.password}
+            />
+          </Stack>
+          {formik.errors.submit && (
+            <Typography
+              color="error"
+              sx={{ mt: 3 }}
+              variant="body2"
+            >
+              {formik.errors.submit}
+            </Typography>
+          )}
+          <Button
+            fullWidth
+            size="large"
+            sx={{ mt: 3 }}
+            type="submit"
+            variant="contained"
+          >
+            Login
+          </Button>
+        </form>
+      </Card>
     </>
   );
 };

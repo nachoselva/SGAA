@@ -32,7 +32,7 @@ const Page = () => {
     <FancyFormPage
       roles={['Inquilino']}
       form={aplicacion && <AplicacionLeerForm aplicacion={aplicacion} handleSubmit={actualizarAplicacion} handleConfirmationChange={onAplicacionCreated} />}
-      title={'Detalle Aplicacion'}
+      title={'Editar Aplicacion'}
       breadcrumbsConfig={breadcrumbsConfig}
     >
     </FancyFormPage>

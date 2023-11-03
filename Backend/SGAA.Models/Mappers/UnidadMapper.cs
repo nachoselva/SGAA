@@ -12,6 +12,7 @@
                 PropiedadId = entity.PropiedadId,
                 PropietarioUsuarioId = entity.PropietarioUsuarioId,
                 CiudadId = entity.Propiedad.CiudadId,
+                ProvinciaId = entity.Propiedad.Ciudad.ProvinciaId,
                 Calle = entity.Propiedad.Calle,
                 Altura = entity.Propiedad.Altura,
                 Piso = entity.Piso,
@@ -22,6 +23,7 @@
                 Ciudad = entity.Propiedad.Ciudad.Nombre,
                 Provincia = entity.Propiedad.Ciudad.Provincia.Nombre,
                 DomicilioCompleto = entity.DomicilioCompleto,
+                CanBePublicada = entity.CanBePublicada(),
                 Comentarios = entity.Comentarios.Select(comentario => comentario.MapToGetModel<UnidadComentario, ComentarioModel>(this)).ToList(),
                 Detalle = entity.Detalle.MapToGetModel<UnidadDetalle, UnidadDetalleModel>(this),
                 Titulares = entity.Titulares.Select(titular => titular.MapToGetModel<Titular, TitularModel>(this)).ToList()

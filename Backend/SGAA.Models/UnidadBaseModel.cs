@@ -10,6 +10,7 @@
         public int? PropietarioUsuarioId { get; set; }
 
         public required int CiudadId { get; set; }
+        public required int ProvinciaId { get; set; }
         public required string Calle { get; set; }
         public required int Altura { get; set; }
         public required string Piso { get; set; }

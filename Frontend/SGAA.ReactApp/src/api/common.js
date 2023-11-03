@@ -25,3 +25,27 @@ export const getCiudades = (provinciaId) => {
   };
   return handleFetch('/ciudad/' + provinciaId, requestOptions);
 }
+
+export const getPublicaciones = () => {
+  const requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    }
+  };
+  return handleFetch('/publicacion', requestOptions);
+}
+
+export const getPublicacion = (publicacionId) => {
+  const requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    }
+  };
+  return handleFetch('/publicacion/' + publicacionId, requestOptions);
+}

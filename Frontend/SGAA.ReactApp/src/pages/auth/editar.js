@@ -25,14 +25,14 @@ const Page = () => {
   }, []);
 
   const breadcrumbsConfig = [
-    { url: '/', title: 'Inicio' },
+    { url: '/inicio', title: 'Inicio' },
     { url: '/auth/editar', title: 'Editar Usuario' },
   ];
 
   return (
     <FancyFormPage
       form={usuario && <UsuarioEditarForm usuario={usuario} handleSubmit={editarCurrentUsuario} handleConfirmationChange={onConfirmation}></UsuarioEditarForm>}
-      entityName={'Usuario'}
+      title={'Editar Usuario'}
       breadcrumbsConfig={breadcrumbsConfig}>
     </FancyFormPage>
   );

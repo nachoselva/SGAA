@@ -95,9 +95,9 @@
             return unidad;
         }
 
-        public async Task<IReadOnlyCollection<UnidadGetModel>> GetUnidades(int propietarioUserId)
+        public async Task<IReadOnlyCollection<UnidadGetModel>> GetUnidades(int propietarioUsuarioId)
         {
-            IReadOnlyCollection<Unidad> unidades = await _unidadRepository.GetUnidades(propietarioUserId);
+            IReadOnlyCollection<Unidad> unidades = await _unidadRepository.GetUnidades(propietarioUsuarioId);
             return unidades.Select(unidad => unidad.MapToGetModel<Unidad, UnidadGetModel>(_unidadMapper)).ToList();
         }
 
@@ -111,6 +111,13 @@
         {
             Unidad? unidad = await _unidadRepository.GetUnidad(unidadId);
             return unidad != null ? unidad.MapToGetModel<Unidad, UnidadGetModel>(_unidadMapper) : throw new NotFoundException();
+        }
+
+        public async Task<UnidadGetModel> GetUnidad(int propietarioUsuarioId, int unidadId)
+        {
+            Unidad? unidad = await _unidadRepository.GetUnidad(unidadId);
+            return unidad != null && unidad.PropietarioUsuarioId == propietarioUsuarioId
+                ? unidad.MapToGetModel<Unidad, UnidadGetModel>(_unidadMapper) : throw new NotFoundException();
         }
 
         public async Task<UnidadGetModel> AddUnidad(UnidadPostModel postModel)

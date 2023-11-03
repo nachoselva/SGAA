@@ -136,7 +136,7 @@
             return aplicacion.MapToGetModel<Aplicacion, AplicacionGetModel>(_aplicacionMapper);
         }
 
-        public async Task<AplicacionGetModel> UpdateActiveAplicacion(AplicacionPutModel putModel)
+        public async Task<AplicacionGetModel> UpdateAplicacion(int aplicacionId, AplicacionPutModel putModel)
         {
             IReadOnlyCollection<Aplicacion> aplicaciones = await _aplicacionRepository
                 .GetAplicaciones(putModel.InquilinoUsuarioId!.Value);
@@ -159,6 +159,14 @@
         {
             Aplicacion aplicacion = await _aplicacionRepository.GetAplicacion(aplicacionId) ?? throw new NotFoundException();
             return aplicacion.MapToGetModel<Aplicacion, AplicacionGetModel>(_aplicacionMapper);
+        }
+
+        public async Task<AplicacionGetModel> GetAplicacion(int inquilinoUsuarioId, int aplicacionId)
+        {
+            Aplicacion? aplicacion = await _aplicacionRepository.GetAplicacion(aplicacionId);
+            return aplicacion != null && aplicacion.InquilinoUsuarioId == inquilinoUsuarioId
+                ? aplicacion.MapToGetModel<Aplicacion, AplicacionGetModel>(_aplicacionMapper)
+                 : throw new NotFoundException();
         }
 
         public async Task<IReadOnlyCollection<AplicacionGetModel>> GetAplicaciones(int inquilinoUsuarioId)
