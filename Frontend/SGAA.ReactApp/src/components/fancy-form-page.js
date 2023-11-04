@@ -4,10 +4,10 @@ import { FancyBreadcrumbs } from './fancy-breadcrumbs';
 import { AuthGuard } from '/src/guards/auth-guard';
 
 export const FancyFormPage = (props) => {
-  const { title, form, breadcrumbsConfig, roles } = props;
+  const { title, form, breadcrumbsConfig, roles, allowAnnonymous } = props;
 
-  return (
-    <AuthGuard roles={roles}>
+  const getBody = () => (
+    <>
       <Head>
         <title>
           SGAA - {title}
@@ -54,7 +54,23 @@ export const FancyFormPage = (props) => {
           </Stack>
         </Container>
       </Box>
-    </AuthGuard>
+    </>);
+
+  return (
+    <>
+      {
+        !allowAnnonymous &&
+        <AuthGuard roles={roles} >
+          {
+            getBody()
+          }
+        </AuthGuard >
+      }
+      {
+        allowAnnonymous &&
+        getBody()
+      }
+    </>
   );
 };
 

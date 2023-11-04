@@ -30,6 +30,12 @@
             builder.Property(u => u.RefreshToken).HasMaxLength(100);
             builder.Property(u => u.RefreshTokenExpiryTime).HasColumnType("smalldatetime");
 
+            builder.Property(firma => firma.Licencia)
+                .IsRequired()
+                .HasConversion<string>()
+                .HasDefaultValue(Licencia.HabilitacionProfesional)
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
+
             // The relationships between User and other entity types
             // Note that these relationships are configured with no navigation properties
 

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { actualizarAplicacion, getAplicacion } from '/src/api/inquilino';
+import { actualizarAplicacion, getAplicacion } from '/src/api/administrador';
 import { FancyFormPage } from '/src/components/fancy-form-page';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
 import { AplicacionLeerForm } from '/src/sections/aplicacion/aplicacion-leer-form';
@@ -12,13 +12,13 @@ const Page = () => {
 
   const onAplicacionCreated = (result) => {
     if (result)
-      router.push('/inquilino/aplicacion');
+      router.push('/administrador/aplicacion');
   };
 
   const breadcrumbsConfig = [
     { url: '/inicio', title: 'Inicio' },
-    { url: '/inquilino/aplicacion', title: 'Aplicaciones' },
-    { url: '/inquilino/aplicacion/' + aplicacionId, title: aplicacionId }
+    { url: '/administrador/aplicacion', title: 'Aplicaciones' },
+    { url: '/administrador/aplicacion/' + aplicacionId, title: aplicacionId }
   ];
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const Page = () => {
   return (
     <FancyFormPage
       roles={['Inquilino']}
-      form={aplicacion && <AplicacionLeerForm aplicacion={aplicacion} handleSubmit={actualizarAplicacion} handleConfirmationChange={onAplicacionCreated} />}
+      form={aplicacion && <AplicacionLeerForm aplicacion={aplicacion} />}
       title={'Detalle Aplicacion'}
       breadcrumbsConfig={breadcrumbsConfig}
     >

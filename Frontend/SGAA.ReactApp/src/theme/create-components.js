@@ -98,7 +98,8 @@ export function createComponents(config) {
           width: '100%'
         },
         main: {
-          height: '100%'
+          height: '100%',
+          m: '20px'
         },
         body: {
           display: 'flex',

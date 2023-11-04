@@ -60,6 +60,14 @@
             return publicacion != null ? publicacion.MapToGetModel(_publicacionMapper) : throw new NotFoundException();
         }
 
+        public async Task<PublicacionGetModel> GetPublicacionByInquilino(int inquilinoUsuarioId, int publicacionId)
+        {
+            Publicacion? publicacion = await _publicacionRepository.GetPublicacion(publicacionId);
+            return publicacion != null && 
+                publicacion.Postulaciones.Any(p => p.Aplicacion.InquilinoUsuarioId == inquilinoUsuarioId)
+                ? publicacion.MapToGetModel(_publicacionMapper) : throw new NotFoundException();
+        }
+
         public async Task<IReadOnlyCollection<PublicacionGetModel>> GetActivePublicaciones()
         {
             IReadOnlyCollection<Publicacion> publicaciones = await _publicacionRepository.GetPublicaciones();

@@ -26,7 +26,7 @@ export const FancyBreadcrumbs = (props) =>
                   underline="hover"
                   color="inherit"
                   fontSize="large"
-                  onClick={() => router.push(row.url)}>
+                  onClick={() => row.url && router.push(row.url)}>
                   {row.title}
                 </Link>)
             }

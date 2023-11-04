@@ -1,15 +1,14 @@
-import { Box, Breadcrumbs, Card, Container, Grid, Link, Stack, Typography } from '@mui/material';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { editarCurrentUsuario, getCurrentUsuario } from '/src/api/auth';
+import { FancyFormPage } from '/src/components/fancy-form-page';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
 import { UsuarioEditarForm } from '/src/sections/usuario/usuario-editar-form';
-import { FancyFormPage } from '/src/components/fancy-form-page';
 
 const Page = () => {
   const router = useRouter();
   const [usuario, setUsuario] = useState(null);
+  const initialized = useRef(false);
 
   const onConfirmation = (result) => {
     if (result) {
@@ -18,10 +17,13 @@ const Page = () => {
   }
 
   useEffect(() => {
-    getCurrentUsuario()
-      .then((response) => {
-        setUsuario(response);
-      });
+    if (!initialized.current) {
+      initialized.current = true;
+      getCurrentUsuario()
+        .then((response) => {
+          setUsuario(response);
+        });
+    }
   }, []);
 
   const breadcrumbsConfig = [

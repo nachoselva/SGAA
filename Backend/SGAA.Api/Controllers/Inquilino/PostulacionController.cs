@@ -41,7 +41,7 @@
            => await _postulacionService.GetPostulacion((await _usuarioProvider.GetUser())!.Id, postulacionId);
 
         [HttpPut]
-        [Route("{postulacionId}/Oferta/aceptar")]
+        [Route("{postulacionId}/oferta/aceptar")]
         [Transactional]
         public async Task<PostulacionGetModel> AceptarOferta([FromRoute] int postulacionId, [FromBody] AceptarOfertaPostulacionPutModel model)
         {
@@ -51,7 +51,7 @@
         }
 
         [HttpPut]
-        [Route("{postulacionId}/Oferta/rechazar")]
+        [Route("{postulacionId}/oferta/rechazar")]
         [Transactional]
         public async Task<PostulacionGetModel> RechazarOferta([FromRoute] int postulacionId, [FromBody] RechazarOfertaPostulacionPutModel model)
         {

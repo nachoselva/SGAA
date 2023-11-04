@@ -2,11 +2,8 @@ import { styled } from '@mui/material/styles';
 import { usePathname } from 'next/navigation';
 import PropTypes from 'prop-types';
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from "react-redux";
 import { SideNav } from './side-nav';
 import { TopNav } from './top-nav';
-import { getCurrentUsuario } from '/src/api/auth';
-import { addUsuario } from "/src/slices/usuario-slice";
 
 const SIDE_NAV_WIDTH = 280;
 
@@ -30,13 +27,6 @@ export const Layout = (props) => {
   const { children } = props;
   const pathname = usePathname();
   const [openNav, setOpenNav] = useState(false);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    getCurrentUsuario()
-      .then((usuario) => dispatch(addUsuario(usuario)));
-  }, []);
 
   const handlePathnameChange = useCallback(
     () => {

@@ -1,7 +1,6 @@
 ﻿namespace SGAA.Models.Mappers
 {
     using SGAA.Domain.Core;
-    using System.Text;
 
     public class ContratoMapper : IContratoMapper
     {

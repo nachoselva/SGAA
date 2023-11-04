@@ -2,7 +2,7 @@ import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
 import Head from 'next/head';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { FancyBreadcrumbs } from './fancy-breadcrumbs';
 import { FancyTable } from '/src/components/fancy-table';
 import { AuthGuard } from '/src/guards/auth-guard';
@@ -10,7 +10,9 @@ import { AuthGuard } from '/src/guards/auth-guard';
 export const FancyTablePage = (props) => {
 
   const router = useRouter();
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
+  const initialized = useRef(false);
+
   const {
     getData,
     entityName,
@@ -19,18 +21,32 @@ export const FancyTablePage = (props) => {
     roles,
     onAddEntityRedirectTo,
     headerConfiguration,
-    tableRowGenerator
+    tableRowGenerator,
+    refresh,
+    allowAnnonymous
   } = props;
 
   useEffect(() => {
-    getData()
-      .then((response) => {
-        setData(response);
-      });
+    if (!initialized.current) {
+      initialized.current = true;
+
+      getData()
+        .then((response) => {
+          setData(response);
+        });
+    }
   }, []);
 
-  return (
-    <AuthGuard roles={roles}>
+  useEffect(() => {
+    if (refresh)
+      getData()
+        .then((response) => {
+          setData(response);
+        });
+  }, [refresh]);
+
+  const getBody = () => (
+    <>
       <Head>
         <title>
           SGAA - {listName}
@@ -79,10 +95,29 @@ export const FancyTablePage = (props) => {
                 </Button>
               }
             </Stack>
-            <FancyTable data={data} headerConfiguration={headerConfiguration} tableRowGenerator={tableRowGenerator} />
+            {
+              data &&
+              <FancyTable data={data} headerConfiguration={headerConfiguration} tableRowGenerator={tableRowGenerator} />
+            }
           </Stack>
         </Container>
       </Box>
-    </AuthGuard>
+    </>);
+
+  return (
+    <>
+      {
+        !allowAnnonymous &&
+        <AuthGuard roles={roles} >
+          {
+            getBody()
+          }
+        </AuthGuard >
+      }
+      {
+        allowAnnonymous &&
+        getBody()
+      }
+    </>
   );
 };

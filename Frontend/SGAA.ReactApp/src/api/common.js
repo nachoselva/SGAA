@@ -38,7 +38,7 @@ export const getPublicaciones = () => {
   return handleFetch('/publicacion', requestOptions);
 }
 
-export const getPublicacion = (publicacionId) => {
+export const getPublicacion = (codigo) => {
   const requestOptions = {
     method: 'GET',
     mode: 'cors',
@@ -47,5 +47,5 @@ export const getPublicacion = (publicacionId) => {
       'Authorization': getAuthorizationHeader(),
     }
   };
-  return handleFetch('/publicacion/' + publicacionId, requestOptions);
+  return handleFetch('/publicacion/' + codigo, requestOptions);
 }

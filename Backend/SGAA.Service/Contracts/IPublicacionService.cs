@@ -10,6 +10,7 @@
         Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicaciones();
         Task<IReadOnlyCollection<PublicacionGetModel>> GetActivePublicaciones();
         Task<PublicacionGetModel> GetPublicacion(int propietarioUsuarioId, int publicacionId);
+        Task<PublicacionGetModel> GetPublicacionByInquilino(int inquilinoUsuarioId, int publicacionId);
         Task<PublicacionGetModel> GetPublicacion(int publicacionId);
         Task<PublicacionGetModel> GetActivePublicacion(string codigo);
         Task<PublicacionGetModel> AddPublicacion(PublicacionPostModel model);

@@ -71,7 +71,7 @@ const Page = () => {
             &nbsp;
             <Link
               component={NextLink}
-              href="/|"
+              href="/inicio"
               underline="hover"
               variant="subtitle2"
             >

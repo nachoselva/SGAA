@@ -75,3 +75,66 @@ export const getPostulaciones = () => {
   };
   return handleFetch('/inquilino/postulacion', requestOptions);
 }
+
+export const getPostulacion = (id) => {
+  const requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    }
+  };
+  return handleFetch('/inquilino/postulacion/' + id, requestOptions);
+}
+
+export const cancelarPostulacion = (postulacion) => {
+  const requestOptions = {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    },
+    body: {}
+  };
+  return handleFetch('/inquilino/postulacion/' + postulacion.id +'/cancelar', requestOptions);
+}
+
+export const aceptarOferta = (postulacion) => {
+  const requestOptions = {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    },
+    body: {}
+  };
+  return handleFetch('/inquilino/postulacion/' + postulacion.id + '/oferta/aceptar', requestOptions);
+}
+
+export const rechazarOferta = (postulacion) => {
+  const requestOptions = {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    },
+    body: {}
+  };
+  return handleFetch('/inquilino/postulacion/' + postulacion.id + '/oferta/rechazar', requestOptions);
+}
+
+export const getPublicacion = (publicacionId) => {
+  const requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    }
+  };
+  return handleFetch('/inquilino/publicacion/' + publicacionId, requestOptions);
+}

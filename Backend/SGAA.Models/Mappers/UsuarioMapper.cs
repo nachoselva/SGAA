@@ -6,7 +6,7 @@
     {
         public Usuario ToEntity(UsuarioPostModel postModel)
         {
-            return new(postModel.Email, postModel.Nombre, postModel.Apellido, Guid.NewGuid().ToString(), null, null)
+            return new(postModel.Email, postModel.Nombre, postModel.Apellido, Guid.NewGuid().ToString(), null, null, Licencia.HabilitacionProfesional)
             {
                 UserName = postModel.Email
             };
@@ -27,7 +27,8 @@
                 Email = entity.Email!,
                 Nombre = entity.Nombre,
                 Apellido = entity.Apellido,
-                Roles = string.Join(',', entity.UsuarioRoles?.Select(ur => ur.Rol.Name) ?? Array.Empty<string>()) 
+                Roles = string.Join(',', entity.UsuarioRoles?.Select(ur => ur.Rol.Name) ?? Array.Empty<string>()),
+                Licencia = entity.Licencia  
             };
         }
     }

@@ -8,7 +8,7 @@
         => new(
             postModel.UnidadId,
             postModel.MontoAlquiler,
-            postModel.InicioAlquiler,
+            new DateOnly(postModel.InicioAlquiler.Year, postModel.InicioAlquiler.Month, postModel.InicioAlquiler.Day),
             postModel.Codigo!,
             PublicacionStatus.Publicada);
 

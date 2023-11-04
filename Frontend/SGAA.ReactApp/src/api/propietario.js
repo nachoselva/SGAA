@@ -75,3 +75,42 @@ export const actualizarUnidad = (unidad) => {
   };
   return handleFetch('/propietario/unidad/'+unidad.id, requestOptions);
 }
+
+export const cancelarPublicacion = (publicacion) => {
+  const requestOptions = {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    },
+    body: {}
+  };
+  return handleFetch('/propietario/publicacion/' + publicacion.id + '/cancelar', requestOptions);
+}
+
+export const cerrarPublicacion = (publicacion) => {
+  const requestOptions = {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    },
+    body: {}
+  };
+  return handleFetch('/propietario/publicacion/' + publicacion.id + '/cerrar', requestOptions);
+}
+
+export const registrarPublicacion = (publicacion) => {
+  const requestOptions = {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    },
+    body: JSON.stringify(publicacion)
+  };
+  return handleFetch('/propietario/publicacion', requestOptions);
+}
