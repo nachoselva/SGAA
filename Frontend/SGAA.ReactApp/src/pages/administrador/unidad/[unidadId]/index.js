@@ -20,16 +20,17 @@ const Page = () => {
   const breadcrumbsConfig = getBreadcrumbsConfig(unidadId);
 
   useEffect(() => {
-    getUnidad(unidadId)
-      .then((response) => {
-        setUnidad(response);
-      });
-  }, []);
+    if (router.isReady)
+      getUnidad(unidadId)
+        .then((response) => {
+          setUnidad(response);
+        });
+  }, [router.isReady]);
 
   return (
     <FancyFormPage
       roles={['Administrador']}
-      form={unidad && <UnidadLeerForm unidad={unidad} />}
+      form={unidad && <UnidadLeerForm unidad={unidad} rol={'Administrador'} />}
       title={'Detalle Unidad'}
       breadcrumbsConfig={breadcrumbsConfig}>
     </FancyFormPage>

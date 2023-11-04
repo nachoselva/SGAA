@@ -12,12 +12,13 @@ const Page = () => {
   const token = router.query.token;
 
   useEffect(() => {
-    if (email && token)
-      confirmarCorreo(email, token)
-        .then(() => {
-          setConfirmation(true);
-        });
-  }, [email, token]);
+    if (router.isReady)
+      if (email && token)
+        confirmarCorreo(email, token)
+          .then(() => {
+            setConfirmation(true);
+          });
+  }, [router.isReady]);
 
   return (
     <>

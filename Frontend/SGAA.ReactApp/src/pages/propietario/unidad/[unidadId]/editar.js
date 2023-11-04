@@ -22,11 +22,12 @@ const Page = () => {
   ];
 
   useEffect(() => {
-    getUnidad(unidadId)
-      .then((response) => {
-        setUnidad(response);
-      });
-  }, []);
+    if (router.isReady)
+      getUnidad(unidadId)
+        .then((response) => {
+          setUnidad(response);
+        });
+  }, [router.isReady]);
 
   return (
     <FancyFormPage

@@ -17,11 +17,12 @@ const Page = () => {
   ];
 
   useEffect(() => {
-    getAplicacion(aplicacionId)
-      .then((response) => {
-        setAplicacion(response);
-      });
-  }, []);
+    if (router.isReady)
+      getAplicacion(aplicacionId)
+        .then((response) => {
+          setAplicacion(response);
+        });
+  }, [router.isReady]);
 
   return (
     <FancyFormPage

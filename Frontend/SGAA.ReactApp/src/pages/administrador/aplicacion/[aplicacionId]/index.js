@@ -10,11 +10,6 @@ const Page = () => {
   const [aplicacion, setAplicacion] = useState(null);
   const aplicacionId = router.query.aplicacionId;
 
-  const onAplicacionCreated = (result) => {
-    if (result)
-      router.push('/administrador/aplicacion');
-  };
-
   const breadcrumbsConfig = [
     { url: '/inicio', title: 'Inicio' },
     { url: '/administrador/aplicacion', title: 'Aplicaciones' },
@@ -22,16 +17,17 @@ const Page = () => {
   ];
 
   useEffect(() => {
-    getAplicacion(aplicacionId)
-      .then((response) => {
-        setAplicacion(response);
-      });
-  }, []);
+    if (router.isReady)
+      getAplicacion(aplicacionId)
+        .then((response) => {
+          setAplicacion(response);
+        });
+  }, [router.isReady]);
 
   return (
     <FancyFormPage
-      roles={['Inquilino']}
-      form={aplicacion && <AplicacionLeerForm aplicacion={aplicacion} />}
+      roles={['Administrador']}
+      form={aplicacion && <AplicacionLeerForm rol={'Administrador'} aplicacion={aplicacion} />}
       title={'Detalle Aplicacion'}
       breadcrumbsConfig={breadcrumbsConfig}
     >

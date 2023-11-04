@@ -50,6 +50,32 @@ export const getUnidad = (unidadId) => {
   return handleFetch('/administrador/unidad/' + unidadId, requestOptions);
 }
 
+export const aprobarUnidad = (unidadId) => {
+  const requestOptions = {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    },
+    body: JSON.stringify({})
+  };
+  return handleFetch('/administrador/unidad/' + unidadId + '/aprobar', requestOptions);
+}
+
+export const rechazarUnidad = (unidadId, body) => {
+  const requestOptions = {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    },
+    body: JSON.stringify(body)
+  };
+  return handleFetch('/administrador/unidad/' + unidadId + '/rechazar', requestOptions);
+}
+
 export const getAplicaciones = () => {
   const requestOptions = {
     method: 'GET',
@@ -73,6 +99,32 @@ export const getAplicacion = (aplicacionId) => {
   };
   return handleFetch('/administrador/aplicacion/' + aplicacionId, requestOptions);
 }
+export const aprobarAplicacion = (aplicacionId, body) => {
+  const requestOptions = {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    },
+    body: JSON.stringify(body)
+  };
+  return handleFetch('/administrador/aplicacion/' + aplicacionId + '/aprobar', requestOptions);
+}
+
+export const rechazarAplicacion = (aplicacionId, body) => {
+  const requestOptions = {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    },
+    body: JSON.stringify(body)
+  };
+  return handleFetch('/administrador/aplicacion/' + aplicacionId + '/rechazar', requestOptions);
+}
+
 
 export const getContratos = () => {
   const requestOptions = {

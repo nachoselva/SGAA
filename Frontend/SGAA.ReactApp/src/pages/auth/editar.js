@@ -17,14 +17,15 @@ const Page = () => {
   }
 
   useEffect(() => {
-    if (!initialized.current) {
-      initialized.current = true;
-      getCurrentUsuario()
-        .then((response) => {
-          setUsuario(response);
-        });
-    }
-  }, []);
+    if (router.isReady)
+      if (!initialized.current) {
+        initialized.current = true;
+        getCurrentUsuario()
+          .then((response) => {
+            setUsuario(response);
+          });
+      }
+  }, [router.isReady]);
 
   const breadcrumbsConfig = [
     { url: '/inicio', title: 'Inicio' },
