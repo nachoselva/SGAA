@@ -90,7 +90,7 @@
                 Usuario? usuario = await _userManager.FindByEmailAsync(postulante.Email);
                 if (usuario == null)
                 {
-                    usuario ??= new Usuario(postulante.Email, postulante.Nombre, postulante.Apellido, null, null, null) { UserName = postulante.Email, NormalizedEmail = postulante.Email };
+                    usuario ??= new Usuario(postulante.Email, postulante.Nombre, postulante.Apellido, null, null, null, Licencia.HabilitacionProfesional) { UserName = postulante.Email, NormalizedEmail = postulante.Email };
                     var createUserResult = await _userManager.CreateAsync(usuario);
                     if (!createUserResult.Succeeded)
                         throw _userManager.MapIdentityErrorToBadRequest(createUserResult.Errors);

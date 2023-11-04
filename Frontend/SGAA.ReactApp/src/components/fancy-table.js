@@ -1,12 +1,12 @@
 import MagnifyingGlassIcon from '@heroicons/react/24/solid/MagnifyingGlassIcon';
 import {
-    Box,
-    Card, InputAdornment, OutlinedInput, SvgIcon, Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TablePagination,
-    TableRow, TableSortLabel
+  Box,
+  Card, InputAdornment, OutlinedInput, SvgIcon, Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TablePagination,
+  TableRow, TableSortLabel
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useCallback, useState } from 'react';
@@ -97,22 +97,33 @@ export const FancyTable = (props) => {
               </TableHead>
               <TableBody>
                 {
+                  list &&
+                  list.length == 0 &&
+                  <TableCell colSpan={20} sx={{ textAlign: 'center' }}>
+                    No hay registros
+                  </TableCell>
+                }
+                {
                   list.map((usuario) => props.tableRowGenerator(usuario))
                 }
               </TableBody>
             </Table>
           </Box>
         </Scrollbar>
-        <TablePagination
-          component="div"
-          count={totalCount}
-          onPageChange={handlePageChange}
-          onRowsPerPageChange={handleRowsPerPageChange}
-          page={page}
-          rowsPerPage={rowsPerPage}
-          rowsPerPageOptions={[5, 10, 25]}
-          labelRowsPerPage="Items por página"
-        />
+        {
+          list &&
+          list.length > 0 &&
+          <TablePagination
+            component="div"
+            count={totalCount}
+            onPageChange={handlePageChange}
+            onRowsPerPageChange={handleRowsPerPageChange}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            rowsPerPageOptions={[5, 10, 25]}
+            labelRowsPerPage="Items por página"
+          />
+        }
       </Card>
     </>
   );

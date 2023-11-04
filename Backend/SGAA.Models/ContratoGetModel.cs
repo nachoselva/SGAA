@@ -1,5 +1,6 @@
 ﻿namespace SGAA.Models
 {
+    using SGAA.Domain.Auth;
     using SGAA.Domain.Core;
     using SGAA.Models.Base;
 

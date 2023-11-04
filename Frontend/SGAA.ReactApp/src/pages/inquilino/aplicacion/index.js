@@ -1,6 +1,6 @@
 import { Link, TableCell, TableRow } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getAplicacionActive, getAplicaciones } from '/src/api/inquilino';
 import { FancyTablePage } from '/src/components/fancy-table-page';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
@@ -9,17 +9,22 @@ const Page = () => {
 
   const router = useRouter();
   const [activeAplicacion, setActiveAplicacion] = useState(null);
+  const initialized = useRef(false);
 
   useEffect(() => {
-    getAplicacionActive()
-      .then((response) => {
-        setActiveAplicacion(response);
-      })
-      .catch((err) => {
-        if (err.statusCode != 404) {
-          throw err;
-        }
-      });
+    if (!initialized.current) {
+      initialized.current = true;
+
+      getAplicacionActive()
+        .then((response) => {
+          setActiveAplicacion(response);
+        })
+        .catch((err) => {
+          if (err.statusCode != 404) {
+            throw err;
+          }
+        });
+    }
   }, []);
 
   const tableRowGenerator = (row) => (
@@ -47,7 +52,7 @@ const Page = () => {
             component="button"
             underline="hover"
             color="inherit"
-              onClick={() => router.push('/inquilino/aplicacion/' + row.id + '/editar')}>
+            onClick={() => router.push('/inquilino/aplicacion/' + row.id + '/editar')}>
             Editar Aplicación
           </Link>
         }

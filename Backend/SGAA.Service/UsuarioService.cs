@@ -200,7 +200,8 @@
                     Email = member.Email!,
                     Nombre = member.Nombre,
                     Apellido = member.Apellido,
-                    Roles = userRoles
+                    Roles = userRoles,
+                    Licencia = member.Licencia
                 };
             }
             throw new UnauthorizedException();

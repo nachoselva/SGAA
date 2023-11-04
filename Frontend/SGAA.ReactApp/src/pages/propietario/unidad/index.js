@@ -30,13 +30,13 @@ const Page = () => {
       </TableCell>
       <TableCell>
         {
-          row.CanBePublicada &&
+          row.canBePublicada && 
           <Link
             component="button"
             underline="hover"
             color="inherit"
             onClick={() => router.push('/propietario/unidad/' + row.id + '/publicacion/crear')}>
-            Ver Unidad
+            Publicar Unidad
           </Link>
         }
       </TableCell>

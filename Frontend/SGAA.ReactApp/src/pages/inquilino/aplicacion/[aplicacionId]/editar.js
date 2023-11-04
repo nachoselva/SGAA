@@ -4,6 +4,7 @@ import { actualizarAplicacion, getAplicacion } from '/src/api/inquilino';
 import { FancyFormPage } from '/src/components/fancy-form-page';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
 import { AplicacionCrearForm } from '/src/sections/aplicacion/aplicacion-crear-form';
+
 const Page = () => {
 
   const router = useRouter();

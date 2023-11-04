@@ -112,7 +112,8 @@ export const AuthProvider = (props) => {
           id: result.id,
           name: result.nombre + ' ' + result.apellido,
           roles: result.roles,
-          email: result.email
+          email: result.email,
+          licencia: result.licencia
         };
 
         window.localStorage.setItem('jwt', result.accessToken);

@@ -24,7 +24,7 @@
 
 
         [HttpGet]
-        public async Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicaciones()
+        public async Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicacionesActivas()
             => await _publicacionService.GetActivePublicaciones();
     }
 }

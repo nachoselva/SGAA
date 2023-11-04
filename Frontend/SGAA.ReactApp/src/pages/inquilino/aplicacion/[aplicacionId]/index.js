@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { actualizarAplicacion, getAplicacion } from '/src/api/inquilino';
+import { getAplicacion } from '/src/api/inquilino';
 import { FancyFormPage } from '/src/components/fancy-form-page';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
 import { AplicacionLeerForm } from '/src/sections/aplicacion/aplicacion-leer-form';
@@ -9,11 +9,6 @@ const Page = () => {
   const router = useRouter();
   const [aplicacion, setAplicacion] = useState(null);
   const aplicacionId = router.query.aplicacionId;
-
-  const onAplicacionCreated = (result) => {
-    if (result)
-      router.push('/inquilino/aplicacion');
-  };
 
   const breadcrumbsConfig = [
     { url: '/inicio', title: 'Inicio' },
@@ -31,8 +26,8 @@ const Page = () => {
   return (
     <FancyFormPage
       roles={['Inquilino']}
-      form={aplicacion && <AplicacionLeerForm aplicacion={aplicacion} handleSubmit={actualizarAplicacion} handleConfirmationChange={onAplicacionCreated} />}
-      title={'Editar Aplicacion'}
+      form={aplicacion && <AplicacionLeerForm aplicacion={aplicacion} />}
+      title={'Detalle Aplicacion'}
       breadcrumbsConfig={breadcrumbsConfig}
     >
     </FancyFormPage>

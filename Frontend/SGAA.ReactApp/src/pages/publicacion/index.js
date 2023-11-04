@@ -1,9 +1,12 @@
-import { TableCell, TableRow } from '@mui/material';
+import { Link, TableCell, TableRow } from '@mui/material';
 import { getPublicaciones } from '/src/api/common';
 import { FancyTablePage } from '/src/components/fancy-table-page';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
+import { useRouter } from 'next/navigation';
 
 const Page = () => {
+
+  const router = useRouter();
 
   const tableRowGenerator = (row) => (
     <TableRow
@@ -19,18 +22,30 @@ const Page = () => {
       <TableCell>
         {row.inicioAlquiler}
       </TableCell>
+      <TableCell>
+        {
+          <Link
+            component="button"
+            underline="hover"
+            color="inherit"
+            onClick={() => router.push('/publicacion/' + row.codigo)}>
+            Ver Publicación
+          </Link>
+        }
+      </TableCell>
     </TableRow >);
 
   const headerConfiguration =
     [
       { key: 'domicilioCompleto', title: 'Unidad' },
       { key: 'montoAlquiler', title: 'Monto Alquiler' },
-      { key: 'inicioAlquiler', title: 'Disponible Desde' }
+      { key: 'inicioAlquiler', title: 'Disponible Desde' },
+      { key: null, title: null }
     ];
 
   const breadcrumbsConfig = [
     { url: '/inicio', title: 'Inicio' },
-    { url: '/inquilino/aplicacion', title: 'Aplicaciones' }
+    { url: '/publicacion', title: 'Publicaciones' }
   ];
 
   return (
@@ -41,6 +56,7 @@ const Page = () => {
       breadcrumbsConfig={breadcrumbsConfig}
       headerConfiguration={headerConfiguration}
       tableRowGenerator={tableRowGenerator}
+      allowAnnonymous={true}
     />
   );
 };

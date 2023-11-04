@@ -24,16 +24,21 @@ export const getMenuItems = () => {
           <HomeIcon />
         </SvgIcon>
       )
-    },
-    {
-      title: 'Publicaciones Activas',
-      path: '/publicacion',
-      icon: (
-        <SvgIcon fontSize="small">
-          <NewsPaperIcon />
-        </SvgIcon>
-      )
     });
+
+
+  if (!isAuthenticated || !user.roles.includes('Administrador')) {
+    everyone.push(
+      {
+        title: 'Publicaciones Activas',
+        path: '/publicacion',
+        icon: (
+          <SvgIcon fontSize="small">
+            <NewsPaperIcon />
+          </SvgIcon>
+        )
+      });
+  }
 
   if (isAuthenticated) {
     if (user.roles.includes('Administrador')) {
@@ -44,15 +49,6 @@ export const getMenuItems = () => {
           icon: (
             <SvgIcon fontSize="small">
               <HomeModernIcon />
-            </SvgIcon>
-          )
-        },
-        {
-          title: 'Contratos',
-          path: '/administrador/contrato',
-          icon: (
-            <SvgIcon fontSize="small">
-              <DocumentTextIcon />
             </SvgIcon>
           )
         },
@@ -92,6 +88,19 @@ export const getMenuItems = () => {
             </SvgIcon>
           )
         });
+      console.log(user);
+      if (user.licencia == 'ProyectoFinal') {
+        administrador.push(
+          {
+            title: 'Contratos',
+            path: '/administrador/contrato',
+            icon: (
+              <SvgIcon fontSize="small">
+                <DocumentTextIcon />
+              </SvgIcon>
+            )
+          });
+      }
     }
     if (user.roles.includes('Propietario')) {
       propietario.push(

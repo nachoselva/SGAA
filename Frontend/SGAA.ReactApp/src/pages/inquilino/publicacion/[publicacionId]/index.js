@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FancyFormPage } from '/src/components/fancy-form-page';
-import { getPublicacion } from '/src/api/propietario';
+import { getPublicacion } from '/src/api/inquilino';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
 import { PublicacionLeerForm } from '/src/sections/publicacion/publicacion-leer-form';
 
@@ -13,8 +13,8 @@ const Page = () => {
   const getBreadcrumbsConfig = (publicacionId) =>
     [
       { url: '/inicio', title: 'Inicio' },
-      { url: '/propietario/publicacion', title: 'Publicaciones' },
-      { url: '/propietario/publicacion/' + publicacionId, title: publicacionId }
+      { url: null, title: 'Publicaciones' },
+      { url: '/inquilino/publicacion/' + publicacionId, title: publicacionId }
     ];
 
   const breadcrumbsConfig = getBreadcrumbsConfig(publicacionId);
@@ -28,7 +28,7 @@ const Page = () => {
 
   return (
     <FancyFormPage
-      roles={['Propietario']}
+      roles={['Inquilino']}
       form={publicacion && <PublicacionLeerForm publicacion={publicacion} />}
       title={'Detalle Publicación'}
       breadcrumbsConfig={breadcrumbsConfig}>
