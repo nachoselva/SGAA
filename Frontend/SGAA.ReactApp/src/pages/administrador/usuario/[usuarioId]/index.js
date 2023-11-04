@@ -20,11 +20,12 @@ const Page = () => {
   const breadcrumbsConfig = getBreadcrumbsConfig(usuarioId);
 
   useEffect(() => {
-    getUsuario(usuarioId)
-      .then((response) => {
-        setUsuario(response);
-      });
-  }, []);
+    if (router.isReady)
+      getUsuario(usuarioId)
+        .then((response) => {
+          setUsuario(response);
+        });
+  }, [router.isReady]);
 
   return (
     <FancyFormPage

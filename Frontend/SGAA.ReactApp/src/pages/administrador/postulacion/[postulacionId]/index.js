@@ -17,6 +17,14 @@ const Page = () => {
       { url: '/administrador/postulacion/' + postulacionId, title: postulacionId }
     ];
 
+  useEffect(() => {
+    if (router.isReady)
+      getAplicacion(aplicacionId)
+        .then((response) => {
+          setAplicacion(response);
+        });
+  }, [router.isReady]);
+
   const breadcrumbsConfig = getBreadcrumbsConfig(postulacionId);
 
   useEffect(() => {

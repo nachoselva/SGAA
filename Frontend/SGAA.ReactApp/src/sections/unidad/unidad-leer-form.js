@@ -1,9 +1,23 @@
-import { Box, Grid, TextField, Typography } from '@mui/material';
-import React from 'react';
+import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { aprobarUnidad, rechazarUnidad } from '/src/api/administrador';
 import { FancyFilePicker } from '/src/components/fancy-file-picker';
 
 export const UnidadLeerForm = (props) => {
-  const { unidad } = props;
+  const { unidad, rol } = props;
+  const [nuevoComentario, setNuevoComentario] = useState(null);
+  const router = useRouter();
+
+  const onUnidadRechazada = (unidadId, comentario) => {
+    rechazarUnidad(unidadId, { comentario: comentario })
+      .then(() => router.push('/administrador/unidad'));
+  }
+
+  const onUnidadAprobada = (unidadId) => {
+    aprobarUnidad(unidadId)
+      .then(() => router.push('/administrador/unidad'));
+  }
 
   return (
     <Box>
@@ -308,26 +322,72 @@ export const UnidadLeerForm = (props) => {
               </Box>
             </Grid>)
           )
+
         }
+
         <Grid item xs={12}>
           <Typography variant="h5">
             Comentarios
           </Typography>
         </Grid>
-        <Grid item xs={12}>
-          <ul>
-            {unidad.comentarios.sort((comentario) => comentario.fecha).map(com =>
-              <li>[{com.fecha}] : {com.comentario}</li>
-            )}
-          </ul>
-        </Grid>
         {
-          props.aceptarForm &&
+          unidad.comentarios.length > 1 &&
           <Grid item xs={12}>
-            {props.aceptarForm}
+            <ul>
+              {unidad.comentarios.sort((comentario) => comentario.fecha).map(com =>
+                <li>[{com.fecha}] : {com.comentario}</li>
+              )}
+            </ul>
           </Grid>
         }
+        {
+          rol == 'Administrador'
+          &&
+          <>
+            <Grid item xs={12}>
+              <TextField
+                variant="filled"
+                multiline
+                rows={5}
+                fullWidth
+                label="Comentario Rechazo"
+                name="nuevoComentario"
+                value={nuevoComentario}
+                onChange={(e) => setNuevoComentario(e.target.value)}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Button
+                fullWidth
+                size="large"
+                sx={{ mt: 3 }}
+                onClick={
+                  () => onUnidadRechazada(unidad.id, nuevoComentario)
+                }
+                variant="contained"
+              >
+                Rechazar
+              </Button>
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Button
+                fullWidth
+                size="large"
+                sx={{ mt: 3 }}
+                onClick={
+                  () => onUnidadAprobada(unidad.id)
+                }
+                variant="contained"
+              >
+                Aprobar
+              </Button>
+            </Grid>
+          </>
+        }
       </Grid>
+
     </Box>
   );
 };
