@@ -69,7 +69,7 @@ export const TopNav = (props) => {
                 height: 40,
                 width: 40
               }}>
-              <UserCircleIcon col />
+              <UserCircleIcon />
             </Avatar>
           </Stack>
         </Stack>

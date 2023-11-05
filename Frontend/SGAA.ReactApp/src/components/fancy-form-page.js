@@ -41,9 +41,10 @@ export const FancyFormPage = (props) => {
               <Grid
                 xs={12}
                 lg={8}
+                item
               >
                 <Card sx={{ p: 2 }} sx={{
-                  border: 1, borderRadius: '8px', 'border- style': 'solid', 'border-width': '1px', 'border-color': '#1C2536', p: 2, mt: 1
+                  border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
                 }} >
                   {
                     form

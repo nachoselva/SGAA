@@ -42,60 +42,39 @@ const Page = () => {
                 xs={12}
               >
                 <Card sx={{ p: 2 }} sx={{
-                  border: 1, borderRadius: '8px', 'border- style': 'solid', 'border-width': '1px', 'border-color': '#1C2536', p: 2, mt: 1
+                  border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
                 }} >
-                  <Typography variant="h6">1. Uso del Sistema</Typography>
-                  <p>El Sistema de Gestión de Alquileres Autónomos (SGAA) es una plataforma diseñada para facilitar la administración de alquileres y promover un proceso de selección de inquilinos justo y equitativo sin la intervención de administradores o inmobiliarias, fomentando los alquileres de tipo Dueño Directo. El uso del sistema es personal, y se prohíbe utilizarlo en nombre de otra persona a menos que se cuente con un poder legal para hacerlo.</p>
 
-                  <Typography variant="h6">2. Prohibición de Explotación Comercial Inmobiliaria</Typography>
-                  <p>Se prohíbe el uso del SGAA para la explotación comercial inmobiliaria. La plataforma está diseñada exclusivamente para facilitar relaciones directas entre propietarios e inquilinos, y no se permiten comisiones relacionadas a los contratos firmados utilizando SGAA.</p>
+                  <Typography variant="h6">1. Información que recopilamos</Typography>
+                  <p>Podemos recopilar información personal identificable, como su nombre, dirección de correo electrónico, dirección postal y otra información que usted nos proporcione voluntariamente cuando utiliza el SGAA. También podemos recopilar información no identificable, como datos demográficos y patrones de uso del sistema.</p>
 
-                  <Typography variant="h6">3. Confidencialidad de Datos</Typography>
-                  <p>Los propietarios no podrán tener conocimiento de los potenciales inquilinos hasta que la reserva esté realizada. La privacidad de la información personal de los inquilinos se mantendrá de manera estricta.</p>
-
-                  <Typography variant="h6">4. No Discriminación</Typography>
-                  <p>Está estrictamente prohibido discriminar a los inquilinos por su nacionalidad, raza, género, edad u otras características personales. En SGAA, promovemos la igualdad y la no discriminación en la selección de inquilinos.</p>
-
-                  <Typography variant="h6">5. Selección Equitativa de Inquilinos</Typography>
-                  <p>Los inquilinos son seleccionados de manera equitativa, teniendo en cuenta los siguientes criterios: los ingresos de cada uno para poder solventar el alquiler, las garantías presentadas, los antecedentes crediticios y los antecedentes penales.</p>
-
-                  <Typography variant="h6">6. Regla de Cálculo</Typography>
-                  <p>La puntuación de la aplicación se calcula de manera estándar con la siguiente fórmula:</p>
-                  <p>P = (IHB / 1000) * (IAP / 1000) * (CG * 10e-3 + CI * 10e-4) / (ICL)</p>
-                  <p>Donde:</p>
+                  <Typography variant="h6">2. Uso de la información</Typography>
+                  <p>Utilizamos su información personal para los siguientes propósitos:</p>
                   <ul>
-                    <li>P: Puntuación</li>
-                    <li>IHB: Índice de Historial Bancario (0 - 1000)</li>
-                    <li>IAP: Índice de Antecedentes Policiales (0 - 1000)</li>
-                    <li>CG: Componente de Garantías</li>
-                    <li>CI: Componente de Ingresos</li>
-                    <li>ICL: Índice de contratos de locación</li>
+                    <li>Para proporcionarle los productos y servicios que solicite a través del SGAA.</li>
+                    <li>Para enviarle boletines informativos, correos electrónicos promocionales u otra información que pueda interesarle.</li>
+                    <li>Para personalizar su experiencia en el SGAA y presentarle contenido y ofertas que se adapten a sus preferencias.</li>
+                    <li>Para mejorar el SGAA y nuestros servicios.</li>
+                    <li>Para cumplir con las leyes y regulaciones aplicables.</li>
                   </ul>
 
-                  <p>El IHB se encuentra entre 0 y 1000 y se calcula como el promedio de Scoring / 1000 por cada postulante.</p>
-                  <p>El IAP se encuentra entre 0 y 1000, y se calcula como el promedio por cada postulante, con descuentos por antecedentes según la siguiente escala:</p>
-                  <ul>
-                    <li>Antecedente Leve: -400</li>
-                    <li>Antecedente Moderado: -600</li>
-                    <li>Antecedente Grave: -800</li>
-                    <li>Antecedente Crítico: -1000</li>
-                  </ul>
+                  <Typography variant="h6">3. Protección de la información</Typography>
+                  <p>Nos comprometemos a proteger su información personal y a implementar medidas de seguridad adecuadas para prevenir el acceso no autorizado, la divulgación, la alteración o la destrucción de su información en el SGAA. Sin embargo, debe ser consciente de que ninguna transmisión de datos a través de Internet es completamente segura, y no podemos garantizar la seguridad de la información que nos proporciona en línea.</p>
 
-                  <p>El Componente de Garantías es el monto de las escrituras de las garantías ingresadas por el Inquilino.</p>
-                  <p>El Componente de Ingresos es el Ingreso mensual sumado de los inquilinos.</p>
-                  <p>El Índice de contratos de locación se toma del gobierno Argentino de manera mensual.</p>
-                  <p>Se puede ver el histórico en el siguiente link: <a href="https://www.bcra.gob.ar/publicacionesestadisticas/Principales_variables_datos.asp">Historial de Índice de contratos de locación</a>.</p>
+                  <Typography variant="h6">4. Compartir información</Typography>
+                  <p>No venderemos, alquilaremos ni cederemos su información personal a terceros sin su consentimiento, a menos que estemos obligados por ley a hacerlo. Podemos compartir su información con proveedores de servicios que nos ayudan a operar el SGAA y brindarle servicios.</p>
 
-                  <Typography variant="h6">7. Análisis Crediticio y de Antecedentes Penales</Typography>
-                  <p>Al proponerse como potenciales inquilinos en SGAA, ustedes aceptan recibir un análisis crediticio y de antecedentes penales por parte de proveedores externos autorizados. Toda la información recibida se evalúa internamente y forma parte del sistema de puntuación utilizado para la selección de inquilinos.</p>
+                  <Typography variant="h6">5. Cookies y tecnologías similares</Typography>
+                  <p>Utilizamos cookies y otras tecnologías similares para recopilar información sobre su actividad en el SGAA. Puede administrar sus preferencias de cookies a través de la configuración de su navegador.</p>
 
-                  <Typography variant="h6">8. Políticas de Seguridad</Typography>
-                  <p>El SGAA se compromete a mantener la seguridad de los datos personales y financieros de todos los usuarios. Para obtener más información sobre nuestras políticas de seguridad, consulte la sección de Políticas de Seguridad en nuestra plataforma.</p>
+                  <Typography variant="h6">6. Enlaces a sitios web de terceros</Typography>
+                  <p>El SGAA puede contener enlaces a sitios web de terceros. No somos responsables de las prácticas de privacidad de estos sitios web, por lo que le recomendamos revisar las políticas de privacidad de terceros.</p>
 
-                  <Typography variant="h6">9. Contacto</Typography>
-                  <p>Para cualquier duda, consulta o sugerencia, pueden ponerse en contacto con nosotros a través del correo electrónico <a href="mailto:sgaa.comunicaciones@gmail.com">sgaa.comunicaciones@gmail.com</a>.</p>
+                  <Typography variant="h6">7. Cambios en la política de privacidad</Typography>
+                  <p>Nos reservamos el derecho de modificar esta Política de Privacidad en cualquier momento. Le notificaremos sobre cualquier cambio importante a través del SGAA o por otros medios.</p>
 
-                  <p>Al utilizar el Sistema de Gestión de Alquileres Autónomos (SGAA), ustedes aceptan y se comprometen a cumplir con estos Términos y Condiciones. El incumplimiento de estos términos puede dar lugar a la cancelación de su cuenta en el sistema SGAA.</p>
+                  <Typography variant="h6">8. Póngase en contacto con nosotros</Typography>
+                  <p>Si tiene alguna pregunta o inquietud sobre nuestra Política de Privacidad en el SGAA, puede ponerse en contacto con nosotros a través de la dirección de correo electrónico de contacto: <a href="mailto:sgaa.comunicaciones@gmail.com">sgaa.comunicaciones@gmail.com</a>.</p>
                 </Card>
               </Grid>
             </Grid>

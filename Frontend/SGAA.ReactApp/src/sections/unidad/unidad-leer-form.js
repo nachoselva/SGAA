@@ -37,7 +37,6 @@ export const UnidadLeerForm = (props) => {
             name="provinciaId"
             value={unidad.provincia}
             variant="filled"
-            labelId="provinciaId-label"
             label={'Provincia'}
             InputProps={{
               readOnly: true,
@@ -52,7 +51,6 @@ export const UnidadLeerForm = (props) => {
             name="ciudadId"
             value={unidad.ciudad}
             variant="filled"
-            labelId="ciudadId-label"
             label={'Ciudad'}
             InputProps={{
               readOnly: true,
@@ -232,9 +230,9 @@ export const UnidadLeerForm = (props) => {
         {
           unidad.titulares.map((titular, index) =>
           (
-            <Grid item xs={12}>
+            <Grid item xs={12} key={index}>
               <Box sx={{
-                border: 1, borderRadius: '8px', 'border- style': 'solid', 'border-width': '1px', 'border-color': '#1C2536', p: 2, mt: 1
+                border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
               }} >
                 <Grid container spacing={3}>
                   <Grid item xs={12} sm={6}>
@@ -342,8 +340,8 @@ export const UnidadLeerForm = (props) => {
           unidad.comentarios.length > 1 &&
           <Grid item xs={12}>
             <ul>
-              {unidad.comentarios.sort((comentario) => comentario.fecha).map(com =>
-                <li>[{com.fecha}] : {com.comentario}</li>
+              {unidad.comentarios.sort((comentario) => comentario.fecha).map((com, index) =>
+                <li key={index}>[{com.fecha}] : {com.comentario}</li>
               )}
             </ul>
           </Grid>

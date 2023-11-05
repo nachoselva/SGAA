@@ -3,8 +3,7 @@ import { useRouter } from 'next/navigation';
 import ArrowUturnLeftIcon from '@heroicons/react/24/solid/ArrowUturnLeftIcon';
 
 
-export const FancyBreadcrumbs = (props) =>
-{
+export const FancyBreadcrumbs = (props) => {
   const { breadcrumbsConfig } = props;
   const router = useRouter();
 
@@ -20,13 +19,14 @@ export const FancyBreadcrumbs = (props) =>
           <Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', justifyContent: 'center' }}>
             {
               breadcrumbsConfig &&
-              breadcrumbsConfig.map((row) =>
+              breadcrumbsConfig.map((row, index) =>
                 <Link
                   component="button"
                   underline="hover"
                   color="inherit"
                   fontSize="large"
-                  onClick={() => row.url && router.push(row.url)}>
+                  onClick={() => row.url && router.push(row.url)}
+                  key={index}>
                   {row.title}
                 </Link>)
             }

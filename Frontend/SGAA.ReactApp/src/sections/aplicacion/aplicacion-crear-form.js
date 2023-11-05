@@ -174,9 +174,9 @@ export const AplicacionCrearForm = (props) => {
           </Grid>
           {
             formik.values.postulantes.map((postulante, index) =>
-            (<Grid item xs={12}>
+            (<Grid item xs={12} key={index}>
               <Box sx={{
-                border: 1, borderRadius: '8px', 'border- style': 'solid', 'border-width': '1px', 'border-color': '#1C2536', p: 2, mt: 1
+                border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
               }} >
                 <Grid container spacing={3}>
                   {
@@ -384,9 +384,9 @@ export const AplicacionCrearForm = (props) => {
           </Grid>
           {
             formik.values.garantias.map((postulante, index) =>
-            (<Grid item xs={12}>
+            (<Grid item xs={12} key={index}>
               <Box sx={{
-                border: 1, borderRadius: '8px', 'border- style': 'solid', 'border-width': '1px', 'border-color': '#1C2536', p: 2, mt: 1
+                border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
               }} >
                 <Grid container spacing={3}>
                   {
@@ -452,8 +452,8 @@ export const AplicacionCrearForm = (props) => {
             props.aplicacion?.comentarios?.length > 0 &&
             <Grid item xs={12}>
               <ul>
-                  {props.aplicacion.comentarios.sort((comentario) => comentario.fecha).map(com =>
-                  <li>[{com.fecha}] : {com.comentario}</li>
+                  {props.aplicacion.comentarios.sort((comentario) => comentario.fecha).map((com, index) =>
+                    <li key={index}>[{com.fecha}] : {com.comentario}</li>
                 )}
               </ul>
             </Grid>

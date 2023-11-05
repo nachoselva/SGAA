@@ -50,7 +50,7 @@ export const FancyTable = (props) => {
   return (
     <>
       <Card sx={{ p: 2 }} sx={{
-        border: 1, borderRadius: '8px', 'border- style': 'solid', 'border-width': '1px', 'border-color': '#1C2536', p: 0.5
+        border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 0.5
       }}>
         <OutlinedInput
           defaultValue=""
@@ -70,16 +70,16 @@ export const FancyTable = (props) => {
         />
       </Card>
       <Card sx={{
-        border: 1, borderRadius: '20px', 'border- style': 'solid', 'border-width': '1px', 'border-color': '#1C2536'
+        border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536'
       }}>
         <Scrollbar>
           <Box sx={{ minWidth: 800 }}>
             <Table>
               <TableHead>
                 <TableRow>
-                  {props.headerConfiguration.map(col =>
+                  {props.headerConfiguration.map((col, index) =>
                   (
-                    <TableCell>
+                    <TableCell key={index}>
                       {col.key ?
                         <TableSortLabel
                           active={orderBy === col.key}
@@ -99,9 +99,11 @@ export const FancyTable = (props) => {
                 {
                   list &&
                   list.length == 0 &&
-                  <TableCell colSpan={20} sx={{ textAlign: 'center' }}>
-                    No hay registros
-                  </TableCell>
+                  <TableRow>
+                    <TableCell colSpan={20} sx={{ textAlign: 'center' }}>
+                      No hay registros
+                    </TableCell>
+                  </TableRow>
                 }
                 {
                   list.map((usuario) => props.tableRowGenerator(usuario))
