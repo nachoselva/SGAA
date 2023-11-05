@@ -46,7 +46,7 @@ export const FancyFilePicker = (props) => {
           name={name}
           variant="contained"
           component="label"
-          sx={{ 'width': '40px', 'min-width': '40px', 'height': '40px', 'min-height': '40px', 'margin-top': '7px' }}
+          sx={{ 'width': '40px', 'minWidth': '40px', 'height': '40px', 'minHeight': '40px', 'marginTop': '7px' }}
           tabindex="-1"
         >
           <Input type='file' onBlur={onBlur} onChange={async (event) => {
@@ -65,21 +65,20 @@ export const FancyFilePicker = (props) => {
           variant="contained"
           href={currentFile && currentFile.base64}
           download={currentFile && currentFile.name}
-          sx={{ 'width': '40px', 'min-width': '40px', 'height': '40px', 'min-height': '40px', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', 'margin-top': '7px' }}
-        >
-          <SvgIcon>
+          sx={{'width': '40px', 'minWidth': '40px', 'height': '40px', 'minHeight': '40px', 'marginTop': '7px', backgroundColor: '#6366F1', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius:'12px' }}>
+            <SvgIcon sx={{ 'width': '40px', 'minWidth': '40px', 'height': '24px', 'minHeight': '24px', backgroundColor: 'transparent', color: '#ffffff' }}>
             <ArrowDownOnSquareIcon />
           </SvgIcon>
         </Link>
       }
       {
         !readOnly &&
-        file && 
+        file &&
         <Button
           name={name}
           variant="contained"
           component="label"
-          sx={{ 'width': '40px', 'min-width': '40px', 'height': '40px', 'min-height': '40px', 'margin-top': '7px' }}
+          sx={{ 'width': '40px', 'minWidth': '40px', 'height': '40px', 'minHeight': '40px', 'marginTop': '7px' }}
           tabindex="-1"
           onClick={async () => {
             await handleChange(null);

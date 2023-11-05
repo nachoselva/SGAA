@@ -5,15 +5,18 @@ import HomeModernIcon from '@heroicons/react/24/solid/HomeModernIcon';
 import InboxStackIcon from '@heroicons/react/24/solid/InboxStackIcon';
 import NewsPaperIcon from '@heroicons/react/24/solid/NewsPaperIcon';
 import UserGroupIcon from '@heroicons/react/24/solid/UserGroupIcon';
+import ShieldCheckIcon from '@heroicons/react/24/solid/ShieldCheckIcon';
+import ArchiveBoxIcon from '@heroicons/react/24/solid/ArchiveBoxIcon'; 
 import { SvgIcon } from '@mui/material';
 import { useAuthContext } from '/src/contexts/auth-context';
 
 export const getMenuItems = () => {
   const { isAuthenticated, user } = useAuthContext();
-  let everyone = [];
-  let administrador = [];
-  let propietario = [];
-  let inquilino = [];
+  const everyone = [];
+  const administrador = [];
+  const propietario = [];
+  const inquilino = [];
+  const terms = [];
 
   everyone.push(
     {
@@ -88,7 +91,6 @@ export const getMenuItems = () => {
             </SvgIcon>
           )
         });
-      console.log(user);
       if (user.licencia == 'ProyectoFinal') {
         administrador.push(
           {
@@ -124,7 +126,7 @@ export const getMenuItems = () => {
         });
     }
     if (user.roles.includes('Inquilino')) {
-      propietario.push(
+      inquilino.push(
         {
           title: 'Mis Aplicaciones',
           path: '/inquilino/aplicacion',
@@ -144,7 +146,27 @@ export const getMenuItems = () => {
           )
         });
     }
+
+    terms.push(
+      {
+        title: 'Términos y Condiciones',
+        path: '/tyc',
+        icon: (
+          <SvgIcon fontSize="small">
+            <ArchiveBoxIcon />
+          </SvgIcon>
+        )
+      },
+      {
+        title: 'Política de Privacidad',
+        path: '/privacidad',
+        icon: (
+          <SvgIcon fontSize="small">
+            <ShieldCheckIcon />
+          </SvgIcon>
+        )
+      });
   }
-  return { everyone, administrador, propietario, inquilino };
+  return { everyone, administrador, propietario, inquilino, terms };
 }
 

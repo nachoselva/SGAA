@@ -261,7 +261,6 @@ export const AplicacionCrearForm = (props) => {
                       onChange={(value) => {
                         const postulantes = formik.values.postulantes.slice(0);
                         postulantes[index].fechaNacimiento = value && new Date(value);
-                        console.log(postulantes[index].fechaNacimiento);
                         formik.setFieldValue('postulantes', postulantes);
                       }}
                       touched={formik.touched.postulantes?.[index]?.fechaNacimiento}
@@ -328,7 +327,6 @@ export const AplicacionCrearForm = (props) => {
                       onChange={(value) => {
                         const postulantes = formik.values.postulantes.slice(0);
                         postulantes[index].fechaEmpleadoDesde = value && new Date(value);
-                        console.log(postulantes[index].fechaEmpleadoDesde);
                         formik.setFieldValue('postulantes', postulantes);
                       }}
                       touched={formik.touched.postulantes?.[index]?.fechaEmpleadoDesde}
@@ -454,7 +452,7 @@ export const AplicacionCrearForm = (props) => {
             props.aplicacion?.comentarios?.length > 0 &&
             <Grid item xs={12}>
               <ul>
-                {props.unidad.comentarios.sort((comentario) => comentario.fecha).map(com =>
+                  {props.aplicacion.comentarios.sort((comentario) => comentario.fecha).map(com =>
                   <li>[{com.fecha}] : {com.comentario}</li>
                 )}
               </ul>
