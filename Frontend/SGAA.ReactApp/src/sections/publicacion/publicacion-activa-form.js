@@ -1,4 +1,5 @@
 import { Box, Stack, TextField } from '@mui/material';
+import Moment from 'moment';
 import React from 'react';
 
 export const PublicacionActivaForm = (props) => {
@@ -46,7 +47,7 @@ export const PublicacionActivaForm = (props) => {
             label="Inicio"
             name="inicioAlquiler"
             type="inicioAlquiler"
-            value={publicacion.inicioAlquiler}
+            value={Moment(publicacion.inicioAlquiler).format('DD/MM/yyyy')}
             InputProps={{
               readOnly: true,
             }}

@@ -1,8 +1,9 @@
 import { Link, TableCell, TableRow } from '@mui/material';
+import Moment from 'moment';
+import { useRouter } from 'next/navigation';
 import { getPublicaciones } from '/src/api/common';
 import { FancyTablePage } from '/src/components/fancy-table-page';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
-import { useRouter } from 'next/navigation';
 
 const Page = () => {
 
@@ -20,7 +21,7 @@ const Page = () => {
         {row.montoAlquiler}
       </TableCell>
       <TableCell>
-        {row.inicioAlquiler}
+        {row.inicioAlquiler && Moment(row.inicioAlquiler).format('DD/MM/yyyy')}
       </TableCell>
       <TableCell>
         {

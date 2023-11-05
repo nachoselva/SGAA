@@ -1,5 +1,7 @@
 import { Box, Stack, TextField } from '@mui/material';
+import Moment from 'moment';
 import React from 'react';
+import { publicacionStatus } from '/src/utils/status-labels';
 
 export const PublicacionLeerForm = (props) => {
   const { publicacion } = props;
@@ -46,7 +48,7 @@ export const PublicacionLeerForm = (props) => {
             label="Inicio"
             name="inicioAlquiler"
             type="inicioAlquiler"
-            value={publicacion.inicioAlquiler}
+            value={Moment(postulacion.inicioAlquiler).format('DD/MM/yyyy')}
             InputProps={{
               readOnly: true,
             }}
@@ -68,7 +70,7 @@ export const PublicacionLeerForm = (props) => {
             label="Estado"
             name="status"
             type="status"
-            value={publicacion.status}
+            value={publicacionStatus[publicacion.status]}
             InputProps={{
               readOnly: true,
             }}

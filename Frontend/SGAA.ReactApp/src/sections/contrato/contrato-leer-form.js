@@ -1,5 +1,6 @@
 import { Box, Stack, TextField } from '@mui/material';
 import React from 'react';
+import { contratoStatus } from '/src/utils/status-labels';
 
 export const ContratoLeerForm = (props) => {
   const { contrato } = props;
@@ -46,7 +47,7 @@ export const ContratoLeerForm = (props) => {
             label="Hasta"
             name="fechaHasta"
             type="fechaHasta"
-            value={contrato.fechaHasta}
+            value={contratoStatus[contrato.fechaHasta]}
             InputProps={{
               readOnly: true,
             }}

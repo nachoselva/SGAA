@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { getUnidades } from '/src/api/administrador';
 import { FancyTablePage } from '/src/components/fancy-table-page';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
+import { unidadStatus } from '/src/utils/status-labels';
 
 const Page = () => {
 
@@ -26,7 +27,7 @@ const Page = () => {
         {row.provincia}
       </TableCell>
       <TableCell>
-        {row.status}
+        {unidadStatus[row.status]}
       </TableCell>
       <TableCell>
         <Link

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { actualizarAplicacion, getAplicacion } from '/src/api/administrador';
+import { getAplicacion } from '/src/api/administrador';
 import { FancyFormPage } from '/src/components/fancy-form-page';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
 import { AplicacionLeerForm } from '/src/sections/aplicacion/aplicacion-leer-form';

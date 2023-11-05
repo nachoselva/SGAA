@@ -1,5 +1,7 @@
 import { Box, Stack, TextField } from '@mui/material';
+import Moment from 'moment';
 import React from 'react';
+import { postulacionStatus } from '/src/utils/status-labels';
 
 export const PostulacionLeerForm = (props) => {
   const { postulacion } = props;
@@ -43,7 +45,7 @@ export const PostulacionLeerForm = (props) => {
           label="Fecha Postulación"
           name="fechaPostulacion"
           type="fechaPostulacion"
-          value={postulacion.fechaPostulacion}
+          value={Moment(postulacion.fechaPostulacion).format('DD/MM/yyyy hh:mm:ss')}
           InputProps={{
             readOnly: true,
           }}
@@ -54,7 +56,7 @@ export const PostulacionLeerForm = (props) => {
           label="Fecha Oferta"
           name="fechaOferta"
           type="fechaOferta"
-          value={postulacion.fechaOferta}
+          value={Moment(postulacion.fechaOferta).format('DD/MM/yyyy hh:mm:ss')}
           InputProps={{
             readOnly: true,
           }}
@@ -65,7 +67,7 @@ export const PostulacionLeerForm = (props) => {
           label="Estado"
           name="status"
           type="status"
-          value={postulacion.status}
+          value={postulacionStatus[postulacion.status]}
           InputProps={{
             readOnly: true,
           }}
