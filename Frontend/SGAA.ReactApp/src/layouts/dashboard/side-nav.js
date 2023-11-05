@@ -16,7 +16,7 @@ export const SideNav = (props) => {
   const { open, onClose } = props;
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
-  const { everyone, administrador, propietario, inquilino } = getMenuItems();
+  const { everyone, administrador, propietario, inquilino, terms } = getMenuItems();
 
   const renderLink = (item) => {
     let active;
@@ -146,6 +146,13 @@ export const SideNav = (props) => {
             }
             {
               inquilino.length > 0 &&
+              <Divider sx={{ borderColor: 'neutral.700' }} />
+            }
+            {
+              terms.map((item) => renderLink(item))
+            }
+            {
+              terms.length > 0 &&
               <Divider sx={{ borderColor: 'neutral.700' }} />
             }
           </Stack>

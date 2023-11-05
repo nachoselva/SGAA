@@ -7,11 +7,19 @@ import { FancyFilePicker } from '/src/components/fancy-file-picker';
 export const UnidadLeerForm = (props) => {
   const { unidad, rol } = props;
   const [nuevoComentario, setNuevoComentario] = useState(null);
+  const [nuevoComentarioError, setNuevoComentarioError] = useState({});
   const router = useRouter();
 
   const onUnidadRechazada = (unidadId, comentario) => {
-    rechazarUnidad(unidadId, { comentario: comentario })
-      .then(() => router.push('/administrador/unidad'));
+    if (comentario && comentario.trim()) {
+      rechazarUnidad(unidadId, { comentario: comentario })
+        .then(() => router.push('/administrador/unidad'));
+    } else {
+      const error = { ...nuevoComentarioError };
+      error.error = true;
+      error.helperText = "Comentario es obligatorio";
+      setNuevoComentarioError(error);
+    }
   }
 
   const onUnidadAprobada = (unidadId) => {
@@ -354,6 +362,8 @@ export const UnidadLeerForm = (props) => {
                 name="nuevoComentario"
                 value={nuevoComentario}
                 onChange={(e) => setNuevoComentario(e.target.value)}
+                error={nuevoComentarioError.error}
+                helperText={nuevoComentarioError.helperText}
               />
             </Grid>
 

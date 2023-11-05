@@ -4,7 +4,7 @@
     {
         public const string TYPE_DATE = "date";
         public const string TYPE_DATETIME = "datetime2(3)";
-        public const string TYPE_DECIMAL = "decimal";
+        public const string TYPE_DECIMAL = "decimal(14,4)";
 
         public const int TYPE_DECIMAL_PRECISION = 14;
         public const int TYPE_DECIMAL_SCALE = 2;

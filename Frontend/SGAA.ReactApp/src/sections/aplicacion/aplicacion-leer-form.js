@@ -7,19 +7,57 @@ import { aprobarAplicacion, rechazarAplicacion } from '/src/api/administrador';
 export const AplicacionLeerForm = (props) => {
   const { aplicacion, rol } = props;
   const [nuevoComentario, setNuevoComentario] = useState(null);
+  const [nuevoComentarioError, setNuevoComentarioError] = useState({});
   const router = useRouter();
   const [puntuaciones, setPuntuaciones] = useState(aplicacion.postulantes
-    .map(p => { return { nombre: p.nombre + ' ' + p.apellido, postulanteId: p.id }; })
+    .map(p => { return { postulanteId: p.id, error: false, helperText: null }; })
   );
 
   const onAplicacionRechazada = (aplicacionId, comentario) => {
-    rechazarAplicacion(aplicacionId, { comentario: comentario })
-      .then(() => router.push('/administrador/aplicacion'));
+    if (comentario && comentario.trim()) {
+      rechazarAplicacion(aplicacionId, { comentario: comentario })
+        .then(() => router.push('/administrador/aplicacion'));
+    } else {
+      const error = { ...nuevoComentarioError };
+      error.error = true;
+      error.helperText = "Comentario es obligatorio";
+      setNuevoComentarioError(error);
+    }
   }
 
   const onAplicacionAprobada = (aplicacionId) => {
-    aprobarAplicacion(aplicacionId, { puntuaciones: puntuaciones })
-      .then(() => router.push('/administrador/aplicacion'));
+    let hasError = false;
+    const list = [...puntuaciones];
+    for (var i = 0; i < list.length; i++) {
+      if (!list[i].puntuacionCrediticia) {
+        hasError = true;
+        list[i].puntuacionCrediticiaError = true
+        list[i].puntuacionCrediticiaHelperText = "Puntuación crediticia es obligatoria";
+      }
+      else if (list[i].puntuacionCrediticia > 1000 || puntuaciones[i].puntuacionCrediticia < 0) {
+        hasError = true;
+        list[i].puntuacionCrediticiaError = true
+        list[i].puntuacionCrediticiaHelperText = "Puntuación crediticia debe ser entre 0 y 1000";
+      }
+
+      if (!list[i].puntuacionPenal) {
+        hasError = true;
+        list[i].puntuacionPenalError = true;
+        list[i].puntuacionPenalHelperText = "Puntuación penal es obligatoria";
+      }
+      else if (list[i].puntuacionPenal > 1000 || list[i].puntuacionPenal < 0) {
+        hasError = true;
+        list[i].puntuacionPenalError = true;
+        list[i].puntuacionPenalHelperText = "Puntuación penal debe ser entre 0 y 1000";
+      }
+    }
+    if (!hasError) {
+      aprobarAplicacion(aplicacionId, { puntuaciones: puntuaciones })
+        .then(() => router.push('/administrador/aplicacion'));
+    }
+    else {
+      setPuntuaciones(list);
+    }
   }
 
   return (
@@ -31,134 +69,170 @@ export const AplicacionLeerForm = (props) => {
           </Typography>
         </Grid>
         {
-          aplicacion.postulantes.map((postulante, index) =>
-          (<Grid item xs={12}>
-            <Box sx={{
-              border: 1, borderRadius: '8px', 'border- style': 'solid', 'border-width': '1px', 'border-color': '#1C2536', p: 2, mt: 1
-            }} >
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="filled"
-                    fullWidth
-                    label="Nombre"
-                    name={"postulantes[" + index + "].nombre"}
-                    value={postulante.nombre}
-                  />
+          puntuaciones.map((puntuacion, index) => {
+            const postulante = aplicacion.postulantes[index];
+            return (<Grid item xs={12}>
+              <Box sx={{
+                border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
+              }} >
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      variant="filled"
+                      fullWidth
+                      label="Nombre"
+                      name={"postulantes[" + index + "].nombre"}
+                      value={postulante.nombre}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      variant="filled"
+                      fullWidth
+                      label="Apellido"
+                      name={"postulantes[" + index + "].apellido"}
+                      value={postulante.apellido}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      variant="filled"
+                      fullWidth
+                      label="Email"
+                      name={"postulantes[" + index + "].email"}
+                      value={postulante.email}
+                      type="email"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      variant="filled"
+                      fullWidth
+                      label="DNI"
+                      name={"postulantes[" + index + "].numeroIdentificacion"}
+                      value={postulante.numeroIdentificacion}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      variant="filled"
+                      fullWidth
+                      label="Domicilio"
+                      name={"postulantes[" + index + "].domicilio"}
+                      value={postulante.domicilio}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      variant="filled"
+                      fullWidth
+                      label="Fecha De Nacimiento"
+                      name={"postulantes[" + index + "].fechaNacimiento"}
+                      value={postulante.fechaNacimiento}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <FancyFilePicker
+                      label="Frente DNI"
+                      name={"postulantes[" + index + "].frenteIdentificacionArchivo"}
+                      file={postulante.frenteIdentificacionArchivo}
+                      readOnly={true}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <FancyFilePicker
+                      label="Dorso DNI"
+                      name={"postulantes[" + index + "].dorsoIdentificacionArchivo"}
+                      file={postulante.dorsoIdentificacionArchivo}
+                      readOnly={true}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      variant="filled"
+                      fullWidth
+                      label="Nombre Empresa"
+                      name={"postulantes[" + index + "].nombreEmpresa"}
+                      value={postulante.nombreEmpresa}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      variant="filled"
+                      fullWidth
+                      label="Fecha de Empleo"
+                      name={"postulantes[" + index + "].fechaEmpleadoDesde"}
+                      value={postulante.fechaEmpleadoDesde}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      variant="filled"
+                      fullWidth
+                      label="Ingreso Mensual"
+                      name={"postulantes[" + index + "].ingresoMensual"}
+                      value={postulante.ingresoMensual}
+                      type="number"
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <FancyFilePicker
+                      label="Recibo de sueldo"
+                      name={"postulantes[" + index + "].reciboDeSueldoArchivo"}
+                      file={postulante.reciboDeSueldoArchivo}
+                      readOnly={true}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} >
+                    <TextField
+                      variant="filled"
+                      error={puntuacion.puntuacionCrediticiaError}
+                      helperText={puntuacion.puntuacionCrediticiaHelperText}
+                      fullWidth
+                      label="Puntuación Crediticia"
+                      name={"puntuaciones[" + index + "].puntuacionCrediticia"}
+                      value={puntuacion.puntuacionCrediticia}
+                      onChange={(e) => { puntuaciones[index].puntuacionCrediticia = e.target.value; setPuntuaciones(puntuaciones) }}
+                      type='number'
+                      InputProps={{
+                        readOnly: rol != 'Administrador' || aplicacion.status != 'AprobacionPendiente'
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      variant="filled"
+                      error={puntuacion.puntuacionPenalError}
+                      helperText={puntuacion.puntuacionPenalHelperText}
+                      fullWidth
+                      label="Puntuación Penal"
+                      name={"puntuaciones[" + index + "].puntuacionPenal"}
+                      onChange={(e) => { puntuaciones[index].puntuacionPenal = e.target.value; setPuntuaciones(puntuaciones) }}
+                      value={puntuacion.puntuacionPenal}
+                      type='number'
+                      InputProps={{
+                        readOnly: rol != 'Administrador' || aplicacion.status != 'AprobacionPendiente'
+                      }}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="filled"
-                    fullWidth
-                    label="Apellido"
-                    name={"postulantes[" + index + "].apellido"}
-                    value={postulante.apellido}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="filled"
-                    fullWidth
-                    label="Email"
-                    name={"postulantes[" + index + "].email"}
-                    value={postulante.email}
-                    type="email"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="filled"
-                    fullWidth
-                    label="DNI"
-                    name={"postulantes[" + index + "].numeroIdentificacion"}
-                    value={postulante.numeroIdentificacion}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="filled"
-                    fullWidth
-                    label="Domicilio"
-                    name={"postulantes[" + index + "].domicilio"}
-                    value={postulante.domicilio}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="filled"
-                    fullWidth
-                    label="Fecha De Nacimiento"
-                    name={"postulantes[" + index + "].fechaNacimiento"}
-                    value={postulante.fechaNacimiento}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FancyFilePicker
-                    label="Frente DNI"
-                    name={"postulantes[" + index + "].frenteIdentificacionArchivo"}
-                    file={postulante.frenteIdentificacionArchivo}
-                    readOnly={true}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FancyFilePicker
-                    label="Dorso DNI"
-                    name={"postulantes[" + index + "].dorsoIdentificacionArchivo"}
-                    file={postulante.dorsoIdentificacionArchivo}
-                    readOnly={true}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="filled"
-                    fullWidth
-                    label="Nombre Empresa"
-                    name={"postulantes[" + index + "].nombreEmpresa"}
-                    value={postulante.nombreEmpresa}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="filled"
-                    fullWidth
-                    label="Fecha de Empleo"
-                    name={"postulantes[" + index + "].fechaEmpleadoDesde"}
-                    value={postulante.fechaEmpleadoDesde}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="filled"
-                    fullWidth
-                    label="Ingreso Mensual"
-                    name={"postulantes[" + index + "].ingresoMensual"}
-                    value={postulante.ingresoMensual}
-                    type="number"
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FancyFilePicker
-                    label="Recibo de sueldo"
-                    name={"postulantes[" + index + "].reciboDeSueldoArchivo"}
-                    file={postulante.reciboDeSueldoArchivo}
-                    readOnly={true}
-                  />
-                </Grid>
-              </Grid>
-            </Box>
-          </Grid>)
+              </Box>
+            </Grid>);
+
+          }
+
           )
         }
         <Grid item xs={12}>
@@ -234,45 +308,10 @@ export const AplicacionLeerForm = (props) => {
                 name="nuevoComentario"
                 value={nuevoComentario}
                 onChange={(e) => setNuevoComentario(e.target.value)}
+                error={nuevoComentarioError.error}
+                helperText={nuevoComentarioError.helperText}
               />
             </Grid>
-
-            {
-              puntuaciones.map((puntuacion, index) =>
-              (<Grid item xs={12}>
-                <Box sx={{
-                  border: 1, borderRadius: '8px', 'border- style': 'solid', 'border-width': '1px', 'border-color': '#1C2536', p: 2, mt: 1
-                }}>
-                  <Grid container spacing={3}>
-                    <Grid item xs={12} sx={{ mb: 1 }}>
-                      {puntuacion.nombre}
-                    </Grid>
-                    <Grid item xs={12} sm={6} >
-                      <TextField
-                        variant="filled"
-                        fullWidth
-                        label="Puntuación Crediticia"
-                        name={"puntuaciones[" + index + "].puntuacionCrediticia"}
-                        value={puntuacion.puntuacionCrediticia}
-                        onChange={(e) => { puntuaciones[index].puntuacionCrediticia = e.target.value; setPuntuaciones(puntuaciones) }}
-                        type='number'
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        variant="filled"
-                        fullWidth
-                        label="Puntuación Penal"
-                        name={"puntuaciones[" + index + "].puntuacionPenal"}
-                        onChange={(e) => { puntuaciones[index].puntuacionPenal = e.target.value; setPuntuaciones(puntuaciones) }}
-                        value={puntuacion.puntuacionPenal}
-                        type='number'
-                      />
-                    </Grid>
-                  </Grid>
-                </Box>
-              </Grid>))
-            }
 
             <Grid item xs={12} sm={6}>
               <Button

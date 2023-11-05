@@ -542,7 +542,6 @@ export const UnidadCrearForm = (props) => {
                       onChange={(value) => {
                         const titulares = formik.values.titulares.slice(0);
                         titulares[index].fechaNacimiento = value && new Date(value);
-                        console.log(titulares[index].fechaNacimiento);
                         formik.setFieldValue('titulares', titulares);
                       }}
                       touched={formik.touched.titulares?.[index]?.fechaNacimiento}
