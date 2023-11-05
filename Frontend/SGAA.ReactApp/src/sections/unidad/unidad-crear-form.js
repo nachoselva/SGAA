@@ -14,19 +14,19 @@ export const UnidadCrearForm = (props) => {
       provinciaId: -1,
       ciudadId: -1,
       calle: '',
-      altura: null,
+      altura: '',
       piso: '',
       departamento: '',
-      fechaAdquisicion: null,
+      fechaAdquisicion: '',
       tituloPropiedadArchivo: null,
       detalle:
       {
         descripcion: '',
         superficie: '',
-        ambientes: null,
-        banios: null,
-        dormitorios: null,
-        cocheras: null,
+        ambientes: '',
+        banios: '',
+        dormitorios: '',
+        cocheras: '',
         imagenes: []
       },
       titulares: [{
@@ -35,7 +35,7 @@ export const UnidadCrearForm = (props) => {
         email: '',
         numeroIdentificacion: '',
         domicilio: '',
-        fechaNacimiento: null,
+        fechaNacimiento: '',
         frenteIdentificacionArchivo: null,
         dorsoIdentificacionArchivo: null
       }],
@@ -200,60 +200,69 @@ export const UnidadCrearForm = (props) => {
       >
         <Grid container spacing={3} >
           <Grid item xs={12} sm={6}>
-            <TextField
-              variant="filled"
-              select
-              error={!!(formik.touched.provinciaId && formik.errors.provinciaId)}
-              helperText={formik.touched.provinciaId && formik.errors.provinciaId}
-              fullWidth
-              onBlur={formik.handleBlur}
-              name="provinciaId"
-              value={formik.values.provinciaId}
-              onChange={(event) => {
-                formik.setFieldValue('ciudadId', -1);
-                formik.handleChange(event);
-              }}
-              variant="filled"
-              labelId="provinciaId-label"
-              label={'Provincia'}
-            >
-              <MenuItem key={-1} value={-1}>
-                --- Seleccione una provincia ---
-              </MenuItem >
-              {
-                provincias && provincias.map(pro =>
-                  <MenuItem key={pro.id} value={pro.id}>
-                    {pro.nombre}
-                  </MenuItem >
-                )}
-            </TextField>
+            {
+              ((provincias &&
+                provincias.length > 0) ||
+                !props.unidad) &&
+              <TextField
+                variant="filled"
+                select
+                error={!!(formik.touched.provinciaId && formik.errors.provinciaId)}
+                helperText={formik.touched.provinciaId && formik.errors.provinciaId}
+                fullWidth
+                onBlur={formik.handleBlur}
+                name="provinciaId"
+                value={formik.values.provinciaId}
+                onChange={(event) => {
+                  formik.setFieldValue('ciudadId', -1);
+                  formik.handleChange(event);
+                }}
+                variant="filled"
+                label={'Provincia'}
+              >
+                <MenuItem key={-1} value={-1}>
+                  --- Seleccione una provincia ---
+                </MenuItem >
+                {
+                  provincias.map(pro =>
+                    (<MenuItem key={pro.id} value={pro.id}>
+                      {pro.nombre}
+                    </MenuItem >)
+                  )}
+              </TextField>
+            }
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <TextField
-              variant="filled"
-              select
-              error={!!(formik.touched.ciudadId && formik.errors.ciudadId)}
-              helperText={formik.touched.ciudadId && formik.errors.ciudadId}
-              fullWidth
-              onBlur={formik.handleBlur}
-              name="ciudadId"
-              value={formik.values.ciudadId}
-              onChange={formik.handleChange}
-              variant="filled"
-              labelId="ciudadId-label"
-              label={'Ciudad'}
-            >
-              <MenuItem key={-1} value={-1}>
-                --- Seleccione una ciudad ---
-              </MenuItem >
-              {
-                ciudades && ciudades.map(pro =>
-                  <MenuItem key={pro.id} value={pro.id}>
-                    {pro.nombre}
-                  </MenuItem >
-                )}
-            </TextField>
+            {
+              ((ciudades &&
+                ciudades.length > 0) ||
+                !props.unidad) &&
+              <TextField
+                variant="filled"
+                select
+                error={!!(formik.touched.ciudadId && formik.errors.ciudadId)}
+                helperText={formik.touched.ciudadId && formik.errors.ciudadId}
+                fullWidth
+                onBlur={formik.handleBlur}
+                name="ciudadId"
+                value={formik.values.ciudadId}
+                onChange={formik.handleChange}
+                variant="filled"
+                label={'Ciudad'}
+              >
+                <MenuItem key={-1} value={-1}>
+                  --- Seleccione una ciudad ---
+                </MenuItem >
+                {
+                  ciudades.map(pro =>
+                    (<MenuItem key={pro.id} value={pro.id}>
+                      {pro.nombre}
+                    </MenuItem >)
+                  )
+                }
+              </TextField>
+            }
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -455,9 +464,9 @@ export const UnidadCrearForm = (props) => {
           </Grid>
           {
             formik.values.titulares.map((titular, index) =>
-            (<Grid item xs={12}>
+            (<Grid item xs={12} key={index}>
               <Box sx={{
-                border: 1, borderRadius: '8px', 'border- style': 'solid', 'border-width': '1px', 'border-color': '#1C2536', p: 2, mt: 1
+                border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
               }} >
                 <Grid container spacing={3}>
                   {
@@ -609,9 +618,8 @@ export const UnidadCrearForm = (props) => {
             props.unidad?.comentarios?.length > 0 &&
             <Grid item xs={12}>
               <ul>
-                {props.unidad.comentarios.sort((comentario) => comentario.fecha).map(com =>
-                  <li>[{com.fecha}] : {com.comentario}</li>
-                )}
+                {props.unidad.comentarios.sort((comentario) => comentario.fecha)
+                  .map((com, index) => <li key={index}>[{com.fecha}] : {com.comentario}</li>)}
               </ul>
             </Grid>
           }

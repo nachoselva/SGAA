@@ -32,7 +32,7 @@ export const FancyDialog = (props) => {
       </DialogContent>
       <DialogActions>
         {
-          options.map((option) => <Button variant="contained" onClick={() => handleClose(option.action)}>{option.text}</Button>)
+          options.map((option, index) => <Button key={index} variant="contained" onClick={() => handleClose(option.action)}>{option.text}</Button>)
         }
       </DialogActions>
     </Dialog>

@@ -244,7 +244,7 @@ export const AplicacionLeerForm = (props) => {
           aplicacion.garantias.map((garantia, index) =>
           (<Grid item xs={12}>
             <Box sx={{
-              border: 1, borderRadius: '8px', 'border- style': 'solid', 'border-width': '1px', 'border-color': '#1C2536', p: 2, mt: 1
+              border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
             }} >
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>

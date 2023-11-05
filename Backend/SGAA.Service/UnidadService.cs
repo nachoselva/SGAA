@@ -126,7 +126,7 @@
                 throw new BadRequestException("Unidad", "Debe haber por lo menos un titular");
             Unidad? unidadExistente = await _unidadRepository.GetUnidad(postModel.CiudadId, postModel.Calle, postModel.Altura, postModel.Piso, postModel.Departamento);
             if (unidadExistente != null)
-                throw new BadRequestException("Unidad", "Existe una unidad registrada en el mismo domicilio.");
+                throw new BadRequestException(nameof(postModel.Calle), "Existe una unidad registrada en el mismo domicilio.");
             Propiedad? propiedad = await _unidadRepository.GetPropiedad(postModel.CiudadId, postModel.Calle, postModel.Altura);
             if (propiedad != null)
                 postModel.PropiedadId = propiedad.Id;
