@@ -1,10 +1,11 @@
 import { Link, TableCell, TableRow } from '@mui/material';
+import Moment from 'moment';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { aceptarOferta, cancelarPostulacion, getPostulaciones, rechazarOferta } from '/src/api/inquilino';
 import { FancyDialog } from '/src/components/fancy-dialog';
-import { getPostulaciones, aceptarOferta, rechazarOferta, cancelarPostulacion } from '/src/api/inquilino';
 import { FancyTablePage } from '/src/components/fancy-table-page';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
-import { useEffect, useState } from 'react';
 
 const Page = () => {
 
@@ -89,10 +90,10 @@ const Page = () => {
         {row.status}
       </TableCell>
       <TableCell>
-        {row.fechaPostulacion}
+        {row.fechaPostulacion && Moment(row.fechaPostulacion).format('DD/MM/yyyy hh:mm:ss')}
       </TableCell>
       <TableCell>
-        {row.fechaOferta}
+        {row.fechaOferta && Moment(row.fechaOferta).format('DD/MM/yyyy hh:mm:ss')}
       </TableCell>
       <TableCell>
         {

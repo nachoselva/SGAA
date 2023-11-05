@@ -1,8 +1,10 @@
-import { Link, TableRow, TableCell } from '@mui/material';
+import { Link, TableCell, TableRow } from '@mui/material';
+import Moment from 'moment';
 import { useRouter } from 'next/navigation';
 import { getPublicaciones } from '/src/api/administrador';
 import { FancyTablePage } from '/src/components/fancy-table-page';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
+import { publicacionStatus } from '/src/utils/status-labels';
 
 const Page = () => {
 
@@ -23,13 +25,13 @@ const Page = () => {
         {row.montoAlquiler}
       </TableCell>
       <TableCell>
-        {row.inicioAlquiler}
+        {row.inicioAlquiler && Moment(row.inicioAlquiler).format('DD/MM/yyyy')}
       </TableCell>
       <TableCell>
         {row.postulaciones}
       </TableCell>
       <TableCell>
-        {row.status}
+        {publicacionStatus[row.status]}
       </TableCell>
       <TableCell>
         <Link

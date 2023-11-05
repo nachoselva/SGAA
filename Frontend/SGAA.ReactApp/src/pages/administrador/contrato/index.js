@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { getContratos } from '/src/api/administrador';
 import { FancyTablePage } from '/src/components/fancy-table-page';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
+import { contratoStatus } from '/src/utils/status-labels';
 
 const Page = () => {
 
@@ -29,7 +30,7 @@ const Page = () => {
 
       </TableCell>
       <TableCell>
-        {row.status}
+        {contratoStatus[row.status]}
       </TableCell>
       <TableCell>
         {row.ordenRenovacion}

@@ -1,4 +1,5 @@
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import Moment from 'moment';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { aprobarUnidad, rechazarUnidad } from '/src/api/administrador';
@@ -116,7 +117,7 @@ export const UnidadLeerForm = (props) => {
             fullWidth
             label="Departamento"
             name="departamento"
-            value={unidad.fechaAdquisicion}
+            value={Moment(unidad.fechaAdquisicion).format('DD/MM/yyyy')}
             InputProps={{
               readOnly: true,
             }}
@@ -302,7 +303,7 @@ export const UnidadLeerForm = (props) => {
                       fullWidth
                       label="Fecha De Nacimiento"
                       name={"titulares[" + index + "].fechaNacimiento"}
-                      value={titular.fechaNacimiento}
+                      value={Moment(titular.fechaNacimiento).format('DD/MM/yyyy')}
                       InputProps={{
                         readOnly: true,
                       }}

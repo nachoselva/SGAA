@@ -1,8 +1,10 @@
-import { Link, TableRow, TableCell } from '@mui/material';
+import { Link, TableCell, TableRow } from '@mui/material';
+import Moment from 'moment';
 import { useRouter } from 'next/navigation';
 import { getPostulaciones } from '/src/api/administrador';
 import { FancyTablePage } from '/src/components/fancy-table-page';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
+import { postulacionStatus } from '/src/utils/status-labels';
 
 const Page = () => {
 
@@ -26,13 +28,13 @@ const Page = () => {
         {row.postulantes}
       </TableCell>
       <TableCell>
-        {row.fechaPostulacion}
+        {row.fechaPostulacion && Moment(row.fechaPostulacion).format('DD/MM/yyyy hh:mm:ss')}
       </TableCell>
       <TableCell>
-        {row.fechaOferta}
+        {row.fechaOferta && Moment(row.fechaOferta).format('DD/MM/yyyy hh:mm:ss')}
       </TableCell>
       <TableCell>
-        {row.status}
+        {postulacionStatus[row.status]}
       </TableCell>
       <TableCell>
         <Link
