@@ -13,8 +13,8 @@ const Page = () => {
   const getBreadcrumbsConfig = (codigo) =>
     [
       { url: '/inicio', title: 'Inicio' },
-      { url: '/publicacion', title: 'Publicaciones' },
-      { url: '/publicacion/' + codigo, title: "Publicación" }
+      { url: '/publicacion-activa', title: 'Publicaciones' },
+      { url: '/publicacion-activa/' + codigo, title: "Publicación" }
     ];
 
   const breadcrumbsConfig = getBreadcrumbsConfig(codigo);
@@ -28,13 +28,15 @@ const Page = () => {
   }, [router.isReady]);
 
   return (
-    <FancyFormPage
-      form={publicacion && <PublicacionActivaForm publicacion={publicacion} />}
-      title={'Detalle Publicación'}
-      breadcrumbsConfig={breadcrumbsConfig}
-      allowAnnonymous={true}
-    >
-    </FancyFormPage>
+    <>
+      <FancyFormPage
+        form={publicacion && <PublicacionActivaForm publicacion={publicacion} />}
+        title={'Detalle Publicación'}
+        breadcrumbsConfig={breadcrumbsConfig}
+        allowAnnonymous={true}
+      />
+
+    </>
   );
 };
 

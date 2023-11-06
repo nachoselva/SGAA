@@ -113,7 +113,7 @@
 
             Aplicacion? aplicacion = aplicaciones
                 .FirstOrDefault(ap => ap.Status.IsActive());
-            if (aplicacion == null || aplicacion.Status != AplicacionStatus.AprobacionPendiente)
+            if (aplicacion == null)
                 throw new NotFoundException();
             return aplicacion.MapToGetModel<Aplicacion, AplicacionGetModel>(_aplicacionMapper);
         }

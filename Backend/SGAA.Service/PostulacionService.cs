@@ -62,7 +62,7 @@
                 throw new BadRequestException("Publicacion", "La publicación no está disponible");
             model.AplicacionId = activeAplicacion.Id;
 
-            if(activeAplicacion.Postulaciones.Any(p => p.Status.IsActive() && p.PublicacionId == model.PublicacionId))
+            if (activeAplicacion.Postulaciones.Any(p => p.Status.IsActive() && p.PublicacionId == model.PublicacionId))
                 throw new BadRequestException("Postulación", "La aplicación activa ya postuló para esta unidad");
 
             Postulacion postulacion = model.ToEntity(_postulacionMapper);
@@ -86,12 +86,17 @@
                 throw new NotFoundException();
             if (postulacion.Status != PostulacionStatus.Ofrecida)
                 throw new BadRequestException(nameof(postulacion.Status), "La postulación no se encuentra en estado para aceptar");
-            if (model.FechaDesde >= model.FechaHasta)
-                throw new BadRequestException(nameof(model.FechaHasta), "Fecha hasta desde ser posterior a fecha desde");
-            if (model.FechaDesde.AddYears(1) < model.FechaHasta)
-                throw new BadRequestException(nameof(model.FechaHasta), "El contrato debe tener 1 año de duración como mínimo");
-            if(model.FechaDesde >= postulacion.Publicacion.InicioAlquiler)
-                throw new BadRequestException(nameof(model.FechaDesde), "El contrato debe arrancar después de la fecha de inicio de la publicación");
+            bool contratoHasToBeCreated = model.FechaDesde.HasValue && model.FechaHasta.HasValue;
+            if (contratoHasToBeCreated)
+            {
+                if (model.FechaDesde >= model.FechaHasta)
+                    throw new BadRequestException(nameof(model.FechaHasta), "Fecha hasta desde ser posterior a fecha desde");
+                if (model.FechaDesde.Value.AddYears(1) < model.FechaHasta)
+                    throw new BadRequestException(nameof(model.FechaHasta), "El contrato debe tener 1 año de duración como mínimo");
+                if (model.FechaDesde >= postulacion.Publicacion.InicioAlquiler)
+                    throw new BadRequestException(nameof(model.FechaDesde), "El contrato debe arrancar después de la fecha de inicio de la publicación");
+
+            }
             model.ToEntity(_postulacionMapper, postulacion.Publicacion);
             model.ToEntity(_postulacionMapper, postulacion.Aplicacion);
             postulacion = model.ToEntity(_postulacionMapper, postulacion);
@@ -116,7 +121,8 @@
                     Domicilio = unidad.DomicilioCompleto
                 });
 
-            await _contratoService.CreateContrato(postulacion.Id, model.FechaDesde, model.FechaHasta);
+            if (contratoHasToBeCreated)
+                await _contratoService.CreateContrato(postulacion.Id, model.FechaDesde!.Value, model.FechaHasta!.Value);
 
             return postulacion.MapToGetModel(_postulacionMapper);
         }

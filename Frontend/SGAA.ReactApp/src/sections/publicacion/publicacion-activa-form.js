@@ -1,9 +1,17 @@
-import { Box, Stack, TextField } from '@mui/material';
+import { Box, Button, Stack, TextField } from '@mui/material';
 import Moment from 'moment';
 import React from 'react';
+import { crearPostulacion } from '/src/api/inquilino';
+import { useRouter } from 'next/router';
 
 export const PublicacionActivaForm = (props) => {
   const { publicacion } = props;
+  const router = useRouter();
+
+  const onPostulacion = () => {
+    crearPostulacion({ publicacionId: publicacion.id })
+      .then(() => router.push('/inquilino/postulacion'));
+  }
 
   return (
     <Box>
@@ -52,8 +60,22 @@ export const PublicacionActivaForm = (props) => {
               readOnly: true,
             }}
           />
-        </Stack>
-      </form>
-    </Box>
+          {
+            publicacion.canUsuarioPostular &&
+            <Button
+              fullWidth
+              size="large"
+              sx={{ mt: 3 }}
+              onClick={
+                () => onPostulacion(publicacion.Id)
+              }
+              variant="contained"
+            >
+              Postular
+            </Button>
+          }
+      </Stack>
+    </form>
+    </Box >
   );
 };

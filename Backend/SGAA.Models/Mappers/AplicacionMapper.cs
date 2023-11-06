@@ -16,7 +16,7 @@
              Garantias = entity.Garantias.Select(g => g.MapToGetModel<Garantia, GarantiaModel>(this)).ToList(),
              Postulantes = entity.Postulantes.Select(p => p.MapToGetModel<Postulante, PostulanteModel>(this)).ToList(),
              Comentarios = entity.Comentarios.Select(c => c.MapToGetModel<AplicacionComentario, ComentarioModel>(this)).ToList(),
-             Postulaciones = entity.Postulaciones.Count
+             Postulaciones = entity.Postulaciones.Where(p => p.Status.IsActive()).Count()
          };
         public Aplicacion ToEntity(AplicacionPostModel postModel)
         => new(postModel.InquilinoUsuarioId!.Value, AplicacionStatus.AprobacionPendiente, 0);

@@ -2,6 +2,7 @@ import { Link, TableCell, TableRow } from '@mui/material';
 import Moment from 'moment';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { postulacionStatus } from '/src/utils/status-labels';
 import { aceptarOferta, cancelarPostulacion, getPostulaciones, rechazarOferta } from '/src/api/inquilino';
 import { FancyDialog } from '/src/components/fancy-dialog';
 import { FancyTablePage } from '/src/components/fancy-table-page';
@@ -32,10 +33,12 @@ const Page = () => {
   }
 
   const confirmarCancelarAction = (id) => {
-    cancelarPostulacion(id);
-    setCancelarModalOpened(false);
-    setModalIdOpened(null);
-    setListChanged(true);
+    cancelarPostulacion(id)
+      .then(() => {
+        setCancelarModalOpened(false);
+        setModalIdOpened(null);
+        setListChanged(true);
+      })
   }
 
   const openAceptarModal = (id) => {
@@ -49,10 +52,12 @@ const Page = () => {
   }
 
   const confirmarAceptarAction = (id) => {
-    aceptarOferta(id);
-    setAceptarModalOpened(false);
-    setModalIdOpened(null);
-    setListChanged(true);
+    aceptarOferta(id)
+      .then(() => {
+        setAceptarModalOpened(false);
+        setModalIdOpened(null);
+        setListChanged(true);
+      })
   }
 
   const openRechazarModal = (id) => {
@@ -66,10 +71,12 @@ const Page = () => {
   }
 
   const confirmarRechazarAction = (id) => {
-    rechazarOferta(id);
-    setRechazarModalOpened(false);
-    setModalIdOpened(null);
-    setListChanged(true);
+    rechazarOferta(id)
+      .then(() => {
+        setRechazarModalOpened(false);
+        setModalIdOpened(null);
+        setListChanged(true);
+      });
   }
 
   const tableRowGenerator = (row) => (
@@ -87,7 +94,7 @@ const Page = () => {
         {row.montoAlquiler}
       </TableCell>
       <TableCell>
-        {row.status}
+        {postulacionStatus[row.status]}
       </TableCell>
       <TableCell>
         {row.fechaPostulacion && Moment(row.fechaPostulacion).format('DD/MM/yyyy hh:mm:ss')}

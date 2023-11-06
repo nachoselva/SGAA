@@ -7,6 +7,7 @@
     using SGAA.Emails.EmailModels;
     using SGAA.Models;
     using SGAA.Models.Mappers;
+    using SGAA.Repository;
     using SGAA.Repository.Contracts;
     using SGAA.Service.Contracts;
     using SGAA.Utils;
@@ -24,11 +25,14 @@
         private readonly ICancelarPostulacionEmailSender _cancelarPostulacionEmailSender;
         private readonly IReservaOfrecidaInquilinoEmailSender _reservaOfrecidaInquilinoEmailSender;
         private readonly IReservaOfrecidaPropietarioEmailSender _reservaOfrecidaPropietarioEmailSender;
+        private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IAplicacionRepository _aplicacionRepository;
 
         public PublicacionService(ISGAAConfiguration configuration, IPublicacionRepository publicacionRepository,
             IPublicacionMapper publicacionMapper, IUnidadRepository unidadRepository, IPublicarUnidadEmailSender publicarUnidadEmailSender,
             ICancelarPostulacionEmailSender cancelarPostulacionEmailSender, IReservaOfrecidaInquilinoEmailSender reservaOfrecidaInquilinoEmailSender,
-            IReservaOfrecidaPropietarioEmailSender reservaOfrecidaPropietarioEmailSender)
+            IReservaOfrecidaPropietarioEmailSender reservaOfrecidaPropietarioEmailSender, IUsuarioRepository usuarioRepository,
+            IAplicacionRepository aplicacionRepository)
         {
             _configuration = configuration;
             _publicacionRepository = publicacionRepository;
@@ -38,19 +42,31 @@
             _cancelarPostulacionEmailSender = cancelarPostulacionEmailSender;
             _reservaOfrecidaInquilinoEmailSender = reservaOfrecidaInquilinoEmailSender;
             _reservaOfrecidaPropietarioEmailSender = reservaOfrecidaPropietarioEmailSender;
+            _usuarioRepository = usuarioRepository;
+            _aplicacionRepository = aplicacionRepository;
+        }
+        private bool CanUsuarioPostular(Usuario usuario, Publicacion publicacion)
+        {
+            return usuario.UsuarioRoles.Any(ur => ur.Rol.RolType == RolType.Inquilino)
+                && publicacion.Status == PublicacionStatus.Publicada;
         }
 
-        public async Task<PublicacionGetModel> GetActivePublicacion(string codigo)
+        public async Task<PublicacionGetModel> GetActivePublicacion(int? usuarioId, string codigo)
         {
             Publicacion? publicacion = await _publicacionRepository.GetPublicacion(codigo);
-            return publicacion != null && publicacion.Status.IsActive() ?
+            PublicacionGetModel model = (publicacion != null && publicacion.Status.IsActive() ?
                 publicacion.MapToGetModel(_publicacionMapper) :
-                throw new NotFoundException();
+                throw new NotFoundException());
+            Usuario? usuario = usuarioId.HasValue ? await _usuarioRepository.GetUsuarioById(usuarioId.Value) : null;
+            if (usuario != null)
+                model.CanUsuarioPostular = CanUsuarioPostular(usuario, publicacion);
+            return model;
         }
+
         public async Task<PublicacionGetModel> GetPublicacion(int propietarioUsuarioId, int publicacionId)
         {
             Publicacion? publicacion = await _publicacionRepository.GetPublicacion(publicacionId);
-            return publicacion != null && publicacion.Unidad.PropietarioUsuarioId == propietarioUsuarioId 
+            return publicacion != null && publicacion.Unidad.PropietarioUsuarioId == propietarioUsuarioId
                 ? publicacion.MapToGetModel(_publicacionMapper) : throw new NotFoundException();
         }
 
@@ -63,16 +79,34 @@
         public async Task<PublicacionGetModel> GetPublicacionByInquilino(int inquilinoUsuarioId, int publicacionId)
         {
             Publicacion? publicacion = await _publicacionRepository.GetPublicacion(publicacionId);
-            return publicacion != null && 
+            return publicacion != null &&
                 publicacion.Postulaciones.Any(p => p.Aplicacion.InquilinoUsuarioId == inquilinoUsuarioId)
                 ? publicacion.MapToGetModel(_publicacionMapper) : throw new NotFoundException();
         }
 
-        public async Task<IReadOnlyCollection<PublicacionGetModel>> GetActivePublicaciones()
+        public async Task<IReadOnlyCollection<PublicacionGetModel>> GetActivePublicaciones(int? usuarioId)
         {
             IReadOnlyCollection<Publicacion> publicaciones = await _publicacionRepository.GetPublicaciones();
+
+            Usuario? usuario = usuarioId.HasValue ? await _usuarioRepository.GetUsuarioById(usuarioId.Value) : null;
+            Aplicacion? activeAplicacion = null;
+            if (usuario != null)
+            {
+                IReadOnlyCollection<Aplicacion> aplicaciones = await _aplicacionRepository
+                    .GetAplicaciones(usuario.Id);
+
+                activeAplicacion = aplicaciones
+                    .FirstOrDefault(ap => ap.Status == AplicacionStatus.Aprobada);
+            }
+
             return publicaciones.Where(p => p.Status.IsActive())
-                .Select(p => p.MapToGetModel(_publicacionMapper)).ToList();
+                .Select(p =>
+                {
+                    var model = p.MapToGetModel(_publicacionMapper);
+                    if (usuario != null && activeAplicacion != null)
+                        model.CanUsuarioPostular = CanUsuarioPostular(usuario, p);
+                    return model;
+                }).ToList();
         }
 
         public async Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicaciones(int propietarioUsuarioId)
