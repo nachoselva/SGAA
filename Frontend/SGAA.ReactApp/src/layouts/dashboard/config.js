@@ -6,7 +6,7 @@ import InboxStackIcon from '@heroicons/react/24/solid/InboxStackIcon';
 import NewsPaperIcon from '@heroicons/react/24/solid/NewsPaperIcon';
 import UserGroupIcon from '@heroicons/react/24/solid/UserGroupIcon';
 import ShieldCheckIcon from '@heroicons/react/24/solid/ShieldCheckIcon';
-import ArchiveBoxIcon from '@heroicons/react/24/solid/ArchiveBoxIcon'; 
+import ArchiveBoxIcon from '@heroicons/react/24/solid/ArchiveBoxIcon';
 import { SvgIcon } from '@mui/material';
 import { useAuthContext } from '/src/contexts/auth-context';
 
@@ -29,19 +29,16 @@ export const getMenuItems = () => {
       )
     });
 
-
-  if (!isAuthenticated || !user.roles.includes('Administrador')) {
-    everyone.push(
-      {
-        title: 'Publicaciones Activas',
-        path: '/publicacion',
-        icon: (
-          <SvgIcon fontSize="small">
-            <NewsPaperIcon />
-          </SvgIcon>
-        )
-      });
-  }
+  everyone.push(
+    {
+      title: 'Publicaciones Activas',
+      path: '/publicacion',
+      icon: (
+        <SvgIcon fontSize="small">
+          <NewsPaperIcon />
+        </SvgIcon>
+      )
+    });
 
   if (isAuthenticated) {
     if (user.roles.includes('Administrador')) {

@@ -88,20 +88,20 @@ export const getPostulacion = (id) => {
   return handleFetch('/inquilino/postulacion/' + id, requestOptions);
 }
 
-export const cancelarPostulacion = (postulacion) => {
+export const crearPostulacion = (postulacion) => {
   const requestOptions = {
-    method: 'PUT',
+    method: 'Post',
     mode: 'cors',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': getAuthorizationHeader(),
     },
-    body: {}
+    body: JSON.stringify(postulacion)
   };
-  return handleFetch('/inquilino/postulacion/' + postulacion.id +'/cancelar', requestOptions);
+  return handleFetch('/inquilino/postulacion', requestOptions);
 }
 
-export const aceptarOferta = (postulacion) => {
+export const cancelarPostulacion = (postulacionId) => {
   const requestOptions = {
     method: 'PUT',
     mode: 'cors',
@@ -109,12 +109,12 @@ export const aceptarOferta = (postulacion) => {
       'Content-Type': 'application/json',
       'Authorization': getAuthorizationHeader(),
     },
-    body: {}
+    body: JSON.stringify({})
   };
-  return handleFetch('/inquilino/postulacion/' + postulacion.id + '/oferta/aceptar', requestOptions);
+  return handleFetch('/inquilino/postulacion/' + postulacionId + '/cancelar', requestOptions);
 }
 
-export const rechazarOferta = (postulacion) => {
+export const aceptarOferta = (postulacionId) => {
   const requestOptions = {
     method: 'PUT',
     mode: 'cors',
@@ -122,9 +122,22 @@ export const rechazarOferta = (postulacion) => {
       'Content-Type': 'application/json',
       'Authorization': getAuthorizationHeader(),
     },
-    body: {}
+    body: JSON.stringify({ fechaDesde: null, fechaHasta: null })
   };
-  return handleFetch('/inquilino/postulacion/' + postulacion.id + '/oferta/rechazar', requestOptions);
+  return handleFetch('/inquilino/postulacion/' + postulacionId + '/oferta/aceptar', requestOptions);
+}
+
+export const rechazarOferta = (postulacionId) => {
+  const requestOptions = {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    },
+    body: JSON.stringify({})
+  };
+  return handleFetch('/inquilino/postulacion/' + postulacionId + '/oferta/rechazar', requestOptions);
 }
 
 export const getPublicacion = (publicacionId) => {

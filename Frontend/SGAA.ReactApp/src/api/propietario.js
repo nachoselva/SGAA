@@ -76,7 +76,7 @@ export const actualizarUnidad = (unidad) => {
   return handleFetch('/propietario/unidad/'+unidad.id, requestOptions);
 }
 
-export const cancelarPublicacion = (publicacion) => {
+export const cancelarPublicacion = (publicacionId) => {
   const requestOptions = {
     method: 'PUT',
     mode: 'cors',
@@ -84,12 +84,12 @@ export const cancelarPublicacion = (publicacion) => {
       'Content-Type': 'application/json',
       'Authorization': getAuthorizationHeader(),
     },
-    body: {}
+    body: JSON.stringify({})
   };
-  return handleFetch('/propietario/publicacion/' + publicacion.id + '/cancelar', requestOptions);
+  return handleFetch('/propietario/publicacion/' + publicacionId + '/cancelar', requestOptions);
 }
 
-export const cerrarPublicacion = (publicacion) => {
+export const cerrarPublicacion = (publicacionId) => {
   const requestOptions = {
     method: 'PUT',
     mode: 'cors',
@@ -97,9 +97,9 @@ export const cerrarPublicacion = (publicacion) => {
       'Content-Type': 'application/json',
       'Authorization': getAuthorizationHeader(),
     },
-    body: {}
+    body: JSON.stringify({})
   };
-  return handleFetch('/propietario/publicacion/' + publicacion.id + '/cerrar', requestOptions);
+  return handleFetch('/propietario/publicacion/' + publicacionId + '/cerrar', requestOptions);
 }
 
 export const registrarPublicacion = (publicacion) => {

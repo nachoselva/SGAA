@@ -23,6 +23,7 @@ const postulacionStatus = {
   'Ofrecida': 'Ofrecida',
   'PublicacionCancelada': 'Publicación Cancelada',
   'PostulacionCancelada': 'Postulación Cancelada',
+  'OfertaRechazada': 'Oferta Rechazada',
   'Reservada': 'Reservada'
 }
 

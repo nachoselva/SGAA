@@ -32,10 +32,12 @@ const Page = () => {
   }
 
   const confirmarCancelarAction = (id) => {
-    cancelarPublicacion(id);
-    setCancelarModalOpened(false);
-    setModalIdOpened(null);
-    setListChanged(true);
+    cancelarPublicacion(id)
+      .then(() => {
+        setCancelarModalOpened(false);
+        setModalIdOpened(null);
+        setListChanged(true);
+      });
   }
 
   const openCerrarModal = (id) => {
@@ -49,10 +51,12 @@ const Page = () => {
   }
 
   const confirmarCerrarAction = (id) => {
-    cerrarPublicacion(id);
-    setCerrarModalOpened(false);
-    setModalIdOpened(null);
-    setListChanged(true);
+    cerrarPublicacion(id)
+      .then(() => {
+        setCerrarModalOpened(false);
+        setModalIdOpened(null);
+        setListChanged(true);
+      });
   }
 
   const tableRowGenerator = (row) => (

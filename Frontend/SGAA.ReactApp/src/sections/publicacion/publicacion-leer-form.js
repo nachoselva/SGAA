@@ -48,7 +48,7 @@ export const PublicacionLeerForm = (props) => {
             label="Inicio"
             name="inicioAlquiler"
             type="inicioAlquiler"
-            value={Moment(postulacion.inicioAlquiler).format('DD/MM/yyyy')}
+            value={Moment(publicacion.inicioAlquiler).format('DD/MM/yyyy')}
             InputProps={{
               readOnly: true,
             }}

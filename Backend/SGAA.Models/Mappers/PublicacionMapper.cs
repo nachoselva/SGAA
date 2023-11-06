@@ -47,7 +47,7 @@
             InicioAlquiler = entity.InicioAlquiler,
             MontoAlquiler = entity.MontoAlquiler,
             DomicilioCompleto = entity.Unidad.DomicilioCompleto,
-            Postulaciones = entity.Postulaciones?.Count
+            Postulaciones = entity.Postulaciones?.Where(p => p.Status.IsActive()).Count()
         };
     }
 }
