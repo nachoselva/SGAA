@@ -5,6 +5,7 @@
     using SGAA.Domain.Errors;
     using SGAA.Models;
     using SGAA.Models.Mappers;
+    using SGAA.Repository;
     using SGAA.Repository.Contracts;
     using SGAA.Service.Contracts;
     using System.Threading.Tasks;
@@ -25,11 +26,11 @@
 
         private static decimal CalculatePagoProporcional(decimal alquilerMensual, DateOnly fechaPagoDesde, DateOnly fechaPagoHasta)
         {
-            DateTime fechaMesDesde = new(fechaPagoDesde.Year, fechaPagoDesde.Month, 1);
-            DateTime fechaMesHasta = new(fechaPagoHasta.Year, fechaPagoHasta.Month, DateTime.DaysInMonth(fechaPagoHasta.Year, fechaPagoHasta.Month));
-            double totalDays = (fechaMesHasta - fechaMesDesde).TotalDays + 1;
-            double effectiveDays = (fechaPagoHasta.ToDateTime(TimeOnly.MinValue) - fechaPagoHasta.ToDateTime(TimeOnly.MinValue)).TotalDays + 1;
-            return alquilerMensual * (decimal)(effectiveDays / totalDays);
+            DateOnly fechaMesDesde = new(fechaPagoDesde.Year, fechaPagoDesde.Month, 1);
+            DateOnly fechaMesHasta = new(fechaPagoHasta.Year, fechaPagoHasta.Month, DateTime.DaysInMonth(fechaPagoHasta.Year, fechaPagoHasta.Month));
+            int totalDays = fechaMesHasta.DayNumber - fechaMesDesde.DayNumber + 1;
+            int effectiveDays = fechaPagoHasta.DayNumber - fechaPagoDesde.DayNumber + 1;
+            return alquilerMensual * ((decimal)effectiveDays / totalDays);
         }
 
         public async Task<IReadOnlyCollection<PagoGetModel>> CreatePagosContrato(int contratoId)
@@ -44,25 +45,32 @@
 
             // Depósito
             string descripcionDepósito = $"Depósito en garantía";
-            Pago pagoDeposito = new(contratoId, descripcionDepósito, alquilerMensual, fechaContratoDesde, PagoStatus.Pendiente, null, null);
+            Pago pagoDeposito = new(contratoId, descripcionDepósito, alquilerMensual, fechaContratoDesde, PagoStatus.Pendiente, null, null)
+            {
+                Contrato = contrato,
+                ContratoId = contrato.Id
+            };
             pagos.Add(pagoDeposito);
 
             // Alquiler
-            for (DateOnly fecha = fechaContratoDesde; fecha <= fechaContratoFinMes; fecha = fecha.AddMonths(1))
+            for (DateOnly fecha = fechaContratoDesde; fecha <= fechaContratoHasta;)
             {
-                DateOnly fechaPagoFinMes = fecha.AddMonths(1);
+                DateOnly fechaPagoFinMes = new(fecha.Year, fecha.Month, DateTime.DaysInMonth(fecha.Year, fecha.Month));
                 DateOnly fechaPagoDesde = fecha;
                 DateOnly fechaPagoHasta = fechaPagoFinMes < fechaContratoHasta ? fechaPagoFinMes : fechaContratoHasta;
                 DateOnly fechaVencimiento = fechaPagoDesde.AddDays(VENCIMIENTO_DAYS - 1);
                 decimal pagoMes = CalculatePagoProporcional(alquilerMensual, fechaPagoDesde, fechaPagoHasta);
-                string descripcion = $"Alquiler: {fechaContratoDesde.ToShortDateString()} hasta {fechaPagoHasta.ToShortDateString()}";
-                Pago pago = new(contratoId, descripcion, pagoMes, fechaVencimiento, PagoStatus.Pendiente, null, null);
+                string descripcion = $"Alquiler: {fechaPagoDesde.ToShortDateString()} hasta {fechaPagoHasta.ToShortDateString()}";
+                Pago pago = new(contratoId, descripcion, pagoMes, fechaVencimiento, PagoStatus.Pendiente, null, null)
+                {
+                    Contrato = contrato,
+                    ContratoId = contrato.Id
+                };
                 pagos.Add(pago);
+                fecha = fechaPagoHasta.AddDays(1);
             }
-
-            contrato.AddPagos(pagos);
-            await _contratoRepository.UpdateContrato(contrato);
-            return contrato.Pagos.Select(p => p.MapToGetModel(_pagoMapper)).ToList();
+            return (await _pagoRepository.AddPagos(pagos))
+                .Select(p => p.MapToGetModel(_pagoMapper)).ToList();
         }
 
         public async Task<PagoGetModel> AbonarPago(int pagoId, AbonarPagoPutModel model)

@@ -25,7 +25,7 @@
         public int PostulacionId { get; private set; }
         public DateOnly FechaDesde { get; private set; }
         public DateOnly FechaHasta { get; private set; }
-        public DateOnly? FechaCancelacion { get; private set; }
+        public DateOnly? FechaCancelacion { get; set; }
         public decimal MontoAlquiler { get; private set; }
         public int OrdenRenovacion { get; private set; }
         public ContratoStatus Status { get; set; }

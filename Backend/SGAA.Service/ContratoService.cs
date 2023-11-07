@@ -34,12 +34,13 @@
         private readonly IFirmaPendienteEmailSender _firmaPendienteEmailSender;
         private readonly IContratoEjecutadoEmailSender _contratoEjecutadoEmailSender;
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IContratoCanceladoEmailSender _contratoCanceladoEmailSender;
 
         public ContratoService(ISGAAConfiguration configuration, IPagoService pagoService, IContratoRepository contratoRepository,
             IPostulacionRepository postulacionRepository, IContratoMapper contratoMapper, UserManager<Usuario> userManager,
             IContratoDocumentHandler contratoDocumentHandler, IUsuarioInvitadoEmailSender usuarioInvitadoEmailSender,
             IFirmaPendienteEmailSender firmaPendienteEmailSender, IContratoEjecutadoEmailSender contratoEjecutadoEmailSender,
-            IUsuarioRepository usuarioRepository)
+            IContratoCanceladoEmailSender contratoCanceladoEmailSender, IUsuarioRepository usuarioRepository)
         {
             _configuration = configuration;
             _pagoService = pagoService;
@@ -51,6 +52,7 @@
             _usuarioInvitadoEmailSender = usuarioInvitadoEmailSender;
             _firmaPendienteEmailSender = firmaPendienteEmailSender;
             _contratoEjecutadoEmailSender = contratoEjecutadoEmailSender;
+            _contratoCanceladoEmailSender = contratoCanceladoEmailSender;
             _usuarioRepository = usuarioRepository;
         }
         private bool CanUsuarioFirmar(Usuario usuario, Contrato contrato)
@@ -269,9 +271,29 @@
             return await CreateContratoInternal(postulacion, orderRenovacion, fechaDesde, model.FechaHasta, model.MontoAlquiler);
         }
 
-        public Task<ContratoGetModel> CancelarContrato(int contratoId)
+        public async Task<ContratoGetModel> CancelarContrato(int contratoId, CancelarContratoPutModel model)
         {
-            throw new NotImplementedException();
+            Contrato currentContrato = await _contratoRepository.GetContrato(contratoId)
+                ?? throw new NotFoundException();
+            if (currentContrato.Status != ContratoStatus.Ejecutado)
+                throw new BadRequestException(nameof(currentContrato.Status), "El contrato no se encuentra en estado para ser cancelar");
+            currentContrato = model.ToEntity(_contratoMapper, currentContrato);
+            currentContrato = await _contratoRepository.UpdateContrato(currentContrato);
+
+            foreach (var firma in currentContrato.Firmas)
+            {
+                Usuario firmaUsuario = firma.Usuario;
+                await _contratoCanceladoEmailSender.SendEmail(firmaUsuario.Email!,
+                            new ContratoCanceladoEmailModel
+                            {
+                                Domicilio = currentContrato.Postulacion.Publicacion.Unidad.DomicilioCompleto,
+                                Nombre = firmaUsuario.Nombre,
+                                Apellido = firmaUsuario.Apellido,
+                                FechaCancelacion = currentContrato.FechaCancelacion!.Value.ToShortDateString()
+                            });
+            }
+
+            return currentContrato.MapToGetModel(_contratoMapper);
         }
     }
 }

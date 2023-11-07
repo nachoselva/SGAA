@@ -4,6 +4,20 @@
 
     public class ContratoMapper : IContratoMapper
     {
+        public Contrato ToEntity(CancelarContratoPutModel putModel, Contrato entity)
+        {
+            entity.Status = ContratoStatus.Cancelado;
+            entity.FechaCancelacion = putModel.FechaCancelacion;
+            ToEntity(putModel, entity.Postulacion.Publicacion.Unidad);
+            return entity;
+        }
+
+        public Unidad ToEntity(CancelarContratoPutModel putModel, Unidad entity)
+        {
+            entity.Status = UnidadStatus.DocumentacionAprobada;
+            return entity;
+        }
+
         public ContratoGetModel ToGetModel(Contrato entity)
         =>
             new()
