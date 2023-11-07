@@ -19,9 +19,7 @@
                 .IsRequired()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L5);
 
-            builder.Property(i => i.Archivo)
-                .IsRequired()
-                .HasColumnType(DataTypes.TYPE_FILE);
+            builder.Property(i => i.Archivo);
 
             builder
             .HasOne(i => i.Detalle)

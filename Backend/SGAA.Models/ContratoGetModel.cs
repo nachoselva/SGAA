@@ -1,5 +1,6 @@
 ﻿namespace SGAA.Models
 {
+    using SGAA.Domain.Auth;
     using SGAA.Domain.Core;
     using SGAA.Models.Base;
 
@@ -18,5 +19,8 @@
         public required string Domicilio { get; set; }
         public required int InquilinosCount { get; set; }
         public required int PropietariosCount { get; set; }
+        public required string Inquilinos { get; set; }
+        public required string Propietarios { get; set; }
+        public bool CanUsuarioFirmar { get; set; }
     }
 }

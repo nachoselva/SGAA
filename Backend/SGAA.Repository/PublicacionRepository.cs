@@ -25,7 +25,8 @@
                 .ThenInclude(u => u.Provincia)
                 .Include(p => p.Postulaciones)
                 .ThenInclude(po => po.Aplicacion)
-                .ThenInclude(ap => ap.InquilinoUsuario);
+                .ThenInclude(ap => ap.InquilinoUsuario)
+                .OrderByDescending(a => a.Audit.CreatedOn);
         }
 
         public Task<Publicacion?> GetPublicacion(int publicacionId)

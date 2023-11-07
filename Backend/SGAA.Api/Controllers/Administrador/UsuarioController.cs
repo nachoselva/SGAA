@@ -2,8 +2,8 @@ namespace SGAA.Api.Controllers.Administrador
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using SGAA.Api.Middleware;
     using SGAA.Domain.Auth;
-    using SGAA.Domain.Errors;
     using SGAA.Models;
     using SGAA.Service.Contracts;
 
@@ -20,7 +20,7 @@ namespace SGAA.Api.Controllers.Administrador
         }
 
         [HttpGet]
-        public async Task<IReadOnlyCollection<UsuarioGetModel>> GetUsuario()
+        public async Task<IReadOnlyCollection<UsuarioGetModel>> GetUsuarios()
             => await _usuarioService.GetUsuarios();
 
         [HttpGet]
@@ -29,6 +29,7 @@ namespace SGAA.Api.Controllers.Administrador
             => await _usuarioService.GetUsuario(usuarioId);
 
         [HttpPost]
+        [Transactional]
         public async Task<UsuarioGetModel> AddUsuarioAdmin([FromBody] UsuarioPostModel model)
             => await _usuarioService.AddUsuario(model);
     }

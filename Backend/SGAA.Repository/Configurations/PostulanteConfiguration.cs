@@ -20,10 +20,6 @@
             builder.Property(u => u.Email)
                 .IsRequired()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L4);
-            builder.Property(postulante => postulante.TipoIdentificacion)
-                .HasConversion<string>()
-                .HasMaxLength(DataTypes.TEXT_LENGTH_L1)
-                .IsRequired();
             builder.Property(postulante => postulante.NumeroIdentificacion)
                 .IsRequired()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
@@ -33,12 +29,8 @@
             builder.Property(postulante => postulante.Domicilio)
                 .IsRequired()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L4);
-            builder.Property(postulante => postulante.FrenteIdentificacionArchivo)
-                .IsRequired()
-                .HasColumnType(DataTypes.TYPE_FILE);
-            builder.Property(postulante => postulante.DorsoIdentificacionArchivo)
-                .IsRequired()
-                .HasColumnType(DataTypes.TYPE_FILE);
+            builder.Property(postulante => postulante.FrenteIdentificacionArchivo);
+            builder.Property(postulante => postulante.DorsoIdentificacionArchivo);
             builder.Property(postulante => postulante.FechaEmpleadoDesde)
                 .IsRequired()
                 .HasColumnType(DataTypes.TYPE_DATE);
@@ -48,9 +40,7 @@
             builder.Property(postulante => postulante.IngresoMensual)
                 .IsRequired()
                 .HasColumnType(DataTypes.TYPE_DECIMAL);
-            builder.Property(postulante => postulante.ReciboDeSueldoArchivo)
-                .IsRequired()
-                .HasColumnType(DataTypes.TYPE_FILE);
+            builder.Property(postulante => postulante.ReciboDeSueldoArchivo);
 
             builder
                 .HasOne(postulacion => postulacion.Aplicacion)

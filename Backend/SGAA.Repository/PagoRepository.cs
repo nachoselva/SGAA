@@ -20,7 +20,8 @@
         {
             return _dbContext.Pagos
                 .Include(p => p.Contrato)
-                .ThenInclude(c => c.Firmas);
+                .ThenInclude(c => c.Firmas)
+                .OrderByDescending(a => a.Audit.CreatedOn);
         }
 
         public async Task<Pago> AddPago(Pago pago)

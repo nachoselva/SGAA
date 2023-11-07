@@ -5,13 +5,11 @@
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
     using SGAA.Domain.Auth;
-    using SGAA.Domain.Core;
     using SGAA.Domain.Errors;
     using SGAA.Emails.Contracts;
     using SGAA.Emails.EmailModels;
     using SGAA.Models;
     using SGAA.Models.Mappers;
-    using SGAA.Repository;
     using SGAA.Repository.Contracts;
     using SGAA.Service.Contracts;
     using SGAA.Utils.Configuration;
@@ -101,14 +99,14 @@
             {
                 throw this.MapIdentityErrorToBadRequest(addUserResult.Errors);
             }
-            IdentityResult addToRoleResult = await AddToRoleAsync(usuario, model.Rol.ToString());
+            IdentityResult addToRoleResult = await AddToRolesAsync(usuario, model.Roles.Select(r => r.ToString()));
             if (!addToRoleResult.Succeeded)
             {
                 throw this.MapIdentityErrorToBadRequest(addToRoleResult.Errors);
             }
 
             string userToken = await GenerateUserTokenAsync(usuario, TokenOptions.DefaultProvider, ConfirmEmailTokenPurpose);
-            string confirmationURL = $"{_configuration.Frontend.Url}/Usuario/Confirm?email={HttpUtility.UrlEncode(usuario.Email)}&token={HttpUtility.UrlEncode(userToken)}";
+            string confirmationURL = $"{_configuration.Frontend.Url}/auth/confirmar-correo?email={HttpUtility.UrlEncode(usuario.Email)}&token={HttpUtility.UrlEncode(userToken)}";
 
             await _emailSender.SendEmail(usuario.Email!, new ConfirmationEmailModel()
             {
@@ -122,9 +120,9 @@
 
         public async Task<UsuarioGetModel> AddUsuarioPublic(UsuarioPostModel model)
         {
-            if (model.Rol == RolType.Administrador)
+            if (model.Roles.Contains(RolType.Administrador))
             {
-                throw new UnauthorizedException();
+                throw new BadRequestException(nameof(model.Roles), "No está autorizado a crear administradores");
             }
             return await AddUsuario(model);
         }
@@ -200,8 +198,10 @@
                     RefreshToken = refreshToken,
                     Expiration = token.ValidTo,
                     Email = member.Email!,
-                    FirstName = member.Nombre,
-                    LastName = member.Apellido
+                    Nombre = member.Nombre,
+                    Apellido = member.Apellido,
+                    Roles = userRoles,
+                    Licencia = member.Licencia
                 };
             }
             throw new UnauthorizedException();
@@ -252,32 +252,30 @@
                 await UpdateAsync(user);
             }
         }
-        public async Task<UsuarioGetModel> GetUsuario(int id)
+        public async Task<UsuarioGetModel> GetUsuario(int usuarioId)
         {
-            Usuario? usuario = await FindByIdAsync(id.ToString());
+            Usuario? usuario = await _usuarioRepository.GetUsuarioById(usuarioId);
             return usuario == null ? throw new NotFoundException() : _usuarioMapper.ToGetModel(usuario);
         }
 
         public async Task<UsuarioGetModel?> GetUsuario(string email)
         {
-            Usuario? usuario = await FindByNameAsync(email);
+            Usuario? usuario = await _usuarioRepository.GetUsuarioByEmail(email);
             if (usuario == null)
                 return null;
             return _usuarioMapper.ToGetModel(usuario);
         }
 
-        public async Task<string> ConfirmUsuario(string email, string token)
+        public async Task ConfirmUsuario(ConfirmUsuarioPostModel model)
         {
-            Usuario? usuario = await FindByNameAsync(email);
+            Usuario? usuario = await FindByNameAsync(model.Email);
             if (usuario != null)
             {
-                IdentityResult result = await ConfirmEmailAsync(usuario, token);
+                IdentityResult result = await ConfirmEmailAsync(usuario, model.Token);
                 if (!result.Succeeded)
                 {
                     throw this.MapIdentityErrorToBadRequest(result.Errors);
                 }
-                //TO DO: redirect to a real frontend url
-                return "https://www.google.com.ar/";
             }
             else
             {
@@ -297,7 +295,8 @@
                 }
                 if (!usuario.EmailConfirmed)
                 {
-                    IdentityResult confirmResult = await ConfirmEmailAsync(usuario, model.Token);
+                    usuario.EmailConfirmed = true;
+                    IdentityResult confirmResult = await UpdateAsync(usuario);
                     if (!confirmResult.Succeeded)
                     {
                         throw this.MapIdentityErrorToBadRequest(confirmResult.Errors);
@@ -317,7 +316,7 @@
             if (usuario != null)
             {
                 string resetPasswordToken = await GeneratePasswordResetTokenAsync(usuario);
-                string resetPasswordURL = $"{_configuration.Frontend.Url}/Usuario/reset-password?email={HttpUtility.UrlEncode(usuario.Email)}&token={HttpUtility.UrlEncode(resetPasswordToken)}";
+                string resetPasswordURL = $"{_configuration.Frontend.Url}/auth/resetear-password?email={HttpUtility.UrlEncode(usuario.Email)}&token={HttpUtility.UrlEncode(resetPasswordToken)}";
                 await _resetPasswordEmailSender.SendEmail(usuario.Email!,
                     new ResetPasswordEmailModel
                     {

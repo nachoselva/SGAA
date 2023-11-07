@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using SGAA.Api.Middleware;
     using SGAA.Api.Providers;
     using SGAA.Domain.Auth;
     using SGAA.Models;
@@ -26,6 +27,11 @@
             await _aplicacionService.GetAplicaciones((await _usuarioProvider.GetUser())!.Id);
 
         [HttpGet]
+        [Route("{aplicacionId}")]
+        public async Task<AplicacionGetModel> GetAplicacion(int aplicacionId) =>
+            await _aplicacionService.GetAplicacion((await _usuarioProvider.GetUser())!.Id, aplicacionId);
+
+        [HttpGet]
         [Route("active")]
         public async Task<AplicacionGetModel> GetActiveAplicacion()
         {
@@ -35,6 +41,7 @@
         }
 
         [HttpPost]
+        [Transactional]
         public async Task<AplicacionGetModel> AddAplicacion([FromBody] AplicacionPostModel model)
         {
             model.InquilinoUsuarioId = (await _usuarioProvider.GetUser())!.Id;
@@ -43,10 +50,12 @@
         }
 
         [HttpPut]
-        public async Task<AplicacionGetModel> UpdateAplicacion([FromBody] AplicacionPutModel model)
+        [Route("{aplicacionId}")]
+        [Transactional]
+        public async Task<AplicacionGetModel> UpdateAplicacion(int aplicacionId, [FromBody] AplicacionPutModel model)
         {
             model.InquilinoUsuarioId = (await _usuarioProvider.GetUser())!.Id;
-            AplicacionGetModel postulacion = await _aplicacionService.UpdateActiveAplicacion(model);
+            AplicacionGetModel postulacion = await _aplicacionService.UpdateAplicacion(aplicacionId, model);
             return postulacion;
         }
     }

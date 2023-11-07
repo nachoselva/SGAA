@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using SGAA.Api.Middleware;
     using SGAA.Api.Providers;
     using SGAA.Domain.Auth;
     using SGAA.Models;
@@ -26,6 +27,7 @@
             => await _postulacionService.GetPostulaciones((await _usuarioProvider.GetUser())!.Id);
 
         [HttpPost]
+        [Transactional]
         public async Task<PostulacionGetModel> AddPostulacion([FromBody] PostulacionPostModel model)
         {
             model.InquilinoUsuarioId = (await _usuarioProvider.GetUser())!.Id;
@@ -33,8 +35,14 @@
             return postulacion;
         }
 
+        [HttpGet]
+        [Route("{postulacionId}")]
+        public async Task<PostulacionGetModel> GetPublicacion([FromRoute] int postulacionId)
+           => await _postulacionService.GetPostulacion((await _usuarioProvider.GetUser())!.Id, postulacionId);
+
         [HttpPut]
-        [Route("{postulacionId}/aceptar-oferta")]
+        [Route("{postulacionId}/oferta/aceptar")]
+        [Transactional]
         public async Task<PostulacionGetModel> AceptarOferta([FromRoute] int postulacionId, [FromBody] AceptarOfertaPostulacionPutModel model)
         {
             model.InquilinoUsuarioId = (await _usuarioProvider.GetUser())!.Id;
@@ -43,7 +51,8 @@
         }
 
         [HttpPut]
-        [Route("{postulacionId}/rechazar-oferta")]
+        [Route("{postulacionId}/oferta/rechazar")]
+        [Transactional]
         public async Task<PostulacionGetModel> RechazarOferta([FromRoute] int postulacionId, [FromBody] RechazarOfertaPostulacionPutModel model)
         {
             model.InquilinoUsuarioId = (await _usuarioProvider.GetUser())!.Id;
@@ -53,6 +62,7 @@
 
         [HttpPut]
         [Route("{postulacionId}/cancelar")]
+        [Transactional]
         public async Task<PostulacionGetModel> CancelarPostulacion([FromRoute] int postulacionId, [FromBody] CancelarPostulacionPutModel model)
         {
             model.InquilinoUsuarioId = (await _usuarioProvider.GetUser())!.Id;

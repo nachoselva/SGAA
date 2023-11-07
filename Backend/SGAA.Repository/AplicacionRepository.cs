@@ -4,6 +4,7 @@
     using SGAA.Domain.Core;
     using SGAA.Repository.Contexts;
     using SGAA.Repository.Contracts;
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -22,7 +23,8 @@
             .Include(a => a.Garantias)
             .Include(a => a.Postulantes)
             .Include(a => a.InquilinoUsuario)
-            .Include(a => a.Postulaciones);
+            .Include(a => a.Postulaciones)
+            .OrderByDescending(a => a.Audit.CreatedOn);
 
         public Task<Aplicacion?> GetAplicacion(int aplicacionId)
         => AplicacionQuery()
@@ -64,6 +66,15 @@
             IEnumerable<int> idsToDelete = entitiesToDelete.Select(e => e.Id);
             _dbContext.Postulantes.RemoveRange(_dbContext.Postulantes.Where(img => idsToDelete.Contains(img.Id)));
             await _dbContext.SaveChangesAsync();
+        }
+
+        public Task<IndiceValor?> GetIcl(DateOnly today)
+        {
+            return _dbContext.Valores
+                .Where(v => v.Indice.Nombre == IndiceTipo.ICL)
+                .Where(v => v.FechaDesde <= today)
+                .OrderByDescending(v => v.FechaDesde)
+                .FirstOrDefaultAsync();
         }
     }
 }

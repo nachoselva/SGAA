@@ -37,7 +37,7 @@
             });
             services.AddSwaggerGen(option =>
             {
-                option.SwaggerDoc("v1", new OpenApiInfo { Title = "SGA API", Version = "v1" });
+                option.SwaggerDoc("v1", new OpenApiInfo { Title = "SGAA API", Version = "v1" });
                 option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
@@ -86,8 +86,9 @@
                 };
             });
             services.AddHttpContextAccessor();
-            services.AddTransient<IUsuarioProvider, UsuarioProvider>();
-            services.AddTransient<ExceptionMiddleware>();
+            services.AddScoped<ExceptionMiddleware>();
+            services.AddScoped<TransactionMiddleware>();
+            services.AddScoped<IUsuarioProvider, UsuarioProvider>();
             services.AddSingleton<ISGAAConfiguration, SGAAConfiguration>();
             services.AddIdentityCore<Usuario>(
                 options =>

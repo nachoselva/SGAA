@@ -62,7 +62,7 @@
                 throw new BadRequestException("Publicacion", "La publicación no está disponible");
             model.AplicacionId = activeAplicacion.Id;
 
-            if(activeAplicacion.Postulaciones.Any(p => p.Status.IsActive() && p.PublicacionId == model.PublicacionId))
+            if (activeAplicacion.Postulaciones.Any(p => p.Status.IsActive() && p.PublicacionId == model.PublicacionId))
                 throw new BadRequestException("Postulación", "La aplicación activa ya postuló para esta unidad");
 
             Postulacion postulacion = model.ToEntity(_postulacionMapper);
@@ -86,12 +86,6 @@
                 throw new NotFoundException();
             if (postulacion.Status != PostulacionStatus.Ofrecida)
                 throw new BadRequestException(nameof(postulacion.Status), "La postulación no se encuentra en estado para aceptar");
-            if (model.FechaDesde >= model.FechaHasta)
-                throw new BadRequestException(nameof(model.FechaHasta), "Fecha hasta desde ser posterior a fecha desde");
-            if (model.FechaDesde.AddYears(1) < model.FechaHasta)
-                throw new BadRequestException(nameof(model.FechaHasta), "El contrato debe tener 1 año de duración como mínimo");
-            if(model.FechaDesde >= postulacion.Publicacion.InicioAlquiler)
-                throw new BadRequestException(nameof(model.FechaDesde), "El contrato debe arrancar después de la fecha de inicio de la publicación");
             model.ToEntity(_postulacionMapper, postulacion.Publicacion);
             model.ToEntity(_postulacionMapper, postulacion.Aplicacion);
             postulacion = model.ToEntity(_postulacionMapper, postulacion);
@@ -115,8 +109,6 @@
                     Apellido = propietarioUsuario.Apellido,
                     Domicilio = unidad.DomicilioCompleto
                 });
-
-            await _contratoService.CreateContrato(postulacion.Id, model.FechaDesde, model.FechaHasta);
 
             return postulacion.MapToGetModel(_postulacionMapper);
         }
@@ -159,6 +151,22 @@
             postulacion = model.ToEntity(_postulacionMapper, postulacion);
             postulacion = await _postulacionRepository.UpdatePostulacion(postulacion);
 
+            return postulacion.MapToGetModel(_postulacionMapper);
+        }
+
+        public async Task<PostulacionGetModel> GetPostulacion(int inquilinoUsuarioId, int postulacionId)
+        {
+            Postulacion? postulacion = await _postulacionRepository.GetPostulacion(postulacionId);
+            if (postulacion == null || postulacion.Aplicacion.InquilinoUsuarioId != inquilinoUsuarioId)
+                throw new NotFoundException();
+            return postulacion.MapToGetModel(_postulacionMapper);
+        }
+
+        public async Task<PostulacionGetModel> GetContrato(int postulacionId)
+        {
+            Postulacion? postulacion = await _postulacionRepository.GetPostulacion(postulacionId);
+            if (postulacion == null)
+                throw new NotFoundException();
             return postulacion.MapToGetModel(_postulacionMapper);
         }
     }

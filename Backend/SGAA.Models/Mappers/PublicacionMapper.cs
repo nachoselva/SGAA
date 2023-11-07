@@ -8,7 +8,7 @@
         => new(
             postModel.UnidadId,
             postModel.MontoAlquiler,
-            postModel.InicioAlquiler,
+            new DateOnly(postModel.InicioAlquiler.Year, postModel.InicioAlquiler.Month, postModel.InicioAlquiler.Day),
             postModel.Codigo!,
             PublicacionStatus.Publicada);
 
@@ -45,7 +45,9 @@
             Status = entity.Status,
             Codigo = entity.Codigo,
             InicioAlquiler = entity.InicioAlquiler,
-            MontoAlquiler = entity.MontoAlquiler
+            MontoAlquiler = entity.MontoAlquiler,
+            DomicilioCompleto = entity.Unidad.DomicilioCompleto,
+            Postulaciones = entity.Postulaciones?.Where(p => p.Status.IsActive()).Count()
         };
     }
 }

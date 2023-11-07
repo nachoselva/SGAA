@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using SGAA.Api.Middleware;
     using SGAA.Api.Providers;
     using SGAA.Domain.Auth;
     using SGAA.Models;
@@ -22,6 +23,7 @@
         }
 
         [HttpPost]
+        [Transactional]
         public async Task<UnidadGetModel> AddUnidad([FromBody] UnidadPostModel model)
         {
             model.PropietarioUsuarioId = (await _usuarioProvider.GetUser())!.Id;
@@ -31,6 +33,7 @@
 
         [HttpPut]
         [Route("{unidadId}")]
+        [Transactional]
         public async Task<UnidadGetModel> UpdateUnidad([FromRoute] int unidadId, [FromBody] UnidadPutModel model)
         {
             model.PropietarioUsuarioId = (await _usuarioProvider.GetUser())!.Id;
@@ -40,7 +43,7 @@
         [HttpGet]
         [Route("{unidadId}")]
         public async Task<UnidadGetModel> GetUnidad([FromRoute] int unidadId)
-            => await _unidadService.GetUnidad(unidadId);
+            => await _unidadService.GetUnidad((await _usuarioProvider.GetUser())!.Id, unidadId);
 
         [HttpGet]
         public async Task<IReadOnlyCollection<UnidadGetModel>> GetUnidades()

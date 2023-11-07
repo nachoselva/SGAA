@@ -5,8 +5,9 @@
 
     public interface IUnidadService
     {
-        Task<IReadOnlyCollection<UnidadGetModel>> GetUnidades(int propietarioUserId);
+        Task<IReadOnlyCollection<UnidadGetModel>> GetUnidades(int propietarioUsuarioId);
         Task<IReadOnlyCollection<UnidadGetModel>> GetUnidades();
+        Task<UnidadGetModel> GetUnidad(int propietarioUsuarioId, int unidadId);
         Task<UnidadGetModel> GetUnidad(int unidadId);
         Task<UnidadGetModel> AddUnidad(UnidadPostModel model);
         Task<UnidadGetModel> UpdateUnidad(int unidadId, UnidadPutModel model);

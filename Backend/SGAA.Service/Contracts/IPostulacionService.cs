@@ -12,5 +12,7 @@
         Task<PostulacionGetModel> AceptarOferta(int postulacionId, AceptarOfertaPostulacionPutModel model);
         Task<PostulacionGetModel> RechazarOferta(int postulacionId, RechazarOfertaPostulacionPutModel model);
         Task<PostulacionGetModel> CancelarPostulacion(int postulacionId, CancelarPostulacionPutModel model);
+        Task<PostulacionGetModel> GetPostulacion(int inquilinoUsuarioId, int postulacionId);
+        Task<PostulacionGetModel> GetContrato(int postulacionId);
     }
 }

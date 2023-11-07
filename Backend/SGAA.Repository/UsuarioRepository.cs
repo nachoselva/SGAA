@@ -14,9 +14,22 @@
             _dbContext = dbContext;
         }
 
+        private IQueryable<Usuario> UsuarioQuery()
+        => _dbContext.Users
+            .Include(u => u.UsuarioRoles)
+            .ThenInclude(u => u.Rol)
+            .OrderByDescending(a => a.Audit.CreatedOn);
+
         public async Task<IReadOnlyCollection<Usuario>> GetUsuarios()
-        {
-            return await _dbContext.Users.ToListAsync();
-        }
+        => await UsuarioQuery()
+             .ToListAsync();
+
+        public Task<Usuario?> GetUsuarioByEmail(string email)
+        => UsuarioQuery()
+             .FirstOrDefaultAsync(u => u.Email == email);
+
+        public Task<Usuario?> GetUsuarioById(int usuarioId)
+        => UsuarioQuery()
+             .FirstOrDefaultAsync(u => u.Id == usuarioId);
     }
 }

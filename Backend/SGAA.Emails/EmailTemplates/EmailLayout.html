@@ -8,18 +8,14 @@
         }
 
         #email-body {
-            color: rgb(17, 25, 39);
-            background-color: #1C2536;
-            border-radius: 15px;
             margin: 10px;
             padding: 20px;
+            background-color: rgba(239, 241, 245, 0.96);
         }
 
         #header {
             padding: 20px;
-            text-align: center;
-            color: rgb(255, 255, 255);
-            background-color: #6366F1;
+            text-align: left;
         }
 
         #logo {
@@ -28,13 +24,12 @@
         }
 
         #content {
-            background-color: rgb(248, 249, 250);
             margin-top: 20px;
         }
 
         #footer {
             text-align: center;
-            color: rgb(255, 255, 255);
+            color: #111927;
         }
 
         .color-background {
@@ -42,15 +37,25 @@
         }
 
         .email-box {
-            border-radius: 25px;
+            border-radius: 20px;
             margin: 10px;
             padding: 20px;
+            background-color: #fff;
+            color: #111927;
+            -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+            transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+            box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid;
+            border-style: solid;
+            border-width: 1px;
+            border-color: #1C2536;
         }
     </style>
 </head>
 <body>
-    <div id="email-body">
-        <div id="header" class="email-box">
+    <div id="email-body" class="email-box">
+        <div id="header">
             <div id="logo">Sistemas de gestión de alquileres autónomos</div>
         </div>
         <div id="content" class="email-box">

@@ -137,6 +137,13 @@ namespace SGAA.Repository.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Licencia")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)")
+                        .HasDefaultValue("HabilitacionProfesional");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -296,7 +303,7 @@ namespace SGAA.Repository.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("PuntuacionTotal")
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(14,4)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -13072,9 +13079,9 @@ namespace SGAA.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<byte[]>("Archivo")
+                    b.Property<string>("Archivo")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateOnly?>("FechaCancelacion")
                         .HasColumnType("date");
@@ -13087,7 +13094,7 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<decimal>("MontoAlquiler")
                         .HasPrecision(14, 2)
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(14,4)");
 
                     b.Property<int>("OrdenRenovacion")
                         .HasColumnType("int");
@@ -13142,11 +13149,6 @@ namespace SGAA.Repository.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.Property<string>("TipoIdentificacion")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
                     b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
@@ -13159,8 +13161,6 @@ namespace SGAA.Repository.Migrations
                     b.ToTable("Firma", t =>
                         {
                             t.HasCheckConstraint("CHK_Firma_Rol", "[Rol] IN ('Inquilino', 'Propietario')");
-
-                            t.HasCheckConstraint("CHK_Firma_TipoIdentificacion", "[TipoIdentificacion] IN ('Dni')");
                         });
                 });
 
@@ -13175,12 +13175,12 @@ namespace SGAA.Repository.Migrations
                     b.Property<int>("AplicacionId")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("Archivo")
+                    b.Property<string>("Archivo")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Monto")
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(14,4)");
 
                     b.HasKey("Id");
 
@@ -13204,9 +13204,19 @@ namespace SGAA.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Indice", t =>
+                    b.HasIndex(new[] { "Nombre" }, "IX_Indices_Nombre")
+                        .IsUnique();
+
+                    b.ToTable("Indice", null, t =>
                         {
                             t.HasCheckConstraint("CHK_Indice_Nombre", "[Nombre] IN ('ICL')");
+                        });
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nombre = "ICL"
                         });
                 });
 
@@ -13218,20 +13228,92 @@ namespace SGAA.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("FechaDesde")
+                    b.Property<DateOnly>("FechaDesde")
                         .HasColumnType("date");
 
                     b.Property<int>("IndiceId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Valor")
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(14,4)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IndiceId");
 
-                    b.ToTable("IndiceValor");
+                    b.ToTable("IndiceValor", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FechaDesde = new DateOnly(2023, 1, 1),
+                            IndiceId = 1,
+                            Valor = 3.21m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FechaDesde = new DateOnly(2023, 2, 1),
+                            IndiceId = 1,
+                            Valor = 3.29m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            FechaDesde = new DateOnly(2023, 3, 1),
+                            IndiceId = 1,
+                            Valor = 3.45m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            FechaDesde = new DateOnly(2023, 4, 1),
+                            IndiceId = 1,
+                            Valor = 3.64m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            FechaDesde = new DateOnly(2023, 5, 1),
+                            IndiceId = 1,
+                            Valor = 3.86m
+                        },
+                        new
+                        {
+                            Id = 6,
+                            FechaDesde = new DateOnly(2023, 6, 1),
+                            IndiceId = 1,
+                            Valor = 4.18m
+                        },
+                        new
+                        {
+                            Id = 7,
+                            FechaDesde = new DateOnly(2023, 7, 1),
+                            IndiceId = 1,
+                            Valor = 4.55m
+                        },
+                        new
+                        {
+                            Id = 8,
+                            FechaDesde = new DateOnly(2023, 8, 1),
+                            IndiceId = 1,
+                            Valor = 4.92m
+                        },
+                        new
+                        {
+                            Id = 9,
+                            FechaDesde = new DateOnly(2023, 9, 1),
+                            IndiceId = 1,
+                            Valor = 5.26m
+                        },
+                        new
+                        {
+                            Id = 10,
+                            FechaDesde = new DateOnly(2023, 10, 1),
+                            IndiceId = 1,
+                            Valor = 5.62m
+                        });
                 });
 
             modelBuilder.Entity("SGAA.Domain.Core.Pago", b =>
@@ -13242,8 +13324,8 @@ namespace SGAA.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<byte[]>("Archivo")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("Archivo")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ContratoId")
                         .HasColumnType("int");
@@ -13261,7 +13343,7 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<decimal>("Monto")
                         .HasPrecision(14, 2)
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(14,4)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -13333,9 +13415,9 @@ namespace SGAA.Repository.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<byte[]>("DorsoIdentificacionArchivo")
+                    b.Property<string>("DorsoIdentificacionArchivo")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -13348,12 +13430,12 @@ namespace SGAA.Repository.Migrations
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("date");
 
-                    b.Property<byte[]>("FrenteIdentificacionArchivo")
+                    b.Property<string>("FrenteIdentificacionArchivo")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("IngresoMensual")
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(14,4)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -13370,14 +13452,15 @@ namespace SGAA.Repository.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.Property<byte[]>("ReciboDeSueldoArchivo")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                    b.Property<int?>("PuntuacionCrediticia")
+                        .HasColumnType("int");
 
-                    b.Property<string>("TipoIdentificacion")
+                    b.Property<int?>("PuntuacionPenal")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReciboDeSueldoArchivo")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -13407,9 +13490,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CiudadId");
-
-                    b.HasIndex("Calle", "Altura")
+                    b.HasIndex("CiudadId", "Calle", "Altura")
                         .IsUnique();
 
                     b.ToTable("Propiedad", (string)null);
@@ -13422,11 +13503,13 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("NombreCompleto")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -13597,7 +13680,7 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<decimal>("MontoAlquiler")
                         .HasPrecision(14, 2)
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(14,4)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -13635,9 +13718,9 @@ namespace SGAA.Repository.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<byte[]>("DorsoIdentificacionArchivo")
+                    b.Property<string>("DorsoIdentificacionArchivo")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -13647,9 +13730,9 @@ namespace SGAA.Repository.Migrations
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("date");
 
-                    b.Property<byte[]>("FrenteIdentificacionArchivo")
+                    b.Property<string>("FrenteIdentificacionArchivo")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -13657,11 +13740,6 @@ namespace SGAA.Repository.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("NumeroIdentificacion")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<string>("TipoIdentificacion")
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
@@ -13708,9 +13786,9 @@ namespace SGAA.Repository.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.Property<byte[]>("TituloPropiedadArchivo")
+                    b.Property<string>("TituloPropiedadArchivo")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -13778,7 +13856,7 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<decimal>("Superficie")
                         .HasPrecision(14, 2)
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(14,4)");
 
                     b.Property<int>("UnidadId")
                         .HasColumnType("int");
@@ -13799,9 +13877,9 @@ namespace SGAA.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<byte[]>("Archivo")
+                    b.Property<string>("Archivo")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Descripcion")
                         .IsRequired()

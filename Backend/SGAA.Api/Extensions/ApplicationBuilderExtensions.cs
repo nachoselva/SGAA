@@ -10,6 +10,7 @@
         {
             await DependencyInjection.MigrateDbContext(app.Services);
             app.UseMiddleware<ExceptionMiddleware>();
+            app.UseMiddleware<TransactionMiddleware>();
             return app;
         }
     }

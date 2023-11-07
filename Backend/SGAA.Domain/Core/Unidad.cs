@@ -8,7 +8,7 @@
         private readonly List<UnidadComentario> _comentarios;
         private readonly List<Titular> _titulares;
 
-        public Unidad(int propiedadId, int propietarioUsuarioId, string piso, string departamento, DateTime fechaAdquisicion, byte[] tituloPropiedadArchivo, UnidadStatus status)
+        public Unidad(int propiedadId, int propietarioUsuarioId, string piso, string departamento, DateTime fechaAdquisicion, string tituloPropiedadArchivo, UnidadStatus status)
         {
             PropiedadId = propiedadId;
             PropietarioUsuarioId = propietarioUsuarioId;
@@ -26,7 +26,7 @@
         public string Piso { get; set; }
         public string Departamento { get; set; }
         public DateTime FechaAdquisicion { get; set; }
-        public byte[] TituloPropiedadArchivo { get; set; }
+        public string TituloPropiedadArchivo { get; set; }
         public UnidadStatus Status { get; set; }
 
         public string DomicilioCompleto => $"{Propiedad.Calle} {Propiedad.Altura} {Piso} {Departamento}, {Propiedad.Ciudad.Nombre} - {Propiedad.Ciudad.Provincia.Nombre}";
@@ -51,6 +51,11 @@
         {
             IEnumerable<int> idsToDelete = titulares.Select(img => img.Id);
             _titulares.RemoveAll(img => idsToDelete.Contains(img.Id));
+        }
+
+        public bool CanBePublicada()
+        {
+            return Status == UnidadStatus.DocumentacionAprobada && !Publicaciones.Any(p => p.Status.IsActive());
         }
     }
 }

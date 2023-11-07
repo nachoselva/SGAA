@@ -17,8 +17,8 @@
                 {
                     "InvalidUserName" or "InvalidEmail" or "DuplicateUserName" or "DuplicateEmail" => nameof(UsuarioPostModel.Email),
                     "InvalidRoleName" or "DuplicateRoleName" => nameof(Rol),
-                    "UserAlreadyHasPassword" or "UserLockoutNotEnabled" or "UserAlreadyInRole" or "UserNotInRole" or "ConcurrencyFailure" or "InvalidToken" or "LoginAlreadyAssociated" => nameof(Usuario),
-                    "PasswordTooShort" or "PasswordRequiresNonAlphanumeric" or "PasswordRequiresDigit" or "PasswordRequiresLower" or "PasswordRequiresUpper" or "PasswordMismatch" => nameof(UsuarioPostModel.Password),
+                    "UserAlreadyHasPassword" or "UserLockoutNotEnabled" or "UserAlreadyInRole" or "UserNotInRole" or "ConcurrencyFailure" or "LoginAlreadyAssociated" => nameof(Usuario),
+                    "InvalidToken" or "PasswordTooShort" or "PasswordRequiresNonAlphanumeric" or "PasswordRequiresDigit" or "PasswordRequiresLower" or "PasswordRequiresUpper" or "PasswordMismatch" => nameof(UsuarioPostModel.Password),
                     _ => "Unknown",
                 };
                 badRequestException.AddMessage(fieldName, error.Description);

@@ -20,9 +20,7 @@
             builder.Property(unidad => unidad.FechaAdquisicion)
                 .IsRequired()
                 .HasColumnType(DataTypes.TYPE_DATE);
-            builder.Property(garantia => garantia.TituloPropiedadArchivo)
-                .IsRequired()
-                .HasColumnType(DataTypes.TYPE_FILE);
+            builder.Property(garantia => garantia.TituloPropiedadArchivo);
             builder.Property(unidad => unidad.Status)
                 .IsRequired()
                 .HasConversion<string>()

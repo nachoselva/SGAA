@@ -2,9 +2,9 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using SGAA.Api.Middleware;
     using SGAA.Api.Providers;
     using SGAA.Domain.Auth;
-    using SGAA.Domain.Core;
     using SGAA.Models;
     using SGAA.Service.Contracts;
 
@@ -37,6 +37,7 @@
             => await _pagoService.GetPagosByPropietarioAndContrato((await _usuarioProvider.GetUser())!.Id, contratoId);
 
         [HttpPost]
+        [Transactional]
         public async Task<ActionResult<PagoGetModel>> AddPago([FromBody] PagoPostModel model)
         {
             model.PropietarioUsuarioId = (await _usuarioProvider.GetUser())!.Id;
@@ -45,6 +46,7 @@
 
         [HttpPut]
         [Route("{pagoId}/aprobar")]
+        [Transactional]
         public async Task<ActionResult<PagoGetModel>> AprobarPago([FromRoute] int pagoId, AprobarPagoPutModel model)
         {
             model.PropietarioUsuarioId = (await _usuarioProvider.GetUser())!.Id;

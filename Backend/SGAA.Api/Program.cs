@@ -20,6 +20,7 @@ builder.Services
 var app = builder.Build();
 
 await app.MigrateDbContext();
+app.UseCors("Default");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

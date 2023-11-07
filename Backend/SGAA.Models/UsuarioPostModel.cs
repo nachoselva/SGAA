@@ -15,6 +15,6 @@
         [Required]
         public required string Password { get; set; }
         [Required]
-        public required RolType Rol { get; set; }
+        public required RolType[] Roles { get; set; }
     }
 }

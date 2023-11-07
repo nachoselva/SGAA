@@ -27,7 +27,8 @@
             .Include(u => u.Publicaciones)
             .Include(u => u.PropietarioUsuario)
             .Include(u => u.Comentarios)
-            .Include(u => u.Titulares);
+            .Include(u => u.Titulares)
+            .OrderByDescending(a => a.Audit.CreatedOn);
 
         public async Task<IReadOnlyCollection<Unidad>> GetUnidades(int propietarioUserId)
         {

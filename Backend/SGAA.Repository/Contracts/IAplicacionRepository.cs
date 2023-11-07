@@ -1,6 +1,7 @@
 ﻿namespace SGAA.Repository.Contracts
 {
     using SGAA.Domain.Core;
+    using System;
 
     public interface IAplicacionRepository
     {
@@ -11,5 +12,6 @@
         Task<Aplicacion> UpdateAplicacion(Aplicacion aplicacion);
         Task DeleteGarantias(IEnumerable<Garantia> entitiesToDelete);
         Task DeletePostulantes(IEnumerable<Postulante> entitiesToDelete);
+        Task<IndiceValor?> GetIcl(DateOnly today);
     }
 }

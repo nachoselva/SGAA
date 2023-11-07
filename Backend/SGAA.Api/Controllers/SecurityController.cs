@@ -2,6 +2,7 @@ namespace SGAA.Api.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using SGAA.Api.Middleware;
     using SGAA.Models;
     using SGAA.Service.Contracts;
 
@@ -27,6 +28,7 @@ namespace SGAA.Api.Controllers
         [HttpPost]
         [Route("first-usuario")]
         [AllowAnonymous]
+        [Transactional]
         public async Task<IActionResult> AddFirstUsuario([FromBody] UsuarioPostModel model)
         {
             return Ok(await _usuarioService.AddFirstUsuario(model));
@@ -35,6 +37,7 @@ namespace SGAA.Api.Controllers
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]
+        [Transactional]
         public async Task<IActionResult> Login([FromBody] UsuarioLoginPostModel model)
         {
             return Ok(await _usuarioService.GetToken(model));
@@ -43,6 +46,7 @@ namespace SGAA.Api.Controllers
         [HttpPost]
         [Route("refresh-token")]
         [AllowAnonymous]
+        [Transactional]
         public async Task<IActionResult> RefreshToken(RefreshTokenPostModel model)
         {
             return Ok(await _usuarioService.RefreshToken(model));
@@ -51,6 +55,7 @@ namespace SGAA.Api.Controllers
         [HttpPost]
         [Route("revoke")]
         [Authorize]
+        [Transactional]
         public async Task<IActionResult> Revoke(RevokeTokenPostModel model)
         {
             await _usuarioService.Revoke(model);
@@ -60,6 +65,7 @@ namespace SGAA.Api.Controllers
         [HttpPost]
         [Route("revoke-all")]
         [Authorize]
+        [Transactional]
         public async Task<IActionResult> RevokeAll()
         {
             await _usuarioService.RevokeAll();
