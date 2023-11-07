@@ -21,5 +21,6 @@
         public required int PropietariosCount { get; set; }
         public required string Inquilinos { get; set; }
         public required string Propietarios { get; set; }
+        public bool CanUsuarioFirmar { get; set; }
     }
 }

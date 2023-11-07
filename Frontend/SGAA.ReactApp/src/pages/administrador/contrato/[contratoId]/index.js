@@ -20,11 +20,12 @@ const Page = () => {
   const breadcrumbsConfig = getBreadcrumbsConfig(contratoId);
 
   useEffect(() => {
-    getContrato(contratoId)
-      .then((response) => {
-        setContrato(response);
-      });
-  }, []);
+    if (router.isReady)
+      getContrato(contratoId)
+        .then((response) => {
+          setContrato(response);
+        });
+  }, [router.isReady]);
 
   return (
     <FancyFormPage

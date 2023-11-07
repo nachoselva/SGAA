@@ -27,11 +27,9 @@ export const getMenuItems = () => {
           <HomeIcon />
         </SvgIcon>
       )
-    });
-
-  everyone.push(
+    },
     {
-      title: 'Publicaciones Activas',
+      title: 'Publicaciones',
       path: '/publicacion',
       icon: (
         <SvgIcon fontSize="small">
@@ -39,6 +37,19 @@ export const getMenuItems = () => {
         </SvgIcon>
       )
     });
+
+  if (isAuthenticated && user.licencia == 'ProyectoFinal' && (user.roles.includes('Inquilino') || user.roles.includes('Propietario'))) {
+    everyone.push(
+      {
+        title: 'Mis Contratos',
+        path: '/contrato',
+        icon: (
+          <SvgIcon fontSize="small">
+            <DocumentTextIcon />
+          </SvgIcon>
+        )
+      });
+  }
 
   if (isAuthenticated) {
     if (user.roles.includes('Administrador')) {

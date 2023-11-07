@@ -2,7 +2,7 @@
 {
     public class RenovarContratoPostModel
     {
-        public decimal MontoAlquiler { get; set; }
-        public DateOnly FechaHasta { get; set; }
+        public required DateOnly FechaHasta { get; set; }
+        public required decimal MontoAlquiler { get; set; }
     }
 }

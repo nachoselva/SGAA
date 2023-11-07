@@ -1,16 +1,22 @@
-import { Box, Stack, TextField } from '@mui/material';
+import { Box, Button, Grid, TextField } from '@mui/material';
+import { useRouter } from 'next/router';
 import React from 'react';
-import { contratoStatus } from '/src/utils/status-labels';
+import { firmarContrato } from '/src/api/common';
+import { FancyFilePicker } from '/src/components/fancy-file-picker';
 
 export const ContratoLeerForm = (props) => {
   const { contrato } = props;
+  const router = useRouter();
+
+  const onFirmarContrato = (contratoId) => {
+    firmarContrato(contratoId)
+      .then(() => router.push('/contrato'));
+  }
 
   return (
     <Box>
-      <form
-        noValidate
-      >
-        <Stack spacing={3}>
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={6}>
           <TextField
             variant="filled"
             fullWidth
@@ -21,6 +27,8 @@ export const ContratoLeerForm = (props) => {
               readOnly: true,
             }}
           />
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <TextField
             variant="filled"
             fullWidth
@@ -31,6 +39,8 @@ export const ContratoLeerForm = (props) => {
               readOnly: true,
             }}
           />
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <TextField
             variant="filled"
             fullWidth
@@ -41,28 +51,21 @@ export const ContratoLeerForm = (props) => {
               readOnly: true,
             }}
           />
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <TextField
             variant="filled"
             fullWidth
             label="Hasta"
             name="fechaHasta"
             type="fechaHasta"
-            value={contratoStatus[contrato.fechaHasta]}
+            value={contrato.fechaHasta}
             InputProps={{
               readOnly: true,
             }}
           />
-          <TextField
-            variant="filled"
-            fullWidth
-            label="Contrato"
-            name="contrato"
-            type="contrato"
-            /*value={contrato.contrato}*/
-            InputProps={{
-              readOnly: true,
-            }}
-          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <TextField
             variant="filled"
             fullWidth
@@ -74,6 +77,8 @@ export const ContratoLeerForm = (props) => {
               readOnly: true,
             }}
           />
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <TextField
             variant="filled"
             fullWidth
@@ -85,6 +90,8 @@ export const ContratoLeerForm = (props) => {
               readOnly: true,
             }}
           />
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <TextField
             variant="filled"
             fullWidth
@@ -96,6 +103,8 @@ export const ContratoLeerForm = (props) => {
               readOnly: true,
             }}
           />
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <TextField
             variant="filled"
             fullWidth
@@ -107,8 +116,32 @@ export const ContratoLeerForm = (props) => {
               readOnly: true,
             }}
           />
-        </Stack>
-      </form>
+        </Grid>
+        <Grid item xs={12}>
+          <FancyFilePicker
+            label="Contrato"
+            name="contrato"
+            file={contrato.archivo}
+            readOnly={true}
+          />
+        </Grid>
+        {
+          contrato.canUsuarioFirmar &&
+          <Grid item xs={12} sm={6}>
+            <Button
+              fullWidth
+              size="large"
+              sx={{ mt: 3 }}
+              onClick={
+                () => onFirmarContrato(contrato.id)
+              }
+              variant="contained"
+            >
+              Firmar
+            </Button>
+          </Grid>
+        }
+      </Grid>
     </Box>
   );
 };

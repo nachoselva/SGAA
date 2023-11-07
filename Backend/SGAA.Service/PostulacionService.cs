@@ -86,17 +86,6 @@
                 throw new NotFoundException();
             if (postulacion.Status != PostulacionStatus.Ofrecida)
                 throw new BadRequestException(nameof(postulacion.Status), "La postulación no se encuentra en estado para aceptar");
-            bool contratoHasToBeCreated = model.FechaDesde.HasValue && model.FechaHasta.HasValue;
-            if (contratoHasToBeCreated)
-            {
-                if (model.FechaDesde >= model.FechaHasta)
-                    throw new BadRequestException(nameof(model.FechaHasta), "Fecha hasta desde ser posterior a fecha desde");
-                if (model.FechaDesde.Value.AddYears(1) < model.FechaHasta)
-                    throw new BadRequestException(nameof(model.FechaHasta), "El contrato debe tener 1 año de duración como mínimo");
-                if (model.FechaDesde >= postulacion.Publicacion.InicioAlquiler)
-                    throw new BadRequestException(nameof(model.FechaDesde), "El contrato debe arrancar después de la fecha de inicio de la publicación");
-
-            }
             model.ToEntity(_postulacionMapper, postulacion.Publicacion);
             model.ToEntity(_postulacionMapper, postulacion.Aplicacion);
             postulacion = model.ToEntity(_postulacionMapper, postulacion);
@@ -120,9 +109,6 @@
                     Apellido = propietarioUsuario.Apellido,
                     Domicilio = unidad.DomicilioCompleto
                 });
-
-            if (contratoHasToBeCreated)
-                await _contratoService.CreateContrato(postulacion.Id, model.FechaDesde!.Value, model.FechaHasta!.Value);
 
             return postulacion.MapToGetModel(_postulacionMapper);
         }

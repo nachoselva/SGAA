@@ -13,7 +13,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="src\hocs\" />
-    <Folder Include="src\pages\administrador\postulacion\[postulacionId]\" />
     <Folder Include="src\pages\propietario\unidad\[unidadId]\publicacion\" />
     <Folder Include="src\slices\" />
     <Folder Include="src\stores\" />
