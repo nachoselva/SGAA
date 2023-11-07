@@ -27,7 +27,7 @@ export const SideNav = (props) => {
       active = item.path === pathname;
     }
     else {
-      active = pathname?.includes(item.path) ?? false;
+      active = pathname?.startsWith(item.path) ?? false;
     }
 
     return (

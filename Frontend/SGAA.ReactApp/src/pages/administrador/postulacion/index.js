@@ -37,6 +37,18 @@ const Page = () => {
         {postulacionStatus[row.status]}
       </TableCell>
       <TableCell>
+        {
+          row.canContratoBeCreated &&
+          <Link
+            component="button"
+            underline="hover"
+            color="inherit"
+            onClick={() => router.push('/administrador/postulacion/' + row.id + '/contrato/crear')}>
+            Crear Contrato
+          </Link>
+        }
+      </TableCell>
+      <TableCell>
         <Link
           component="button"
           underline="hover"
@@ -74,6 +86,7 @@ const Page = () => {
       { key: 'fechaPostulacion', title: 'Fecha Postulación' },
       { key: 'fechaOferta', title: 'Fecha Oferta' },
       { key: 'status', title: 'Estado' },
+      { key: null, title: null },
       { key: null, title: null },
       { key: null, title: null },
       { key: null, title: null }

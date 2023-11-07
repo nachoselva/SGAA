@@ -11,11 +11,12 @@ const Page = () => {
   const [unidad, setUnidad] = useState(null);
 
   useEffect(() => {
-    getUnidad(unidadId)
-      .then((response) => {
-        setUnidad(response);
-      });
-  }, []);
+    if (router.isReady)
+      getUnidad(unidadId)
+        .then((response) => {
+          setUnidad(response);
+        });
+  }, [router.isReady]);
 
   const onPublicacionCreated = (result) => {
     if (result)
@@ -26,7 +27,7 @@ const Page = () => {
     { url: '/inicio', title: 'Inicio' },
     { url: '/propietario/unidad', title: 'Unidades' },
     { url: '/propietario/unidad/' + unidadId, title: unidadId },
-    { url: '/propietario/unidad/' + unidadId + '/crear', title: 'Crear' }
+    { url: '/propietario/unidad/' + unidadId + '/publicacion/crear', title: 'Crear' }
   ];
 
   return (

@@ -46,14 +46,14 @@ const Page = () => {
 
   const breadcrumbsConfig = [
     { url: '/inicio', title: 'Inicio' },
-    { url: '/publicacion-activa', title: 'Publicaciones' }
+    { url: '/publicacion-activa', title: 'Publicaciones Activas' }
   ];
 
   return (
     <FancyTablePage
       getData={getPublicaciones}
-      entityName={'Aplicación'}
-      listName={'Aplicaciones'}
+      entityName={'Publicación'}
+      listName={'Publicaciones Activas'}
       breadcrumbsConfig={breadcrumbsConfig}
       headerConfiguration={headerConfiguration}
       tableRowGenerator={tableRowGenerator}

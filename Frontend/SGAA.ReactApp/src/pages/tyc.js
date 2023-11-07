@@ -84,6 +84,7 @@ const Page = () => {
                   <p>El Componente de Garantías es el monto de las escrituras de las garantías ingresadas por el Inquilino.</p>
                   <p>El Componente de Ingresos es el Ingreso mensual sumado de los inquilinos.</p>
                   <p>El Índice de contratos de locación se toma del gobierno Argentino de manera mensual.</p>
+                  <p>En caso de que dos aplicaciones tengan la misma puntuación, se ponderará aquella que haya sido creada con anterioridad.</p>
                   <p>Se puede ver el histórico en el siguiente link: <a href="https://www.bcra.gob.ar/publicacionesestadisticas/Principales_variables_datos.asp">Historial de Índice de contratos de locación</a>.</p>
 
                   <Typography variant="h6">7. Análisis Crediticio y de Antecedentes Penales</Typography>

@@ -28,6 +28,11 @@ namespace SGAA.Api.Controllers.Administrador
         public Task<ContratoGetModel> GetContrato([FromRoute] int contratoId)
             => _contratoService.GetContrato(contratoId);
 
+        [HttpPost]
+        [Transactional]
+        public Task<ContratoGetModel> AddContrato([FromBody] ContratoPostModel model)
+            => _contratoService.AddContrato(model);
+
 
         [HttpPost]
         [Route("{contratoId}/renovar")]

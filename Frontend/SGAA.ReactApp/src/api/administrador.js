@@ -210,3 +210,16 @@ export const registrarUsuario = (usuario) => {
   };
   return handleFetch('/administrador/usuario', requestOptions);
 }
+
+export const registrarContrato = (contrato) => {
+  const requestOptions = {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    },
+    body: JSON.stringify(contrato)
+  };
+  return handleFetch('/administrador/contrato', requestOptions);
+}

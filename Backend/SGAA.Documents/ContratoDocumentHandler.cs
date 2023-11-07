@@ -19,7 +19,8 @@
             string templateContent = File.ReadAllText($"{path}ContratoDocument.html");
             var template = _handlebarEngine.Compile(templateContent);
             var documentHtml = template(documentModel);
-            return Convert.ToBase64String(_pdfConverter.GeneratePdf(documentHtml));
+            var pdf = _pdfConverter.GeneratePdf(documentHtml);
+            return Convert.ToBase64String(pdf);
         }
     }
 }

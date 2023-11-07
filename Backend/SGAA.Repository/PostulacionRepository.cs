@@ -32,6 +32,7 @@
             .ThenInclude(a => a.InquilinoUsuario)
             .Include(p => p.Aplicacion)
             .ThenInclude(a => a.Postulantes)
+            .Include(p => p.Contratos)
             .OrderByDescending(a => a.Audit.CreatedOn);
 
         public Task<Postulacion?> GetPostulacion(int postulacionId)

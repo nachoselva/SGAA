@@ -60,7 +60,8 @@
             FechaPostulacion = entity.Audit.CreatedOn,
             FechaOferta = entity.FechaOferta,
             MontoAlquiler = entity.Publicacion.MontoAlquiler,
-            DomicilioCompleto = entity.Publicacion.Unidad.DomicilioCompleto
+            DomicilioCompleto = entity.Publicacion.Unidad.DomicilioCompleto,
+            CanContratoBeCreated = entity.Status == PostulacionStatus.Reservada && !entity.Contratos.Any()
         };
     }
 }

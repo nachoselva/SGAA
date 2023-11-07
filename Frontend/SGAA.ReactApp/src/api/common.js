@@ -49,3 +49,39 @@ export const getPublicacion = (codigo) => {
   };
   return handleFetch('/publicacion/' + codigo, requestOptions);
 }
+
+export const getContratos = () => {
+  const requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    }
+  };
+  return handleFetch('/contrato', requestOptions);
+}
+
+export const getContrato = (contratoId) => {
+  const requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    }
+  };
+  return handleFetch('/contrato/' + contratoId, requestOptions);
+}
+
+export const firmarContrato = (contratoId) => {
+  const requestOptions = {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    }
+  };
+  return handleFetch('/contrato/' + contratoId+'/firmar', requestOptions);
+}

@@ -13,8 +13,8 @@ const Page = () => {
   const getBreadcrumbsConfig = (codigo) =>
     [
       { url: '/inicio', title: 'Inicio' },
-      { url: '/publicacion-activa', title: 'Publicaciones' },
-      { url: '/publicacion-activa/' + codigo, title: "Publicación" }
+      { url: '/publicacion', title: 'Publicaciones' },
+      { url: '/publicacion/' + codigo, title: "Publicación" }
     ];
 
   const breadcrumbsConfig = getBreadcrumbsConfig(codigo);
