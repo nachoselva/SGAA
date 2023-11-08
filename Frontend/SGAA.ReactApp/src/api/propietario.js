@@ -127,6 +127,19 @@ export const getPagos = () => {
   return handleFetch('/propietario/pago', requestOptions);
 }
 
+export const getPagosByContrato = (contratoId) => {
+  console.log(contratoId);
+  const requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    }
+  };
+  return handleFetch('/propietario/pago/contrato/'+contratoId, requestOptions);
+}
+
 export const getPago = (id) => {
   const requestOptions = {
     method: 'GET',
@@ -150,4 +163,17 @@ export const aprobarPago = (pagoId) => {
     body: JSON.stringify({})
   };
   return handleFetch('/propietario/pago/' + pagoId+'/aprobar', requestOptions);
+}
+
+export const registrarPago = (pago) => {
+  const requestOptions = {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    },
+    body: JSON.stringify(pago)
+  };
+  return handleFetch('/propietario/pago', requestOptions);
 }

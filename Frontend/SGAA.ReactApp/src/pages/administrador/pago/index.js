@@ -1,7 +1,7 @@
 import { Link, TableCell, TableRow } from '@mui/material';
 import Moment from 'moment';
 import { useRouter } from 'next/navigation';
-import { getPagos } from '/src/api/propietario';
+import { getPagos } from '/src/api/administrador';
 import { FancyDownloadButton } from '/src/components/fancy-download-button';
 import { FancyTablePage } from '/src/components/fancy-table-page';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
@@ -43,13 +43,28 @@ const Page = () => {
         }
       </TableCell>
       <TableCell>
-        <Link
-          component="button"
-          underline="hover"
-          color="inherit"
-          onClick={() => router.push('/propietario/pago/' + row.id)}>
-          Ver Pago
-        </Link>
+        {
+          row.status == 'Pendiente'
+          &&
+          <Link
+            component="button"
+            underline="hover"
+            color="inherit"
+            onClick={() => router.push('/administrador/pago/' + row.id + '/editar')}>
+            Editar Pago
+          </Link>
+        }
+        {
+          row.status != 'Pendiente'
+          &&
+          <Link
+            component="button"
+            underline="hover"
+            color="inherit"
+            onClick={() => router.push('/administrador/pago/' + row.id)}>
+            Ver Pago
+          </Link>
+        }
       </TableCell>
       <TableCell>
         {
@@ -57,7 +72,7 @@ const Page = () => {
             component="button"
             underline="hover"
             color="inherit"
-            onClick={() => router.push('/contrato/' + row.contratoId)}>
+            onClick={() => router.push('/administrador/contrato/' + row.contratoId)}>
             Ver Contrato
           </Link>
         }</TableCell>
@@ -79,7 +94,7 @@ const Page = () => {
 
   const breadcrumbsConfig = [
     { url: '/inicio', title: 'Inicio' },
-    { url: '/propietario/pago', title: 'Pagos' }
+    { url: '/administrador/pago', title: 'Pagos' }
   ];
 
   return (
@@ -88,9 +103,10 @@ const Page = () => {
       entityName={'Pago'}
       listName={'Pagos'}
       breadcrumbsConfig={breadcrumbsConfig}
-      roles={['Propietario']}
+      roles={['Administrador']}
       headerConfiguration={headerConfiguration}
       tableRowGenerator={tableRowGenerator}
+      onAddEntityRedirectTo={'/administrador/pago/crear'}
     />
   );
 };

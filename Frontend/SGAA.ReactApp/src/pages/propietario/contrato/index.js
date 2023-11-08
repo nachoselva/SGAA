@@ -43,7 +43,7 @@ const Page = () => {
           component="button"
           underline="hover"
           color="inherit"
-          onClick={() => router.push('/contrato/' + row.id+'/pago')}>
+          onClick={() => router.push('/propietario/contrato/' + row.id + '/pago')}>
           Ver Pagos
         </Link>
       </TableCell>
@@ -52,7 +52,7 @@ const Page = () => {
           component="button"
           underline="hover"
           color="inherit"
-          onClick={() => router.push('/contrato/' + row.id)}>
+          onClick={() => router.push('/propietario/contrato/' + row.id)}>
           Ver Contrato
         </Link>
       </TableCell>
@@ -72,10 +72,11 @@ const Page = () => {
       { key: null, title: null }
     ];
 
-  const breadcrumbsConfig = [
-    { url: '/inicio', title: 'Inicio' },
-    { url: '/contrato', title: 'Contratos' }
-  ];
+  const breadcrumbsConfig =
+    [
+      { url: '/inicio', title: 'Inicio' },
+      { url: '/propietario/contrato', title: 'Contratos' }
+    ];
 
   return (
     <FancyTablePage

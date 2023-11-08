@@ -8,9 +8,9 @@ export const PagoLeerForm = (props) => {
   const { pago, rol } = props;
   const router = useRouter();
 
-  const onPagoAprobado = (pagoId) => {
-    aprobarPago(pagoId)
-      .then(() => router.push('/propietario/pago'));
+  const onPagoAprobado = () => {
+    aprobarPago(pago.id)
+      .then(() => router.push('/propietario/contrato/' + pago.contratoId + '/pago'));
   }
 
   return (
@@ -45,7 +45,7 @@ export const PagoLeerForm = (props) => {
               size="large"
               sx={{ mt: 3 }}
               onClick={
-                () => onPagoAprobado(pago.id)
+                () => onPagoAprobado()
               }
               variant="contained"
             >

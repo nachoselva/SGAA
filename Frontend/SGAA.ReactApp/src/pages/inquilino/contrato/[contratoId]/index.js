@@ -1,37 +1,37 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { getPago } from '/src/api/propietario';
 import { FancyFormPage } from '/src/components/fancy-form-page';
+import { getContrato } from '/src/api/common';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
-import { PagoLeerForm } from '/src/sections/pago/pago-leer-form';
+import { ContratoLeerForm } from '/src/sections/contrato/contrato-leer-form';
 
 
 const Page = () => {
   const router = useRouter();
-  const [pago, setPago] = useState(null);
-  const pagoId = router.query.pagoId;
+  const [contrato, setContrato] = useState(null);
+  const contratoId = router.query.contratoId;
 
-  const getBreadcrumbsConfig = (pagoId) =>
+  const getBreadcrumbsConfig = (contratoId) =>
     [
       { url: '/inicio', title: 'Inicio' },
-      { url: '/propietario/pago', title: 'Pagos' },
-      { url: '/propietario/pago/' + pagoId, title: pagoId }
+      { url: '/inquilino/contrato', title: 'Contratos' },
+      { url: '/inquilino/contrato/' + contratoId, title: contratoId }
     ];
 
-  const breadcrumbsConfig = getBreadcrumbsConfig(pagoId);
+  const breadcrumbsConfig = getBreadcrumbsConfig(contratoId);
 
   useEffect(() => {
     if (router.isReady)
-      getPago(pagoId)
+      getContrato(contratoId)
         .then((response) => {
-          setPago(response);
+          setContrato(response);
         });
   }, [router.isReady]);
 
   return (
     <FancyFormPage
-      form={pago && <PagoLeerForm pago={pago} rol='Propietario' />}
-      title={'Detalle Pago'}
+      form={contrato && <ContratoLeerForm contrato={contrato} />}
+      title={'Detalle Contrato'}
       breadcrumbsConfig={breadcrumbsConfig}>
     </FancyFormPage>
   );

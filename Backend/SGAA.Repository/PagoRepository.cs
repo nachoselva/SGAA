@@ -45,6 +45,12 @@
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<IReadOnlyCollection<Pago>> GetPagos()
+        {
+            return await PagosQuery()
+                .ToListAsync();
+        }
+
         public async Task<IReadOnlyCollection<Pago>> GetPagos(int contratoId)
         {
             return await PagosQuery()

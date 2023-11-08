@@ -20,7 +20,9 @@
         }
 
         public Pago ToEntity(PagoPostModel postModel)
-        => new(postModel.ContratoId, postModel.Descripcion, postModel.Monto, postModel.FechaVencimiento, PagoStatus.Pendiente, null, null);
+        => new(postModel.ContratoId, postModel.Descripcion, postModel.Monto,
+            new DateOnly(postModel.FechaVencimiento.Year, postModel.FechaVencimiento.Month, postModel.FechaVencimiento.Day),
+            PagoStatus.Pendiente, null, null);
 
         public PagoGetModel ToGetModel(Pago entity)
         =>

@@ -249,3 +249,27 @@ export const cancelarContrato = (contrato) => {
   };
   return handleFetch('/administrador/contrato/' + contrato.contratoId + '/cancelar', requestOptions);
 }
+
+export const getPagos = () => {
+  const requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    }
+  };
+  return handleFetch('/administrador/pago', requestOptions);
+}
+
+export const getPago = (id) => {
+  const requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    }
+  };
+  return handleFetch('/administrador/pago/' + id, requestOptions);
+}
