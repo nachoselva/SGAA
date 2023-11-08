@@ -645,82 +645,87 @@ export const UnidadCrearForm = (props) => {
             </Button>
           </Grid>
 
-          <Grid item xs={12}>
-            <Typography variant="h5">
-              Imagenes
-            </Typography>
-          </Grid>
           {
-            formik.values.detalle.imagenes.map((img, index) =>
-            (<Grid item xs={12} key={index}>
-              <Box sx={{
-                border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
-              }} >
-                <Grid container spacing={3}>
-                  <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
-                    <Button onClick={() => onImagenRemoved(index)} variant="contained">
-                      <TrashIcon />
-                    </Button>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      variant="filled"
-                      error={!!(formik.touched.detalle?.imagenes && formik.touched.detalle?.imagenes?.[index]?.titulo && formik.errors.detalle?.imagenes?.[index]?.titulo)}
-                      fullWidth
-                      helperText={formik.touched.titulares && formik.touched.detalle?.imagenes?.[index]?.titulo && formik.errors.detalle?.imagenes?.[index]?.titulo}
-                      label="Título"
-                      name={"detalle.imagenes[" + index + "].titulo"}
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      value={img.titulo}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <FancyFilePicker
-                      touched={formik.touched.detalle?.imagenes?.[index]?.archivo}
-                      error={formik.errors.detalle?.imagenes?.[index]?.archivo}
-                      label="Imagen"
-                      name={"detalle.imagenes[" + index + "].archivo"}
-                      file={formik.values.detalle?.imagenes?.[index]?.archivo}
-                      onBlur={() => {
-                        const detalle = formik.touched.detalle ?? {};
-                        const imagenes = detalle.imagenes ?? [];
-                        const imagen = imagenes[index] ?? {};
-                        imagen.archivo = true;
-                        imagenes[index] = imagen;
-                        detalle.imagenes = imagenes;
-                        formik.setTouched({ ...formik.touched, detalle: detalle });
-                      }}
-                      onChange={(result) => {
-                        formik.setFieldValue('detalle.imagenes.[' + index + '].archivo', result);
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      multiline
-                      rows={5}
-                      variant="filled"
-                      error={!!(formik.touched.detalle?.imagenes && formik.touched.detalle?.imagenes?.[index]?.descripcion && formik.errors.detalle?.imagenes?.[index]?.descripcion)}
-                      fullWidth
-                      helperText={formik.touched.titulares && formik.touched.detalle?.imagenes?.[index]?.descripcion && formik.errors.detalle?.imagenes?.[index]?.descripcion}
-                      label="Descripción"
-                      name={"detalle.imagenes[" + index + "].descripcion"}
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      value={img.descripcion}
-                    />
-                  </Grid>
-                </Grid>
-              </Box>
-            </Grid>)
-            )
+            props.licencia == 'ProyectoFinal' &&
+            <>
+              <Grid item xs={12}>
+                <Typography variant="h5">
+                  Imagenes
+                </Typography>
+              </Grid>
+              {
+                formik.values.detalle.imagenes.map((img, index) =>
+                (<Grid item xs={12} key={index}>
+                  <Box sx={{
+                    border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
+                  }} >
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
+                        <Button onClick={() => onImagenRemoved(index)} variant="contained">
+                          <TrashIcon />
+                        </Button>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          variant="filled"
+                          error={!!(formik.touched.detalle?.imagenes && formik.touched.detalle?.imagenes?.[index]?.titulo && formik.errors.detalle?.imagenes?.[index]?.titulo)}
+                          fullWidth
+                          helperText={formik.touched.titulares && formik.touched.detalle?.imagenes?.[index]?.titulo && formik.errors.detalle?.imagenes?.[index]?.titulo}
+                          label="Título"
+                          name={"detalle.imagenes[" + index + "].titulo"}
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          value={img.titulo}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <FancyFilePicker
+                          touched={formik.touched.detalle?.imagenes?.[index]?.archivo}
+                          error={formik.errors.detalle?.imagenes?.[index]?.archivo}
+                          label="Imagen"
+                          name={"detalle.imagenes[" + index + "].archivo"}
+                          file={formik.values.detalle?.imagenes?.[index]?.archivo}
+                          onBlur={() => {
+                            const detalle = formik.touched.detalle ?? {};
+                            const imagenes = detalle.imagenes ?? [];
+                            const imagen = imagenes[index] ?? {};
+                            imagen.archivo = true;
+                            imagenes[index] = imagen;
+                            detalle.imagenes = imagenes;
+                            formik.setTouched({ ...formik.touched, detalle: detalle });
+                          }}
+                          onChange={(result) => {
+                            formik.setFieldValue('detalle.imagenes.[' + index + '].archivo', result);
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          multiline
+                          rows={5}
+                          variant="filled"
+                          error={!!(formik.touched.detalle?.imagenes && formik.touched.detalle?.imagenes?.[index]?.descripcion && formik.errors.detalle?.imagenes?.[index]?.descripcion)}
+                          fullWidth
+                          helperText={formik.touched.titulares && formik.touched.detalle?.imagenes?.[index]?.descripcion && formik.errors.detalle?.imagenes?.[index]?.descripcion}
+                          label="Descripción"
+                          name={"detalle.imagenes[" + index + "].descripcion"}
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          value={img.descripcion}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </Grid>)
+                )
+              }
+              <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
+                <Button onClick={onImagenAdded} variant="contained">
+                  <PlusIcon></PlusIcon>
+                </Button>
+              </Grid>
+            </>
           }
-          <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
-            <Button onClick={onImagenAdded} variant="contained">
-              <PlusIcon></PlusIcon>
-            </Button>
-          </Grid>
           {
             props.unidad?.comentarios?.length > 0 &&
             <Grid item xs={12}>
