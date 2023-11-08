@@ -26,13 +26,15 @@
         =>
             new()
             {
+                Id = entity.Id,
                 ContratoId = entity.ContratoId,
                 Descripcion = entity.Descripcion,
                 FechaPago = entity.FechaPago,
                 FechaVencimiento = entity.FechaVencimiento,
                 Monto = entity.Monto,
                 Status = entity.Status,
-                Archivo = entity.Archivo
+                Archivo = entity.Archivo,
+                Domicilio = entity.Contrato.Postulacion.Publicacion.Unidad.DomicilioCompleto
             };
     }
 }

@@ -114,3 +114,40 @@ export const registrarPublicacion = (publicacion) => {
   };
   return handleFetch('/propietario/publicacion', requestOptions);
 }
+
+export const getPagos = () => {
+  const requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    }
+  };
+  return handleFetch('/propietario/pago', requestOptions);
+}
+
+export const getPago = (id) => {
+  const requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    }
+  };
+  return handleFetch('/propietario/pago/' + id, requestOptions);
+}
+
+export const aprobarPago = (pagoId) => {
+  const requestOptions = {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    },
+    body: JSON.stringify({})
+  };
+  return handleFetch('/propietario/pago/' + pagoId+'/aprobar', requestOptions);
+}

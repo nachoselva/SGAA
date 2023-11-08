@@ -42,6 +42,30 @@ const Page = () => {
         {row.propietarios}
       </TableCell>
       <TableCell>
+        {
+          row.status == 'Ejecutado' &&
+          <Link
+            component="button"
+            underline="hover"
+            color="inherit"
+            onClick={() => router.push('/administrador/contrato/' + row.id + '/renovar')}>
+            Renovar Contrato
+          </Link>
+        }
+      </TableCell>
+      <TableCell>
+        {
+          row.status == 'Ejecutado' &&
+          <Link
+            component="button"
+            underline="hover"
+            color="inherit"
+            onClick={() => router.push('/administrador/contrato/' + row.id + '/cancelar')}>
+            Cancelar Contrato
+          </Link>
+        }
+      </TableCell>
+      <TableCell>
         <Link
           component="button"
           underline="hover"
@@ -63,6 +87,8 @@ const Page = () => {
       { key: 'ordenRenovacion', title: 'N° Renovación' },
       { key: 'inquilinos', title: 'Inquilinos' },
       { key: 'propietarios', title: 'Propietarios' },
+      { key: null, title: null },
+      { key: null, title: null },
       { key: null, title: null }
     ];
 

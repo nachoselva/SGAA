@@ -1,27 +1,27 @@
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography, TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import React from 'react';
 import * as Yup from 'yup';
 import { FancyDatePicker } from '/src/components/fancy-date-picker';
 
-export const PublicacionCrearForm = (props) => {
-  const { postulacion, handleSubmit, handleConfirmationChange } = props;
+export const ContratoRenovarForm = (props) => {
+  const { contrato, handleSubmit, handleConfirmationChange } = props;
 
   const formik = useFormik({
     initialValues: {
-      fechaDesde: null,
-      fechaHasta: null,
-      postulacionId: postulacion.id,
+      fechaHasta: '',
+      montoAlquiler: '',
+      contratoId: contrato.id,
       submit: null
     },
 
     validationSchema: Yup.object({
-      fechaDesde: Yup
-        .max(255)
-        .required('Fecha Desde es obligatorio'),
       fechaHasta: Yup
         .string()
-        .required('Fecha Hasta es obligatorio')
+        .required('Fecha Hasta es obligatorio'),
+      montoAlquiler: Yup
+        .string()
+        .required('Monto Alquiler es obligatorio')
     }),
     onSubmit: (values, helpers) => {
       handleSubmit(values)
@@ -48,17 +48,6 @@ export const PublicacionCrearForm = (props) => {
       >
         <Stack spacing={3}>
           <FancyDatePicker
-            value={formik.values.fechaDesde}
-            label="Fecha desde"
-            name={"fechaDesde"}
-            onChange={(value) => {
-              formik.setFieldValue('fechaDesde', value && new Date(value));
-            }}
-            touched={formik.touched.fechaDesde}
-            error={formik.errors.fechaDesde}
-            onBlur={formik.handleBlur}
-          />
-          <FancyDatePicker
             value={formik.values.fechaHasta}
             label="Fecha Hasta"
             name={"fechaHasta"}
@@ -69,25 +58,38 @@ export const PublicacionCrearForm = (props) => {
             error={formik.errors.fechaHasta}
             onBlur={formik.handleBlur}
           />
-        </Stack>
-        {formik.errors.submit && (
-          <Typography
-            color="error"
+
+          <TextField
+            variant="filled"
+            error={!!(formik.touched.montoAlquiler && formik.errors.montoAlquiler)}
+            fullWidth
+            helperText={formik.touched.montoAlquiler && formik.errors.montoAlquiler}
+            label="Monto Alquiler"
+            name={"montoAlquiler"}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.montoAlquiler}
+            type="number"
+          />
+          {formik.errors.submit && (
+            <Typography
+              color="error"
+              sx={{ mt: 3 }}
+              variant="body2"
+            >
+              {formik.errors.submit}
+            </Typography>
+          )}
+          <Button
+            fullWidth
+            size="large"
             sx={{ mt: 3 }}
-            variant="body2"
+            type="submit"
+            variant="contained"
           >
-            {formik.errors.submit}
-          </Typography>
-        )}
-        <Button
-          fullWidth
-          size="large"
-          sx={{ mt: 3 }}
-          type="submit"
-          variant="contained"
-        >
-          Enviar Contrato
-        </Button>
+            Enviar Contrato
+          </Button>
+        </Stack>
       </form>
     </Box>
   );

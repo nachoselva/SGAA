@@ -7,7 +7,7 @@
         public Contrato ToEntity(CancelarContratoPutModel putModel, Contrato entity)
         {
             entity.Status = ContratoStatus.Cancelado;
-            entity.FechaCancelacion = putModel.FechaCancelacion;
+            entity.FechaCancelacion = new DateOnly(putModel.FechaCancelacion.Year, putModel.FechaCancelacion.Month, putModel.FechaCancelacion.Day);
             ToEntity(putModel, entity.Postulacion.Publicacion.Unidad);
             return entity;
         }

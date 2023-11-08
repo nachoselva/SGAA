@@ -223,3 +223,29 @@ export const registrarContrato = (contrato) => {
   };
   return handleFetch('/administrador/contrato', requestOptions);
 }
+
+export const renovarContrato = (contrato) => {
+  const requestOptions = {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    },
+    body: JSON.stringify(contrato)
+  };
+  return handleFetch('/administrador/contrato/' + contrato.contratoId+'/renovar', requestOptions);
+}
+
+export const cancelarContrato = (contrato) => {
+  const requestOptions = {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    },
+    body: JSON.stringify(contrato)
+  };
+  return handleFetch('/administrador/contrato/' + contrato.contratoId + '/cancelar', requestOptions);
+}

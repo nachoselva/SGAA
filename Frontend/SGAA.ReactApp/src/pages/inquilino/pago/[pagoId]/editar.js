@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { FancyFormPage } from '/src/components/fancy-form-page';
 import { getPago, abonarPago } from '/src/api/inquilino';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
-import { PagoLeerForm } from '/src/sections/pago/pago-leer-form';
+import { PagoEditarForm } from '/src/sections/pago/pago-editar-form';
 
 
 const Page = () => {
@@ -15,7 +15,7 @@ const Page = () => {
     [
       { url: '/inicio', title: 'Inicio' },
       { url: '/inquilino/pago', title: 'Pagos' },
-      { url: '/inquilino/pago/' + pagoId, title: pagoId }
+      { url: '/inquilino/pago/' + pagoId + '/editar', title: pagoId }
     ];
 
   const breadcrumbsConfig = getBreadcrumbsConfig(pagoId);
@@ -30,7 +30,7 @@ const Page = () => {
 
   return (
     <FancyFormPage
-      form={pago && <PagoLeerForm pago={pago} rol='Inquilino' />}
+      form={pago && <PagoEditarForm pago={pago} handleSubmit={abonarPago} handleConfirmationChange={() => router.push('/inquilino/pago')} />}
       title={'Detalle Pago'}
       breadcrumbsConfig={breadcrumbsConfig}>
     </FancyFormPage>
