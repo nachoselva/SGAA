@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FancyFormPage } from '/src/components/fancy-form-page';
-import { getPago, abonarPago } from '/src/api/inquilino';
+import { getPago } from '/src/api/administrador';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
-import { PagoEditarForm } from '/src/sections/pago/pago-editar-form';
+import { PagoLeerForm } from '/src/sections/pago/pago-leer-form';
 
 
 const Page = () => {
@@ -14,8 +14,8 @@ const Page = () => {
   const getBreadcrumbsConfig = (pagoId) =>
     [
       { url: '/inicio', title: 'Inicio' },
-      { url: '/inquilino/pago', title: 'Pagos' },
-      { url: '/inquilino/pago/' + pagoId + '/editar', title: pagoId }
+      { url: '/administrador/pago', title: 'Pagos' },
+      { url: '/administrador/pago/' + pagoId, title: pagoId }
     ];
 
   const breadcrumbsConfig = getBreadcrumbsConfig(pagoId);
@@ -30,7 +30,7 @@ const Page = () => {
 
   return (
     <FancyFormPage
-      form={pago && <PagoEditarForm pago={pago} handleSubmit={abonarPago} handleConfirmationChange={() => router.push('/inquilino/pago')} />}
+      form={pago && <PagoLeerForm pago={pago} rol='Administrador' />}
       title={'Detalle Pago'}
       breadcrumbsConfig={breadcrumbsConfig}>
     </FancyFormPage>

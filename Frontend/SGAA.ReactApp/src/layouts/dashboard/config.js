@@ -39,19 +39,6 @@ export const getMenuItems = () => {
       )
     });
 
-  if (isAuthenticated && user.licencia == 'ProyectoFinal' && (user.roles.includes('Inquilino') || user.roles.includes('Propietario'))) {
-    everyone.push(
-      {
-        title: 'Mis Contratos',
-        path: '/contrato',
-        icon: (
-          <SvgIcon fontSize="small">
-            <DocumentTextIcon />
-          </SvgIcon>
-        )
-      });
-  }
-
   if (isAuthenticated) {
     if (user.roles.includes('Administrador')) {
       administrador.push(
@@ -100,6 +87,7 @@ export const getMenuItems = () => {
             </SvgIcon>
           )
         });
+
       if (user.licencia == 'ProyectoFinal') {
         administrador.push(
           {
@@ -108,6 +96,15 @@ export const getMenuItems = () => {
             icon: (
               <SvgIcon fontSize="small">
                 <DocumentTextIcon />
+              </SvgIcon>
+            )
+          },
+          {
+            title: 'Pagos',
+            path: '/administrador/pago',
+            icon: (
+              <SvgIcon fontSize="small">
+                <CurrencyDollarIcon />
               </SvgIcon>
             )
           });
@@ -134,11 +131,11 @@ export const getMenuItems = () => {
           )
         },
         {
-          title: 'Mis Pagos',
-          path: '/propietario/pago',
+          title: 'Mis Contratos',
+          path: '/propietario/contrato',
           icon: (
             <SvgIcon fontSize="small">
-              <CurrencyDollarIcon />
+              <DocumentTextIcon />
             </SvgIcon>
           )
         });
@@ -164,16 +161,15 @@ export const getMenuItems = () => {
           )
         },
         {
-          title: 'Mis Pagos',
-          path: '/inquilino/pago',
+          title: 'Mis Contratos',
+          path: '/inquilino/contrato',
           icon: (
             <SvgIcon fontSize="small">
-              <CurrencyDollarIcon />
+              <DocumentTextIcon />
             </SvgIcon>
           )
         });
     }
-
     terms.push(
       {
         title: 'Términos y Condiciones',
@@ -194,6 +190,7 @@ export const getMenuItems = () => {
         )
       });
   }
+
   return { everyone, administrador, propietario, inquilino, terms };
 }
 

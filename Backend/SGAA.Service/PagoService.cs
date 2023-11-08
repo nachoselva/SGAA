@@ -166,5 +166,19 @@
                 .Select(p => p.MapToGetModel(_pagoMapper))
                 .ToList();
         }
+
+        public async Task<PagoGetModel> GetPago(int pagoId)
+        {
+            Pago pago = await _pagoRepository.GetPago(pagoId) ?? throw new NotFoundException();
+            return pago.MapToGetModel(_pagoMapper);
+        }
+
+        public async Task<IReadOnlyCollection<PagoGetModel>> GetPagos()
+        {
+            IReadOnlyCollection<Pago> pagos = await _pagoRepository.GetPagos();
+            return pagos
+                .Select(p => p.MapToGetModel(_pagoMapper))
+                .ToList();
+        }
     }
 }

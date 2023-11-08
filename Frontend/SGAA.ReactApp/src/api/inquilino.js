@@ -164,6 +164,19 @@ export const getPagos = () => {
   return handleFetch('/inquilino/pago', requestOptions);
 }
 
+export const getPagosByContrato = (contratoId) => {
+  console.log(contratoId);
+  const requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    }
+  };
+  return handleFetch('/inquilino/pago/contrato/' + contratoId, requestOptions);
+}
+
 export const getPago = (id) => {
   const requestOptions = {
     method: 'GET',
