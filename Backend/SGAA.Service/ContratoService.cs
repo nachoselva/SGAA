@@ -257,18 +257,19 @@
 
         public async Task<ContratoGetModel> RenovarContrato(int contratoId, RenovarContratoPostModel model)
         {
+            DateOnly fechaHasta = new DateOnly(model.FechaHasta.Year, model.FechaHasta.Month, model.FechaHasta.Day);
             Contrato currentContrato = await _contratoRepository.GetContrato(contratoId)
                 ?? throw new NotFoundException();
             if (currentContrato.Status != ContratoStatus.Ejecutado)
                 throw new BadRequestException(nameof(currentContrato.Status), "El contrato no se encuentra en estado para ser renovado");
             DateOnly fechaDesde = currentContrato.FechaHasta.AddDays(1);
-            if (fechaDesde >= model.FechaHasta)
+            if (fechaDesde >= fechaHasta)
                 throw new BadRequestException(nameof(model.FechaHasta), "Fecha hasta desde ser posterior a fecha desde");
             int orderRenovacion = currentContrato.OrdenRenovacion + 1;
             Postulacion postulacion = currentContrato.Postulacion;
             currentContrato.Status = ContratoStatus.Renovado;
             await _contratoRepository.UpdateContrato(currentContrato);
-            return await CreateContratoInternal(postulacion, orderRenovacion, fechaDesde, model.FechaHasta, model.MontoAlquiler);
+            return await CreateContratoInternal(postulacion, orderRenovacion, fechaDesde, fechaHasta, model.MontoAlquiler);
         }
 
         public async Task<ContratoGetModel> CancelarContrato(int contratoId, CancelarContratoPutModel model)

@@ -7,6 +7,6 @@
     public class AprobarPagoPutModel : IPutModel<Pago>
     {
         [JsonIgnore]
-        public required int? PropietarioUsuarioId { get; set; }
+        public int? PropietarioUsuarioId { get; set; }
     }
 }

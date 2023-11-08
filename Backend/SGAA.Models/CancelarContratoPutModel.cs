@@ -5,6 +5,6 @@
 
     public class CancelarContratoPutModel : IPutModel<Contrato>, IPutModel<Unidad>
     {
-        public DateOnly FechaCancelacion { get; set; }
+        public DateTime FechaCancelacion { get; set; }
     }
 }

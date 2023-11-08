@@ -1,12 +1,13 @@
+import ArchiveBoxIcon from '@heroicons/react/24/solid/ArchiveBoxIcon';
 import BriefcaseIcon from '@heroicons/react/24/solid/BriefcaseIcon';
+import CurrencyDollarIcon from '@heroicons/react/24/solid/CurrencyDollarIcon';
 import DocumentTextIcon from '@heroicons/react/24/solid/DocumentTextIcon';
 import HomeIcon from '@heroicons/react/24/solid/HomeIcon';
 import HomeModernIcon from '@heroicons/react/24/solid/HomeModernIcon';
 import InboxStackIcon from '@heroicons/react/24/solid/InboxStackIcon';
 import NewsPaperIcon from '@heroicons/react/24/solid/NewsPaperIcon';
-import UserGroupIcon from '@heroicons/react/24/solid/UserGroupIcon';
 import ShieldCheckIcon from '@heroicons/react/24/solid/ShieldCheckIcon';
-import ArchiveBoxIcon from '@heroicons/react/24/solid/ArchiveBoxIcon';
+import UserGroupIcon from '@heroicons/react/24/solid/UserGroupIcon';
 import { SvgIcon } from '@mui/material';
 import { useAuthContext } from '/src/contexts/auth-context';
 
@@ -131,6 +132,15 @@ export const getMenuItems = () => {
               <NewsPaperIcon />
             </SvgIcon>
           )
+        },
+        {
+          title: 'Mis Pagos',
+          path: '/propietario/pago',
+          icon: (
+            <SvgIcon fontSize="small">
+              <CurrencyDollarIcon />
+            </SvgIcon>
+          )
         });
     }
     if (user.roles.includes('Inquilino')) {
@@ -150,6 +160,15 @@ export const getMenuItems = () => {
           icon: (
             <SvgIcon fontSize="small">
               <BriefcaseIcon />
+            </SvgIcon>
+          )
+        },
+        {
+          title: 'Mis Pagos',
+          path: '/inquilino/pago',
+          icon: (
+            <SvgIcon fontSize="small">
+              <CurrencyDollarIcon />
             </SvgIcon>
           )
         });

@@ -151,3 +151,41 @@ export const getPublicacion = (publicacionId) => {
   };
   return handleFetch('/inquilino/publicacion/' + publicacionId, requestOptions);
 }
+
+export const getPagos = () => {
+  const requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    }
+  };
+  return handleFetch('/inquilino/pago', requestOptions);
+}
+
+export const getPago = (id) => {
+  const requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    }
+  };
+  return handleFetch('/inquilino/pago/' + id, requestOptions);
+}
+
+export const abonarPago = (pago) => {
+  const requestOptions = {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAuthorizationHeader(),
+    },
+    body: JSON.stringify(pago)
+  };
+  return handleFetch('/inquilino/pago/' + pago.id+'/abonar', requestOptions);
+}
+

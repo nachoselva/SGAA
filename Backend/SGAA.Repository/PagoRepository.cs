@@ -21,6 +21,13 @@
             return _dbContext.Pagos
                 .Include(p => p.Contrato)
                 .ThenInclude(c => c.Firmas)
+                .Include(p => p.Contrato)
+                .ThenInclude(c => c.Postulacion)
+                .ThenInclude(po => po.Publicacion)
+                .ThenInclude(pu => pu.Unidad)
+                .ThenInclude(un => un.Propiedad)
+                .ThenInclude(pro => pro.Ciudad)
+                .ThenInclude(ci => ci.Provincia)
                 .OrderByDescending(a => a.Audit.CreatedOn);
         }
 

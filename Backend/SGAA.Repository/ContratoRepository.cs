@@ -31,6 +31,7 @@
             .ThenInclude(p => p.Publicacion)
             .ThenInclude(pu => pu.Unidad)
             .ThenInclude(u => u.Titulares)
+            .Include(c => c.Pagos)
             .OrderByDescending(a => a.Audit.CreatedOn);
 
         public async Task<IReadOnlyCollection<Contrato>> GetContratos()

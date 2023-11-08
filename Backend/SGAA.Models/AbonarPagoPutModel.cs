@@ -7,7 +7,7 @@
     public class AbonarPagoPutModel : IPutModel<Pago>
     {
         [JsonIgnore]
-        public required int? InquilinoUsuarioId { get; set; }
+        public int? InquilinoUsuarioId { get; set; }
         public required string Archivo { get; set; }
     }
 }
