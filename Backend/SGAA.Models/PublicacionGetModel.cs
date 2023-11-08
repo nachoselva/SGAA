@@ -13,6 +13,7 @@
         public required string Codigo { get; set; }
         public required string DomicilioCompleto { get; set; }
         public required int? Postulaciones { get; set; }
+        public required UnidadGetModel Unidad { get; set; }
         public bool? CanUsuarioPostular { get; set; }
     }
 }
