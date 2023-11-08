@@ -4,6 +4,13 @@
 
     public class PublicacionMapper : IPublicacionMapper
     {
+        private readonly IUnidadMapper _unidadMapper;
+
+        public PublicacionMapper(IUnidadMapper unidadMapper)
+        {
+            _unidadMapper = unidadMapper;
+        }
+
         public Publicacion ToEntity(PublicacionPostModel postModel)
         => new(
             postModel.UnidadId,
@@ -47,7 +54,8 @@
             InicioAlquiler = entity.InicioAlquiler,
             MontoAlquiler = entity.MontoAlquiler,
             DomicilioCompleto = entity.Unidad.DomicilioCompleto,
-            Postulaciones = entity.Postulaciones?.Where(p => p.Status.IsActive()).Count()
+            Postulaciones = entity.Postulaciones?.Where(p => p.Status.IsActive()).Count(),
+            Unidad = entity.Unidad.MapToGetModel<Unidad, UnidadGetModel>(_unidadMapper)
         };
     }
 }
