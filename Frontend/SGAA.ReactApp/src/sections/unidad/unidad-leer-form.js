@@ -331,6 +331,62 @@ export const UnidadLeerForm = (props) => {
           )
 
         }
+        {
+          unidad.detalle.imagenes.length > 0 &&
+          <Grid item xs={12}>
+            <Typography variant="h5">
+              Imagenes
+            </Typography>
+          </Grid>
+        }
+        {
+          unidad.detalle.imagenes.map((imagen, index) =>
+          (
+            <Grid item xs={12} key={index}>
+              <Box sx={{
+                border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
+              }} >
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      variant="filled"
+                      fullWidth
+                      label="Título"
+                      name={"detalle.imagenes[" + index + "].titulo"}
+                      value={imagen.titulo}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <FancyFilePicker
+                      label="Imagen"
+                      name={"titulares[" + index + "].archivo"}
+                      file={imagen.archivo}
+                      readOnly={true}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      multiline
+                      rows={5}
+                      variant="filled"
+                      fullWidth
+                      label="Descripción"
+                      name={"detalle.imagenes[" + index + "].descripcion"}
+                      value={imagen.descripcion}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+            </Grid>)
+          )
+
+        }
 
         <Grid item xs={12}>
           <Typography variant="h5">

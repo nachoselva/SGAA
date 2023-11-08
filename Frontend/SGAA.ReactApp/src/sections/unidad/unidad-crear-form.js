@@ -90,7 +90,24 @@ export const UnidadCrearForm = (props) => {
           .required('Dormitorios es obligatorio'),
         cocheras: Yup
           .string()
-          .required('Cocheras es obligatorio')
+          .required('Cocheras es obligatorio'),
+        imagenes: Yup.array()
+          .of(
+            Yup.object().shape(
+              {
+                archivo: Yup
+                  .string()
+                  .required('Imagen es obligatorio'),
+                titulo: Yup
+                  .string()
+                  .max(100)
+                  .required('Título es obligatorio'),
+                descripcion: Yup
+                  .string()
+                  .max(500)
+                  .required('Descripción es obligatorio')
+              })
+          )
       }),
       titulares: Yup.array()
         .of(
@@ -192,6 +209,27 @@ export const UnidadCrearForm = (props) => {
     formik.setTouched({ ...formik.touched, titulares: [] });
   }
 
+  const onImagenAdded = () => {
+    const currentDetalle = { ...formik.values.detalle };
+
+    currentDetalle.imagenes.push({
+      archivo: null,
+      titulo: '',
+      descripcion: ''
+    });
+
+    formik.setFieldValue('detalle', currentDetalle);
+  }
+
+  const onImagenRemoved = (index) => {
+    const currentDetalle = { ...formik.values.detalle };
+    currentDetalle.imagenes = currentDetalle.imagenes.filter((_, i) => i !== index);
+    formik.setFieldValue('detalle', currentDetalle);
+    const detalleTouched = { ...formik.touched.detalle };
+    detalleTouched.imagenes = [];
+    formik.setTouched({ ...formik.touched, detalle: detalleTouched });
+  }
+
   return (
     <Box>
       <form
@@ -225,9 +263,9 @@ export const UnidadCrearForm = (props) => {
                 </MenuItem >
                 {
                   provincias.map(pro =>
-                    (<MenuItem key={pro.id} value={pro.id}>
-                      {pro.nombre}
-                    </MenuItem >)
+                  (<MenuItem key={pro.id} value={pro.id}>
+                    {pro.nombre}
+                  </MenuItem >)
                   )}
               </TextField>
             }
@@ -256,9 +294,9 @@ export const UnidadCrearForm = (props) => {
                 </MenuItem >
                 {
                   ciudades.map(pro =>
-                    (<MenuItem key={pro.id} value={pro.id}>
-                      {pro.nombre}
-                    </MenuItem >)
+                  (<MenuItem key={pro.id} value={pro.id}>
+                    {pro.nombre}
+                  </MenuItem >)
                   )
                 }
               </TextField>
@@ -603,6 +641,83 @@ export const UnidadCrearForm = (props) => {
           }
           <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
             <Button onClick={onTitularAdded} variant="contained">
+              <PlusIcon></PlusIcon>
+            </Button>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography variant="h5">
+              Imagenes
+            </Typography>
+          </Grid>
+          {
+            formik.values.detalle.imagenes.map((img, index) =>
+            (<Grid item xs={12} key={index}>
+              <Box sx={{
+                border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
+              }} >
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
+                    <Button onClick={() => onImagenRemoved(index)} variant="contained">
+                      <TrashIcon />
+                    </Button>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      variant="filled"
+                      error={!!(formik.touched.detalle?.imagenes && formik.touched.detalle?.imagenes?.[index]?.titulo && formik.errors.detalle?.imagenes?.[index]?.titulo)}
+                      fullWidth
+                      helperText={formik.touched.titulares && formik.touched.detalle?.imagenes?.[index]?.titulo && formik.errors.detalle?.imagenes?.[index]?.titulo}
+                      label="Título"
+                      name={"detalle.imagenes[" + index + "].titulo"}
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      value={img.titulo}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <FancyFilePicker
+                      touched={formik.touched.detalle?.imagenes?.[index]?.archivo}
+                      error={formik.errors.detalle?.imagenes?.[index]?.archivo}
+                      label="Imagen"
+                      name={"detalle.imagenes[" + index + "].archivo"}
+                      file={formik.values.detalle?.imagenes?.[index]?.archivo}
+                      onBlur={() => {
+                        const detalle = formik.touched.detalle ?? {};
+                        const imagenes = detalle.imagenes ?? [];
+                        const imagen = imagenes[index] ?? {};
+                        imagen.archivo = true;
+                        imagenes[index] = imagen;
+                        detalle.imagenes = imagenes;
+                        formik.setTouched({ ...formik.touched, detalle: detalle });
+                      }}
+                      onChange={(result) => {
+                        formik.setFieldValue('detalle.imagenes.[' + index + '].archivo', result);
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      multiline
+                      rows={5}
+                      variant="filled"
+                      error={!!(formik.touched.detalle?.imagenes && formik.touched.detalle?.imagenes?.[index]?.descripcion && formik.errors.detalle?.imagenes?.[index]?.descripcion)}
+                      fullWidth
+                      helperText={formik.touched.titulares && formik.touched.detalle?.imagenes?.[index]?.descripcion && formik.errors.detalle?.imagenes?.[index]?.descripcion}
+                      label="Descripción"
+                      name={"detalle.imagenes[" + index + "].descripcion"}
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      value={img.descripcion}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+            </Grid>)
+            )
+          }
+          <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
+            <Button onClick={onImagenAdded} variant="contained">
               <PlusIcon></PlusIcon>
             </Button>
           </Grid>
