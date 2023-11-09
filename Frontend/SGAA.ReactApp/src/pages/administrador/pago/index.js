@@ -7,7 +7,7 @@ import { FancyTablePage } from '/src/components/fancy-table-page';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
 import { pagoStatus } from '/src/utils/status-labels';
 
-const Page = () => {
+const Page = (props) => {
 
   const router = useRouter();
 
@@ -43,28 +43,13 @@ const Page = () => {
         }
       </TableCell>
       <TableCell>
-        {
-          row.status == 'Pendiente'
-          &&
-          <Link
-            component="button"
-            underline="hover"
-            color="inherit"
-            onClick={() => router.push('/administrador/pago/' + row.id + '/editar')}>
-            Editar Pago
-          </Link>
-        }
-        {
-          row.status != 'Pendiente'
-          &&
-          <Link
-            component="button"
-            underline="hover"
-            color="inherit"
-            onClick={() => router.push('/administrador/pago/' + row.id)}>
-            Ver Pago
-          </Link>
-        }
+        <Link
+          component="button"
+          underline="hover"
+          color="inherit"
+          onClick={() => router.push('/administrador/pago/' + row.id)}>
+          Ver Pago
+        </Link>
       </TableCell>
       <TableCell>
         {

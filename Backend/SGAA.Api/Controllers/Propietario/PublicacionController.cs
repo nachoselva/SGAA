@@ -23,7 +23,7 @@
         }
 
         [HttpGet]
-        public async Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicaciones() 
+        public async Task<IReadOnlyCollection<PublicacionGetModel>> GetPublicaciones()
             => await _publicacionService.GetPublicaciones((await _usuarioProvider.GetUser())!.Id);
 
         [HttpGet]
@@ -44,7 +44,10 @@
         [Route("{publicacionId}/cancelar")]
         [Transactional]
         public async Task<PublicacionGetModel> CancelarPublicacion([FromRoute] int publicacionId, [FromBody] PublicacionCancelarPutModel model)
-            => await _publicacionService.CancelPublicacion(publicacionId, model);
+        {
+            model.PropietarioUsuarioId = (await _usuarioProvider.GetUser())!.Id;
+            return await _publicacionService.CancelPublicacion(publicacionId, model);
+        }
 
         [HttpPut]
         [Route("{publicacionId}/cerrar")]
