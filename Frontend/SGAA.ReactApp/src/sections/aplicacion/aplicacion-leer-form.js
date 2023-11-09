@@ -6,7 +6,7 @@ import { aprobarAplicacion, rechazarAplicacion } from '/src/api/administrador';
 
 export const AplicacionLeerForm = (props) => {
   const { aplicacion, rol } = props;
-  const [nuevoComentario, setNuevoComentario] = useState(null);
+  const [nuevoComentario, setNuevoComentario] = useState('');
   const [nuevoComentarioError, setNuevoComentarioError] = useState({});
   const router = useRouter();
   const [puntuaciones, setPuntuaciones] = useState(aplicacion.postulantes

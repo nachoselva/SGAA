@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FancyFormPage } from '/src/components/fancy-form-page';
-import { getPostulacion } from '/src/api/administrador';
+import { getPostulacion,  } from '/src/api/administrador';
 import { Layout as DashboardLayout } from '/src/layouts/dashboard/layout';
 import { PostulacionLeerForm } from '/src/sections/postulacion/postulacion-leer-form';
 
@@ -16,14 +16,6 @@ const Page = () => {
       { url: '/administrador/postulacion', title: 'Postulaciones' },
       { url: '/administrador/postulacion/' + postulacionId, title: postulacionId }
     ];
-
-  useEffect(() => {
-    if (router.isReady)
-      getAplicacion(aplicacionId)
-        .then((response) => {
-          setAplicacion(response);
-        });
-  }, [router.isReady]);
 
   const breadcrumbsConfig = getBreadcrumbsConfig(postulacionId);
 

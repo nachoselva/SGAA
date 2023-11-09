@@ -12,7 +12,7 @@ const Page = () => {
 
   const onConfirmation = (result) => {
     if (result) {
-      router.push('/');
+      router.push('/inicio');
     }
   }
 

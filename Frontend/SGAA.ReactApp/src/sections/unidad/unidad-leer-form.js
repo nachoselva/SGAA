@@ -7,7 +7,7 @@ import { FancyFilePicker } from '/src/components/fancy-file-picker';
 
 export const UnidadLeerForm = (props) => {
   const { unidad, rol } = props;
-  const [nuevoComentario, setNuevoComentario] = useState(null);
+  const [nuevoComentario, setNuevoComentario] = useState('');
   const [nuevoComentarioError, setNuevoComentarioError] = useState({});
   const router = useRouter();
 

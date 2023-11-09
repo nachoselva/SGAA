@@ -128,7 +128,6 @@ export const getPagos = () => {
 }
 
 export const getPagosByContrato = (contratoId) => {
-  console.log(contratoId);
   const requestOptions = {
     method: 'GET',
     mode: 'cors',
