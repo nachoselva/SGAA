@@ -129,16 +129,21 @@ export const getMenuItems = () => {
               <NewsPaperIcon />
             </SvgIcon>
           )
-        },
-        {
-          title: 'Mis Contratos',
-          path: '/propietario/contrato',
-          icon: (
-            <SvgIcon fontSize="small">
-              <DocumentTextIcon />
-            </SvgIcon>
-          )
         });
+
+      if (user.licencia == 'ProyectoFinal') {
+        propietario.push(
+          {
+            title: 'Mis Contratos',
+            path: '/propietario/contrato',
+            icon: (
+              <SvgIcon fontSize="small">
+                <DocumentTextIcon />
+              </SvgIcon>
+            )
+          }
+        );
+      }
     }
     if (user.roles.includes('Inquilino')) {
       inquilino.push(
@@ -159,16 +164,21 @@ export const getMenuItems = () => {
               <BriefcaseIcon />
             </SvgIcon>
           )
-        },
-        {
-          title: 'Mis Contratos',
-          path: '/inquilino/contrato',
-          icon: (
-            <SvgIcon fontSize="small">
-              <DocumentTextIcon />
-            </SvgIcon>
-          )
         });
+
+      if (user.licencia == 'ProyectoFinal') {
+        propietario.push(
+          {
+            title: 'Mis Contratos',
+            path: '/inquilino/contrato',
+            icon: (
+              <SvgIcon fontSize="small">
+                <DocumentTextIcon />
+              </SvgIcon>
+            )
+          }
+        );
+      }
     }
     terms.push(
       {
