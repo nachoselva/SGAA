@@ -45,7 +45,7 @@ export const PostulacionLeerForm = (props) => {
           label="Fecha Postulación"
           name="fechaPostulacion"
           type="fechaPostulacion"
-          value={Moment(postulacion.fechaPostulacion).format('DD/MM/yyyy hh:mm:ss')}
+          value={postulacion.fechaPostulacion && Moment(postulacion.fechaPostulacion).format('DD/MM/yyyy hh:mm:ss')}
           InputProps={{
             readOnly: true,
           }}
@@ -56,7 +56,7 @@ export const PostulacionLeerForm = (props) => {
           label="Fecha Oferta"
           name="fechaOferta"
           type="fechaOferta"
-          value={Moment(postulacion.fechaOferta).format('DD/MM/yyyy hh:mm:ss')}
+          value={postulacion.fechaOferta && Moment(postulacion.fechaOferta).format('DD/MM/yyyy hh:mm:ss')}
           InputProps={{
             readOnly: true,
           }}

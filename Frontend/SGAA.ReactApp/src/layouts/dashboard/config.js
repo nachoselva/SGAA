@@ -167,7 +167,7 @@ export const getMenuItems = () => {
         });
 
       if (user.licencia == 'ProyectoFinal') {
-        propietario.push(
+        inquilino.push(
           {
             title: 'Mis Contratos',
             path: '/inquilino/contrato',

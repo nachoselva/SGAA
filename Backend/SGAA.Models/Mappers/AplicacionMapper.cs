@@ -43,7 +43,9 @@
             FechaEmpleadoDesde = entity.FechaEmpleadoDesde,
             NombreEmpresa = entity.NombreEmpresa,
             IngresoMensual = entity.IngresoMensual,
-            ReciboDeSueldoArchivo = entity.ReciboDeSueldoArchivo
+            ReciboDeSueldoArchivo = entity.ReciboDeSueldoArchivo,
+            PuntuacionCrediticia = entity.PuntuacionCrediticia,
+            PuntuacionPenal = entity.PuntuacionPenal
         };
         public Postulante ToEntity(PostulanteModel postModel)
         => new(postModel.Nombre, postModel.Apellido, postModel.Email, postModel.NumeroIdentificacion,

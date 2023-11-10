@@ -134,7 +134,7 @@ export const PublicacionActivaForm = (props) => {
           />
         </Grid>
         {
-          publicacion.unidad.detalle.imagenes.length > 1 &&
+          publicacion.unidad.detalle.imagenes.length > 0 &&
           <>
             <Grid item xs={12}>
               <Typography variant="h5">

@@ -117,7 +117,7 @@ export const UnidadLeerForm = (props) => {
             fullWidth
             label="Departamento"
             name="departamento"
-            value={Moment(unidad.fechaAdquisicion).format('DD/MM/yyyy')}
+            value={unidad.fechaAdquisicion && Moment(unidad.fechaAdquisicion).format('DD/MM/yyyy')}
             InputProps={{
               readOnly: true,
             }}
@@ -303,7 +303,7 @@ export const UnidadLeerForm = (props) => {
                       fullWidth
                       label="Fecha De Nacimiento"
                       name={"titulares[" + index + "].fechaNacimiento"}
-                      value={Moment(titular.fechaNacimiento).format('DD/MM/yyyy')}
+                      value={titular.fechaNacimiento && Moment(titular.fechaNacimiento).format('DD/MM/yyyy')}
                       InputProps={{
                         readOnly: true,
                       }}

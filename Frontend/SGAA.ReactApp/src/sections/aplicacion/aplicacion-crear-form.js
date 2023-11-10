@@ -415,7 +415,7 @@ export const AplicacionCrearForm = (props) => {
                     <FancyFilePicker
                       touched={formik.touched.garantias?.[index]?.archivo}
                       error={formik.errors.garantias?.[index]?.archivo}
-                      label="Recibo de sueldo"
+                      label="Escritura"
                       name={"garantias[" + index + "].archivo"}
                       file={formik.values.garantias?.[index]?.archivo}
                       onBlur={() => {
