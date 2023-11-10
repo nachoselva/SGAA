@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { FancyFilePicker } from '/src/components/fancy-file-picker';
 import { aprobarAplicacion, rechazarAplicacion } from '/src/api/administrador';
+import Moment from 'moment';
 
 export const AplicacionLeerForm = (props) => {
   const { aplicacion, rol } = props;
@@ -128,7 +129,7 @@ export const AplicacionLeerForm = (props) => {
                       fullWidth
                       label="Fecha De Nacimiento"
                       name={"postulantes[" + index + "].fechaNacimiento"}
-                      value={postulante.fechaNacimiento}
+                      value={postulante.fechaNacimiento && Moment(postulante.fechaNacimiento).format('DD/MM/yyyy')}
                       InputProps={{
                         readOnly: true,
                       }}
@@ -168,7 +169,7 @@ export const AplicacionLeerForm = (props) => {
                       fullWidth
                       label="Fecha de Empleo"
                       name={"postulantes[" + index + "].fechaEmpleadoDesde"}
-                      value={postulante.fechaEmpleadoDesde}
+                      value={postulante.fechaEmpleadoDesde && Moment(postulante.fechaEmpleadoDesde).format('DD/MM/yyyy')}
                       InputProps={{
                         readOnly: true,
                       }}
@@ -203,7 +204,7 @@ export const AplicacionLeerForm = (props) => {
                       fullWidth
                       label="Puntuación Crediticia"
                       name={"puntuaciones[" + index + "].puntuacionCrediticia"}
-                      value={puntuacion.puntuacionCrediticia}
+                      value={postulante.puntuacionCrediticia ?? puntuacion.puntuacionCrediticia}
                       onChange={(e) => { puntuaciones[index].puntuacionCrediticia = e.target.value; setPuntuaciones(puntuaciones) }}
                       type='number'
                       InputProps={{
@@ -220,7 +221,7 @@ export const AplicacionLeerForm = (props) => {
                       label="Puntuación Penal"
                       name={"puntuaciones[" + index + "].puntuacionPenal"}
                       onChange={(e) => { puntuaciones[index].puntuacionPenal = e.target.value; setPuntuaciones(puntuaciones) }}
-                      value={puntuacion.puntuacionPenal}
+                      value={postulante.puntuacionPenal ?? puntuacion.puntuacionPenal}
                       type='number'
                       InputProps={{
                         readOnly: rol != 'Administrador' || aplicacion.status != 'AprobacionPendiente'
@@ -262,7 +263,7 @@ export const AplicacionLeerForm = (props) => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <FancyFilePicker
-                    label="Archivo"
+                    label="Escritura"
                     name={"postulantes[" + index + "].archivo"}
                     file={garantia.archivo}
                     readOnly={true}
@@ -283,7 +284,7 @@ export const AplicacionLeerForm = (props) => {
           <Grid item xs={12}>
             <ul>
               {props.aplicacion.comentarios.sort((comentario) => comentario.fecha).map(com =>
-                <li>[{com.fecha}] : {com.comentario}</li>
+                <li>[{com.fecha && Moment(com.fecha).format('DD/MM/yyyy hh:mm:ss')}] : {com.comentario}</li>
               )}
             </ul>
           </Grid>

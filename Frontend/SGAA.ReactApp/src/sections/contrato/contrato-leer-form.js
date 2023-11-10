@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { firmarContrato } from '/src/api/common';
 import { FancyFilePicker } from '/src/components/fancy-file-picker';
+import Moment from 'moment';
 
 export const ContratoLeerForm = (props) => {
   const { contrato } = props;
@@ -46,7 +47,7 @@ export const ContratoLeerForm = (props) => {
             fullWidth
             label="Desde"
             name="fechaDesde"
-            value={contrato.fechaDesde}
+            value={contrato.fechaDesde && Moment(contrato.fechaDesde).format('DD/MM/yyyy') }
             InputProps={{
               readOnly: true,
             }}
@@ -59,7 +60,7 @@ export const ContratoLeerForm = (props) => {
             label="Hasta"
             name="fechaHasta"
             type="fechaHasta"
-            value={contrato.fechaHasta}
+            value={contrato.fechaHasta && Moment(contrato.fechaHasta).format('DD/MM/yyyy')}
             InputProps={{
               readOnly: true,
             }}

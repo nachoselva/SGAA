@@ -46,7 +46,7 @@ const Page = () => {
 
   const breadcrumbsConfig = [
     { url: '/inicio', title: 'Inicio' },
-    { url: '/publicacion-activa', title: 'Publicaciones Activas' }
+    { url: '/publicacion-activa', title: 'Publicaciones' }
   ];
 
   return (
