@@ -39,7 +39,7 @@ export const PagoLeerForm = (props) => {
         {
           pago.status == 'Abonado' &&
           rol == 'Propietario' &&
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12}>
             <Button
               fullWidth
               size="large"
