@@ -125,7 +125,6 @@ export const AplicacionCrearForm = (props) => {
       numeroIdentificacion: '',
       domicilio: '',
       fechaNacimiento: null,
-      fechaNacimiento: null,
       frenteIdentificacionArchivo: null,
       dorsoIdentificacionArchivo: null,
       fechaEmpleadoDesde: null,
