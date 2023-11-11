@@ -91,7 +91,6 @@ const Page = (props) => {
       roles={['Administrador']}
       headerConfiguration={headerConfiguration}
       tableRowGenerator={tableRowGenerator}
-      onAddEntityRedirectTo={'/administrador/pago/crear'}
     />
   );
 };

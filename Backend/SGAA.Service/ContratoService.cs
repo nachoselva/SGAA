@@ -97,7 +97,7 @@
                         );
             var file = new
             {
-                name = $"Contrato_Unidad_{postulacion.Id}_orderRenovacion.pdf",
+                name = $"Contrato_Unidad_{postulacion.Id}_{orderRenovacion}.pdf",
                 type = "application/pdf",
                 size = 3 * (body.Length / 4),
                 base64 = "data:application/pdf;base64," + body
