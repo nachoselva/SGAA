@@ -28,18 +28,21 @@ export const getMenuItems = () => {
           <HomeIcon />
         </SvgIcon>
       )
-    },
-    {
-      title: 'Publicaciones',
-      path: '/publicacion',
-      icon: (
-        <SvgIcon fontSize="small">
-          <NewsPaperIcon />
-        </SvgIcon>
-      )
     });
 
   if (isAuthenticated) {
+    if (user.licencia == 'ProyectoFinal') {
+      everyone.push({
+        title: 'Publicaciones',
+        path: '/publicacion',
+        icon: (
+          <SvgIcon fontSize="small">
+            <NewsPaperIcon />
+          </SvgIcon>
+        )
+      });
+    }
+
     if (user.roles.includes('Administrador')) {
       administrador.push(
         {
