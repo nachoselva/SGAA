@@ -195,7 +195,6 @@ export const UnidadCrearForm = (props) => {
       numeroIdentificacion: '',
       domicilio: '',
       fechaNacimiento: null,
-      fechaNacimiento: null,
       frenteIdentificacionArchivo: null,
       dorsoIdentificacionArchivo: null
     });
