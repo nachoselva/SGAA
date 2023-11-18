@@ -17,6 +17,6 @@
         public int Altura { get; private set; }
 
         public Ciudad Ciudad { get; private set; } = default!;
-        public IReadOnlyCollection<Unidad> Unidades { get; private set; } = Array.Empty<Unidad>();
+        public IReadOnlyCollection<Unidad> Unidades { get; private set; } = new List<Unidad>();
     }
 }

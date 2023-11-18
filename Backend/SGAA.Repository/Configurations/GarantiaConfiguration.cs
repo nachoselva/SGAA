@@ -15,17 +15,15 @@
                 .IsRequired()
                 .HasColumnType(DataTypes.TYPE_DECIMAL);
 
-            builder.Property(garantia => garantia.Archivo)
-                .IsRequired()
-                .HasColumnType(DataTypes.TYPE_FILE);
+            builder.Property(garantia => garantia.Archivo);
 
             builder
                 .HasOne(garantia => garantia.Aplicacion)
                 .WithMany(aplicacion => aplicacion.Garantias)
                 .HasPrincipalKey(aplicacion => aplicacion.Id)
-                .HasForeignKey(garantia => garantia.AplicacionId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(garantia => garantia.AplicacionId);
+
+            builder.ToTable(nameof(Garantia));
         }
     }
 }

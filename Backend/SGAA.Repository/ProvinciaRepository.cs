@@ -1,8 +1,9 @@
 ﻿namespace SGAA.Repository
 {
+    using Contexts;
+    using Contracts;
     using Microsoft.EntityFrameworkCore;
     using SGAA.Domain.Core;
-    using SGAA.Repository.Contexts;
     using System.Collections.Generic;
 
     public class ProvinciaRepository : IProvinciaRepository
@@ -14,7 +15,7 @@
             _dbContext = dbContext;
         }
 
-        public async Task<IReadOnlyCollection<Provincia>> GetAllProvincias()
+        public async Task<IReadOnlyCollection<Provincia>> GetProvincias()
         {
             return await _dbContext.Provincias.ToListAsync();
         }

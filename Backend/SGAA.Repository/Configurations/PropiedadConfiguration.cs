@@ -19,6 +19,9 @@
             builder.Property(propiedad => propiedad.Altura)
                 .IsRequired();
 
+            builder.HasIndex(propiedad => new { propiedad.CiudadId, propiedad.Calle, propiedad.Altura })
+                .IsUnique();
+
             builder
                 .HasOne(propiedad => propiedad.Ciudad)
                 .WithMany(ciudad => ciudad.Propiedades)
@@ -26,6 +29,8 @@
                 .HasForeignKey(propiedad => propiedad.CiudadId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.ToTable(nameof(Propiedad));
         }
     }
 }

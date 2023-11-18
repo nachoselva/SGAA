@@ -36,6 +36,8 @@
             .Municipios
                     .Select(p => new Ciudad(int.Parse(p.Id), int.Parse(p.Provincia.Id), p.Nombre, p.NombreCompleto));
             builder.HasData(ciudades);
+
+            builder.ToTable(nameof(Ciudad));
         }
 
         private class CityJson

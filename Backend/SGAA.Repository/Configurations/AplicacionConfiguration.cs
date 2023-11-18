@@ -18,6 +18,7 @@
 
             builder.Property(aplicacion => aplicacion.Status)
                 .IsRequired()
+                .HasConversion<string>()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
 
             builder
@@ -28,7 +29,7 @@
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.ToTable(tableBuilder =>
+            builder.ToTable(nameof(Aplicacion), tableBuilder =>
                 tableBuilder
                 .HasCheckConstraintWithEnum(aplicacion => aplicacion.Status)
             );

@@ -11,6 +11,7 @@
         public override void Configure(EntityTypeBuilder<Rol> builder)
         {
             base.Configure(builder);
+            builder.ToTable(nameof(Rol));
 
             // Index for "normalized" role name to allow efficient lookups
             builder.HasIndex(r => r.NormalizedName, "RoleNameIndex").IsUnique();

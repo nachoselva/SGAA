@@ -49,39 +49,39 @@ namespace SGAA.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "RolType" }, "IX_Roles_RolType")
+                    b.HasIndex(new[] { "RolType" }, "IX_Rol_RolType")
                         .IsUnique();
 
                     b.HasIndex(new[] { "NormalizedName" }, "RoleNameIndex")
                         .IsUnique()
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("Roles", t =>
+                    b.ToTable("Rol", null, t =>
                         {
-                            t.HasCheckConstraint("CHK_Roles_RolType", "[RolType] IN ('Administrator', 'Resident', 'Homeowner')");
+                            t.HasCheckConstraint("CHK_Rol_RolType", "[RolType] IN ('Administrador', 'Inquilino', 'Propietario')");
                         });
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR",
-                            RolType = "Administrator"
+                            Name = "Administrador",
+                            NormalizedName = "ADMINISTRADOR",
+                            RolType = "Administrador"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Resident",
-                            NormalizedName = "RESIDENT",
-                            RolType = "Resident"
+                            Name = "Inquilino",
+                            NormalizedName = "INQUILINO",
+                            RolType = "Inquilino"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Homeowner",
-                            NormalizedName = "HOMEOWNER",
-                            RolType = "Homeowner"
+                            Name = "Propietario",
+                            NormalizedName = "PROPIETARIO",
+                            RolType = "Propietario"
                         });
                 });
 
@@ -106,7 +106,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RoleClaims");
+                    b.ToTable("RolPermiso", (string)null);
                 });
 
             modelBuilder.Entity("SGAA.Domain.Auth.Usuario", b =>
@@ -120,6 +120,11 @@ namespace SGAA.Repository.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Apellido")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -132,21 +137,23 @@ namespace SGAA.Repository.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FirstName")
+                    b.Property<string>("Licencia")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)")
+                        .HasDefaultValue("HabilitacionProfesional");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedEmail")
                         .IsRequired()
@@ -168,7 +175,6 @@ namespace SGAA.Repository.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("RefreshToken")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -193,7 +199,7 @@ namespace SGAA.Repository.Migrations
                     b.HasIndex(new[] { "NormalizedUserName" }, "UserNameIndex")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Usuario", (string)null);
                 });
 
             modelBuilder.Entity("SGAA.Domain.Auth.UsuarioLogin", b =>
@@ -219,7 +225,7 @@ namespace SGAA.Repository.Migrations
                     b.HasIndex(new[] { "LoginProvider", "ProviderKey" }, "MemberLoginCompositeKey")
                         .IsUnique();
 
-                    b.ToTable("UserLogins");
+                    b.ToTable("UsuarioLogin", (string)null);
                 });
 
             modelBuilder.Entity("SGAA.Domain.Auth.UsuarioPermiso", b =>
@@ -243,7 +249,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserClaims");
+                    b.ToTable("UsuarioPermiso", (string)null);
                 });
 
             modelBuilder.Entity("SGAA.Domain.Auth.UsuarioRol", b =>
@@ -258,7 +264,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UsuarioRol", (string)null);
                 });
 
             modelBuilder.Entity("SGAA.Domain.Auth.UsuarioToken", b =>
@@ -282,7 +288,7 @@ namespace SGAA.Repository.Migrations
                     b.HasIndex(new[] { "UserId", "LoginProvider", "Name" }, "MemberTokenCompositeKey")
                         .IsUnique();
 
-                    b.ToTable("UserTokens");
+                    b.ToTable("UsuarioToken", (string)null);
                 });
 
             modelBuilder.Entity("SGAA.Domain.Core.Aplicacion", b =>
@@ -297,17 +303,18 @@ namespace SGAA.Repository.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("PuntuacionTotal")
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(14,4)");
 
-                    b.Property<int>("Status")
-                        .HasMaxLength(20)
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("InquilinoUsuarioId");
 
-                    b.ToTable("Aplicacion", t =>
+                    b.ToTable("Aplicacion", null, t =>
                         {
                             t.HasCheckConstraint("CHK_Aplicacion_Status", "[Status] IN ('AprobacionPendiente', 'Aprobada', 'Expirada', 'Ofrecida', 'Reservada')");
                         });
@@ -351,8 +358,8 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<string>("NombreCompleto")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<int>("ProvinciaId")
                         .HasColumnType("int");
@@ -361,7 +368,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("ProvinciaId");
 
-                    b.ToTable("Ciudades");
+                    b.ToTable("Ciudad", (string)null);
 
                     b.HasData(
                         new
@@ -13072,6 +13079,10 @@ namespace SGAA.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Archivo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateOnly?>("FechaCancelacion")
                         .HasColumnType("date");
 
@@ -13083,17 +13094,27 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<decimal>("MontoAlquiler")
                         .HasPrecision(14, 2)
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(14,4)");
 
                     b.Property<int>("OrdenRenovacion")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status")
+                    b.Property<int>("PostulacionId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contrato");
+                    b.HasIndex("PostulacionId");
+
+                    b.ToTable("Contrato", null, t =>
+                        {
+                            t.HasCheckConstraint("CHK_Contrato_Status", "[Status] IN ('FirmaPendiente', 'Ejecutado', 'Renovado', 'Cancelado')");
+                        });
                 });
 
             modelBuilder.Entity("SGAA.Domain.Core.Firma", b =>
@@ -13108,25 +13129,25 @@ namespace SGAA.Repository.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("DireccionIp")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("Domicilio")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("FechaFirma")
                         .HasColumnType("datetime2(3)");
 
                     b.Property<string>("NumeroIdentificacion")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
-                    b.Property<int>("Rol")
-                        .HasMaxLength(20)
-                        .HasColumnType("int");
-
-                    b.Property<int>("TipoIdentificacion")
-                        .HasMaxLength(20)
-                        .HasColumnType("int");
+                    b.Property<string>("Rol")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<int>("UsuarioId")
                         .HasColumnType("int");
@@ -13135,11 +13156,11 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("ContratoId");
 
+                    b.HasIndex("UsuarioId");
+
                     b.ToTable("Firma", t =>
                         {
                             t.HasCheckConstraint("CHK_Firma_Rol", "[Rol] IN ('Inquilino', 'Propietario')");
-
-                            t.HasCheckConstraint("CHK_Firma_TipoIdentificacion", "[TipoIdentificacion] IN ('Dni')");
                         });
                 });
 
@@ -13154,18 +13175,18 @@ namespace SGAA.Repository.Migrations
                     b.Property<int>("AplicacionId")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("Archivo")
+                    b.Property<string>("Archivo")
                         .IsRequired()
-                        .HasColumnType("varbinary");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Monto")
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(14,4)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AplicacionId");
 
-                    b.ToTable("Garantia");
+                    b.ToTable("Garantia", (string)null);
                 });
 
             modelBuilder.Entity("SGAA.Domain.Core.Indice", b =>
@@ -13176,14 +13197,26 @@ namespace SGAA.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Nombre")
-                        .HasColumnType("int");
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Indice", t =>
+                    b.HasIndex(new[] { "Nombre" }, "IX_Indices_Nombre")
+                        .IsUnique();
+
+                    b.ToTable("Indice", null, t =>
                         {
                             t.HasCheckConstraint("CHK_Indice_Nombre", "[Nombre] IN ('ICL')");
+                        });
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nombre = "ICL"
                         });
                 });
 
@@ -13195,20 +13228,92 @@ namespace SGAA.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("FechaDesde")
+                    b.Property<DateOnly>("FechaDesde")
                         .HasColumnType("date");
 
                     b.Property<int>("IndiceId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Valor")
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(14,4)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IndiceId");
 
-                    b.ToTable("IndiceValor");
+                    b.ToTable("IndiceValor", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FechaDesde = new DateOnly(2023, 1, 1),
+                            IndiceId = 1,
+                            Valor = 3.21m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FechaDesde = new DateOnly(2023, 2, 1),
+                            IndiceId = 1,
+                            Valor = 3.29m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            FechaDesde = new DateOnly(2023, 3, 1),
+                            IndiceId = 1,
+                            Valor = 3.45m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            FechaDesde = new DateOnly(2023, 4, 1),
+                            IndiceId = 1,
+                            Valor = 3.64m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            FechaDesde = new DateOnly(2023, 5, 1),
+                            IndiceId = 1,
+                            Valor = 3.86m
+                        },
+                        new
+                        {
+                            Id = 6,
+                            FechaDesde = new DateOnly(2023, 6, 1),
+                            IndiceId = 1,
+                            Valor = 4.18m
+                        },
+                        new
+                        {
+                            Id = 7,
+                            FechaDesde = new DateOnly(2023, 7, 1),
+                            IndiceId = 1,
+                            Valor = 4.55m
+                        },
+                        new
+                        {
+                            Id = 8,
+                            FechaDesde = new DateOnly(2023, 8, 1),
+                            IndiceId = 1,
+                            Valor = 4.92m
+                        },
+                        new
+                        {
+                            Id = 9,
+                            FechaDesde = new DateOnly(2023, 9, 1),
+                            IndiceId = 1,
+                            Valor = 5.26m
+                        },
+                        new
+                        {
+                            Id = 10,
+                            FechaDesde = new DateOnly(2023, 10, 1),
+                            IndiceId = 1,
+                            Valor = 5.62m
+                        });
                 });
 
             modelBuilder.Entity("SGAA.Domain.Core.Pago", b =>
@@ -13218,6 +13323,9 @@ namespace SGAA.Repository.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Archivo")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ContratoId")
                         .HasColumnType("int");
@@ -13235,19 +13343,20 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<decimal>("Monto")
                         .HasPrecision(14, 2)
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(14,4)");
 
-                    b.Property<int>("Status")
-                        .HasMaxLength(20)
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ContratoId");
 
-                    b.ToTable("Pago", t =>
+                    b.ToTable("Pago", null, t =>
                         {
-                            t.HasCheckConstraint("CHK_Pago_Status", "[Status] IN ('Pendiente', 'Abonado')");
+                            t.HasCheckConstraint("CHK_Pago_Status", "[Status] IN ('Pendiente', 'Abonado', 'Aprobado')");
                         });
                 });
 
@@ -13262,30 +13371,24 @@ namespace SGAA.Repository.Migrations
                     b.Property<int>("AplicacionId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ContratoId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("FechaOferta")
                         .HasColumnType("datetime2(3)");
 
                     b.Property<int>("PublicacionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status")
-                        .HasMaxLength(20)
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AplicacionId");
 
-                    b.HasIndex("ContratoId")
-                        .IsUnique();
-
                     b.HasIndex("PublicacionId");
 
-                    b.ToTable("Postulacion", t =>
+                    b.ToTable("Postulacion", null, t =>
                         {
                             t.HasCheckConstraint("CHK_Postulacion_Status", "[Status] IN ('Postulada', 'Ofrecida', 'PublicacionCancelada', 'PostulacionCancelada', 'OfertaRechazada', 'Reservada')");
                         });
@@ -13309,12 +13412,17 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<string>("Domicilio")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
-                    b.Property<byte[]>("DorsoIdentificacionArchivo")
+                    b.Property<string>("DorsoIdentificacionArchivo")
                         .IsRequired()
-                        .HasColumnType("varbinary");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<DateTime>("FechaEmpleadoDesde")
                         .HasColumnType("date");
@@ -13322,12 +13430,12 @@ namespace SGAA.Repository.Migrations
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("date");
 
-                    b.Property<byte[]>("FrenteIdentificacionArchivo")
+                    b.Property<string>("FrenteIdentificacionArchivo")
                         .IsRequired()
-                        .HasColumnType("varbinary");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("IngresoMensual")
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(14,4)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -13341,21 +13449,24 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<string>("NumeroIdentificacion")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
-                    b.Property<byte[]>("ReciboDeSueldoArchivo")
-                        .IsRequired()
-                        .HasColumnType("varbinary");
-
-                    b.Property<int>("TipoIdentificacion")
+                    b.Property<int?>("PuntuacionCrediticia")
                         .HasColumnType("int");
+
+                    b.Property<int?>("PuntuacionPenal")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReciboDeSueldoArchivo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AplicacionId");
 
-                    b.ToTable("Postulante");
+                    b.ToTable("Postulante", (string)null);
                 });
 
             modelBuilder.Entity("SGAA.Domain.Core.Propiedad", b =>
@@ -13379,9 +13490,10 @@ namespace SGAA.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CiudadId");
+                    b.HasIndex("CiudadId", "Calle", "Altura")
+                        .IsUnique();
 
-                    b.ToTable("Propiedad");
+                    b.ToTable("Propiedad", (string)null);
                 });
 
             modelBuilder.Entity("SGAA.Domain.Core.Provincia", b =>
@@ -13391,15 +13503,17 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("NombreCompleto")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Provincias");
+                    b.ToTable("Provincia", (string)null);
 
                     b.HasData(
                         new
@@ -13566,11 +13680,12 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<decimal>("MontoAlquiler")
                         .HasPrecision(14, 2)
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(14,4)");
 
-                    b.Property<int>("Status")
-                        .HasMaxLength(20)
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<int>("UnidadId")
                         .HasColumnType("int");
@@ -13579,7 +13694,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("UnidadId");
 
-                    b.ToTable("Publicacion", t =>
+                    b.ToTable("Publicacion", null, t =>
                         {
                             t.HasCheckConstraint("CHK_Publicacion_Status", "[Status] IN ('Publicada', 'Cancelada', 'Ofrecida', 'Reservada')");
                         });
@@ -13600,19 +13715,24 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<string>("Domicilio")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
-                    b.Property<byte[]>("DorsoIdentificacionArchivo")
+                    b.Property<string>("DorsoIdentificacionArchivo")
                         .IsRequired()
-                        .HasColumnType("varbinary");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("date");
 
-                    b.Property<byte[]>("FrenteIdentificacionArchivo")
+                    b.Property<string>("FrenteIdentificacionArchivo")
                         .IsRequired()
-                        .HasColumnType("varbinary");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -13621,11 +13741,8 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<string>("NumeroIdentificacion")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<int>("TipoIdentificacion")
-                        .HasColumnType("int");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<int>("UnidadId")
                         .HasColumnType("int");
@@ -13634,7 +13751,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("UnidadId");
 
-                    b.ToTable("Titular");
+                    b.ToTable("Titular", (string)null);
                 });
 
             modelBuilder.Entity("SGAA.Domain.Core.Unidad", b =>
@@ -13647,16 +13764,16 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<string>("Departamento")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<DateTime>("FechaAdquisicion")
                         .HasColumnType("date");
 
                     b.Property<string>("Piso")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<int>("PropiedadId")
                         .HasColumnType("int");
@@ -13664,19 +13781,23 @@ namespace SGAA.Repository.Migrations
                     b.Property<int>("PropietarioUsuarioId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status")
-                        .HasMaxLength(20)
-                        .HasColumnType("int");
-
-                    b.Property<byte[]>("TituloPropiedadArchivo")
+                    b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("varbinary");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("TituloPropiedadArchivo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PropiedadId");
+                    b.HasIndex("PropietarioUsuarioId");
 
-                    b.ToTable("Unidad", t =>
+                    b.HasIndex("PropiedadId", "Piso", "Departamento")
+                        .IsUnique();
+
+                    b.ToTable("Unidad", null, t =>
                         {
                             t.HasCheckConstraint("CHK_Unidad_Status", "[Status] IN ('AprobacionPendiente', 'DocumentacionAprobada')");
                         });
@@ -13727,15 +13848,15 @@ namespace SGAA.Repository.Migrations
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<int>("Dormitorios")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Superficie")
                         .HasPrecision(14, 2)
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(14,4)");
 
                     b.Property<int>("UnidadId")
                         .HasColumnType("int");
@@ -13756,9 +13877,9 @@ namespace SGAA.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<byte[]>("Archivo")
+                    b.Property<string>("Archivo")
                         .IsRequired()
-                        .HasColumnType("varbinary");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
@@ -13777,7 +13898,7 @@ namespace SGAA.Repository.Migrations
 
                     b.HasIndex("UnidadDetalleId");
 
-                    b.ToTable("UnidadImagen");
+                    b.ToTable("UnidadImagen", (string)null);
                 });
 
             modelBuilder.Entity("SGAA.Domain.Auth.Rol", b =>
@@ -13793,19 +13914,19 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
 
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
+
                             b1.HasKey("RolId");
 
-                            b1.ToTable("Roles");
+                            b1.ToTable("Rol");
 
                             b1.WithOwner()
                                 .HasForeignKey("RolId");
@@ -13834,19 +13955,19 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
 
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
+
                             b1.HasKey("RolPermisoId");
 
-                            b1.ToTable("RoleClaims");
+                            b1.ToTable("RolPermiso");
 
                             b1.WithOwner()
                                 .HasForeignKey("RolPermisoId");
@@ -13871,19 +13992,19 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
 
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
+
                             b1.HasKey("UsuarioId");
 
-                            b1.ToTable("Users");
+                            b1.ToTable("Usuario");
 
                             b1.WithOwner()
                                 .HasForeignKey("UsuarioId");
@@ -13915,19 +14036,19 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
 
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
+
                             b1.HasKey("UsuarioLoginLoginProvider", "UsuarioLoginProviderKey");
 
-                            b1.ToTable("UserLogins");
+                            b1.ToTable("UsuarioLogin");
 
                             b1.WithOwner()
                                 .HasForeignKey("UsuarioLoginLoginProvider", "UsuarioLoginProviderKey");
@@ -13958,19 +14079,19 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
 
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
+
                             b1.HasKey("UsuarioPermisoId");
 
-                            b1.ToTable("UserClaims");
+                            b1.ToTable("UsuarioPermiso");
 
                             b1.WithOwner()
                                 .HasForeignKey("UsuarioPermisoId");
@@ -14010,19 +14131,19 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
 
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
+
                             b1.HasKey("UsuarioRolUserId", "UsuarioRolRoleId");
 
-                            b1.ToTable("UserRoles");
+                            b1.ToTable("UsuarioRol");
 
                             b1.WithOwner()
                                 .HasForeignKey("UsuarioRolUserId", "UsuarioRolRoleId");
@@ -14061,19 +14182,19 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
 
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
+
                             b1.HasKey("UsuarioTokenUserId", "UsuarioTokenLoginProvider", "UsuarioTokenName");
 
-                            b1.ToTable("UserTokens");
+                            b1.ToTable("UsuarioToken");
 
                             b1.WithOwner()
                                 .HasForeignKey("UsuarioTokenUserId", "UsuarioTokenLoginProvider", "UsuarioTokenName");
@@ -14104,15 +14225,15 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
+
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
 
                             b1.HasKey("AplicacionId");
 
@@ -14147,15 +14268,15 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
+
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
 
                             b1.HasKey("AplicacionComentarioId");
 
@@ -14190,19 +14311,19 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
 
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
+
                             b1.HasKey("CiudadId");
 
-                            b1.ToTable("Ciudades");
+                            b1.ToTable("Ciudad");
 
                             b1.WithOwner()
                                 .HasForeignKey("CiudadId");
@@ -14216,6 +14337,12 @@ namespace SGAA.Repository.Migrations
 
             modelBuilder.Entity("SGAA.Domain.Core.Contrato", b =>
                 {
+                    b.HasOne("SGAA.Domain.Core.Postulacion", "Postulacion")
+                        .WithMany("Contratos")
+                        .HasForeignKey("PostulacionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.OwnsOne("SGAA.Domain.Base.Audit", "Audit", b1 =>
                         {
                             b1.Property<int>("ContratoId")
@@ -14227,15 +14354,15 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
+
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
 
                             b1.HasKey("ContratoId");
 
@@ -14247,19 +14374,21 @@ namespace SGAA.Repository.Migrations
 
                     b.Navigation("Audit")
                         .IsRequired();
+
+                    b.Navigation("Postulacion");
                 });
 
             modelBuilder.Entity("SGAA.Domain.Core.Firma", b =>
                 {
-                    b.HasOne("SGAA.Domain.Auth.Usuario", "Usuario")
+                    b.HasOne("SGAA.Domain.Core.Contrato", "Contrato")
                         .WithMany("Firmas")
                         .HasForeignKey("ContratoId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SGAA.Domain.Core.Contrato", "Contrato")
+                    b.HasOne("SGAA.Domain.Auth.Usuario", "Usuario")
                         .WithMany("Firmas")
-                        .HasForeignKey("ContratoId")
+                        .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -14274,15 +14403,15 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
+
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
 
                             b1.HasKey("FirmaId");
 
@@ -14305,7 +14434,7 @@ namespace SGAA.Repository.Migrations
                     b.HasOne("SGAA.Domain.Core.Aplicacion", "Aplicacion")
                         .WithMany("Garantias")
                         .HasForeignKey("AplicacionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.OwnsOne("SGAA.Domain.Base.Audit", "Audit", b1 =>
@@ -14319,15 +14448,15 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
+
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
 
                             b1.HasKey("GarantiaId");
 
@@ -14356,15 +14485,15 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
+
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
 
                             b1.HasKey("IndiceId");
 
@@ -14397,15 +14526,15 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
+
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
 
                             b1.HasKey("IndiceValorId");
 
@@ -14440,15 +14569,15 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
+
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
 
                             b1.HasKey("PagoId");
 
@@ -14472,12 +14601,6 @@ namespace SGAA.Repository.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SGAA.Domain.Core.Contrato", "Contrato")
-                        .WithOne("Postulacion")
-                        .HasForeignKey("SGAA.Domain.Core.Postulacion", "ContratoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("SGAA.Domain.Core.Publicacion", "Publicacion")
                         .WithMany("Postulaciones")
                         .HasForeignKey("PublicacionId")
@@ -14495,15 +14618,15 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
+
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
 
                             b1.HasKey("PostulacionId");
 
@@ -14518,8 +14641,6 @@ namespace SGAA.Repository.Migrations
                     b.Navigation("Audit")
                         .IsRequired();
 
-                    b.Navigation("Contrato");
-
                     b.Navigation("Publicacion");
                 });
 
@@ -14528,7 +14649,7 @@ namespace SGAA.Repository.Migrations
                     b.HasOne("SGAA.Domain.Core.Aplicacion", "Aplicacion")
                         .WithMany("Postulantes")
                         .HasForeignKey("AplicacionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.OwnsOne("SGAA.Domain.Base.Audit", "Audit", b1 =>
@@ -14542,15 +14663,15 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
+
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
 
                             b1.HasKey("PostulanteId");
 
@@ -14585,15 +14706,15 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
+
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
 
                             b1.HasKey("PropiedadId");
 
@@ -14622,19 +14743,19 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
 
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
+
                             b1.HasKey("ProvinciaId");
 
-                            b1.ToTable("Provincias");
+                            b1.ToTable("Provincia");
 
                             b1.WithOwner()
                                 .HasForeignKey("ProvinciaId");
@@ -14663,15 +14784,15 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
+
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
 
                             b1.HasKey("PublicacionId");
 
@@ -14692,7 +14813,7 @@ namespace SGAA.Repository.Migrations
                     b.HasOne("SGAA.Domain.Core.Unidad", "Unidad")
                         .WithMany("Titulares")
                         .HasForeignKey("UnidadId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.OwnsOne("SGAA.Domain.Base.Audit", "Audit", b1 =>
@@ -14706,15 +14827,15 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
+
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
 
                             b1.HasKey("TitularId");
 
@@ -14732,15 +14853,15 @@ namespace SGAA.Repository.Migrations
 
             modelBuilder.Entity("SGAA.Domain.Core.Unidad", b =>
                 {
-                    b.HasOne("SGAA.Domain.Auth.Usuario", "PropietarioUsuario")
+                    b.HasOne("SGAA.Domain.Core.Propiedad", "Propiedad")
                         .WithMany("Unidades")
                         .HasForeignKey("PropiedadId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SGAA.Domain.Core.Propiedad", "Propiedad")
+                    b.HasOne("SGAA.Domain.Auth.Usuario", "PropietarioUsuario")
                         .WithMany("Unidades")
-                        .HasForeignKey("PropiedadId")
+                        .HasForeignKey("PropietarioUsuarioId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -14755,15 +14876,15 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
+
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
 
                             b1.HasKey("UnidadId");
 
@@ -14800,15 +14921,15 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
+
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
 
                             b1.HasKey("UnidadComentarioId");
 
@@ -14843,15 +14964,15 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
+
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
 
                             b1.HasKey("UnidadDetalleId");
 
@@ -14872,7 +14993,7 @@ namespace SGAA.Repository.Migrations
                     b.HasOne("SGAA.Domain.Core.UnidadDetalle", "Detalle")
                         .WithMany("Imagenes")
                         .HasForeignKey("UnidadDetalleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.OwnsOne("SGAA.Domain.Base.Audit", "Audit", b1 =>
@@ -14886,15 +15007,15 @@ namespace SGAA.Repository.Migrations
                                 .HasColumnName("CreatedOn")
                                 .HasDefaultValueSql("GETUTCDATE()");
 
-                            b1.Property<DateTime?>("LastModifiedOn")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("LastModifiedOn");
-
-                            b1.Property<bool>("_isDeleted")
+                            b1.Property<bool>("IsDeleted")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("IsDeleted");
+
+                            b1.Property<DateTime?>("LastModifiedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("LastModifiedOn");
 
                             b1.HasKey("UnidadImagenId");
 
@@ -14955,14 +15076,16 @@ namespace SGAA.Repository.Migrations
                     b.Navigation("Firmas");
 
                     b.Navigation("Pagos");
-
-                    b.Navigation("Postulacion")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("SGAA.Domain.Core.Indice", b =>
                 {
                     b.Navigation("Valores");
+                });
+
+            modelBuilder.Entity("SGAA.Domain.Core.Postulacion", b =>
+                {
+                    b.Navigation("Contratos");
                 });
 
             modelBuilder.Entity("SGAA.Domain.Core.Propiedad", b =>

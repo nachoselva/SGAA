@@ -5,12 +5,13 @@
 
     public class Titular : Persona, IEntity
     {
-        public Titular(string nombre, string apellido, TipoIdentificacion tipoIdentificacion, string numeroIdentificacion, DateTime fechaNacimiento, string domicilio, byte[] frenteIdentificacionArchivo, byte[] dorsoIdentificacionArchivo, int unidadId) : base(nombre, apellido, tipoIdentificacion, numeroIdentificacion, fechaNacimiento, domicilio, frenteIdentificacionArchivo, dorsoIdentificacionArchivo)
+        public Titular(int unidadId, string nombre, string apellido, string email, string numeroIdentificacion, DateTime fechaNacimiento, string domicilio, string frenteIdentificacionArchivo, string dorsoIdentificacionArchivo) 
+            : base(nombre, apellido, email, numeroIdentificacion, fechaNacimiento, domicilio, frenteIdentificacionArchivo, dorsoIdentificacionArchivo)
         {
             UnidadId = unidadId;
         }
 
-        public int UnidadId { get; private set; }
+        public int UnidadId { get; set; }
 
         public Unidad Unidad { get; private set; } = default!;
     }

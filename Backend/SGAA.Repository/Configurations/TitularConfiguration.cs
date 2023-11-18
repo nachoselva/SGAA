@@ -16,8 +16,9 @@
             builder.Property(titular => titular.Apellido)
                 .IsRequired()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L3);
-            builder.Property(titular => titular.TipoIdentificacion)
-                .IsRequired();
+            builder.Property(u => u.Email)
+                .IsRequired()
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L4);
             builder.Property(titular => titular.NumeroIdentificacion)
                 .IsRequired()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
@@ -27,19 +28,16 @@
             builder.Property(titular => titular.Domicilio)
                 .IsRequired()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L4);
-            builder.Property(titular => titular.FrenteIdentificacionArchivo)
-                .IsRequired()
-                .HasColumnType(DataTypes.TYPE_FILE);
-            builder.Property(titular => titular.DorsoIdentificacionArchivo)
-                .IsRequired()
-                .HasColumnType(DataTypes.TYPE_FILE);
+            builder.Property(titular => titular.FrenteIdentificacionArchivo);
+            builder.Property(titular => titular.DorsoIdentificacionArchivo);
 
             builder
                 .HasOne(titular => titular.Unidad)
                 .WithMany(unidad => unidad.Titulares)
                 .HasPrincipalKey(unidad => unidad.Id)
-                .HasForeignKey(titular => titular.UnidadId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(titular => titular.UnidadId);
+
+            builder.ToTable(nameof(Titular));
         }
     }
 }

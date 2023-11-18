@@ -18,9 +18,9 @@
         public decimal MontoAlquiler { get; private set; }
         public DateOnly InicioAlquiler { get; private set; }
         public string Codigo { get; private set; }
-        public PublicacionStatus Status { get; private set; }
+        public PublicacionStatus Status { get; set; }
 
         public Unidad Unidad { get; private set; } = default!;
-        public IReadOnlyCollection<Postulacion> Postulaciones { get; private set; } = Array.Empty<Postulacion>();
+        public IReadOnlyCollection<Postulacion> Postulaciones { get; private set; } = new List<Postulacion>();   
     }
 }

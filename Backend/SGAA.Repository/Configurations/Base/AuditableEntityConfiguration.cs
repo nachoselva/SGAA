@@ -9,14 +9,14 @@ namespace SGAA.Repository.Configuration.Base
     {
         public virtual void Configure(EntityTypeBuilder<T> builder)
         {
-            builder.HasQueryFilter(app => EF.Property<bool>(app, "_isDeleted") == false);
-
             builder.OwnsOne(entity => entity.Audit, auditProp =>
             {
-                auditProp.Property("_isDeleted").HasColumnName("IsDeleted").HasDefaultValue(false);
+                auditProp.Property(p => p.IsDeleted).HasColumnName(nameof(Audit.IsDeleted)).HasDefaultValue(false);
                 auditProp.Property(p => p.CreatedOn).HasColumnName(nameof(Audit.CreatedOn)).HasDefaultValueSql("GETUTCDATE()");
                 auditProp.Property(p => p.LastModifiedOn).HasColumnName(nameof(Audit.LastModifiedOn));
             });
+
+            builder.HasQueryFilter(app => app.Audit.IsDeleted == false);
         }
     }
 }

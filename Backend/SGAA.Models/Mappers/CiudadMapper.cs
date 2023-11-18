@@ -4,9 +4,15 @@
 
     public class CiudadMapper : ICiudadMapper
     {
-        public CiudadGetModel MapFromEntity(Ciudad entity)
+        public CiudadGetModel ToGetModel(Ciudad entity)
         {
-            return new CiudadGetModel();
+            return new CiudadGetModel
+            {
+                Id = entity.Id,
+                ProvinciaId = entity.ProvinciaId,
+                Nombre = entity.Nombre,
+                NombreCompleto = entity.Nombre
+            };
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace SGAA.Repository.Configuration
 {
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using SGAA.Domain.Core;
     using SGAA.Repository.Configuration.Base;
@@ -15,9 +16,11 @@
             builder.Property(h => h.Id)
                 .ValueGeneratedNever();
             builder.Property(h => h.Nombre)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L3);
             builder.Property(h => h.NombreCompleto)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(DataTypes.TEXT_LENGTH_L4);
 
             string url = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\JsonSeeds\\provincias.json";
 
@@ -26,6 +29,8 @@
                 .Select(p => new Provincia(int.Parse(p.Id), p.Nombre, p.NombreCompleto));
 
             builder.HasData(provincias);
+
+            builder.ToTable(nameof(Provincia));
         }
 
         private class ProvinceJson

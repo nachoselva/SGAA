@@ -6,10 +6,15 @@
     public static class DependencyInjection
     {
         public static IServiceCollection AddModel(this IServiceCollection services)
-        {
-            services.AddScoped<ICiudadMapper, CiudadMapper>();
-            services.AddScoped<IProvinciaMapper, ProvinciaMapper>();
-            return services;
-        }
+            => services
+                .AddScoped<ICiudadMapper, CiudadMapper>()
+                .AddScoped<IProvinciaMapper, ProvinciaMapper>()
+                .AddScoped<IUsuarioMapper, UsuarioMapper>()
+                .AddScoped<IUnidadMapper, UnidadMapper>()
+                .AddScoped<IPublicacionMapper, PublicacionMapper>()
+                .AddScoped<IPostulacionMapper, PostulacionMapper>()
+                .AddScoped<IAplicacionMapper, AplicacionMapper>()
+                .AddScoped<IContratoMapper, ContratoMapper>()
+                .AddScoped<IPagoMapper, PagoMapper>();
     }
 }

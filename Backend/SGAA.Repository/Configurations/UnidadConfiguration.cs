@@ -20,12 +20,14 @@
             builder.Property(unidad => unidad.FechaAdquisicion)
                 .IsRequired()
                 .HasColumnType(DataTypes.TYPE_DATE);
-            builder.Property(garantia => garantia.TituloPropiedadArchivo)
-                .IsRequired()
-                .HasColumnType(DataTypes.TYPE_FILE);
+            builder.Property(garantia => garantia.TituloPropiedadArchivo);
             builder.Property(unidad => unidad.Status)
                 .IsRequired()
+                .HasConversion<string>()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
+
+            builder.HasIndex(unidad => new { unidad.PropiedadId, unidad.Piso, unidad.Departamento })
+                .IsUnique();
 
             builder
                 .HasOne(unidad => unidad.Propiedad)
@@ -38,11 +40,11 @@
                 .HasOne(unidad => unidad.PropietarioUsuario)
                 .WithMany(usuario => usuario.Unidades)
                 .HasPrincipalKey(usuario => usuario.Id)
-                .HasForeignKey(unidad => unidad.PropiedadId)
+                .HasForeignKey(unidad => unidad.PropietarioUsuarioId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.ToTable(tableBuilder =>
+            builder.ToTable(nameof(Unidad), tableBuilder =>
                 tableBuilder
                 .HasCheckConstraintWithEnum(unidad => unidad.Status)
             );

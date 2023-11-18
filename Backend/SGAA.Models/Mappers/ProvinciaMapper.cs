@@ -4,9 +4,14 @@
 
     public class ProvinciaMapper : IProvinciaMapper
     {
-        public ProvinciaGetModel MapFromEntity(Provincia entity)
+        public ProvinciaGetModel ToGetModel(Provincia entity)
         {
-            return new ProvinciaGetModel();
+            return new ProvinciaGetModel
+            {
+                Id = entity.Id,
+                Nombre = entity.Nombre,
+                NombreCompleto = entity.NombreCompleto
+            };
         }
     }
 }

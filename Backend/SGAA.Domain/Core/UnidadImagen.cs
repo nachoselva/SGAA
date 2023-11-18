@@ -4,7 +4,7 @@
 
     public class UnidadImagen : BaseEntity, IEntity
     {
-        public UnidadImagen(int unidadDetalleId, string titulo, string descripcion, byte[] archivo)
+        public UnidadImagen(int unidadDetalleId, string titulo, string descripcion, string archivo)
         {
             UnidadDetalleId = unidadDetalleId;
             Titulo = titulo;
@@ -13,10 +13,10 @@
         }
 
         public int UnidadDetalleId { get; private set; }
-        public string Titulo { get; private set; }
-        public string Descripcion { get; private set; }
-        public byte[] Archivo { get; private set; }
+        public string Titulo { get; set; }
+        public string Descripcion { get; set; }
+        public string Archivo { get; set; }
 
-        public UnidadDetalle Detalle { get; private set; } = default!;
+        public UnidadDetalle Detalle { get; set; } = default!;
     }
 }

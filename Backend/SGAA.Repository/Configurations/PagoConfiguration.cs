@@ -26,10 +26,13 @@
 
             builder.Property(firma => firma.Status)
                 .IsRequired()
+                .HasConversion<string>()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L1);
 
             builder.Property(pago => pago.FechaPago)
                 .HasColumnType(DataTypes.TYPE_DATETIME);
+
+            builder.Property(pago => pago.Archivo);
 
             builder
                 .HasOne(p => p.Contrato)
@@ -39,7 +42,7 @@
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.ToTable(tableBuilder =>
+            builder.ToTable(nameof(Pago), tableBuilder =>
                 tableBuilder
                 .HasCheckConstraintWithEnum(pago => pago.Status)
             );

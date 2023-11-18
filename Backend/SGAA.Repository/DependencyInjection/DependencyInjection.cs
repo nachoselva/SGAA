@@ -3,16 +3,22 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using SGAA.Repository.Contexts;
+    using SGAA.Repository.Contracts;
 
     public static class DependencyInjection
     {
         public static IServiceCollection AddRepository(this IServiceCollection services)
-        {
-            services.AddDbContext<SGAADbContext>();
-            services.AddScoped<ICiudadRepository, CiudadRepository>();
-            services.AddScoped<IProvinciaRepository, ProvinciaRepository>();
-            return services;
-        }
+            => services
+                .AddDbContext<SGAADbContext>()
+                .AddScoped<ICiudadRepository, CiudadRepository>()
+                .AddScoped<IProvinciaRepository, ProvinciaRepository>()
+                .AddScoped<IUsuarioRepository, UsuarioRepository>()
+                .AddScoped<IUnidadRepository, UnidadRepository>()
+                .AddScoped<IPublicacionRepository, PublicacionRepository>()
+                .AddScoped<IPostulacionRepository, PostulacionRepository>()
+                .AddScoped<IAplicacionRepository, AplicacionRepository>()
+                .AddScoped<IContratoRepository, ContratoRepository>()
+                .AddScoped<IPagoRepository, PagoRepository>();
 
         public static async Task MigrateDbContext(IServiceProvider services)
         {

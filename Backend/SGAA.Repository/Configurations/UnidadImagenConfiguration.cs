@@ -19,17 +19,15 @@
                 .IsRequired()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L5);
 
-            builder.Property(i => i.Archivo)
-                .IsRequired()
-                .HasColumnType(DataTypes.TYPE_FILE);
+            builder.Property(i => i.Archivo);
 
             builder
             .HasOne(i => i.Detalle)
             .WithMany(d => d.Imagenes)
             .HasPrincipalKey(d => d.Id)
-            .HasForeignKey(i => i.UnidadDetalleId)
-            .IsRequired()
-            .OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(i => i.UnidadDetalleId);
+
+            builder.ToTable(nameof(UnidadImagen));
         }
     }
 }

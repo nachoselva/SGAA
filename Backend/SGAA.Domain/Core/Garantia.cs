@@ -4,16 +4,16 @@
 
     public class Garantia : BaseEntity, IEntity
     {
-        public Garantia(int aplicacionId, decimal monto, byte[] archivo)
+        public Garantia(int aplicacionId, decimal monto, string archivo)
         {
             AplicacionId = aplicacionId;
             Monto = monto;
             Archivo = archivo;
         }
 
-        public int AplicacionId { get; private set; }
-        public decimal Monto { get; private set; }
-        public byte[] Archivo { get; private set; }
+        public int AplicacionId { get; set; }
+        public decimal Monto { get; set; }
+        public string Archivo { get; set; }
 
         public Aplicacion Aplicacion { get; private set; } = default!;
     }

@@ -5,7 +5,10 @@
 
     public class Unidad : BaseEntity, IEntity
     {
-        public Unidad(int propiedadId, int propietarioUsuarioId, string piso, string departamento, DateTime fechaAdquisicion, byte[] tituloPropiedadArchivo, UnidadStatus status)
+        private readonly List<UnidadComentario> _comentarios;
+        private readonly List<Titular> _titulares;
+
+        public Unidad(int propiedadId, int propietarioUsuarioId, string piso, string departamento, DateTime fechaAdquisicion, string tituloPropiedadArchivo, UnidadStatus status)
         {
             PropiedadId = propiedadId;
             PropietarioUsuarioId = propietarioUsuarioId;
@@ -14,21 +17,45 @@
             FechaAdquisicion = fechaAdquisicion;
             TituloPropiedadArchivo = tituloPropiedadArchivo;
             Status = status;
+            _comentarios = new List<UnidadComentario>();
+            _titulares = new List<Titular>();
         }
 
-        public int PropiedadId { get; private set; }
+        public int PropiedadId { get; set; }
         public int PropietarioUsuarioId { get; private set; }
-        public string Piso { get; private set; }
-        public string Departamento { get; private set; }
-        public DateTime FechaAdquisicion { get; private set; }
-        public byte[] TituloPropiedadArchivo { get; private set; }
-        public UnidadStatus Status { get; private set; }
+        public string Piso { get; set; }
+        public string Departamento { get; set; }
+        public DateTime FechaAdquisicion { get; set; }
+        public string TituloPropiedadArchivo { get; set; }
+        public UnidadStatus Status { get; set; }
 
-        public Propiedad Propiedad { get; private set; } = default!;
-        public Usuario PropietarioUsuario { get; private set; } = default!;
-        public UnidadDetalle Detalle { get; private set; } = default!;
-        public IReadOnlyCollection<UnidadComentario> Comentarios { get; private set; } = Array.Empty<UnidadComentario>();
-        public IReadOnlyCollection<Publicacion> Publicaciones { get; private set; } = Array.Empty<Publicacion>();
-        public IReadOnlyCollection<Titular> Titulares { get; private set; } = Array.Empty<Titular>();
+        public string DomicilioCompleto => $"{Propiedad.Calle} {Propiedad.Altura} {Piso} {Departamento}, {Propiedad.Ciudad.Nombre} - {Propiedad.Ciudad.Provincia.Nombre}";
+        public Propiedad Propiedad { get; set; } = default!;
+        public Usuario PropietarioUsuario { get; set; } = default!;
+        public UnidadDetalle Detalle { get; set; } = default!;
+        public IReadOnlyCollection<UnidadComentario> Comentarios => _comentarios;
+        public IReadOnlyCollection<Publicacion> Publicaciones { get; private set; } = new List<Publicacion>();
+        public IReadOnlyCollection<Titular> Titulares => _titulares;
+
+        public void AddComentario(UnidadComentario comentario)
+        {
+            _comentarios.Add(comentario);
+        }
+
+        public void AddTitulares(IEnumerable<Titular> titulares)
+        {
+            _titulares.AddRange(titulares);
+        }
+
+        public void RemoveTitulares(IEnumerable<Titular> titulares)
+        {
+            IEnumerable<int> idsToDelete = titulares.Select(img => img.Id);
+            _titulares.RemoveAll(img => idsToDelete.Contains(img.Id));
+        }
+
+        public bool CanBePublicada()
+        {
+            return Status == UnidadStatus.DocumentacionAprobada && !Publicaciones.Any(p => p.Status.IsActive());
+        }
     }
 }
