@@ -158,7 +158,8 @@
             unidad = await UpsertTitulares(putModel, unidad);
 
             unidad = await _unidadRepository.UpdateUnidad(unidad);
-            return unidad.MapToGetModel<Unidad, UnidadGetModel>(_unidadMapper);
+            unidad = await _unidadRepository.GetUnidad(unidadId);
+            return unidad!.MapToGetModel<Unidad, UnidadGetModel>(_unidadMapper);
         }
 
         public async Task<UnidadGetModel> AprobarUnidad(int unidadId, AprobarUnidadPutModel model)
