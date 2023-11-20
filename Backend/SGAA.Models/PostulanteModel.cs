@@ -19,7 +19,7 @@
         public required string NombreEmpresa { get; set; }
         public required decimal IngresoMensual { get; set; }
         public required string ReciboDeSueldoArchivo { get; set; }
-        public required decimal? PuntuacionCrediticia { get; set; }
-        public required decimal? PuntuacionPenal { get; set; }
+        public decimal? PuntuacionCrediticia { get; set; }
+        public decimal? PuntuacionPenal { get; set; }
     }
 }
