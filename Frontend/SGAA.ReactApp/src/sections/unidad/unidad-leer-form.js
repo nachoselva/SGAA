@@ -394,7 +394,7 @@ export const UnidadLeerForm = (props) => {
           </Typography>
         </Grid>
         {
-          unidad.comentarios.length > 1 &&
+          unidad.comentarios.length > 0 &&
           <Grid item xs={12}>
             <ul>
               {unidad.comentarios.sort((comentario) => comentario.fecha).map((com, index) =>
