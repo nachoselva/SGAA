@@ -30,7 +30,7 @@
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
-            string url = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\JsonSeeds\\ciudades.json";
+            string url = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "//JsonSeeds//ciudades.json";
 
             IEnumerable<Ciudad> ciudades = JsonSerializer.Deserialize<CityJson>(File.ReadAllText(url))!
             .Municipios

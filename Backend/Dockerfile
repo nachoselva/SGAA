@@ -1,26 +1,12 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS publish
+ARG RELATIVE_PATH=''    
+WORKDIR /build
+ADD "${RELATIVE_PATH}." /build
+# Update the runtime to linux-arm64 if you're running it on a machine with ARM64 chip
+RUN dotnet publish SGAA.Api/SGAA.Api.csproj -r linux-x64 -o bin -c Release
 
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
 WORKDIR /app
+COPY --from=publish /build/bin ./
 EXPOSE 80
-EXPOSE 443
-
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /src
-COPY ["SGAA.Api/SGAA.Api.csproj", "SGAA.Api/"]
-COPY ["SGAA.Repository/SGAA.Repository.csproj", "SGAA.Repository/"]
-COPY ["SGAA.Domain/SGAA.Domain.csproj", "SGAA.Domain/"]
-COPY ["SGAA.Utils/SGAA.Utils.csproj", "SGAA.Utils/"]
-COPY ["SGAA.Service/SGAA.Service.csproj", "SGAA.Service/"]
-RUN dotnet restore "SGAA.Api/SGAA.Api.csproj"
-COPY . .
-WORKDIR "/src/SGAA.Api"
-RUN dotnet build "SGAA.Api.csproj" -c Release -o /app/build
-
-FROM build AS publish
-RUN dotnet publish "SGAA.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
-
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "SGAA.Api.dll"]

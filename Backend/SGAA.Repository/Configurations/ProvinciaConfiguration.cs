@@ -22,7 +22,7 @@
                 .IsRequired()
                 .HasMaxLength(DataTypes.TEXT_LENGTH_L4);
 
-            string url = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\JsonSeeds\\provincias.json";
+            string url = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "//JsonSeeds//provincias.json";
 
             IEnumerable<Provincia> provincias = JsonSerializer.Deserialize<ProvinceJson>(File.ReadAllText(url))!
                 .Provincias
