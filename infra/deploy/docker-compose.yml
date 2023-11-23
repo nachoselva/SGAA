@@ -1,12 +1,12 @@
-version: "3.4"
-services:
+version: '3.4'
 
-  sgaa-api:
-    container_name: sgaa-api
+services:
+  sgaa.api:
+    platform: linux/amd64
+    container_name: sgaa_api
+    image: 417268992578.dkr.ecr.us-east-1.amazonaws.com/sgaa_api_production:latest
     env_file:
       - .env
-    working_dir: /app
-    image: 417268992578.dkr.ecr.us-east-2.amazonaws.com/sgaa:latest
     depends_on:
       - sql-server-database
     ports:

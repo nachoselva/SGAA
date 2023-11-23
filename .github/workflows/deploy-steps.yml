@@ -19,21 +19,22 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: arn:aws:iam::417268992578:role/custom-github-actions-role
-          aws-region: us-east-2
+          aws-region: us-east-1
 
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build, tag, and push docker image to Amazon ECR
-        working-directory: ./Backend
+        working-directory: ./
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: sgaa
+          REPOSITORY: sgaa_api_production
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REPOSITORY:latest .
-          docker push --all-tags $REGISTRY/$REPOSITORY
+          docker-compose build sgaa.api
+          docker tag sgaa_api:latest $REGISTRY/$REPOSITORY:latest
+          docker push $REGISTRY/$REPOSITORY:latest
 
       - name: Install Python 3.9
         uses: actions/setup-python@v2
