@@ -6,6 +6,7 @@ import HomeIcon from '@heroicons/react/24/solid/HomeIcon';
 import HomeModernIcon from '@heroicons/react/24/solid/HomeModernIcon';
 import InboxStackIcon from '@heroicons/react/24/solid/InboxStackIcon';
 import NewsPaperIcon from '@heroicons/react/24/solid/NewsPaperIcon';
+import QuestionMarkCircleIcon from '@heroicons/react/24/solid/QuestionMarkCircleIcon';
 import ShieldCheckIcon from '@heroicons/react/24/solid/ShieldCheckIcon';
 import UserGroupIcon from '@heroicons/react/24/solid/UserGroupIcon';
 import { SvgIcon } from '@mui/material';
@@ -199,6 +200,15 @@ export const getMenuItems = () => {
         icon: (
           <SvgIcon fontSize="small">
             <ShieldCheckIcon />
+          </SvgIcon>
+        )
+      },
+      {
+        title: 'Ayuda',
+        path: '/ayuda',
+        icon: (
+          <SvgIcon fontSize="small">
+            <QuestionMarkCircleIcon />
           </SvgIcon>
         )
       });

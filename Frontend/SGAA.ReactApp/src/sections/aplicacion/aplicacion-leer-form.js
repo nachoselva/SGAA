@@ -1,9 +1,9 @@
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import Moment from 'moment';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { FancyFilePicker } from '/src/components/fancy-file-picker';
 import { aprobarAplicacion, rechazarAplicacion } from '/src/api/administrador';
-import Moment from 'moment';
+import { FancyFilePicker } from '/src/components/fancy-file-picker';
 
 export const AplicacionLeerForm = (props) => {
   const { aplicacion, rol } = props;
@@ -284,7 +284,7 @@ export const AplicacionLeerForm = (props) => {
           <Grid item xs={12}>
             <ul>
               {props.aplicacion.comentarios.sort((comentario) => comentario.fecha).map(com =>
-                <li>[{com.fecha && Moment(com.fecha).format('DD/MM/yyyy hh:mm:ss')}] : {com.comentario}</li>
+                <li>[{Moment(com.fecha).format('DD/MM/yyyy hh:mm:ss')}] : {com.comentario}</li>
               )}
             </ul>
           </Grid>

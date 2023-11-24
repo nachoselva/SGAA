@@ -396,9 +396,9 @@ export const UnidadLeerForm = (props) => {
         {
           unidad.comentarios.length > 0 &&
           <Grid item xs={12}>
-            <ul>
+              <ul>
               {unidad.comentarios.sort((comentario) => comentario.fecha).map((com, index) =>
-                <li key={index}>[{com.fecha}] : {com.comentario}</li>
+                <li key={index}>[{Moment(com.fecha).format('DD/MM/yyyy hh:mm:ss')}] : {com.comentario}</li>
               )}
             </ul>
           </Grid>

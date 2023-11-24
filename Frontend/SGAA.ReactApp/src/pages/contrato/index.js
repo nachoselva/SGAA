@@ -1,4 +1,5 @@
 import { Link, TableCell, TableRow } from '@mui/material';
+import Moment from 'moment';
 import { useRouter } from 'next/navigation';
 import { getContratos } from '/src/api/common';
 import { FancyTablePage } from '/src/components/fancy-table-page';
@@ -21,10 +22,10 @@ const Page = () => {
         {row.domicilio}
       </TableCell>
       <TableCell>
-        {row.fechaDesde}
+        {row.fechaDesde && Moment(row.fechaDesde).format('DD/MM/yyyy')}
       </TableCell>
       <TableCell>
-        {row.fechaHasta}
+        {row.fechaHasta && Moment(row.fechaHasta).format('DD/MM/yyyy')}
       </TableCell>
       <TableCell>
         {contratoStatus[row.status]}

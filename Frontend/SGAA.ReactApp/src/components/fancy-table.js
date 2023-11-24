@@ -124,6 +124,7 @@ export const FancyTable = (props) => {
             rowsPerPage={rowsPerPage}
             rowsPerPageOptions={[5, 10, 25]}
             labelRowsPerPage="Items por página"
+            labelDisplayedRows={({ from, to, count }) => `${from}–${to} de ${count}`}
           />
         }
       </Card>
