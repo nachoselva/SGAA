@@ -46,11 +46,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install awsebcli
 
-      - name: Init EB CLI
-        working-directory: ./infra/deploy
-        run: |
-          eb init
-
       - name: Deploy to Elastic Beanstalk
         working-directory: ./infra/deploy
         run: |
