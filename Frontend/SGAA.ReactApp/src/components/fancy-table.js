@@ -49,9 +49,7 @@ export const FancyTable = (props) => {
 
   return (
     <>
-      <Card sx={{ p: 2 }} sx={{
-        border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 0.5
-      }}>
+      <Card sx={{ border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 0.5 }}>
         <OutlinedInput
           defaultValue=""
           fullWidth
@@ -69,9 +67,7 @@ export const FancyTable = (props) => {
           onChange={handleSearchChange}
         />
       </Card>
-      <Card sx={{
-        border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536'
-      }}>
+      <Card sx={{ border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536' }}>
         <Scrollbar>
           <Box sx={{ minWidth: 800 }}>
             <Table>

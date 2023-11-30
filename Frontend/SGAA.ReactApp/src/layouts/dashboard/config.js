@@ -10,10 +10,9 @@ import QuestionMarkCircleIcon from '@heroicons/react/24/solid/QuestionMarkCircle
 import ShieldCheckIcon from '@heroicons/react/24/solid/ShieldCheckIcon';
 import UserGroupIcon from '@heroicons/react/24/solid/UserGroupIcon';
 import { SvgIcon } from '@mui/material';
-import { useAuthContext } from '/src/contexts/auth-context';
 
-export const getMenuItems = () => {
-  const { isAuthenticated, user } = useAuthContext();
+export const getMenuItems = (authContext) => {
+  const { isAuthenticated, user } = authContext;
   const everyone = [];
   const administrador = [];
   const propietario = [];

@@ -12,26 +12,14 @@ const Page = () => (
     </Head>
     <Box
       component="main"
-      sx={{
-        alignItems: 'center',
-        display: 'flex',
-        flexGrow: 1,
-        minHeight: '100%'
-      }}
+      sx={{ alignItems: 'center', display: 'flex', flexGrow: 1, minHeight: '100%' }}
     >
       <Container maxWidth="md">
         <Box
-          sx={{
-            alignItems: 'center',
-            display: 'flex',
-            flexDirection: 'column'
-          }}
+          sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}
         >
           <Box
-            sx={{
-              mb: 3,
-              textAlign: 'center'
-            }}
+            sx={{ mb: 3, textAlign: 'center' }}
           >
             <img
               alt="Under development"

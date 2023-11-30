@@ -41,9 +41,7 @@ const Page = () => {
               <Grid
                 xs={12}
               >
-                <Card sx={{ p: 2 }} sx={{
-                  border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
-                }} >
+                <Card sx={{ border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1 }} >
 
                   <Typography variant="h6">1. Información que recopilamos</Typography>
                   <p>Podemos recopilar información personal identificable, como su nombre, dirección de correo electrónico, dirección postal y otra información que usted nos proporcione voluntariamente cuando utiliza el SGAA. También podemos recopilar información no identificable, como datos demográficos y patrones de uso del sistema.</p>

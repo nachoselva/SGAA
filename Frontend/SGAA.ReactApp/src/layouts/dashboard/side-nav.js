@@ -11,12 +11,13 @@ import { getMenuItems } from './config';
 import { SideNavItem } from './side-nav-item';
 import { Logo } from '/src/components/logo';
 import { Scrollbar } from '/src/components/scrollbar';
+import { useAuthContext } from '/src/contexts/auth-context';
 
 export const SideNav = (props) => {
   const { open, onClose } = props;
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
-  const { everyone, administrador, propietario, inquilino, terms } = getMenuItems();
+  const { everyone, administrador, propietario, inquilino, terms } = getMenuItems(useAuthContext());
 
   const renderLink = (item) => {
     let active;
@@ -45,44 +46,21 @@ export const SideNav = (props) => {
 
   const content = (
     <Scrollbar
-      sx={{
-        height: '100%',
-        '& .simplebar-content': {
-          height: '100%'
-        },
-        '& .simplebar-scrollbar:before': {
-          background: 'neutral.400'
-        }
-      }}
+      sx={{ height: '100%', '& .simplebar-content': { height: '100%' }, '& .simplebar-scrollbar:before': { background: 'neutral.400' } }}
     >
       <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100%'
-        }}
+        sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}
       >
         <Box sx={{ p: 3 }}>
           <Box
             component={NextLink}
             href="/"
-            sx={{
-              display: 'inline-flex',
-              height: 32,
-              width: 32
-            }}
+            sx={{ display: 'inline-flex', height: 32, width: 32 }}
           >
             <Logo />
           </Box>
           <Box
-            sx={{
-              alignItems: 'center',
-              borderRadius: 1,
-              display: 'flex',
-              justifyContent: 'space-between',
-              mt: 2,
-              p: '12px'
-            }}
+            sx={{ alignItems: 'center', borderRadius: 1, display: 'flex', justifyContent: 'space-between', mt: 2, p: '12px' }}
           >
             <div>
               <Typography
@@ -96,20 +74,12 @@ export const SideNav = (props) => {
         <Divider sx={{ borderColor: 'neutral.700' }} />
         <Box
           component="nav"
-          sx={{
-            flexGrow: 1,
-            px: 2,
-            py: 3
-          }}
+          sx={{ flexGrow: 1, px: 2, py: 3 }}
         >
           <Stack
             component="ul"
             spacing={0.5}
-            sx={{
-              listStyle: 'none',
-              p: 0,
-              m: 0
-            }}
+            sx={{ listStyle: 'none', p: 0, m: 0 }}
           >
             {
               everyone.map((item) => renderLink(item))
