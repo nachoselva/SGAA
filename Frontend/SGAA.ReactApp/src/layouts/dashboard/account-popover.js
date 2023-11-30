@@ -48,10 +48,7 @@ export const AccountPopover = (props) => {
       PaperProps={{ sx: { width: 200 } }}
     >
       <Box
-        sx={{
-          py: 1.5,
-          px: 2
-        }}
+        sx={{ py: 1.5, px: 2 }}
       >
         <Typography variant="overline">
           Cuenta
@@ -67,12 +64,7 @@ export const AccountPopover = (props) => {
       <MenuList
         disablePadding
         dense
-        sx={{
-          p: '8px',
-          '& > *': {
-            borderRadius: 1
-          }
-        }}
+        sx={{ p: '8px', '& > *': { borderRadius: 1 } }}
       >
         {
           !isAuthenticated &&

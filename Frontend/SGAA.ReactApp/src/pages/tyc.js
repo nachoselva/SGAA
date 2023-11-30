@@ -41,9 +41,7 @@ const Page = () => {
               <Grid
                 xs={12}
               >
-                <Card sx={{ p: 2 }} sx={{
-                  border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
-                }} >
+                <Card sx={{ border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1 }} >
                   <Typography variant="h6">1. Uso del Sistema</Typography>
                   <p>El Sistema de Gestión de Alquileres Autónomos (SGAA) es una plataforma diseñada para facilitar la administración de alquileres y promover un proceso de selección de inquilinos justo y equitativo sin la intervención de administradores o inmobiliarias, fomentando los alquileres de tipo Dueño Directo. El uso del sistema es personal, y se prohíbe utilizarlo en nombre de otra persona a menos que se cuente con un poder legal para hacerlo.</p>
 

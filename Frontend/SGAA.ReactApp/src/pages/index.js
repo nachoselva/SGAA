@@ -15,9 +15,7 @@ const Page = () => {
           SGAA - Inicio
         </title>
       </Head>
-      <Card sx={{ p: 2 }} sx={{
-        border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
-      }} >
+      <Card sx={{ border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1 }} >
         <div>
           <Stack
             spacing={1}

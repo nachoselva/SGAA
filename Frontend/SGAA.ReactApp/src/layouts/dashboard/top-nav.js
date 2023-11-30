@@ -22,29 +22,14 @@ export const TopNav = (props) => {
     <>
       <Box
         component="header"
-        sx={{
-          backdropFilter: 'blur(6px)',
-          backgroundColor: (theme) => alpha(theme.palette.background.default, 0.8),
-          position: 'sticky',
-          left: {
-            lg: `${SIDE_NAV_WIDTH}px`
-          },
-          top: 0,
-          width: {
-            lg: `calc(100% - ${SIDE_NAV_WIDTH}px)`
-          },
-          zIndex: (theme) => theme.zIndex.appBar
-        }}
+        sx={{ backdropFilter: 'blur(6px)', backgroundColor: (theme) => alpha(theme.palette.background.default, 0.8), position: 'sticky', left: { lg: `${SIDE_NAV_WIDTH}px` }, top: 0, width: { lg: `calc(100% - ${SIDE_NAV_WIDTH}px)` }, zIndex: (theme) => theme.zIndex.appBar }}
       >
         <Stack
           alignItems="center"
           direction="row"
           justifyContent="space-between"
           spacing={2}
-          sx={{
-            minHeight: TOP_NAV_HEIGHT,
-            px: 2
-          }}
+          sx={{ minHeight: TOP_NAV_HEIGHT, px: 2 }}
         >
           <Stack
           >
@@ -64,18 +49,12 @@ export const TopNav = (props) => {
             <Avatar
               onClick={accountPopover.handleOpen}
               ref={accountPopover.anchorRef}
-              sx={{
-                cursor: 'pointer',
-                height: 40,
-                width: 40
-              }}>
+              sx={{ cursor: 'pointer', height: 40, width: 40 }}>
               <UserCircleIcon />
             </Avatar>
           </Stack>
         </Stack>
-        <Divider sx={{
-          borderBottomWidth: 5
-        }} />
+        <Divider sx={{ borderBottomWidth: 5 }} />
       </Box>
       <AccountPopover
         anchorEl={accountPopover.anchorRef.current}

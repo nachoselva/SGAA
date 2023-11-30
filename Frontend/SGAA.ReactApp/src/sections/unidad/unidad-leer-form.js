@@ -37,7 +37,6 @@ export const UnidadLeerForm = (props) => {
             fullWidth
             name="provinciaId"
             value={unidad.provincia}
-            variant="filled"
             label={'Provincia'}
             InputProps={{
               readOnly: true,
@@ -51,7 +50,6 @@ export const UnidadLeerForm = (props) => {
             fullWidth
             name="ciudadId"
             value={unidad.ciudad}
-            variant="filled"
             label={'Ciudad'}
             InputProps={{
               readOnly: true,
@@ -232,9 +230,7 @@ export const UnidadLeerForm = (props) => {
           unidad.titulares.map((titular, index) =>
           (
             <Grid item xs={12} key={index}>
-              <Box sx={{
-                border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
-              }} >
+              <Box sx={{ border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1 }} >
                 <Grid container spacing={3}>
                   <Grid item xs={12} sm={6}>
                     <TextField
@@ -343,9 +339,7 @@ export const UnidadLeerForm = (props) => {
           unidad.detalle.imagenes.map((imagen, index) =>
           (
             <Grid item xs={12} key={index}>
-              <Box sx={{
-                border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
-              }} >
+              <Box sx={{ border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1 }} >
                 <Grid container spacing={3}>
                   <Grid item xs={12} sm={6}>
                     <TextField

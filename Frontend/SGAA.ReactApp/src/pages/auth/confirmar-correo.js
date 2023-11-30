@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { confirmarCorreo } from '/src/api/auth';
 import { Layout as AuthLayout } from '/src/layouts/auth/layout';
+import Link from 'next/link';
 
 const Page = () => {
   const [confirmation, setConfirmation] = useState(false);
@@ -27,9 +28,7 @@ const Page = () => {
           SGAA - Confirmar Correo Electrónico
         </title>
       </Head>
-      <Card sx={{ p: 2 }} sx={{
-        border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
-      }} >
+      <Card sx={{ border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1 }} >
         <Stack
           spacing={1}
           sx={{ mb: 3 }}
@@ -42,7 +41,7 @@ const Page = () => {
           <>
             <p>Su correo fue confirmado. </p>
             <p>Por favor ingrese al sistema mediante el link:&nbsp;
-              <a href='/auth/login'>Login</a></p>
+              <Link href="/auth/login">Login</Link></p>
           </>
         }
       </Card>
