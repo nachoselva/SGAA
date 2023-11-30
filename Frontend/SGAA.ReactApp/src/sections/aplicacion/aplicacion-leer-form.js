@@ -1,9 +1,9 @@
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import Moment from 'moment';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { FancyFilePicker } from '/src/components/fancy-file-picker';
 import { aprobarAplicacion, rechazarAplicacion } from '/src/api/administrador';
-import Moment from 'moment';
+import { FancyFilePicker } from '/src/components/fancy-file-picker';
 
 export const AplicacionLeerForm = (props) => {
   const { aplicacion, rol } = props;
@@ -72,10 +72,8 @@ export const AplicacionLeerForm = (props) => {
         {
           puntuaciones.map((puntuacion, index) => {
             const postulante = aplicacion.postulantes[index];
-            return (<Grid item xs={12}>
-              <Box sx={{
-                border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
-              }} >
+            return (<Grid item xs={12} key={index}>
+              <Box sx={{ border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1 }} >
                 <Grid container spacing={3}>
                   <Grid item xs={12} sm={6}>
                     <TextField
@@ -243,10 +241,8 @@ export const AplicacionLeerForm = (props) => {
         </Grid>
         {
           aplicacion.garantias.map((garantia, index) =>
-          (<Grid item xs={12}>
-            <Box sx={{
-              border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
-            }} >
+          (<Grid item xs={12} key={index}>
+            <Box sx={{ border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1 }} >
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -283,8 +279,8 @@ export const AplicacionLeerForm = (props) => {
           aplicacion.comentarios.length > 0 &&
           <Grid item xs={12}>
             <ul>
-              {props.aplicacion.comentarios.sort((comentario) => comentario.fecha).map(com =>
-                <li>[{com.fecha && Moment(com.fecha).format('DD/MM/yyyy hh:mm:ss')}] : {com.comentario}</li>
+              {props.aplicacion.comentarios.sort((comentario) => comentario.fecha).map((com, index) =>
+                <li key={index}>[{Moment(com.fecha).format('DD/MM/yyyy hh:mm:ss')}] : {com.comentario}</li>
               )}
             </ul>
           </Grid>

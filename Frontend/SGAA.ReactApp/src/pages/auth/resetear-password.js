@@ -1,16 +1,18 @@
-import { Card, Button, Stack, TextField, Typography } from '@mui/material';
+import { Button, Card, Stack, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import Head from 'next/head';
 import React, { useState } from 'react';
 import * as Yup from 'yup';
+import { resetearPassword } from '/src/api/auth';
 import { Layout as AuthLayout } from '/src/layouts/auth/layout';
-import { resetearPassword } from '/src/api/auth'
+import { useRouter } from 'next/router';
 
 const Page = () => {
+  const router = useRouter();
   const [confirmation, setConfirmation] = useState(false);
-  const searchParams = new URLSearchParams(document.location.search)
-  const token = searchParams.get('token');
-  const email = searchParams.get('email');
+
+  const token = router.query.token;
+  const email = router.query.email;
 
   const formik = useFormik({
     initialValues: {
@@ -48,9 +50,7 @@ const Page = () => {
         </title>
       </Head>
 
-      <Card sx={{ p: 2 }} sx={{
-        border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
-      }} >
+      <Card sx={{ border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1 }} >
         <Stack
           spacing={1}
           sx={{ mb: 3 }}

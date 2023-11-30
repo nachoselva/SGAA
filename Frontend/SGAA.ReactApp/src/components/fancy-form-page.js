@@ -43,9 +43,7 @@ export const FancyFormPage = (props) => {
                 lg={8}
                 item
               >
-                <Card sx={{ p: 2 }} sx={{
-                  border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
-                }} >
+                <Card sx={{border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1}} >
                   {
                     form
                   }

@@ -174,9 +174,7 @@ export const AplicacionCrearForm = (props) => {
           {
             formik.values.postulantes.map((postulante, index) =>
             (<Grid item xs={12} key={index}>
-              <Box sx={{
-                border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
-              }} >
+              <Box sx={{ border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1 }} >
                 <Grid container spacing={3}>
                   {
                     formik.values.postulantes.length > 1 &&
@@ -384,9 +382,7 @@ export const AplicacionCrearForm = (props) => {
           {
             formik.values.garantias.map((postulante, index) =>
             (<Grid item xs={12} key={index}>
-              <Box sx={{
-                border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
-              }} >
+              <Box sx={{ border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1 }} >
                 <Grid container spacing={3}>
                   {
                     formik.values.garantias.length > 1 &&

@@ -1,12 +1,13 @@
-import { Box, Button, Divider, Grid, MenuItem, TextField, Typography } from '@mui/material';
+import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
+import TrashIcon from '@heroicons/react/24/solid/TrashIcon';
+import { Box, Button, Grid, MenuItem, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
+import Moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { getCiudades, getProvincias } from '/src/api/common';
 import { FancyDatePicker } from '/src/components/fancy-date-picker';
 import { FancyFilePicker } from '/src/components/fancy-file-picker';
-import TrashIcon from '@heroicons/react/24/solid/TrashIcon';
-import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 
 export const UnidadCrearForm = (props) => {
   const formik = useFormik({
@@ -254,7 +255,6 @@ export const UnidadCrearForm = (props) => {
                   formik.setFieldValue('ciudadId', -1);
                   formik.handleChange(event);
                 }}
-                variant="filled"
                 label={'Provincia'}
               >
                 <MenuItem key={-1} value={-1}>
@@ -285,7 +285,6 @@ export const UnidadCrearForm = (props) => {
                 name="ciudadId"
                 value={formik.values.ciudadId}
                 onChange={formik.handleChange}
-                variant="filled"
                 label={'Ciudad'}
               >
                 <MenuItem key={-1} value={-1}>
@@ -502,9 +501,7 @@ export const UnidadCrearForm = (props) => {
           {
             formik.values.titulares.map((titular, index) =>
             (<Grid item xs={12} key={index}>
-              <Box sx={{
-                border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
-              }} >
+              <Box sx={{ border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1 }} >
                 <Grid container spacing={3}>
                   {
                     formik.values.titulares.length > 1 &&
@@ -655,9 +652,7 @@ export const UnidadCrearForm = (props) => {
               {
                 formik.values.detalle.imagenes.map((img, index) =>
                 (<Grid item xs={12} key={index}>
-                  <Box sx={{
-                    border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1
-                  }} >
+                  <Box sx={{ border: 1, borderRadius: '8px', 'borderStyle': 'solid', 'borderWidth': '1px', 'borderColor': '#1C2536', p: 2, mt: 1 }} >
                     <Grid container spacing={3}>
                       <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
                         <Button onClick={() => onImagenRemoved(index)} variant="contained">
@@ -738,7 +733,7 @@ export const UnidadCrearForm = (props) => {
             <Grid item xs={12}>
               <ul>
                 {props.unidad.comentarios.sort((comentario) => comentario.fecha)
-                  .map((com, index) => <li key={index}>[{com.fecha}] : {com.comentario}</li>)}
+                  .map((com, index) => <li key={index}>[{com.fecha && Moment(com.fecha).format('DD/MM/yyyy')}] : {com.comentario}</li>)}
               </ul>
             </Grid>
           }

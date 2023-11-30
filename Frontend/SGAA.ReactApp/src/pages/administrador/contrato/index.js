@@ -1,4 +1,5 @@
-import { Link, TableRow, TableCell } from '@mui/material';
+import { Link, TableCell, TableRow } from '@mui/material';
+import Moment from 'moment';
 import { useRouter } from 'next/navigation';
 import { getContratos } from '/src/api/administrador';
 import { FancyTablePage } from '/src/components/fancy-table-page';
@@ -21,13 +22,10 @@ const Page = () => {
         {row.domicilio}
       </TableCell>
       <TableCell>
-        {row.fechaDesde}
+        {row.fechaDesde && Moment(row.fechaDesde).format('DD/MM/yyyy')}
       </TableCell>
       <TableCell>
-        {row.fechaHasta}
-      </TableCell>
-      <TableCell>
-
+        {row.fechaHasta && Moment(row.fechaHasta).format('DD/MM/yyyy')}
       </TableCell>
       <TableCell>
         {contratoStatus[row.status]}
@@ -82,7 +80,6 @@ const Page = () => {
       { key: 'domicilio', title: 'Unidad' },
       { key: 'fechaDesde', title: 'Desde' },
       { key: 'fechaHasta', title: 'Hasta' },
-      { key: null, title: 'Contrato' },
       { key: 'status', title: 'Estado' },
       { key: 'ordenRenovacion', title: 'N° Renovación' },
       { key: 'inquilinos', title: 'Inquilinos' },

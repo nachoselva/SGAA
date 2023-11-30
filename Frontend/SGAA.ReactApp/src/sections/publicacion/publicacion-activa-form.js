@@ -146,24 +146,12 @@ export const PublicacionActivaForm = (props) => {
                 {
                   publicacion.unidad.detalle.imagenes.map((img, index) => {
                     return (
-                      <Box key={index} component='div' sx={{
-                        border: 1,
-                        borderRadius: '8px',
-                        borderStyle: 'solid',
-                        borderWidth: '1px',
-                        borderColor: '#1C2536',
-                        p: '10px'
-                      }}>
+                      <Box key={index} component='div' sx={{ border: 1, borderRadius: '8px', borderStyle: 'solid', borderWidth: '1px', borderColor: '#1C2536', p: '10px' }}>
                         <p>{img.titulo}</p>
-                        <Box component="div" sx={{
-                          display: 'flex',
-                          justifyContent: 'center'
-                        }}>
+                        <Box component="div" sx={{ display: 'flex', justifyContent: 'center' }}>
                           <Box
                             component="img"
-                            sx={{
-                              height: '500px'
-                            }}
+                            sx={{ height: '500px' }}
                             src={JSON.parse(img.archivo).base64}
                           />
                         </Box>

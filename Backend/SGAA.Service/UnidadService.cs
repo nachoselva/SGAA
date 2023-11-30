@@ -5,6 +5,7 @@
     using SGAA.Emails.Contracts;
     using SGAA.Emails.EmailModels;
     using SGAA.Models;
+    using SGAA.Models.Base;
     using SGAA.Models.Mappers;
     using SGAA.Repository.Contracts;
     using SGAA.Service.Contracts;
@@ -143,6 +144,9 @@
         {
             if (!putModel.Titulares.Any())
                 throw new BadRequestException("Unidad", "Debe haber por lo menos un titular");
+            Unidad? unidadExistente = await _unidadRepository.GetUnidad(putModel.CiudadId, putModel.Calle, putModel.Altura, putModel.Piso, putModel.Departamento);
+            if (unidadExistente != null && unidadExistente.Id != unidadId)
+                throw new BadRequestException(nameof(putModel.Calle), "Existe una unidad registrada en el mismo domicilio.");
             Unidad? unidad = await _unidadRepository.GetUnidad(unidadId);
             if (unidad == null || putModel.PropietarioUsuarioId != unidad.PropietarioUsuarioId)
                 throw new NotFoundException();
@@ -156,8 +160,8 @@
             unidad.Detalle = putModel.Detalle.ToEntity(_unidadMapper, unidad.Detalle);
             unidad = await UpsertImagenes(putModel, unidad);
             unidad = await UpsertTitulares(putModel, unidad);
-
-            unidad = await _unidadRepository.UpdateUnidad(unidad);
+            await _unidadRepository.UpdateUnidad(unidad);
+            unidad = (await _unidadRepository.GetUnidad(unidadId))!;
             return unidad.MapToGetModel<Unidad, UnidadGetModel>(_unidadMapper);
         }
 
