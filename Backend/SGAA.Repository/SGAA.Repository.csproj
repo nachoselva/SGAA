@@ -25,13 +25,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="JsonSeeds\icl.json">
+    <None Update="JsonSeeds%5Cicl.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="JsonSeeds\ciudades.json">
+    <None Update="JsonSeeds%5Cciudades.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="JsonSeeds\provincias.json">
+    <None Update="JsonSeeds%5Cprovincias.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

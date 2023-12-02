@@ -11,7 +11,7 @@
     public abstract class BaseEmailSender<T>
         where T : IEmailModel
     {
-        private static readonly string path = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!}\\EmailTemplates\\";
+        private static readonly string path = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!}/EmailTemplates/";
         private readonly ISGAAConfiguration _configuration;
         private readonly IHandlebars _handlebarEngine = Handlebars.Create();
 

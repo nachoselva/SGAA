@@ -29,3 +29,12 @@ Para eliminar la ultima migración, correr el siguiente script:
 dotnet ef migrations remove --project Backend/SGAA.Repository --startup-project Backend/SGAA.Api
 ```
 
+Para actualizar la base de datos, correr el siguiente script:
+```
+dotnet ef database update --project Backend/SGAA.Repository/SGAA.Repository.csproj --startup-project Backend/SGAA.Api/SGAA.Api.csproj --context SGAADbContext --verbose
+```
+
+Para abrir swagger:
+```
+http://localhost:5104/swagger/index.html
+```

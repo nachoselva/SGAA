@@ -30,7 +30,7 @@
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
-            string url = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\JsonSeeds\\icl.json";
+            string url = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "//JsonSeeds//icl.json";
 
             IEnumerable<IndiceValor> valores = JsonSerializer.Deserialize<IndiceJson>(File.ReadAllText(url))!
                 .Valores
