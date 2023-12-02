@@ -1,4 +1,4 @@
-const apiUrl = 'https://localhost:44371';
+const apiUrl = 'http://sgaa-prod-docker.eba-fbq3apt5.us-east-1.elasticbeanstalk.com';
 
 export const handleFetch =
   (path, requestOptions) => {
