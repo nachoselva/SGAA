@@ -65,6 +65,7 @@ jobs:
       - name: Build and export static files
         working-directory: ./Frontend/SGAA.ReactApp
         run: |
+          npm install @heroicons/react
           npm install
           npm run build
           npm run export
