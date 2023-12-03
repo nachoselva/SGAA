@@ -59,13 +59,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: '20.10'
           registry-url: 'https://registry.npmjs.org/'
 
       - name: Build and export static files
         working-directory: ./Frontend/SGAA.ReactApp
         run: |
-          npm install @heroicons/react
+          npm install --global @create-next-app
           npm install
           npm run build
           npm run export
